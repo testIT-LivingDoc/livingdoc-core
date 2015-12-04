@@ -1,0 +1,638 @@
+<html>
+<head>
+<title>Statistics and Annotations</title>
+<meta name="title" content="Statistics and Annotations" />
+<meta name="external-link"
+	content="http://testit.novatec.info/confluence/display/LIVINGDOC/Statistics+and+Annotations" />
+</head>
+<body>
+
+	<h1 id="StatisticsandAnnotations-Statistics%26Annotations">Statistics
+		& Annotations</h1>
+
+	<p>
+		Statistic are compiled when document are executed.<br /> At the end
+		of the execution you will generally receive a summary of these
+		statistic
+	</p>
+	<div class="code">
+		<div class="codeHeader">
+			<b>Example</b>
+		</div>
+		<div class="codeContent">
+			<pre class="code-java">Running LivingDoc Some Specification Name
+20 tests: 17 right, 2 wrong, 1 ignored, 0 exception(s)</pre>
+		</div>
+	</div>
+	<table style="display: none">
+		<tr>
+			<td>Begin Info</td>
+		</tr>
+	</table>
+	<div style="padding: 0px; margin: 0px;">
+
+		<p>There are 4 different counters in the statistic</p>
+		<ul>
+			<li><span>Right</span></li>
+			<li><span>Wrong</span></li>
+			<li><span>Ignored</span></li>
+			<li><span>Exception</span></li>
+		</ul>
+
+
+		<p>Right and wrong are trivial. They are place on cells where
+			there are expectations depending if it was meet or not.</p>
+
+		<p>
+			Ignored are place on cells where there should have been an
+			expectation, but the cell was left blank.<br /> Ignored can also
+			happens when a entire table was commented out.
+		</p>
+
+		<p>Exceptions can occurs for various reason. Often the are sign of
+			a problem between the example and the fixture. The name of the test
+			does not match the name of any method in the fixture. When an
+			exception occurs, you should be aware that the other results in the
+			tests might be corrupted, and the exception should be corrected
+			before given any value to the rights and wrongs of the specification.</p>
+
+	</div>
+	<table style="display: none">
+		<tr>
+			<td>End Info</td>
+		</tr>
+	</table>
+
+
+	<h2 id="StatisticsandAnnotations-RuleForinterpreter">Rule For
+		interpreter</h2>
+
+	<p>Each cell that is part of a column with a test (column header
+		that ends with ? or () ) will be annotated and will increments
+		statistic for Right wrong, ignored or exception.</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>statistics and annotations</td>
+				<td class='confluenceTd'>for interpreter</td>
+				<td class='confluenceTd'>rule for</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>annotations?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a][b][division?] <br clear="all" />
+					[2][1][2] <br clear="all" /> [4][2][1] <br clear="all" />
+					[9][3][] <br clear="all" /> [6][0][0]
+				</td>
+				<td class='confluenceTd'>[a][b][division?] <br clear="all" />
+					[2][1][2 right] <br clear="all" /> [4][2][1 wrong] <br clear="all" />
+					[9][3][ignored] <br clear="all" /> [6][0][0 exception]
+				</td>
+				<td class='confluenceTd'>1 1 1 1</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<p>Exceptions on column headers will count as one exception. The
+		column header will be annotated with an exception and the exception
+		counter will be incremented by one. From the moments there is a
+		exception in a column header of a rule for, the specification does not
+		prescribe the annotations and or statistic for the rest of the column.</p>
+
+	<h4
+		id="StatisticsandAnnotations-Casewheretheexceptionoccursonaninputcolumnheader">Case
+		where the exception occurs on an input column header</h4>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>statistics and annotations</td>
+				<td class='confluenceTd'>for interpreter</td>
+				<td class='confluenceTd'>rule for</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>annotations?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[not existing][b][division?]</td>
+				<td class='confluenceTd'>[ not existing exception
+					][b][division?]</td>
+				<td class='confluenceTd'>0 0 0 1</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h2 id="StatisticsandAnnotations-CollectionsInterpreter">Collections
+		Interpreter</h2>
+
+
+	<h3 id="StatisticsandAnnotations-Listof">List of</h3>
+
+	<p>Row are either right or wrong depending if they are matched or
+		not, there is no ignored.</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>statistics and annotations</td>
+				<td class='confluenceTd'>for interpreter</td>
+				<td class='confluenceTd'>list of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>values</td>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>annotations?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a,b,c</td>
+				<td class='confluenceTd'>[value] <br clear="all" /> [a] <br
+					clear="all" /> [b] <br clear="all" /> [d]
+				</td>
+				<td class='confluenceTd'>[value] <br clear="all" /> [a right]
+					<br clear="all" /> [b right] <br clear="all" /> [d wrong]
+				</td>
+				<td class='confluenceTd'>2 1 0 0</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+
+	<p>Missing rows are counted as annotated as surplus and are counted
+		as 1 wrong in the statistic.</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>statistics and annotations</td>
+				<td class='confluenceTd'>for interpreter</td>
+				<td class='confluenceTd'>list of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>values</td>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>annotations?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a,b,c</td>
+				<td class='confluenceTd'>[value] <br clear="all" /> [a] <br
+					clear="all" /> [b]
+				</td>
+				<td class='confluenceTd'>[value] <br clear="all" /> [a right]
+					<br clear="all" /> [b right] <br clear="all" /> [c surplus]
+				</td>
+				<td class='confluenceTd'>2 1 0 0</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>When the matching is made on multiple cells, all the cells in
+		the row are annotated cells depending if they match or not, but the
+		entire row count for one in the statistic</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>statistics and annotations</td>
+				<td class='confluenceTd'>for interpreter</td>
+				<td class='confluenceTd'>list of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>values</td>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>annotations?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a:1,b:2,c:3</td>
+				<td class='confluenceTd'>[value][other]<br clear="all" />
+					[a][1] <br clear="all" /> [b][2] <br clear="all" /> [d][4]
+				</td>
+				<td class='confluenceTd'>[value][other]<br clear="all" /> [a
+					right][1 right] <br clear="all" /> [b right][2 right] <br
+					clear="all" /> [d wrong][4 wrong]
+				</td>
+				<td class='confluenceTd'>2 1 0 0</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<p>When the error occur while querying the system under development
+		values, the stats are incremented with one exception, and the cell
+		where the error occurred is annotated exception.</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>statistics and annotations</td>
+				<td class='confluenceTd'>for interpreter</td>
+				<td class='confluenceTd'>list of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>values</td>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>annotations?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a:error,b:2</td>
+				<td class='confluenceTd'>[value][other]<br clear="all" />
+					[a][1] <br clear="all" /> [b][2]
+				</td>
+				<td class='confluenceTd'>[value][other]<br clear="all" /> [a
+					right][1 exception] <br clear="all" /> [b right][2 right]
+				</td>
+				<td class='confluenceTd'>1 0 0 1</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+
+
+
+
+	<h3 id="StatisticsandAnnotations-Setof">Set of</h3>
+
+	<p>Rows that matches are counted as 1 right,</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>statistics and annotations</td>
+				<td class='confluenceTd'>for interpreter</td>
+				<td class='confluenceTd'>set of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>values</td>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>annotations?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a,b,c</td>
+				<td class='confluenceTd'>[value] <br clear="all" /> [a] <br
+					clear="all" /> [c] <br clear="all" /> [b]
+				</td>
+				<td class='confluenceTd'>[value] <br clear="all" /> [a right]
+					<br clear="all" /> [c right] <br clear="all" /> [b right]
+				</td>
+				<td class='confluenceTd'>3 0 0 0</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>Rows that missing are counted as one wrong</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>statistics and annotations</td>
+				<td class='confluenceTd'>for interpreter</td>
+				<td class='confluenceTd'>set of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>values</td>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>annotations?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a,c</td>
+				<td class='confluenceTd'>[value] <br clear="all" /> [a] <br
+					clear="all" /> [c] <br clear="all" /> [b]
+				</td>
+				<td class='confluenceTd'>[value] <br clear="all" /> [a right]
+					<br clear="all" /> [c right] <br clear="all" /> [b missing]
+				</td>
+				<td class='confluenceTd'>2 1 0 0</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>Surplus rows are also counted as 1 wrong</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>statistics and annotations</td>
+				<td class='confluenceTd'>for interpreter</td>
+				<td class='confluenceTd'>set of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>values</td>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>annotations?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a,b,c</td>
+				<td class='confluenceTd'>[value] <br clear="all" /> [a] <br
+					clear="all" /> [b]
+				</td>
+				<td class='confluenceTd'>[value] <br clear="all" /> [a right]
+					<br clear="all" /> [b right] <br clear="all" /> [c surplus]
+				</td>
+				<td class='confluenceTd'>2 1 0 0</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>When the check matches are made on more then one column. The
+		statistics are only incremented once per row.</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>statistics and annotations</td>
+				<td class='confluenceTd'>for interpreter</td>
+				<td class='confluenceTd'>set of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>values</td>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>annotations?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a:1,b:2</td>
+				<td class='confluenceTd'>[value][other] <br clear="all" /> [a]
+					[1] <br clear="all" /> [b] [4]
+				</td>
+				<td class='confluenceTd'>[value][other] <br clear="all" /> [a
+					right] [1 right] <br clear="all" /> [b missing] [4 missing] <br />
+					[b surplus] [2 surplus]
+				</td>
+				<td class='confluenceTd'>1 2 0 0</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<h3 id="StatisticsandAnnotations-Subsetof">Subset of</h3>
+
+	<p>Rows that matches are counted as 1 right,</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>statistics and annotations</td>
+				<td class='confluenceTd'>for interpreter</td>
+				<td class='confluenceTd'>subset of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>values</td>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>annotations?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a,b,c</td>
+				<td class='confluenceTd'>[value] <br clear="all" /> [a] <br
+					clear="all" /> [c] <br clear="all" /> [b]
+				</td>
+				<td class='confluenceTd'>[value] <br clear="all" /> [a right]
+					<br clear="all" /> [c right] <br clear="all" /> [b right]
+				</td>
+				<td class='confluenceTd'>3 0 0 0</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<p>Missing rows are counted as 1 wrong</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>statistics and annotations</td>
+				<td class='confluenceTd'>for interpreter</td>
+				<td class='confluenceTd'>subset of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>values</td>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>annotations?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a,c</td>
+				<td class='confluenceTd'>[value] <br clear="all" /> [a] <br
+					clear="all" /> [c] <br clear="all" /> [b]
+				</td>
+				<td class='confluenceTd'>[value] <br clear="all" /> [a right]
+					<br clear="all" /> [c right] <br clear="all" /> [b missing]
+				</td>
+				<td class='confluenceTd'>2 1 0 0</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>In a subset, we do not care for surplus rows. They are just not
+		counted nor annotated.</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>statistics and annotations</td>
+				<td class='confluenceTd'>for interpreter</td>
+				<td class='confluenceTd'>subset of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>values</td>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>annotations?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a,b,c</td>
+				<td class='confluenceTd'>[value] <br clear="all" /> [a] <br
+					clear="all" /> [b]
+				</td>
+				<td class='confluenceTd'>[value] <br clear="all" /> [a right]
+					<br clear="all" /> [b right]
+				</td>
+				<td class='confluenceTd'>2 0 0 0</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>When the check matches are made on more then one column. The
+		statistics are only incremented once per row.</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>statistics and annotations</td>
+				<td class='confluenceTd'>for interpreter</td>
+				<td class='confluenceTd'>subset of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>values</td>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>annotations?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a:1,b:2,d:4</td>
+				<td class='confluenceTd'>[value][other] <br clear="all" /> [a]
+					[1] <br clear="all" /> [b] [4] <br clear="all" /> [c] [3]
+				</td>
+				<td class='confluenceTd'>[value] [other] <br clear="all" /> [a
+					right] [1 right] <br clear="all" /> [b missing] [4 missing] <br
+					clear="all" /> [c missing] [3 missing]
+				</td>
+				<td class='confluenceTd'>1 2 0 0</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<h3 id="StatisticsandAnnotations-Supersetof">Superset of</h3>
+
+	<p>Rows that matches are counted as 1 right,</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>statistics and annotations</td>
+				<td class='confluenceTd'>for interpreter</td>
+				<td class='confluenceTd'>superset of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>values</td>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>annotations?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a,b,c</td>
+				<td class='confluenceTd'>[value]<br clear="all" /> [a] <br
+					clear="all" /> [c] <br clear="all" /> [b]
+				</td>
+				<td class='confluenceTd'>[value] <br clear="all" /> [a right]
+					<br clear="all" /> [c right] <br clear="all" /> [b right]
+				</td>
+				<td class='confluenceTd'>3 0 0 0</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>In a superset, there is no such thing as a missing row. So rows
+		that are in the table but not in the SUD are not mark at all.</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>statistics and annotations</td>
+				<td class='confluenceTd'>for interpreter</td>
+				<td class='confluenceTd'>superset of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>values</td>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>annotations?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a,b</td>
+				<td class='confluenceTd'>[value] <br clear="all" /> [a] <br
+					clear="all" /> [c] <br clear="all" /> [b]
+				</td>
+				<td class='confluenceTd'>\ [value] <br clear="all" /> [a
+					right] <br clear="all" /> [c] <br clear="all" /> [b right]
+				</td>
+				<td class='confluenceTd'>2 0 0 0</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>In a superset, surplus rows are counted as 1 wrong.</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>statistics and annotations</td>
+				<td class='confluenceTd'>for interpreter</td>
+				<td class='confluenceTd'>superset of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>values</td>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>annotations?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a,b,c</td>
+				<td class='confluenceTd'>[value] <br clear="all" /> [a] <br
+					clear="all" /> [b]
+				</td>
+				<td class='confluenceTd'>[value] <br clear="all" /> [a right]
+					<br clear="all" /> [b right] <br clear="all" /> [c surplus]
+				</td>
+				<td class='confluenceTd'>2 1 0 0</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<p>When the check matches are made on more then one column. The
+		statistics are only incremented once per row.</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>statistics and annotations</td>
+				<td class='confluenceTd'>for interpreter</td>
+				<td class='confluenceTd'>superset of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>values</td>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>annotations?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a:1,b:2,d:4</td>
+				<td class='confluenceTd'>[value][other] <br clear="all" /> [a]
+					[1] <br clear="all" /> [b] [4] <br clear="all" /> [c] [3]
+				</td>
+				<td class='confluenceTd'>[value] [other] <br clear="all" /> [a
+					right] [1 right] <br clear="all" /> [b] [4] <br clear="all" />
+					[c] [3] <br clear="all" /> [b surplus] [2 surplus] <br clear="all" />
+					[d surplus] [4 surplus]
+				</td>
+				<td class='confluenceTd'>1 2 0 0</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

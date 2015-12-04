@@ -1,0 +1,205 @@
+<html>
+<head>
+<title>Set of Interpreter</title>
+<meta name="title" content="Set of Interpreter" />
+<meta name="external-link"
+	content="http://testit.novatec.info/confluence/display/LIVINGDOC/Set+of+Interpreter" />
+</head>
+<body>
+	<h2 id="SetofInterpreter-SetofInterpreter">Set of Interpreter</h2>
+	<h3 id="SetofInterpreter-Matchingsingleelements">Matching single
+		elements</h3>
+	
+	<p>
+		A set interpreter tries to match each row of the specification with a
+		row inside a collection returned by the SUD.<br /> The rows that
+		match are success.<br /> The orders of the rows is not important.
+	</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>Set of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>spec values</td>
+				<td class='confluenceTd'>sud values</td>
+				<td class='confluenceTd'>annotations?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a] <br clear="all" /> [b]<br
+					clear="all" /> [c]
+				</td>
+				<td class='confluenceTd'>a,b,c</td>
+				<td class='confluenceTd'>[a right] <br clear="all" /> [b
+					right]<br clear="all" /> [c right]
+				</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a] <br clear="all" /> [b]<br
+					clear="all" /> [c]
+				</td>
+				<td class='confluenceTd'>c,b,a</td>
+				<td class='confluenceTd'>[a right] <br clear="all" /> [b
+					right]<br clear="all" /> [c right]
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>
+		Rows that are in the specification but not returned by the SUD are
+		labelled <b>missing</b>.
+	</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>Set of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>spec values</td>
+				<td class='confluenceTd'>sud values</td>
+				<td class='confluenceTd'>annotations?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a] <br clear="all" /> [b]<br
+					clear="all" /> [c]
+				</td>
+				<td class='confluenceTd'>a,b</td>
+				<td class='confluenceTd'>[a right] <br clear="all" /> [b
+					right]<br clear="all" /> [c missing]
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>
+		Rows that are <em>not</em> in the specification but are returned by
+		the SUD are labelled <b>Surplus</b>
+	</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>Set of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>spec values</td>
+				<td class='confluenceTd'>sud values</td>
+				<td class='confluenceTd'>annotations?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a] <br clear="all" /> [b]
+				</td>
+				<td class='confluenceTd'>a,b,c</td>
+				<td class='confluenceTd'>[a right] <br clear="all" /> [b
+					right]<br clear="all" /> [c surplus]
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<h3 id="SetofInterpreter-Duplicates">Duplicates</h3>
+
+	<p>Duplicate values in the specifications are considered as
+		separates elements in a set.</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>Set of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>spec values</td>
+				<td class='confluenceTd'>sud values</td>
+				<td class='confluenceTd'>annotations?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a] <br clear="all" /> [a]<br
+					clear="all" /> [b]
+				</td>
+				<td class='confluenceTd'>a,b,a</td>
+				<td class='confluenceTd'>[a right] <br clear="all" /> [a
+					right]<br clear="all" /> [b right]
+				</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a] <br clear="all" /> [a]<br
+					clear="all" /> [b]
+				</td>
+				<td class='confluenceTd'>a,b,c</td>
+				<td class='confluenceTd'>[a right] <br clear="all" /> [a
+					missing] <br clear="all" /> [b right] <br clear="all" /> [c
+					surplus]
+				</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a] <br clear="all" /> [b]<br
+					clear="all" /> [c]
+				</td>
+				<td class='confluenceTd'>a,b,b</td>
+				<td class='confluenceTd'>[a right] <br clear="all" /> [b
+					right] <br clear="all" /> [c missing] <br clear="all" /> [b
+					surplus]
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="SetofInterpreter-Matchingrows">Matching rows</h3>
+
+	<p>All the columns in one row must match but columns that ends with
+		? or () to consider that the row match. If a row is not or in
+		surplus.All the columns in the row are tages as wrong except the first
+		one which is tagged surplus or missing.</p>
+
+	<p>Columns that ends with ? or () are not considered for matching.</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>Set of Employee</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>spec values</td>
+				<td class='confluenceTd'>sud values</td>
+				<td class='confluenceTd'>annotations?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[Christian][Lapointe] <br clear="all" />
+					[Fabrice][Rochambeau] <br clear="all" /> [Paul][Young]
+				</td>
+				<td class='confluenceTd'>Fabrice, Rochambeau <br clear="all" />
+					Christian, Audet <br clear="all" /> Paul, Young
+				</td>
+				<td class='confluenceTd'>[Christian missing][Lapointe missing]
+					<br clear="all" /> [Fabrice right][Rochambeau right]<br
+					clear="all" /> [Paul right][Young right] <br clear="all" />
+					[Christian surplus][Audet surplus]
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="SetofInterpreter-Variationofthesetconcept.">Variation of
+		the set concept.</h3>
+	<p>
+		We have two existing variation of the Set concept.<br /> ����<b>1-</b>
+		<a href="/confluence/display/LIVINGDOC/Subset+of+Interpreter"
+			title="Subset of Interpreter">The Subset</a> <br /> ����<b>2-</b>
+		<a href="/confluence/display/LIVINGDOC/Superset+of+Interpreter"
+			title="Superset of Interpreter">The Superset</a>
+	</p>
+
+	<p>
+		<br clear="all" /> <br clear="all" /> <br clear="all" />
+	</p>
+</body>
+</html>

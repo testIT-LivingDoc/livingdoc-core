@@ -1,0 +1,127 @@
+<html>
+<head>
+<title>Interpreter and Fixture Selection (JAVA)</title>
+<meta name="title" content="Interpreter and Fixture Selection (JAVA)" />
+<meta name="external-link"
+	content="http://testit.novatec.info/confluence/display/LIVINGDOC/Interpreter+and+Fixture+Selection+%28JAVA%29" />
+</head>
+<body>
+	<h2
+		id="InterpreterandFixtureSelection%28JAVA%29-InterpreterandFixtureSelection">Interpreter
+		and Fixture Selection</h2>
+
+	<p>Rules to identify which interpreter the example is using.</p>
+
+	<table style="display: none">
+		<tr>
+			<td>Import</td>
+		</tr>
+		<tr>
+			<td>info.novatec.testit.livingdoc.interpreter</td>
+		</tr>
+	</table>
+
+
+	<h3 id="InterpreterandFixtureSelection%28JAVA%29-Firstcelloffirstrows">First
+		cell of first rows</h3>
+
+	<p>To select which interpreter (and which fixture if any) will
+		process a test table, LivingDoc looks at the first row of the test
+		table. The first cell should name the interpreter to use.</p>
+
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>an interpreter</td>
+			</tr>
+			<tr>
+				<th class='confluenceTh'>fixture name?</th>
+				<th class='confluenceTh'>fixture parameters?</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>nothing</td>
+				<td class='confluenceTd'></td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<h3 id="InterpreterandFixtureSelection%28JAVA%29-Addingafixture">Adding
+		a fixture</h3>
+
+	<p>If the interpreter requires a fixture, the name of the fixture
+		goes in the second cell.</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>an interpreter</td>
+				<td class='confluenceTd'>a fixture</td>
+			</tr>
+			<tr>
+				<th class='confluenceTh'>fixture name?</th>
+				<th class='confluenceTh'>fixture parameters?</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>AFixture</td>
+				<td class='confluenceTd'>nothing</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3
+		id="InterpreterandFixtureSelection%28JAVA%29-Parameterstothefixture">Parameters
+		to the fixture</h3>
+
+	<p>Fixtures might needs parameters. These optional parameters are
+		placed in the remaining cells. Even parameters are ignored and serve
+		to document odd parameters. In other words, cells after the fixture
+		name alternate between comments and real parameters.</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>an interpreter</td>
+				<td class='confluenceTd'>a fixture</td>
+				<td class='confluenceTd'>with</td>
+				<td class='confluenceTd'>a parameter</td>
+			</tr>
+			<tr>
+				<th class='confluenceTh'>fixture name?</th>
+				<th class='confluenceTh'>fixture parameters?</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>AFixture</td>
+				<td class='confluenceTd'>a parameter</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>an interpreter</td>
+				<td class='confluenceTd'>a fixture</td>
+				<td class='confluenceTd'>with a</td>
+				<td class='confluenceTd'>1st parameter</td>
+				<td class='confluenceTd'>and a</td>
+				<td class='confluenceTd'>2nd parameter</td>
+				<td class='confluenceTd'>then a</td>
+				<td class='confluenceTd'>3rd parameter</td>
+			</tr>
+			<tr>
+				<th class='confluenceTh'>fixture name?</th>
+				<th class='confluenceTh'>fixture parameters?</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>AFixture</td>
+				<td class='confluenceTd'>1st parameter, 2nd parameter, 3rd
+					parameter</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+</body>
+</html>

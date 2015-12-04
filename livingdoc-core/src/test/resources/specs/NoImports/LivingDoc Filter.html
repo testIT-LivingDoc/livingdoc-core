@@ -1,0 +1,270 @@
+<html>
+<head>
+<title>LivingDoc Filter</title>
+<meta name="title" content="LivingDoc Filter" />
+<meta name="external-link"
+	content="http://testit.novatec.info/confluence/display/LIVINGDOC/LivingDoc+Filter" />
+</head>
+<body>
+	<table style="display: none">
+		<tr>
+			<td>Begin Info</td>
+		</tr>
+	</table>
+	<div style="padding: 0px; margin: 0px;">
+
+		<table cellpadding='5' width='85%' cellspacing='8px' class='infoMacro'
+			border="0" align='center'>
+			<colgroup>
+				<col width='24'>
+				<col>
+			</colgroup>
+			<tr>
+				<td valign='top'><img
+					src="/confluence/images/icons/emoticons/information.gif" width="16"
+					height="16" align="absmiddle" alt="" border="0"></td>
+				<td><b class="strong">Note for developpers <br /> This
+						filter is not available on Confluence
+				</b><br /></td>
+			</tr>
+		</table>
+	</div>
+	<table style="display: none">
+		<tr>
+			<td>End Info</td>
+		</tr>
+	</table>
+
+	<p>
+		The <b>livingdoc filter</b> is used to specify that one or a group of
+		tables have to be interpreted by LivingDoc.<br /> The filter works
+		with the execution mode : "Lazy" or "Eager".<br /> -In <b>Eager</b>
+		mode this filter does not change the behaviour : all table are
+		interpreted.<br /> -In <b>Lazy</b> mode the document tables are never
+		interpreted until you specify a <b>livingdoc</b> <b>filter</b>.
+	</p>
+
+	<p>
+		<br clear="all" />
+	</p>
+
+	<p>
+		In <b>Lazy</b> mode, only tables between tags <b>[begin example]</b>
+		and <b>[end example]</b> are interpreted
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>livingdoc filter</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Document content</td>
+				<td class='confluenceTd'>execution mode</td>
+				<td class='confluenceTd'>interpreted elements?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a first table] <br clear="all" />
+					**** <br clear="all" /> [begin example] <br clear="all" /> **** <br
+					clear="all" /> [a second table] <br clear="all" /> **** <br
+					clear="all" /> [begin example] <br clear="all" /> **** <br
+					clear="all" /> [a third table] <br clear="all" /> **** <br
+					clear="all" /> [end example] <br clear="all" /> **** <br
+					clear="all" /> [end example] <br clear="all" /> **** <br
+					clear="all" /> [a fourth table] <br clear="all" /> **** <br
+					clear="all" /> [begin example] <br clear="all" /> **** <br
+					clear="all" /> [begin example] <br clear="all" /> **** <br
+					clear="all" /> [end example] <br clear="all" /> **** <br
+					clear="all" /> [a fifth table] <br clear="all" /> **** <br
+					clear="all" /> [a sixth table] <br clear="all" /> **** <br
+					clear="all" /> [end example] <br clear="all" /> **** <br
+					clear="all" /> [a seventh table]
+				</td>
+				<td class='confluenceTd'>lazy</td>
+				<td class='confluenceTd'>[a second table][a third table][a
+					fifth table][a sixth table]</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a first table] <br clear="all" />
+					**** <br clear="all" /> [a second table]
+				</td>
+				<td class='confluenceTd'>lazy</td>
+				<td class='confluenceTd'>none</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>
+		<br clear="all" />
+	</p>
+
+	<p>
+		In <b>Eager</b> mode, only tables between tags <b>[begin example]</b>
+		and <b>[end example]</b> are interpreted
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>livingdoc filter</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Document content</td>
+				<td class='confluenceTd'>execution mode</td>
+				<td class='confluenceTd'>interpreted elements?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a first table] <br clear="all" />
+					**** <br clear="all" /> [begin example] <br clear="all" /> **** <br
+					clear="all" /> [a second table] <br clear="all" /> **** <br
+					clear="all" /> [begin example] <br clear="all" /> **** <br
+					clear="all" /> [a third table] <br clear="all" /> **** <br
+					clear="all" /> [end example] <br clear="all" /> **** <br
+					clear="all" /> [end example] <br clear="all" /> **** <br
+					clear="all" /> [a fourth table]
+				</td>
+				<td class='confluenceTd'>eager <br clear="all" />
+				</td>
+				<td class='confluenceTd'>[a first table][a second table][a
+					third table][a fourth table]</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a first table] <br clear="all" />
+					**** <br clear="all" /> [a second table]
+				</td>
+				<td class='confluenceTd'>eager</td>
+				<td class='confluenceTd'>[a first table][a second table]</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>
+		The <b>livingdoc filter</b> does not override other filters behaviour
+		like Section
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>livingdoc filter</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Document content</td>
+				<td class='confluenceTd'>section</td>
+				<td class='confluenceTd'>execution mode</td>
+				<td class='confluenceTd'>interpreted elements?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[section] <br clear="all" /> [unix] <br
+					clear="all" /> **** <br clear="all" /> [a first table] <br
+					clear="all" /> **** <br clear="all" /> [a second table]
+				</td>
+				<td class='confluenceTd'>unix</td>
+				<td class='confluenceTd'>lazy</td>
+				<td class='confluenceTd'>none</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[begin example] <br clear="all" />
+					**** <br clear="all" /> [a first table] <br clear="all" /> **** <br
+					clear="all" /> [section] <br clear="all" /> [unix] <br
+					clear="all" /> **** <br clear="all" /> [a second table] <br
+					clear="all" /> **** <br clear="all" /> [end example]
+				</td>
+				<td class='confluenceTd'>mac</td>
+				<td class='confluenceTd'>lazy</td>
+				<td class='confluenceTd'>[a first table]</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>
+		The <b>livingdoc filter</b> does not override other filters behaviour
+		like Begin Info
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>livingdoc filter</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Document content</td>
+				<td class='confluenceTd'>execution mode</td>
+				<td class='confluenceTd'>interpreted elements?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[begin info] <br clear="all" /> ****
+					<br clear="all" /> [a first table] <br clear="all" /> **** <br
+					clear="all" /> [a second table] <br clear="all" /> **** <br
+					clear="all" /> [end info] <br clear="all" />
+				</td>
+				<td class='confluenceTd'>lazy</td>
+				<td class='confluenceTd'>none</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[begin example] <br clear="all" />
+					**** <br clear="all" /> [a first table] <br clear="all" /> **** <br
+					clear="all" /> [begin info] <br clear="all" /> **** <br
+					clear="all" /> [a second table] <br clear="all" /> **** <br
+					clear="all" /> [end info] <br clear="all" /> **** <br clear="all" />
+					[end example]
+				</td>
+				<td class='confluenceTd'>lazy</td>
+				<td class='confluenceTd'>[a first table]</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>
+		The scope of <b>livingdoc</b> <b>filter</b> is all the tables after <b>[begin
+			example]</b> tag to the first next <b>[end example]</b> tag :<br /> -if
+		the <b>[begin example]</b> tag is not found but there is a <b>[end
+			example]</b> tag then the filter will working from the top of the
+		document to the <b>[end example]</b> tag.<br /> -if the <b>[end
+			example]</b> tag is not found then the filter will not working.
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>livingdoc filter</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Document content</td>
+				<td class='confluenceTd'>execution mode</td>
+				<td class='confluenceTd'>interpreted elements?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a first table] <br clear="all" />
+					**** <br clear="all" /> [begin example] <br clear="all" /> **** <br
+					clear="all" /> [a second table] <br clear="all" /> **** <br
+					clear="all" /> [a third table] <br clear="all" /> **** <br
+					clear="all" /> [end example] <br clear="all" /> **** <br
+					clear="all" /> [a fourth table]
+				</td>
+				<td class='confluenceTd'>lazy</td>
+				<td class='confluenceTd'>[a second table][a third table]</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a first table] <br clear="all" />
+					**** <br clear="all" /> [begin example] <br clear="all" /> **** <br
+					clear="all" /> [a second table] <br clear="all" /> **** <br
+					clear="all" /> [a third table] <br clear="all" /> **** <br
+					clear="all" /> [a fourth table]
+				</td>
+				<td class='confluenceTd'>lazy</td>
+				<td class='confluenceTd'>none</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a first table] <br clear="all" />
+					**** <br clear="all" /> [a second table] <br clear="all" /> ****
+					<br clear="all" /> [a third table] <br clear="all" /> **** <br
+					clear="all" /> [end example] <br clear="all" /> **** <br
+					clear="all" /> [a fourth table] <br clear="all" /> **** <br
+					clear="all" /> [end example] <br clear="all" /> **** <br
+					clear="all" /> [a fifth table]
+				</td>
+				<td class='confluenceTd'>lazy</td>
+				<td class='confluenceTd'>[a first table][a second table][a
+					third table][a fourth table]</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

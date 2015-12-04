@@ -1,0 +1,319 @@
+<html>
+<head>
+<title>Action Interpreter</title>
+<meta name="title" content="Action Interpreter" />
+<meta name="external-link"
+	content="http://testit.novatec.info/confluence/display/LIVINGDOC/Action+Interpreter" />
+</head>
+<body>
+	<h2 id="ActionInterpreter-ActionInterpreter">Action Interpreter</h2>
+
+	<p>
+		The
+		<tt>ActionInterpreter</tt>
+		verifies the execution of a sequence of actions. It is intended to be
+		used for specifying programmatic tasks, ones that cannot be clearly
+		expressed using business-level specifications, like batch processing,
+		GUI testing and the like.
+	</p>
+
+	<h3 id="ActionInterpreter-Specifyingthefixture">Specifying the
+		fixture</h3>
+
+	<p>
+		The
+		<tt>ActionInterpreter</tt>
+		follows the general rules for <a
+			href="/confluence/display/LIVINGDOC/Interpreter+and+Fixture+Selection+%28JAVA%29"
+			title="Interpreter and Fixture Selection (JAVA)">interpreter and
+			fixture selection</a> and <a
+			href="/confluence/display/LIVINGDOC/Fixture+name+resolution+%28JAVA%29"
+			title="Fixture name resolution (JAVA)">fixture naming</a>.
+	</p>
+
+	<p>
+		Once an
+		<tt>ActionInterpreter</tt>
+		starts interpreting a specification document, it carries out the
+		actions in all of the following tables with the selected fixture.
+		Consequently, each subsequent table doesn't need to explicitly declare
+		an interpreter and a fixture.
+	</p>
+
+	<table style="display: none">
+		<tr>
+			<td>Begin Info</td>
+		</tr>
+	</table>
+	<div style="padding: 0px; margin: 0px;">
+
+		<p>
+			Each row is interpreted by the
+			<tt>ActionInterpreter</tt>
+			using the following rules:
+		</p>
+		<ul class="alternate" type="square">
+			<li><span>The first cell specifies which action (multiple
+					words will result in a concatenation using camel casing) to take on
+					the system under test</span></li>
+			<li><span>All cells other than the first one are
+					parameters passed to the action specified in the first cell</span></li>
+		</ul>
+
+
+		<p>On execution:</p>
+		<ul class="alternate" type="square">
+			<li><span>The first cell is marked as success if the
+					action returns true</span></li>
+			<li><span>The first cell is marked as failure if the
+					action returns false or throws an exception</span></li>
+			<li><span>The first cell is marked as error if no
+					matching action is found on the fixture.</span></li>
+		</ul>
+
+	</div>
+	<table style="display: none">
+		<tr>
+			<td>End Info</td>
+		</tr>
+	</table>
+
+
+	<h3 id="ActionInterpreter-Interpretationflow">Interpretation flow</h3>
+
+	<p>
+		As already stated, a business workflow may span several tables. The
+		<tt>ActionInterpreter</tt>
+		goes through all tables one by one, down to the end of the
+		specification document. For each table, it executes the workflow one
+		row at a time, reading cells from left to right.
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>interpretation order action</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>tables</td>
+				<td class='confluenceTd'>order of interpretation?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ action ][ some fixture ]</tt><br
+					clear="all" /> <tt>[ perform ][ action 1 ]</tt><br clear="all" />
+					<tt>[ perform ][ action 2 ]</tt><br clear="all" /> <tt>[
+						perform ][ action 3 ]</tt><br clear="all" /> **** <br clear="all" />
+					<tt>[ perform ][ action 4 ]</tt><br clear="all" /> **** <br
+					clear="all" /> <tt>[ perform ][ action 5 ]</tt><br clear="all" />
+					<tt>[ perform ][ action 6 ]</tt></td>
+				<td class='confluenceTd'>action 1, action 2, action 3, action
+					4, action 5, action 6</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="ActionInterpreter-Actions">Actions</h3>
+
+	<p>Each row represents an action to perform on the system under
+		test.</p>
+
+	<p>
+		The
+		<tt>ActionInterpreter</tt>
+		expects actions to be composed of keywords and data. The first cell of
+		a row specifies which action to take on the system under test. If that
+		cell contains more than one word, they will be camel cased and
+		concatenated to form the action name. During execution, the
+		interpreter will try to find a method on the current fixture with a
+		name matching this action. All cells other than the first are expected
+		to contain data that will be added to the action (passed as method
+		arguments) during the test execution. No formatting will occur on data
+		cells.
+	</p>
+
+	<p>
+		To execute the action on the system under test, the
+		<tt>ActionIntepreter</tt>
+		follows the rules of <a
+			href="/confluence/display/LIVINGDOC/Action+Access+Resolution"
+			title="Action Access Resolution">action access resolution</a> rules.
+		<br /> Ex: The name of an action can be made of more than one word,
+		but all in the first cell:
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>row structure</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>action name?</td>
+				<td class='confluenceTd'>parameters?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ Click Button ][ Submit ]</tt></td>
+				<td class='confluenceTd'>clickButton</td>
+				<td class='confluenceTd'>Submit</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>Ex: An action can receive more than one parameter:</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>row structure</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>action name?</td>
+				<td class='confluenceTd'>parameters?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ are compatible ][ donor
+						blood type ][ recipient blood type ]</tt></td>
+				<td class='confluenceTd'>areCompatible</td>
+				<td class='confluenceTd'>donor blood type, recipient blood type
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<h3 id="ActionInterpreter-Rulesforannotations">Rules for
+		annotations</h3>
+
+	<p>When an action does not return a boolean value and executes
+		normally, no cell is annotated:</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>cell annotation action</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>action returns</td>
+				<td class='confluenceTd'>cells marked right?</td>
+				<td class='confluenceTd'>cells marked wrong?</td>
+				<td class='confluenceTd'>cells marked exception?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ action name ][ data ]</tt></td>
+				<td class='confluenceTd'>void</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>[]</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>
+		When an action returns a boolean value, the name of that action are
+		annotated <em>right</em> if the action returns <b>true</b>:
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>cell annotation action</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>action returns</td>
+				<td class='confluenceTd'>cells marked right?</td>
+				<td class='confluenceTd'>cells marked wrong?</td>
+				<td class='confluenceTd'>cells marked exception?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ action name ][ data ]</tt></td>
+				<td class='confluenceTd'>true</td>
+				<td class='confluenceTd'>1</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>[]</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>
+		If it returns <b>false</b>, the action name is annotated <em>wrong</em>:
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>cell annotation action</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>action returns</td>
+				<td class='confluenceTd'>cells marked right?</td>
+				<td class='confluenceTd'>cells marked wrong?</td>
+				<td class='confluenceTd'>cells marked exception?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ action name ][ data ]</tt></td>
+				<td class='confluenceTd'>false</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>1</td>
+				<td class='confluenceTd'>[]</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>
+		If it throws an exception, the first keyword only is annotated <em>exception</em>:
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>cell annotation action</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>action returns</td>
+				<td class='confluenceTd'>cells marked right?</td>
+				<td class='confluenceTd'>cells marked wrong?</td>
+				<td class='confluenceTd'>cells marked exception?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ action name ][ data ]</tt></td>
+				<td class='confluenceTd'>error</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>1</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>
+		If the action name does not match a method name on the current
+		fixture, the first keyword only is annotated <em>exception</em>:
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>cell annotation action</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>action throws an exception</td>
+				<td class='confluenceTd'>cells marked right?</td>
+				<td class='confluenceTd'>cells marked wrong?</td>
+				<td class='confluenceTd'>cells marked exception?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ invalid name ][ data ]</tt></td>
+				<td class='confluenceTd'>some exception</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>1</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

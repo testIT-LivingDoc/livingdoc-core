@@ -1,0 +1,11 @@
+
+# /
+.settings
+target
+.classpath
+.project
+livingdoc-remote-agent.iml
+livingdoc-remote-agent.ipr
+livingdoc-remote-agent.iws
+remote-agent.log
+src/test/resources/runners/java/*

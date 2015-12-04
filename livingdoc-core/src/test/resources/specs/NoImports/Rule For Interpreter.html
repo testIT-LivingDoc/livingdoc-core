@@ -1,0 +1,482 @@
+<html>
+<head>
+<title>Rule For Interpreter</title>
+<meta name="title" content="Rule For Interpreter" />
+<meta name="external-link"
+	content="http://testit.novatec.info/confluence/display/LIVINGDOC/Rule+For+Interpreter" />
+</head>
+<body>
+	<h2 id="RuleForInterpreter-RuleForInterpreter">Rule For
+		Interpreter</h2>
+
+	<p>
+		The
+		<tt>RuleForInterpreter</tt>
+		verifies business rules expressed in a rule table by asserting values
+		returned by the system under test against expected values.
+	</p>
+
+	<h3 id="RuleForInterpreter-Specifyingthefixture">Specifying the
+		fixture</h3>
+
+	<p>
+		The
+		<tt>RuleForInterpreter</tt>
+		follows the general rules for <a
+			href="/confluence/display/LIVINGDOC/Interpreter+and+Fixture+Selection+%28JAVA%29"
+			title="Interpreter and Fixture Selection (JAVA)">interpreter and
+			fixture selection</a> and <a
+			href="/confluence/display/LIVINGDOC/Fixture+name+resolution+%28JAVA%29"
+			title="Fixture name resolution (JAVA)">fixture naming</a>.
+	</p>
+
+	<p>
+		The first row of the table is used to indicate both that we want to
+		use a
+		<tt>RuleForInterpreter</tt>
+		and what fixture to use. The next row is called the header row and
+		serves to distinguish between the types of the columns (this is
+		described in more details in the next section). Finally, the remaining
+		rows, which capture the examples, are the test rows.
+	</p>
+
+	<h3 id="RuleForInterpreter-Interpretationflow">Interpretation flow</h3>
+
+	<p>The rule table is interpreted from top to bottom, one row at a
+		time. Each row is interpreted one cell at a time, from left to right.</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>Interpretationsreihenfolge</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>order of interpretation?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ rule for ][ any fixture ]</tt><br
+					clear="all" /> <tt>[ header ][ header ][ header ]</tt><br
+					clear="all" /> <tt>[ top left ][ top center ][ top right ]</tt><br
+					clear="all" /> <tt>[ middle left ][ middle center ][ middle
+						right ]</tt><br clear="all" /> <tt>[ bottom left ][ bottom center
+						][ bottom right ]</tt></td>
+				<td class='confluenceTd'>top left, top center, top right,
+					middle left, middle center, middle right, bottom left, bottom
+					center, bottom right</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>Note that a rule table does not need to have a regular form.
+		Extra cells and missing cells will be ignored:</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>Interpretationsreihenfolge</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>order of interpretation?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ rule for ][ any fixture ]</tt><br
+					clear="all" /> <tt>[ header ][ header ][ header ]</tt><br
+					clear="all" /> <tt>[ top left ][ top center ][ top right ][]</tt><br
+					clear="all" /> <tt>[ middle left ]</tt><br clear="all" /> <tt>[
+						bottom left ][ bottom center ][ bottom right ]</tt></td>
+				<td class='confluenceTd'>top left, top center, top right,
+					middle left, bottom left, bottom center, bottom right</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="RuleForInterpreter-Headercolumn">Header column</h3>
+
+	<p>
+		The
+		<tt>RuleForInterpreter</tt>
+		uses the form of the first row - the column header - to decide what to
+		do for each cell. It knows how to distinguish <em>givens</em> from <em>expected</em>
+		values. Given values serve as inputs to the system, whereas expected
+		values serve as comparison values against values that are actually
+		returned by the system.
+	</p>
+
+	<p>
+		When a column header ends with special characters <b>?</b> or <b>()</b>,
+		it denotes an expected value. For all cells within the row, the
+		<tt>RuleForInterpreter</tt>
+		will test the value returned by the system under test against the
+		value specified in the cell, following the rules described in <a
+			href="/confluence/display/LIVINGDOC/Value+Comparison"
+			title="Value Comparison">value comparison</a>.
+	</p>
+
+	<p>
+		A column header ending with the <b>=</b> character denotes a saved
+		value. In that column, the value returned by the system under
+		development will be saved under the symbol name specified in the cell.
+		When the column header starts with the same <b>=</b> character, it
+		indicates a recalled value. Cells in that column use symbol names to
+		recall previously saved values. Recalled values serve as given values
+		to the system under development.
+	</p>
+
+	<p>
+		All other forms of column headers denote a given value. For all cells
+		in the row, the value in the cell will be an input to the system under
+		test using the mechanisms described in <a
+			href="/confluence/display/LIVINGDOC/Action+Access+Resolution"
+			title="Action Access Resolution">action access resolution</a>.
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>header form recognition</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>header text</td>
+				<td class='confluenceTd'>cells will be?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>an header</td>
+				<td class='confluenceTd'>given</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>output?</td>
+				<td class='confluenceTd'>expected</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>query()</td>
+				<td class='confluenceTd'>expected</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>output?=</td>
+				<td class='confluenceTd'>saved</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>=input</td>
+				<td class='confluenceTd'>recalled</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="RuleForInterpreter-Interpretinggivenvalues">Interpreting
+		given values</h3>
+
+
+	<h4 id="RuleForInterpreter-Defaultvalues">Default values</h4>
+
+	<p>
+		When dealing with given values, the
+		<tt>RuleForInterpreter</tt>
+		uses the default <a
+			href="/confluence/display/LIVINGDOC/Type+Conversion"
+			title="Type Conversion">type conversion rules</a>.
+	</p>
+
+	<p>
+		In the following example, given values are interpreted by the default
+		type converters that come with <span
+			style="font-family: Arial, sans-serif; font-size: 1em; font-weight: bold; padding: 0px 3px;"><img
+			src="/confluence/download/resources/info.novatec.testit.livingdoc.confluence.plugin:livingdoc-logo/images/livingdoc_12.gif"
+			alt="" border="0"><span style="color: #003300;">Living</span><span
+			style="color: #8CC06D;">Doc</span></span>:
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>value interpretation</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>cell text</td>
+				<td class='confluenceTd'>recognized as</td>
+				<td class='confluenceTd'>rule respected?</td>
+				<td class='confluenceTd'>resulting value?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a string</td>
+				<td class='confluenceTd'>a string</td>
+				<td class='confluenceTd'>yes</td>
+				<td class='confluenceTd'></td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>.6</td>
+				<td class='confluenceTd'>a number</td>
+				<td class='confluenceTd'>yes</td>
+				<td class='confluenceTd'></td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>yes</td>
+				<td class='confluenceTd'>a boolean</td>
+				<td class='confluenceTd'>yes</td>
+				<td class='confluenceTd'></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h4 id="RuleForInterpreter-Blankvalues">Blank values</h4>
+
+	<p>In the case of a blank cell, the value is not converted. It is
+		considered null instead.</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>value interpretation</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>cell text</td>
+				<td class='confluenceTd'>input will be?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'></td>
+				<td class='confluenceTd'>null</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="RuleForInterpreter-Interpretingexpectedvalues">Interpreting
+		expected values</h3>
+
+
+	<h4 id="RuleForInterpreter-Defaultvalues">Default values</h4>
+
+	<p>
+		Before asserting that actual values match expected values, the
+		<tt>RuleForInterpreter</tt>
+		converts expected values as described in <a
+			href="/confluence/display/LIVINGDOC/Type+Conversion"
+			title="Type Conversion">type conversion rules</a>.
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>value interpretation</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>cell text</td>
+				<td class='confluenceTd'>recognized as</td>
+				<td class='confluenceTd'>rule respected?</td>
+				<td class='confluenceTd'>resulting value?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a string</td>
+				<td class='confluenceTd'>a string</td>
+				<td class='confluenceTd'>yes</td>
+				<td class='confluenceTd'></td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>.6</td>
+				<td class='confluenceTd'>a number</td>
+				<td class='confluenceTd'>yes</td>
+				<td class='confluenceTd'></td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>yes</td>
+				<td class='confluenceTd'>a boolean</td>
+				<td class='confluenceTd'>yes</td>
+				<td class='confluenceTd'></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h4 id="RuleForInterpreter-Blankvalues">Blank values</h4>
+
+	<p>Empty cells are ignored at test execution.</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>value interpretation</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>cell text</td>
+				<td class='confluenceTd'>comparison will be?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'></td>
+				<td class='confluenceTd'>ignored</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="RuleForInterpreter-Savingandrecallingvalues">Saving and
+		recalling values</h3>
+
+	<p>
+		When using <b>saved</b> columns, values returned by the system under
+		development are stored in a variable named after the text of the cell.
+		On execution, the returned value replaces the text of the cell and the
+		cell is ignored.
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>saving and recalling values</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>cell text</td>
+				<td class='confluenceTd'>output from system under development</td>
+				<td class='confluenceTd'>annotation?</td>
+				<td class='confluenceTd'>cell displays as?=</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>first</td>
+				<td class='confluenceTd'>1st</td>
+				<td class='confluenceTd'>ignored</td>
+				<td class='confluenceTd'>first</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>second</td>
+				<td class='confluenceTd'>2nd</td>
+				<td class='confluenceTd'>ignored</td>
+				<td class='confluenceTd'>second</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>
+		When using <b>recalled</b> columns, values given by the system under
+		development are recalled from a variable named after the text of the
+		cell.
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>saving and recalling values</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>cell text</td>
+				<td class='confluenceTd'>=cell displays as</td>
+				<td class='confluenceTd'>input to system under development?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>first</td>
+				<td class='confluenceTd'>first</td>
+				<td class='confluenceTd'>1st</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>second</td>
+				<td class='confluenceTd'>second</td>
+				<td class='confluenceTd'>2nd</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="RuleForInterpreter-Cellsannotations">Cells annotations</h3>
+
+	<p>
+		When the
+		<tt>RuleForInterpreter</tt>
+		checks a table cell's correctness, it uses standard <a
+			href="/confluence/display/LIVINGDOC/Value+Comparison"
+			title="Value Comparison">value comparison</a> and annotates the cell
+		accordingly.
+	</p>
+
+	<h4 id="RuleForInterpreter-RightandWrong">Right and Wrong</h4>
+
+	<p>
+		When the table cell and the comparison value match, the
+		<tt>RuleForInterpreter</tt>
+		marks the cell "right" using a standard annotation. (See the <span
+			class="error">[annotation specification]</span> for more about
+		standard annotations.)
+	</p>
+
+	<p>
+		If the values don't match, the
+		<tt>RuleForInterpreter</tt>
+		uses the <em>wrong</em> annotation and displays the difference between
+		the expected value and the value returned by the system under test.
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>cell annotation</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>comparison value</td>
+				<td class='confluenceTd'>returned value</td>
+				<td class='confluenceTd'>annotation?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>42</td>
+				<td class='confluenceTd'>42</td>
+				<td class='confluenceTd'>right</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>42</td>
+				<td class='confluenceTd'>13</td>
+				<td class='confluenceTd'>wrong</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h4 id="RuleForInterpreter-Ignoredcells">Ignored cells</h4>
+
+	<p>
+		Empty cells don't trigger any test. They are annotated <em>ignored</em>
+		and display the value returned by the system.
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>cell annotation</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>comparison value</td>
+				<td class='confluenceTd'>returned value</td>
+				<td class='confluenceTd'>annotation?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'></td>
+				<td class='confluenceTd'>42</td>
+				<td class='confluenceTd'>ignored</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'></td>
+				<td class='confluenceTd'>nothing</td>
+				<td class='confluenceTd'>ignored</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h4 id="RuleForInterpreter-Unexpectederrors">Unexpected errors</h4>
+
+	<p>
+		When an unexpected error occurs while comparing the cell value against
+		the actual system value, the
+		<tt>RuleForInterpreter</tt>
+		uses the <em>exception</em> annotation to display information about
+		the error in the cell. Usually a stack trace or similar information is
+		included.
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>cell annotation</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>comparison value</td>
+				<td class='confluenceTd'>returned value</td>
+				<td class='confluenceTd'>annotation?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>42</td>
+				<td class='confluenceTd'>error</td>
+				<td class='confluenceTd'>exception</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

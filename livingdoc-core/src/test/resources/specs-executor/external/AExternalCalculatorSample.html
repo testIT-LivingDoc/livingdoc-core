@@ -1,0 +1,72 @@
+<html>
+<head></head>
+
+<body>
+	<h1>Sample calculator test</h1>
+
+	In this example we're planning to write a calculator and we start by
+	specifying the rules our calculator must adhere to.
+
+	<div>
+		<p>The first thing we need to do is import the package containing
+			our calculator code.</p>
+
+		<table border="1" cellspacing="0">
+			<tbody>
+				<tr>
+					<td>import</td>
+				</tr>
+				<tr>
+					<td>info.novatec.testit.livingdoc.external.fixture</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div>
+		<p>
+			We want to test our calculator against a set of math rules.<br />
+			For that, we will use a
+			<code> RuleForInterpreter</code>
+			. As the name implies, it is used to test business rules tables.
+		<p />
+		In the test table below, we start by specifying the name of the
+		interpreter and the name of our domain concept. <br /> The next row
+		specifies the input and expected output for our rules. <br /> The
+		remaining rows are the actual tests.
+		</p>
+
+		<p>Notice how errors are reported when business rules validation
+			fails.</p>
+		<table border="1" cellspacing="0">
+			<tbody>
+				<tr>
+					<td colspan="5">rule for</td>
+					<td colspan="5">Calculator</td>
+				</tr>
+				<tr>
+					<td>a</td>
+					<td>b</td>
+					<td>sum?</td>
+					<td>product?</td>
+					<td>division?</td>
+				</tr>
+				<tr>
+					<td>6</td>
+					<td>2</td>
+					<td>8</td>
+					<td>12</td>
+					<td>3</td>
+				</tr>
+				<tr>
+					<td>7</td>
+					<td>0</td>
+					<td>7</td>
+					<td>5</td>
+					<td>0</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

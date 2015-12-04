@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+
+	<PROJECT ID="1" VERSION="0" NAME="Bank" />
+	<PROJECT ID="2" VERSION="0" NAME="LivingDoc" />
+	<PROJECT ID="3" VERSION="0" NAME="Selenium" />
+	<PROJECT ID="4" VERSION="0" NAME="JPetStore" />
+
+	<SUT ID="1" VERSION="0" ENVIRONMENT_TYPE="JAVA" SELECTED="1"
+		NAME="Bank in Java" PROJECT_ID="1" SERVER_NAME="" SERVER_PORT="0" />
+	<SUT ID="2" VERSION="0" ENVIRONMENT_TYPE="JAVA" SELECTED="1"
+		NAME="LivingDoc in Java" PROJECT_ID="2" SERVER_NAME="" SERVER_PORT="0" />
+	<SUT ID="3" VERSION="0" ENVIRONMENT_TYPE="JAVA" SELECTED="1"
+		NAME="Selenium Remote Control in Java" PROJECT_ID="3" SERVER_NAME=""
+		SERVER_PORT="0" />
+	<SUT ID="4" VERSION="0" ENVIRONMENT_TYPE="JAVA" SELECTED="1"
+		NAME="jpetstore in Java" PROJECT_ID="4" SERVER_NAME="" SERVER_PORT="0" />
+
+	<SUT_CLASSPATHS SUT_ID="1"
+		elt="/opt/LivingDoc/SUT/livingdoc-samples-0.9.2-SNAPSHOT.jar" />
+	<SUT_CLASSPATHS SUT_ID="2"
+		elt="/opt/Tomcat5/webapps/livingdoc-server/WEB-INF/lib/livingdoc-core-0.9.2-SNAPSHOT.jar" />
+	<SUT_CLASSPATHS SUT_ID="2" elt="/opt/LivingDoc/SUT/spring.jar" />
+	<SUT_CLASSPATHS SUT_ID="3"
+		elt="/opt/Selenium/selenium-remote-control-0.8.1/java/selenium-java-client-driver.jar" />
+	<SUT_CLASSPATHS SUT_ID="4"
+		elt="/opt/LivingDoc/SUT/Jpetstore/jpetstore.jar" />
+	<SUT_CLASSPATHS SUT_ID="4"
+		elt="/opt/LivingDoc/SUT/Jpetstore/spring.jar" />
+	<SUT_CLASSPATHS SUT_ID="4"
+		elt="/opt/LivingDoc/SUT/Jpetstore/struts.jar" />
+	<SUT_CLASSPATHS SUT_ID="4"
+		elt="/opt/LivingDoc/SUT/Jpetstore/jaxrpc.jar" />
+	<SUT_CLASSPATHS SUT_ID="4"
+		elt="/opt/Selenium/selenium-remote-control-0.8.1/java/selenium-java-client-driver.jar" />
+
+	<SUT_FIXTURE_CLASSPATHS SUT_ID="1"
+		elt="/opt/LivingDoc/SUT/livingdoc-samples-0.9.2-SNAPSHOT.jar" />
+	<SUT_FIXTURE_CLASSPATHS SUT_ID="2"
+		elt="/opt/LivingDoc/SUT/livingdoc-seeds-0.9-SNAPSHOT.jar" />
+	<SUT_FIXTURE_CLASSPATHS SUT_ID="4"
+		elt="/opt/LivingDoc/SUT/livingdoc-samples-0.9.2-SNAPSHOT.jar" />
+
+	<REQUIREMENT ID="1" VERSION="0" NAME="BNK-1" REPOSITORY_ID="1" />
+
+	<TEST_DOCUMENT ID="1" VERSION="0" NAME="Expectations"
+		REPOSITORY_ID="7" />
+
+	<TESTCASE ID="1" VERSION="0" TAGS="" REQUIREMENT_ID="1"
+		TEST_DOCUMENT_ID="16" SUT_ID="1" />
+
+</dataset>

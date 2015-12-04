@@ -1,0 +1,290 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+</head>
+<body>
+	<h1>Sample alias calculator test</h1>
+
+	In this example we're planning to write a calculator which makes use of
+	aliases and we start by specifying the rules our calculator must adhere
+	to. First we use a regular calculator. In the next table, we use a
+	calculator with alias fields.
+
+	<div style="display: none">
+		<p>The first thing we need to do is import the package containing
+			our calculator code.</p>
+
+		<table border="1" cellspacing="0">
+			<tbody>
+				<tr>
+					<td>import</td>
+				</tr>
+				<tr>
+					<td>info.novatec.testit.livingdoc.alias</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<table border="1" cellspacing="0">
+		<tbody>
+			<tr>
+				<td>rule for</td>
+				<td>AliasAlternateCalculator</td>
+			</tr>
+			<tr>
+				<td>a</td>
+				<td>b</td>
+				<td>sum?</td>
+				<td>product?</td>
+				<td>division?</td>
+			</tr>
+			<tr>
+				<td>6</td>
+				<td>2</td>
+				<td>8</td>
+				<td>12</td>
+				<td>3</td>
+			</tr>
+			<tr>
+				<td>6</td>
+				<td>0</td>
+				<td>6</td>
+				<td>0</td>
+				<td>error</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>For this table, we'll make heavy use of aliases. You can define
+		for interpreters, fixture types, methods and fields aliases.</p>
+
+	<table border="1" cellspacing="0">
+		<tbody>
+			<tr>
+				<td>Regelvalidierung</td>
+				<td>An awesome calculator</td>
+			</tr>
+			<tr>
+				<td>my first number</td>
+				<td>Initialize 'b' with</td>
+				<td>Summe?</td>
+				<td>product?</td>
+				<td>division?</td>
+			</tr>
+			<tr>
+				<td>6</td>
+				<td>2</td>
+				<td>8</td>
+				<td>12</td>
+				<td>3</td>
+			</tr>
+			<tr>
+				<td>6</td>
+				<td>0</td>
+				<td>6</td>
+				<td>0</td>
+				<td>Fehler</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>You can also define keywords using a property file like null and
+		so on (or like error in the table above).</p>
+
+	<table border="1" cellspacing="0">
+		<tbody>
+			<tr>
+				<td>rule for</td>
+				<td>AliasAlternateCalculator</td>
+			</tr>
+			<tr>
+				<td>returnNull?</td>
+			</tr>
+			<tr>
+				<td>null</td>
+			</tr>
+			<tr>
+				<td>nothing</td>
+			</tr>
+			<tr>
+				<td>leer</td>
+			</tr>
+	</table>
+
+	<p>This example includes keywords using the "do with" interpreter
+		(no aliases).</p>
+
+	<table border="1" cellspacing="0">
+		<tr>
+			<td>do with</td>
+			<td>FluentAliasCalculator</td>
+		</tr>
+	</table>
+
+	<table border="1" cellspacing="0">
+		<tr>
+			<td>with a</td>
+			<td>6</td>
+		</tr>
+		<tr>
+			<td>with b</td>
+			<td>2</td>
+		</tr>
+		<tr>
+			<td>check</td>
+			<td>that sum is</td>
+			<td>8</td>
+		</tr>
+		<tr>
+			<td>accept</td>
+			<td>that i have money</td>
+			<td>300</td>
+		</tr>
+		<tr>
+			<td>reject</td>
+			<td>divide a with</td>
+			<td>0</td>
+		</tr>
+		<tr>
+			<td>display</td>
+			<td>sum</td>
+		</tr>
+	</table>
+
+	<table border="1" cellspacing="0">
+		<tr>
+			<td>end</td>
+		</tr>
+	</table>
+
+	<p>This example includes keywords using the "do with" interpreter
+		with aliases.</p>
+
+	<table border="1" cellspacing="0">
+		<tr>
+			<td>do with</td>
+			<td>FluentAliasCalculator</td>
+		</tr>
+	</table>
+
+	<table border="1" cellspacing="0">
+		<tr>
+			<td>with a</td>
+			<td>6</td>
+		</tr>
+		<tr>
+			<td>with b</td>
+			<td>2</td>
+		</tr>
+		<tr>
+			<td>Prüfe</td>
+			<td>that sum is</td>
+			<td>8</td>
+		</tr>
+		<tr>
+			<td>Bestätige</td>
+			<td>that i have money</td>
+			<td>300</td>
+		</tr>
+		<tr>
+			<td>Nicht</td>
+			<td>divide a with</td>
+			<td>0</td>
+		</tr>
+		<tr>
+			<td>Ausgabe</td>
+			<td>sum</td>
+		</tr>
+	</table>
+
+	<table border="1" cellspacing="0">
+		<tr>
+			<td>end</td>
+		</tr>
+	</table>
+
+	<h1>Error cases</h1>
+
+	<p>The following table should throw a "none existing interpreter"
+		exception.</p>
+
+	<table border="1" cellspacing="0">
+		<tbody>
+			<tr>
+				<td>some none existing interpreter</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>The following table should throw a "TypeNotFoundException:
+		NonExistingAliasAlternateCalculator does not match any known type"
+		exception.</p>
+
+	<table border="1" cellspacing="0">
+		<tbody>
+			<tr>
+				<td>rule for</td>
+				<td>NonExistingAliasAlternateCalculator</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>The following table should throw a "NoSuchMessageException: some
+		non exisiting field" exception.</p>
+
+	<table border="1" cellspacing="0">
+		<tbody>
+			<tr>
+				<td>rule for</td>
+				<td>AliasAlternateCalculator</td>
+			</tr>
+			<tr>
+				<td>some non exisiting field</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>The following table should throw a "NoSuchMessageException: some
+		none existing addition method" exception.</p>
+
+	<table border="1" cellspacing="0">
+		<tbody>
+			<tr>
+				<td>rule for</td>
+				<td>AlternateCalculator</td>
+			</tr>
+			<tr>
+				<td>a</td>
+				<td>b</td>
+				<td>some none existing addition method?</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>The following table should throw a "NoSuchMessageException: none
+		existing check key word" exception.</p>
+
+	<table border="1" cellspacing="0">
+		<tr>
+			<td>do with</td>
+			<td>FluentAliasCalculator</td>
+		</tr>
+	</table>
+
+	<table border="1" cellspacing="0">
+		<tr>
+			<td>with a</td>
+			<td>6</td>
+		</tr>
+		<tr>
+			<td>with b</td>
+			<td>2</td>
+		</tr>
+		<tr>
+			<td>none existing check key word</td>
+		</tr>
+	</table>
+
+</body>
+</html>

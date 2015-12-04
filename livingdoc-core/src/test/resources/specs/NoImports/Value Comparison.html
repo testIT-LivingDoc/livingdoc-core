@@ -1,0 +1,321 @@
+<html>
+<head>
+<title>Value Comparison</title>
+<meta name="title" content="Value Comparison" />
+<meta name="external-link"
+	content="http://testit.novatec.info/confluence/display/LIVINGDOC/Value+Comparison" />
+</head>
+<body>
+	<h2 id="ValueComparison-ValueComparison">Value Comparison</h2>
+
+	<p>This document specifies the rules to follow when comparing
+		values returned by the System Under Test and the values expected by
+		the field expert.</p>
+
+
+	<h3 id="ValueComparison-Comparingcharacterstrings">Comparing
+		character strings</h3>
+
+	<p>Rule 1 : String comparison is case sensitive</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>string comparison <br clear="all" />
+				</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>expected value <br clear="all" />
+				</td>
+				<td class='confluenceTd'>system value <br clear="all" />
+				</td>
+				<td class='confluenceTd'>equal? <br clear="all" />
+				</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>A string <br clear="all" />
+				</td>
+				<td class='confluenceTd'>A string <br clear="all" />
+				</td>
+				<td class='confluenceTd'>yes <br clear="all" />
+				</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a mixed Case String <br clear="all" />
+				</td>
+				<td class='confluenceTd'>A Mixed case string</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a string <br clear="all" />
+				</td>
+				<td class='confluenceTd'>another string <br clear="all" />
+				</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>"a string in quotes" <br clear="all" />
+				</td>
+				<td class='confluenceTd'>a string in quotes <br clear="all" />
+				</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="ValueComparison-Comparingnumbers">Comparing numbers</h3>
+
+	<p>�Rule 2 : When comparing numeric values, leading zeros are
+		ignored. When comparing decimal values, trailing zeros are ignored.</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>number comparison <br clear="all" />
+				</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>expected value <br clear="all" />
+				</td>
+				<td class='confluenceTd'>system value <br clear="all" />
+				</td>
+				<td class='confluenceTd'>equal?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>7</td>
+				<td class='confluenceTd'>7</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>1</td>
+				<td class='confluenceTd'>1.0</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>.15</td>
+				<td class='confluenceTd'>0.15</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>0.1</td>
+				<td class='confluenceTd'>1.0</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>0042</td>
+				<td class='confluenceTd'>42</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>-0.1</td>
+				<td class='confluenceTd'>-.1</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="ValueComparison-Comparingbooleanvalues">Comparing boolean
+		values</h3>
+
+	<p>
+		�Rule 3 : <b>true</b> and <b>yes</b> both represent the true value.
+		<b>no</b> and <b>false</b> both represent the false value.�
+		Comparison is case insensitive.
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>boolean comparison</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>expected value <br clear="all" />
+				</td>
+				<td class='confluenceTd'>system value <br clear="all" />
+				</td>
+				<td class='confluenceTd'>equal?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>true</td>
+				<td class='confluenceTd'>true</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>TRUE</td>
+				<td class='confluenceTd'>true</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>yes</td>
+				<td class='confluenceTd'>true</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>true <br clear="all" />
+				</td>
+				<td class='confluenceTd'>false</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>no</td>
+				<td class='confluenceTd'>false <br clear="all" />
+				</td>
+				<td class='confluenceTd'>yes <br clear="all" />
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="ValueComparison-Comparingtoanullvalue%26nbsp%3B">Comparing
+		to a null value�</h3>
+
+	<p>
+		Rule 4 : We can specify that we expect a nil value using the keywords
+		<b>null</b> and <b>nothing</b>.
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>null comparison <br clear="all" />
+				</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>expected value <br clear="all" />
+				</td>
+				<td class='confluenceTd'>system value <br clear="all" />
+				</td>
+				<td class='confluenceTd'>equal?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>null</td>
+				<td class='confluenceTd'>null</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>null</td>
+				<td class='confluenceTd'>any value <br clear="all" />
+				</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>nothing</td>
+				<td class='confluenceTd'>null</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>any value <br clear="all" />
+				</td>
+				<td class='confluenceTd'>null</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>Note : blank cell ...</p>
+
+	<h3 id="ValueComparison-Comparingtoatype">Comparing to a type</h3>
+
+	<p>Rule 5 : We can compare to a specific type (i.e. an instance of
+		a class, an interface or a subclass of a class) using the name of the
+		type.</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>type comparison</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>expected value</td>
+				<td class='confluenceTd'>system value type</td>
+				<td class='confluenceTd'>equal?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>java.awt.Container</td>
+				<td class='confluenceTd'>java.awt.Container</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>java.awt.Component</td>
+				<td class='confluenceTd'>java.lang.String</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>java.awt.image.ImageObserver</td>
+				<td class='confluenceTd'>java.lang.String</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+		</tbody>
+	</table>
+	<table style="display: none">
+		<tr>
+			<td>Begin Info</td>
+		</tr>
+	</table>
+	<div style="padding: 0px; margin: 0px;">
+		<span class="conf_executionTitle">Server is Headless (mandatory
+			for this next example)</span><br>
+		<table class='confluenceTable'>
+			<tbody>
+				<tr>
+					<td class='confluenceTd'>java.awt.Component</td>
+					<td class='confluenceTd'>java.awt.Button</td>
+					<td class='confluenceTd'>yes</td>
+				</tr>
+				<tr>
+					<td class='confluenceTd'>java.awt.Button</td>
+					<td class='confluenceTd'>java.awt.Container</td>
+					<td class='confluenceTd'>no</td>
+				</tr>
+				<tr>
+					<td class='confluenceTd'>java.awt.image.ImageObserver</td>
+					<td class='confluenceTd'>java.awt.Button</td>
+					<td class='confluenceTd'>yes</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<table style="display: none">
+		<tr>
+			<td>End Info</td>
+		</tr>
+	</table>
+
+
+	<h3 id="ValueComparison-Comparingtoerrors%26nbsp%3B">Comparing to
+		errors�</h3>
+
+	<p>Rule 6 : We can use the keyword error when we expect an
+		exception to occur within the system.</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>error comparison <br clear="all" />
+				</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>expected value <br clear="all" />
+				</td>
+				<td class='confluenceTd'>system value <br clear="all" />
+				</td>
+				<td class='confluenceTd'>equal?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>any</td>
+				<td class='confluenceTd'>java.lang.Exception</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>error</td>
+				<td class='confluenceTd'>java.lang.Throwable</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>error</td>
+				<td class='confluenceTd'>any</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

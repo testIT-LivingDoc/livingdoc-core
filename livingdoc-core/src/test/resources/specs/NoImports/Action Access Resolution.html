@@ -1,0 +1,107 @@
+<html>
+<head>
+<title>Action Access Resolution</title>
+<meta name="title" content="Action Access Resolution" />
+<meta name="external-link"
+	content="http://testit.novatec.info/confluence/display/LIVINGDOC/Action+Access+Resolution" />
+</head>
+<body>
+	<h2 id="ActionAccessResolution-ActionAccessResolution">Action
+		Access Resolution</h2>
+
+	<p>I want to be able to access a method, a public field, or a
+		property (getter, setter) of my fixture or SUT:</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>Rule for</th>
+				<th class='confluenceTh'>Action Access Resolution</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>access</td>
+				<td class='confluenceTd'>can get a value using?</td>
+				<td class='confluenceTd'>can set a value using?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>aPublicField</td>
+				<td class='confluenceTd'>yes <br clear="all" />
+				</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>
+					APublicMethodWithNoParameterThatReturnNothing</td>
+				<td class='confluenceTd'>no</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>
+					APublicMethodWithOneParameterThatReturnNothing</td>
+				<td class='confluenceTd'>no</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>
+					APublicMethodWithNoParameterThatReturnAValue</td>
+				<td class='confluenceTd'>yes</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>
+					APublicMethodWithOneParameterThatReturnAValue</td>
+				<td class='confluenceTd'>yes</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>aPrivateField</td>
+				<td class='confluenceTd'>no</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>APrivateMethodThatReturnNothing</td>
+				<td class='confluenceTd'>no</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>APrivateMethodThatReturnAValue</td>
+				<td class='confluenceTd'>no</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>Methods resolution is made by their name and their arity, so you
+		can have N methods with the same name but with a different number of
+		parameters.</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>Rule for</th>
+				<th class='confluenceTh'>Methods resolving</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>method</td>
+				<td class='confluenceTd'>called with arity</td>
+				<td class='confluenceTd'>has method been called ?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>my method that is override with no
+					parameters and two parameters</td>
+				<td class='confluenceTd'>0</td>
+				<td class='confluenceTd'>true</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>my method that is override with no
+					parameters and two parameters</td>
+				<td class='confluenceTd'>2</td>
+				<td class='confluenceTd'>true</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>my method that is override with no
+					parameters and two parameters</td>
+				<td class='confluenceTd'>3</td>
+				<td class='confluenceTd'>false</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

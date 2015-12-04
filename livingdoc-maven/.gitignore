@@ -1,0 +1,16 @@
+
+# /
+target
+.project
+.settings
+.classpath
+*.wtpmodules
+*.iml
+*.ipr
+*.iws
+
+# /src/main/java/
+src/main/java/META-INF
+
+# /src/test/resources/
+src/test/resources/livingdoc-core.jar

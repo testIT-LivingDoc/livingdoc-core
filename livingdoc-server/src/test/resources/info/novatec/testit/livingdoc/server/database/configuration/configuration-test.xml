@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<greenpeeper-configuration>
+	<properties>
+		<property name="property1">value1</property>
+		<property name="property2">value2</property>
+		<property name="property3">some\url/with/slashes</property>
+	</properties>
+</greenpeeper-configuration>

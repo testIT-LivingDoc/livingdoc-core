@@ -1,0 +1,340 @@
+<html>
+<head>
+<title>Set Up Interpreter</title>
+<meta name="title" content="Set Up Interpreter" />
+<meta name="external-link"
+	content="http://testit.novatec.info/confluence/display/LIVINGDOC/Set+Up+Interpreter" />
+</head>
+<body>
+	<h2 id="SetUpInterpreter-SetUpInterpreter">Set Up Interpreter</h2>
+
+	<p>
+		The
+		<tt>SetUpInterpreter</tt>
+		is used to simplify the creation of a particular state for the system
+		under development. Once the state is created, we can focus on the
+		business process to test.
+	</p>
+
+	<h3 id="SetUpInterpreter-Specifyingthefixture">Specifying the
+		fixture</h3>
+
+	<p>
+		The
+		<tt>SetUpInterpreter</tt>
+		follows the general rules for <a
+			href="/confluence/display/LIVINGDOC/Interpreter+and+Fixture+Selection+%28JAVA%29"
+			title="Interpreter and Fixture Selection (JAVA)">interpreter and
+			fixture selection</a> and <a
+			href="/confluence/display/LIVINGDOC/Fixture+name+resolution+%28JAVA%29"
+			title="Fixture name resolution (JAVA)">fixture naming</a>.
+	</p>
+
+	<p>
+		The first row of the table is used to indicate both that we want to
+		use a
+		<tt>SetUpInterpreter</tt>
+		and what fixture to use. The next row is called the header row and
+		serves to to identify the data to be inserted in the system under
+		development. Finally, the remaining rows capture the data to be
+		inserted.
+	</p>
+
+	<h3 id="SetUpInterpreter-Interpretationflow">Interpretation flow</h3>
+
+	<p>The setup table is interpreted from top to bottom, one row at a
+		time. Each row is interpreted one cell at a time, from left to right.</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>Interpretationsreihenfolge</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>table</td>
+				<td class='confluenceTd'>order of interpretation?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ setup ] [Any Fixture]</tt><br
+					clear="all" /> <tt>[ header ][ header ][ header ]</tt><br
+					clear="all" /> <tt>[ top left ][ top center ][ top right ]</tt><br
+					clear="all" /> <tt>[ middle left ][ middle center ][ middle
+						right ]</tt><br clear="all" /> <tt>[ bottom left ][ bottom center
+						][ bottom right ]</tt></td>
+				<td class='confluenceTd'>top left, top center, top right,
+					middle left, middle center, middle right, bottom left, bottom
+					center, bottom right</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="SetUpInterpreter-Headerrow">Header row</h3>
+
+	<p>
+		The
+		<tt>SetUpInterpreter</tt>
+		uses the first row - the header row - to define the data to be
+		inserted in the system under development. If the header is blank, the
+		entire column is ignored.
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>header form recognition</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>header text</td>
+				<td class='confluenceTd'>cells will be?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>an header</td>
+				<td class='confluenceTd'>given</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'></td>
+				<td class='confluenceTd'>ignore</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="SetUpInterpreter-Interpretinggivenvalues">Interpreting
+		given values</h3>
+
+
+	<h4 id="SetUpInterpreter-Defaultvalues">Default values</h4>
+
+	<p>
+		When dealing with given values, the
+		<tt>SetUpInterpreter</tt>
+		uses the default <a
+			href="/confluence/display/LIVINGDOC/Type+Conversion"
+			title="Type Conversion">type conversion rules</a>.
+	</p>
+
+	<p>
+		In the following example, given values are interpreted by the default
+		type converters that come with <span
+			style="font-family: Arial, sans-serif; font-size: 1em; font-weight: bold; padding: 0px 3px;"><img
+			src="/confluence/download/resources/info.novatec.testit.livingdoc.confluence.plugin:livingdoc-logo/images/livingdoc_12.gif"
+			alt="" border="0"><span style="color: #003300;">Living</span><span
+			style="color: #8CC06D;">Doc</span></span>:
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>value interpretation</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>cell text</td>
+				<td class='confluenceTd'>recognized as</td>
+				<td class='confluenceTd'>rule respected?</td>
+				<td class='confluenceTd'>resulting value?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a string</td>
+				<td class='confluenceTd'>a string</td>
+				<td class='confluenceTd'>yes</td>
+				<td class='confluenceTd'></td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>.6</td>
+				<td class='confluenceTd'>a number</td>
+				<td class='confluenceTd'>yes</td>
+				<td class='confluenceTd'></td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>yes</td>
+				<td class='confluenceTd'>a boolean</td>
+				<td class='confluenceTd'>yes</td>
+				<td class='confluenceTd'></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h4 id="SetUpInterpreter-Blankvalues">Blank values</h4>
+
+	<p>In the case of a blank cell as input data, the value is not
+		converted. It is considered null instead.</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>value interpretation</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>cell text</td>
+				<td class='confluenceTd'>input will be?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'></td>
+				<td class='confluenceTd'>null</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="SetUpInterpreter-Rowsannotations">Rows annotations</h3>
+
+	<p>
+		When the
+		<tt>SetUpInterpreter</tt>
+		checks a table row's correctness, it uses standard <a
+			href="/confluence/display/LIVINGDOC/Value+Comparison"
+			title="Value Comparison">value comparison</a> and annotates the cell
+		accordingly.
+	</p>
+
+	<h4 id="SetUpInterpreter-Right%2CWrongandException">Right, Wrong
+		and Exception</h4>
+
+	<p>
+		When the entire row has been inserted in the system under development,
+		the
+		<tt>SetUpInterpreter</tt>
+		marks the row "Entered" by adding a new cell at the end of this row.<br />
+		(See the <span class="error">[annotation specification]</span> for
+		more about standard annotations.)
+	</p>
+
+	<p>
+		(
+		<tt>SetUpInterpreter</tt>
+		is not a test interpreter then doesn't compile statistics for Right,
+		Wrong and Ignore but only for Exceptions)
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>row annotation</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>enter row</td>
+				<td class='confluenceTd'>cells marked?</td>
+				<td class='confluenceTd'>row marked as?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ data 1][ data 2][ data 3]</tt></td>
+				<td class='confluenceTd'>succeeded</td>
+				<td class='confluenceTd'>4</td>
+				<td class='confluenceTd'>Entered</td>
+				<td class='confluenceTd'>0 0 0 0</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ data 1][ data 2][ data 3][
+						data 4][ data 5]</tt></td>
+				<td class='confluenceTd'>succeeded</td>
+				<td class='confluenceTd'>6</td>
+				<td class='confluenceTd'>Entered</td>
+				<td class='confluenceTd'>0 0 0 0</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>
+		If the row has not been entered because of a known error (business
+		rule not respected), the
+		<tt>SetUpInterpreter</tt>
+		marks the row "Not entered" by adding a new cell at the end of this
+		row containing the stacktrace.<br />
+		<tt>SetUpInterpreter</tt>
+		will compile statistics with Exception = 1
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>row annotation</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>enter row</td>
+				<td class='confluenceTd'>cells marked?</td>
+				<td class='confluenceTd'>row marked as?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ data 1][ data 2][ data 3]</tt></td>
+				<td class='confluenceTd'>failed</td>
+				<td class='confluenceTd'>4</td>
+				<td class='confluenceTd'>exception</td>
+				<td class='confluenceTd'>0 0 0 1</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ data 1][ data 2][ data 3][
+						data 4][ data 5]</tt></td>
+				<td class='confluenceTd'>failed</td>
+				<td class='confluenceTd'>6</td>
+				<td class='confluenceTd'>exception</td>
+				<td class='confluenceTd'>0 0 0 1</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>
+		If it throws an exception, the data throwing the exception will be
+		mark with the stack trace and marks the last row with the "EnterRow"
+		stacktrace if the row has not been inserted with the exception.<br />
+		<tt>SetUpInterpreter</tt>
+		will compile exception statistics for the cell(s) which cause the
+		exception and in case of exception in row instertion, it compiles an
+		exception for the row insertion too :
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>row annotation</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>enter row</td>
+				<td class='confluenceTd'>cells marked?</td>
+				<td class='confluenceTd'>row marked as?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ data 1][ error][ data 3]</tt></td>
+				<td class='confluenceTd'>failed</td>
+				<td class='confluenceTd'>2, 4</td>
+				<td class='confluenceTd'>exception</td>
+				<td class='confluenceTd'>0 0 0 2</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>
+		A special case would be: a data is throwing an exception but the row
+		is still entered. In that particular case, the
+		<tt>SetUpInterpreter</tt>
+		may have taken the value in the previous row as a default value. This
+		action would probably have negative impact on the following executable
+		examples.
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>row annotation</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>enter row</td>
+				<td class='confluenceTd'>cells marked?</td>
+				<td class='confluenceTd'>row marked as?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ data 1][ error][ data 3]</tt></td>
+				<td class='confluenceTd'>succeeded</td>
+				<td class='confluenceTd'>2, 4</td>
+				<td class='confluenceTd'>Entered</td>
+				<td class='confluenceTd'>0 0 0 1</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+</body>
+</html>

@@ -1,0 +1,174 @@
+<html>
+<head>
+<title>Fixture name resolution (JAVA)</title>
+<meta name="title" content="Fixture name resolution (JAVA)" />
+<meta name="external-link"
+	content="http://testit.novatec.info/confluence/display/LIVINGDOC/Fixture+name+resolution+%28JAVA%29" />
+</head>
+<body>
+	<h2 id="Fixturenameresolution%28JAVA%29-Fixturenameresolution">Fixture
+		name resolution</h2>
+
+	<p>
+		To specify a fixture you must use its <b>fully qualified name</b>
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>finding fixture</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>fixture name</td>
+				<td class='confluenceTd'>found no import ()</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>FindingFixtureFixture</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>
+					info.novatec.testit.livingdoc.fixture.seeds.FindingFixtureFixture</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>To simplify, you can import the package</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>finding fixture</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>package to import</td>
+				<td class='confluenceTd'>fixture name</td>
+				<td class='confluenceTd'>found with the specified package?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>�</td>
+				<td class='confluenceTd'>finding Fixture Fixture</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>info.novatec.testit.livingdoc.fixture.seeds</td>
+				<td class='confluenceTd'>finding Fixture Fixture</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="Fixturenameresolution%28JAVA%29-Nameresolution">Name
+		resolution</h3>
+
+	<p>
+		<ins>I assume now that I have imported the right package.</ins>
+	</p>
+
+	<p>
+		I want to be able to write the fixture name using <b>space</b> between
+		words
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>finding fixture</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>fixture name</td>
+				<td class='confluenceTd'>found()</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>finding fixture fixture</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>
+		Using space I can use <b>capital letters or lower case</b> as I want
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>finding fixture</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>fixture name</td>
+				<td class='confluenceTd'>found()</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Finding Fixture Fixture</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>fIndIng FixtURe FixTurE</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>FINDING FIXTURE FIXTURE</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>
+		The word <b>"fixture"</b> at the end of a fixture name <b>can be
+			omitted</b><br /> example : FixtureNamingFixture must be found when
+		writing "fixture naming"
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>finding fixture</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>fixture name</td>
+				<td class='confluenceTd'>found()</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>finding fixture</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>These other cases are also processed</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>finding fixture</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>fixture name</td>
+				<td class='confluenceTd'>found()</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>finding</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>findingfixture</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>finding fixturefixture</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>findingfixturefixture</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>FindingFixtureFixture</td>
+				<td class='confluenceTd'>yes</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>findingFixtureFixture</td>
+				<td class='confluenceTd'>no</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

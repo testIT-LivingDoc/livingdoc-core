@@ -1,0 +1,193 @@
+<html>
+<head>
+<title>Collection Interpreters</title>
+<meta name="title" content="Collection Interpreters" />
+<meta name="external-link"
+	content="http://testit.novatec.info/confluence/display/LIVINGDOC/Collection+Interpreters" />
+</head>
+<body>
+
+	<table style="display: none">
+		<tr>
+			<td>Begin Info</td>
+		</tr>
+	</table>
+	<div style="padding: 0px; margin: 0px;">
+
+		<h3
+			id="CollectionInterpreters-CompletelistoftheCollectionInterpreters">
+			Complete list of the <em>Collection</em> Interpreters
+		</h3>
+		<ul>
+			<li><a href="/confluence/display/LIVINGDOC/List+of+Interpreter"
+				title="List of Interpreter">List of Interpreter</a></li>
+			<li><a href="/confluence/display/LIVINGDOC/Set+of+Interpreter"
+				title="Set of Interpreter">Set of Interpreter</a><span><ul>
+						<li></span><a
+				href="/confluence/display/LIVINGDOC/Subset+of+Interpreter"
+				title="Subset of Interpreter">Subset of Interpreter</a></li>
+			<li><a
+				href="/confluence/display/LIVINGDOC/Superset+of+Interpreter"
+				title="Superset of Interpreter">Superset of Interpreter</a></li>
+		</ul>
+		</li>
+		</ul>
+	</div>
+	<table style="display: none">
+		<tr>
+			<td>End Info</td>
+		</tr>
+	</table>
+
+
+	<h2 id="CollectionInterpreters-Rulesforallthecollectioninterpreters">Rules
+		for all the collection interpreters</h2>
+	<p>The following rules applies to all the collection interpreters
+		(list of, set of...)</p>
+
+	<h3
+		id="CollectionInterpreters-Retrievingthecollectionofvaluefromthefixture">Retrieving
+		the collection of value from the fixture</h3>
+
+	<p>A collection interpreters needs a collection of values from the
+		fixture. The interpreters can access these values by different means.</p>
+
+	<p>To retrieve these values the interpreter follow the following
+		rules.</p>
+
+	<table style="display: none">
+		<tr>
+			<td>Begin Info</td>
+		</tr>
+	</table>
+	<div style="padding: 0px; margin: 0px;">
+
+		<p>
+			1 A method in the class can be annotated or have the attribute <em>CollectionProvider</em><br />
+			2 The fixture itself can be an Array or an implementation of a
+			Collection/ICollection<br /> 3 The fixture can have a <em>query/Query</em>
+			method
+		</p>
+	</div>
+	<table style="display: none">
+		<tr>
+			<td>End Info</td>
+		</tr>
+	</table>
+
+
+
+	<h4
+		id="CollectionInterpreters-TheCollectionProviderannotation%2Fattributes">
+		The <em>CollectionProvider</em> annotation/attributes
+	</h4>
+
+	<p>ex: .JAVA</p>
+	<div class="preformatted">
+		<div class="preformattedContent">
+			<pre>   import info.novatec.testit.livingdoc.reflect.CollectionProvider;
+
+   @CollectionProvider()
+   public Collection employees() 
+   {
+        return employees;
+   }
+</pre>
+		</div>
+	</div>
+
+	<p>ex: .NET</p>
+	<div class="preformatted">
+		<div class="preformattedContent">
+			<pre>   using LivingDoc.Reflect;
+
+   [CollectionProvider]
+   public ICollection Employees() 
+   {
+        return employees;
+   }
+</pre>
+		</div>
+	</div>
+
+
+	<h4 id="CollectionInterpreters-Thefixtureisacollection">The
+		fixture is a collection</h4>
+	<p>If the fixture itself is a collection or an array then it will
+		be directly by the interpreter.</p>
+
+
+	<h4 id="CollectionInterpreters-Thequerymethod">The query method</h4>
+
+
+	<p>
+		<em>public Collection query();</em> for java
+	</p>
+
+	<p>or</p>
+
+	<p>
+		<em>ICollection Query();</em> in .Net
+	</p>
+
+
+	<h3 id="CollectionInterpreters-Rulesofresolution">Rules of
+		resolution</h3>
+
+	<table style="display: none">
+		<tr>
+			<td>Begin Info</td>
+		</tr>
+	</table>
+	<div style="padding: 0px; margin: 0px;">
+
+		<p>
+			1 First, verifying if there is a <em>CollectionProvider</em>
+			annotation or attribute on the fixture class.<br /> 2 If not, verify
+			if the fixture itself is an Array or an implementation of a
+			Collection/ICollection<br /> 3 Third, look for a <em>query/Query</em>
+			method<br /> 4 throws an exception
+		</p>
+	</div>
+	<table style="display: none">
+		<tr>
+			<td>End Info</td>
+		</tr>
+	</table>
+
+
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>Collection Resolution</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>fixture</td>
+				<td class='confluenceTd'>query values ?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Fixture with a collection provider
+					annotation</td>
+				<td class='confluenceTd'>collection</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Fixture that implements collection</td>
+				<td class='confluenceTd'>collection</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Fixture with a query method</td>
+				<td class='confluenceTd'>collection</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Fixture without collection</td>
+				<td class='confluenceTd'>error</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<html>
+<body>
+
+	<h2>Testing a Table of Rules on a System</h2>
+
+	In this example we're planning to write a calculator executable
+	specification. You can find some basic rules in the first executable
+	specifications page. We will use the Rule For formalism to define the
+	business rules of the basic calculator.
+
+	<div>
+		<p>We need to specify the package in which our calculator fixture
+			is coded. Once the execution is started, LivingDoc searches the
+			fixtures name in the package specified in the import tables.</p>
+
+		<table border="1" cellspacing="0">
+			<tbody>
+				<tr>
+					<td>import</td>
+				</tr>
+				<tr>
+					<td>info.novatec.testit.livingdoc.samples.application.calculator</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div>
+		<p>
+			In a <b>Rule For formalism</b>, the first row specifies the name of
+			the interpreter and the name of the fixture. The second row specifies
+			the input parameter names and tests we want to execute. The remaining
+			rows indicate values for each input parameter and the expected result
+			from the specified tests. In the last row, you can see how expected
+			validation errors are specified.
+		</p>
+
+		<p>You are now ready to execute the tests.</p>
+
+		<p>
+			In last row, we specify that the product of 7 and 0 should be 5
+			(column
+			<code>product?</code>
+			). The cell is now colored in red and we see that there is an error
+			since the product of 7 and 0 is 0, not 5. All the other cells are
+			colored in green since the expected values match the returned values.
+		</p>
+
+		<table border="1" cellspacing="0">
+			<tbody>
+				<tr>
+					<td colspan="1">rule for</td>
+					<td colspan="4">calculator</td>
+				</tr>
+				<tr>
+					<td width="20%">x</td>
+					<td width="20%">y</td>
+					<td width="20%">sum?</td>
+					<td width="20%">product?</td>
+					<td width="20%">quotient?</td>
+				</tr>
+				<tr>
+					<td>6</td>
+					<td>2</td>
+					<td>8</td>
+					<td>12</td>
+					<td>3</td>
+				</tr>
+				<tr>
+					<td>7</td>
+					<td>0</td>
+					<td>7</td>
+					<td>5</td>
+					<td>error</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

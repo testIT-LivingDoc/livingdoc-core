@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>info.novatec.testit</groupId>
+		<artifactId>livingdoc</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>livingdoc-remote-agent</artifactId>
+	<name>${project.title} - Remote Agent</name>
+
+	<properties>
+		<project.root>..</project.root>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>info.novatec.testit</groupId>
+			<artifactId>livingdoc-server</artifactId>
+			<version>${project.version}</version>
+			<!-- Make sure we are only using xmlrpc v2 (compatible with confluence) -->
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.xmlrpc</groupId>
+					<artifactId>xmlrpc-client</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.xmlrpc</groupId>
+					<artifactId>xmlrpc-common</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+
+		<!-- Testing -->
+		<dependency>
+			<groupId>info.novatec.testit</groupId>
+			<artifactId>livingdoc-core</artifactId>
+			<version>${project.version}</version>
+			<classifier>tests</classifier>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<shadedArtifactAttached>true</shadedArtifactAttached>
+							<shadedClassifierName>complete</shadedClassifierName>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>info.novatec.testit.livingdoc.agent.server.Agent</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<configuration>
+							<tasks>
+								Remove with improved runner call
+								<copy
+									file="${settings.localRepository}/info/novatec/testit/livingdoc-core/${project.version}/livingdoc-core-${project.version}.jar"
+									tofile="src/test/resources/runners/java/livingdoc-core.jar" />
+								<copy
+									file="${settings.localRepository}/info/novatec/testit/livingdoc-core/${project.version}/livingdoc-core-${project.version}-tests.jar"
+									tofile="src/test/resources/runners/java/livingdoc-core-tests.jar" />
+								<copy
+									file="${settings.localRepository}/commons-codec/commons-codec/1.10/commons-codec-1.10.jar"
+									tofile="src/test/resources/runners/java/commons-codec.jar" />
+								<copy
+									file="${settings.localRepository}/xmlrpc/xmlrpc/2.0.1/xmlrpc-2.0.1.jar"
+									tofile="src/test/resources/runners/java/xmlrpc.jar" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-antrun-plugin
+										</artifactId>
+										<versionRange>
+											[1.8,)
+										</versionRange>
+										<goals>
+											<goal>run</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+</project>

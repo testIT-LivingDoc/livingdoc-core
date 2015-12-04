@@ -1,0 +1,97 @@
+<html>
+<head>
+<title>Superset of Interpreter</title>
+<meta name="title" content="Superset of Interpreter" />
+<meta name="external-link"
+	content="http://testit.novatec.info/confluence/display/LIVINGDOC/Superset+of+Interpreter" />
+</head>
+<body>
+	<h2 id="SupersetofInterpreter-SupersetofInterpreter">Superset of
+		Interpreter</h2>
+	<h3
+		id="SupersetofInterpreter-Thereisavariationofthesetconceptcalledsuperset.">There
+		is a variation of the set concept called superset.</h3>
+	<p>
+		The <em>SupersetInterpreter</em> is used when you want the set
+		represented by the rows in the specifications to be a superset of the
+		rows returned by the SUD.<br /> This means that the test can contains
+		rows that are not contained in the SUD (no missing).
+	</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>Superset of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>spec values</td>
+				<td class='confluenceTd'>sud values</td>
+				<td class='confluenceTd'>annotations?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a] <br clear="all" /> [b] <br
+					clear="all" /> [c]
+				</td>
+				<td class='confluenceTd'>a,b,c</td>
+				<td class='confluenceTd'>[a right] <br clear="all" /> [b
+					right] <br clear="all" /> [c right]
+				</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a] <br clear="all" /> [b]
+				</td>
+				<td class='confluenceTd'>a,b,c</td>
+				<td class='confluenceTd'>[a right] <br clear="all" /> [b
+					right] <br clear="all" /> [c surplus]
+				</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a] <br clear="all" /> [b] <br
+					clear="all" /> [c]
+				</td>
+				<td class='confluenceTd'>a,b</td>
+				<td class='confluenceTd'>[a right] <br clear="all" /> [b
+					right] <br clear="all" /> [c]
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<h3 id="SupersetofInterpreter-Duplicates">Duplicates</h3>
+	<p>Duplicate values in the specifications are considered as
+		separates elements in a superset.</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>Superset Of</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>spec values</td>
+				<td class='confluenceTd'>sud values</td>
+				<td class='confluenceTd'>annotations?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a] <br clear="all" /> [a] <br
+					clear="all" /> [b]
+				</td>
+				<td class='confluenceTd'>a,a</td>
+				<td class='confluenceTd'>[a right] <br clear="all" /> [a
+					right] <br clear="all" /> [b]
+				</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a] <br clear="all" /> [b]
+				</td>
+				<td class='confluenceTd'>a,a</td>
+				<td class='confluenceTd'>[a right] <br clear="all" /> [b] <br
+					clear="all" /> [a surplus]
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

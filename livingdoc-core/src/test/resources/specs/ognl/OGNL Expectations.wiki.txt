@@ -1,0 +1,73 @@
+h2. OGNL Expectations
+
+You can use graph navigation and expression resolution (aka OGNL) inside cells that makes a the check against the SUT.
+{livingdoc-import:info.novatec.testit.livingdoc.fixture.ognl}
+
+h3. Boolean expression using the wildcard '?'
+
+You can code a *boolean expression* expectation by using the '?' placeholder in the expected expression. '?' refer to the actual value returned by the query:
+|| rule for || Ognl Expectation Fixture ||
+| expected | actual | state? |
+| ? > 1 | 2 | right |
+| ? > 1 | 1 | wrong |
+| is leap year( ? ) | 2004 | right |
+| is leap year( ? ) | 2006 | wrong |
+| ? < 2 or 4 < ? | 1 | right |
+| ? < 2 or 4 < ? | 3 | wrong |
+| ? < 2 or 4 < ? | 5 | right |
+| 2 < ? and ? < 4 | 1 | wrong |
+| 2 < ? and ? < 4 | 3 | right |
+| 2 < ? and ? < 4 | 5 | wrong |
+
+h3. Boolean expression with String
+
+When a *boolean expression contains a string*, you must enclose it in double quotes:
+|| rule for || Ognl Expectation Fixture ||
+| expected | actual | state? |
+| ? > "a" | a | wrong |
+| ? > "a" | b | right |
+
+h3. Only boolean expression can be process
+
+If a placeholder is used and the *return value* from the expression *is not a boolean*, an error occur:
+|| rule for || Ognl Expectation Fixture ||
+| expected | actual | state? |
+| sum(1,?) | 2 | error |
+
+h3. Complex expressions
+
+You can code *more complex expressions* as expected values by starting the expression with an equal sign:
+|| rule for || Ognl Expectation Fixture ||
+| expected | actual | state? |
+| = sum(1,2) | 3 | right |
+| = sum(1,2) | 4 | wrong |
+| = uppercase("ognl") | OGNL | right |
+| = is leap year(2004) | true | right |
+| = 1 + 2 + 3 + 4 | 10 | right |
+
+h3. Type conversion
+
+If the actual object returned by the query is a *Java Float*, and the expected expression contains some real constants, ognl convert them to Java Double. Force the specific real type to be use by using the float or double suffix (f,F,d,D):
+|| rule for || Ognl Expectation Fixture ||
+| expected | actual | state? |
+| =1.1 | 1.1f | wrong |
+| =1.1f | 1.1f | right |
+| =1.1 | 1.1d | right |
+
+h3. Complex Boolean expression with wildcard '?'
+
+If coding an *equal expression with placeholders*, it is taken as a boolean expression:
+|| rule for || Ognl Expectation Fixture ||
+| expected | actual | state? |
+| = ? > 1 | 2 | right |
+
+h3. Complex String Boolean expression with wildcard '?'
+
+If expecting *a string that start with an equal sign*, enclose it in double quotes. Also, if I want to use a question mark in the string, I have to enclose it in double quotes:
+{livingdoc-info}
+TODO we must review this test
+|| rule for || Ognl Expectation Fixture ||
+| expected | actual | state? |
+| "=string" | =string | right |
+| "string with a ?" | string with a ? | right |
+{livingdoc-info}

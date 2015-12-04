@@ -1,0 +1,14 @@
+<documents>
+	<global-exception><![CDATA[my exception]]></global-exception>
+	<document>
+		<statistics>
+			<success>1</success>
+			<failure>2</failure>
+			<error>3</error>
+			<ignored>4</ignored>
+			<annotation>5</annotation>
+		</statistics>
+		<results><![CDATA[<table><tr><td>my results</td></tr></table>]]></results>
+		<exception><![CDATA[my exception]]></exception>
+	</document>
+</documents>

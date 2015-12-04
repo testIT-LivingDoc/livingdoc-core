@@ -1,0 +1,540 @@
+<html>
+<head>
+<title>Do With Interpreter</title>
+<meta name="title" content="Do With Interpreter" />
+<meta name="external-link"
+	content="http://testit.novatec.info/confluence/display/LIVINGDOC/Do+With+Interpreter" />
+</head>
+<body>
+	<h2 id="DoWithInterpreter-DoWithInterpreter">Do With Interpreter</h2>
+
+
+	<p>
+		The
+		<tt>DoWithInterpreter</tt>
+		verifies business flows expressed as a sequence of actions. This
+		interpreter executes a workflow on the system under test and asserts
+		returned values against expected values. By contrast with other
+		interpreters, the
+		<tt>DoWithInterpreter</tt>
+		can interpret more than one table in a specification document. In
+		fact, unless specified otherwise, it will interpret all of the tables
+		it encounters.
+	</p>
+
+	<h3 id="DoWithInterpreter-Specifyingthefixture">Specifying the
+		fixture</h3>
+
+	<p>
+		The
+		<tt>DoWithInterpreter</tt>
+		follows the general rules for <a
+			href="/confluence/display/LIVINGDOC/Interpreter+and+Fixture+Selection+%28JAVA%29"
+			title="Interpreter and Fixture Selection (JAVA)">interpreter and
+			fixture selection</a> and <a
+			href="/confluence/display/LIVINGDOC/Fixture+name+resolution+%28JAVA%29"
+			title="Fixture name resolution (JAVA)">fixture naming</a>.
+	</p>
+
+	<p>
+		Once a
+		<tt>DoWithInterpreter</tt>
+		starts interpreting a specification document, it carries out the
+		actions in all of the following tables with the selected fixture.
+		Consequently, each subsequent table doesn't need to explicitly declare
+		an interpreter and a fixture.
+	</p>
+
+	<p>Although the same fixture can be used to interpret all tables in
+		a document, an action may also return an interpreter. This interpreter
+		will be used with the rest of the current table and will be abandoned
+		at the next table.</p>
+
+	<h3 id="DoWithInterpreter-Interpretationflow">Interpretation flow</h3>
+
+	<p>
+		As already stated, a business workflow may span several tables. The
+		<tt>DoWithInterpreter</tt>
+		goes through all tables one by one, down to the end of the
+		specification document. For each table, it executes the workflow one
+		row at a time, reading cells from left to right.
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>interpretation order dowith</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>tables</td>
+				<td class='confluenceTd'>order of interpretation?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ do with ][ some fixture ]</tt><br
+					clear="all" /> <tt>[ row ][ 1 ][ of table ][ 1 ]</tt><br
+					clear="all" /> <tt>[ row ][ 2 ][ of table ][ 1 ]</tt><br
+					clear="all" /> <tt>[ row ][ 3 ][ of table ][ 1 ]</tt><br
+					clear="all" /> **** <br clear="all" /> <tt>[ row ][ 1 ][ of
+						table ][ 2 ]</tt><br clear="all" /> **** <br clear="all" /> <tt>[
+						row ][ 1 ][ of table ][ 3 ]</tt><br clear="all" /> <tt>[ row ][ 2
+						][ of table ][ 3 ]</tt></td>
+				<td class='confluenceTd'>row 1 of table 1, row 2 of table 1,
+					row 3 of table 1, row 1 of table 2, row 1 of table 3, row 2 of
+					table 3</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="DoWithInterpreter-Actions">Actions</h3>
+
+	<p>Each row in a workflow represents an action to perform on the
+		system under test.</p>
+
+	<p>
+		The
+		<tt>DoWithInterpreter</tt>
+		expects default actions to be composed of keywords and data. An action
+		starts with a keyword cell, then alternates between data cells and
+		more keyword cells. In other words, keywords appear in every other
+		cell.
+	</p>
+
+	<p>The keywords of an action are concatenated together with spaces
+		between them and converted into an identifier. On the Java platform,
+		this is done using lower camel casing. The identifier obtained names
+		the action to execute on the system under test, with the data used as
+		parameters to the action.</p>
+
+	<p>
+		To execute the action on the system under test, the
+		<tt>DoWithIntepreter</tt>
+		follows the rules of <a
+			href="/confluence/display/LIVINGDOC/Action+Access+Resolution"
+			title="Action Access Resolution">action access resolution</a> rules.
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>row form</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>action name?</td>
+				<td class='confluenceTd'>parameters?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ Buy a ][ MacBook Pro ][ to
+						][ Bob ][ for doing ][ Rails Development ]</tt></td>
+				<td class='confluenceTd'>Buy a to for doing</td>
+				<td class='confluenceTd'>MacBook Pro, Bob, Rails Development</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>A keyword cell can be empty:</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>row form</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>action name?</td>
+				<td class='confluenceTd'>parameters?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[] [ Bob ][ needs a ][
+						MacBook Pro ]</tt></td>
+				<td class='confluenceTd'>needs a</td>
+				<td class='confluenceTd'>Bob, MacBook Pro</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ Buy ][ 5 ][ ][ MacBook Pros
+						]</tt></td>
+				<td class='confluenceTd'>Buy</td>
+				<td class='confluenceTd'>5, MacBook Pros</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>The last keyword in the row is optional, so the row can end with
+		keyword or data:</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>row form</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>action name?</td>
+				<td class='confluenceTd'>parameters?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ Story Test Driven
+						Development with ][ LivingDoc ][ rocks ]</tt></td>
+				<td class='confluenceTd'>Story Test Driven Development with
+					rocks</td>
+				<td class='confluenceTd'>LivingDoc</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="DoWithInterpreter-SpecialActions">Special Actions</h3>
+
+	<p>
+		The
+		<tt>DoWithInterpreter</tt>
+		knows about the special actions. Special actions are identified by a
+		special keyword at the beginning of the row and apply to the rest of
+		their row:
+	</p>
+	<table style="display: none">
+		<tr>
+			<td>Begin Info</td>
+		</tr>
+	</table>
+	<div style="padding: 0px; margin: 0px;">
+
+		<p>
+			-
+			<tt>check</tt>
+			checks whether the result of the action described in the rest of the
+			row matches the value in the last cell of the row.<br /> -
+			<tt>reject</tt>
+			checks - as expected - that the action described in the rest of the
+			row fails.<br /> -
+			<tt>accept</tt>
+			checks that the action described in the rest of the row succeeds.<br />
+			-
+			<tt>display</tt>
+			prints the result in a new cell at the end of the row without
+			affecting the results (statistics).
+		</p>
+	</div>
+	<table style="display: none">
+		<tr>
+			<td>End Info</td>
+		</tr>
+	</table>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>row form</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>type of action?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ Buy a ] [ MacBook Pro ][ to
+						][ Bob ][ for doing ][ Rails Development ]</tt></td>
+				<td class='confluenceTd'>Default</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ Check ] [ that code is
+						written ] [ test-first ]</tt></td>
+				<td class='confluenceTd'>Check</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ Accept ] [ code written ] [
+						test-first ]</tt></td>
+				<td class='confluenceTd'>Accept</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ Reject ] [ code written ] [
+						test-last ]</tt></td>
+				<td class='confluenceTd'>Reject</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ Display ] [ code written ]</tt>
+				</td>
+				<td class='confluenceTd'>Display</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="DoWithInterpreter-Rulesforannotations">Rules for
+		annotations</h3>
+
+	<p>
+		When an action returns a boolean value, the keywords of that action
+		are annotated <em>right</em> if the action returns <b>true</b>:
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>cell annotation dowith</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>action returns</td>
+				<td class='confluenceTd'>cells marked right?</td>
+				<td class='confluenceTd'>cells marked wrong?</td>
+				<td class='confluenceTd'>cells marked exception?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ keyword ][ data ][ keyword
+						][ data ]</tt></td>
+				<td class='confluenceTd'>true</td>
+				<td class='confluenceTd'>1, 3</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>[]</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ keyword ][ data ][ keyword
+						][ data ][ keyword ]</tt></td>
+				<td class='confluenceTd'>true</td>
+				<td class='confluenceTd'>1, 3, 5</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>[]</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>
+		If it returns <b>false</b>, keywords are annotated <em>wrong</em>:
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>cell annotation dowith</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>action returns</td>
+				<td class='confluenceTd'>cells marked right?</td>
+				<td class='confluenceTd'>cells marked wrong?</td>
+				<td class='confluenceTd'>cells marked exception?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ keyword ][ data ][ keyword
+						][ data ]</tt></td>
+				<td class='confluenceTd'>false</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>1, 3</td>
+				<td class='confluenceTd'>[]</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ keyword ][ data ][ keyword
+						][ data ][ keyword ]</tt></td>
+				<td class='confluenceTd'>false</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>1, 3, 5</td>
+				<td class='confluenceTd'>[]</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>
+		If it throws an exception, the first keyword only is annotated <em>exception</em>:
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>cell annotation dowith</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>action returns</td>
+				<td class='confluenceTd'>cells marked right?</td>
+				<td class='confluenceTd'>cells marked wrong?</td>
+				<td class='confluenceTd'>cells marked exception?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ first keyword ][ data ][
+						keyword ][ data ][ keyword ]</tt></td>
+				<td class='confluenceTd'>error</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>1</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>
+		A
+		<tt>check</tt>
+		special action only annotates the last cell, containing the expected
+		value:
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>cell annotation dowith</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>action returns</td>
+				<td class='confluenceTd'>cells marked right?</td>
+				<td class='confluenceTd'>cells marked wrong?</td>
+				<td class='confluenceTd'>cells marked exception?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ check ][ that ][ TDD ][ is
+						][ cool ]</tt></td>
+				<td class='confluenceTd'>cool</td>
+				<td class='confluenceTd'>5</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>[]</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ check ][ that ][ test last
+						][ is ][ boring ]</tt></td>
+				<td class='confluenceTd'>never done</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>5</td>
+				<td class='confluenceTd'>[]</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>
+		A
+		<tt>accept</tt>
+		special action annotates the action cell right if the action returns
+		true. Otherwise it annotates it wrong.
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>cell annotation dowith</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>action returns</td>
+				<td class='confluenceTd'>cells marked right?</td>
+				<td class='confluenceTd'>cells marked wrong?</td>
+				<td class='confluenceTd'>cells marked exception?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ accept ][ using debugging ]</tt>
+				</td>
+				<td class='confluenceTd'>true</td>
+				<td class='confluenceTd'>1</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>[]</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ accept ][ failing build ]</tt></td>
+				<td class='confluenceTd'>false</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>1</td>
+				<td class='confluenceTd'>[]</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ accept ][ fail ][ maven ][
+						][ build ]</tt></td>
+				<td class='confluenceTd'>error</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>1</td>
+			</tr>
+		</tbody>
+	</table>
+	<p>
+		A
+		<tt>reject</tt>
+		special action annotates the action cell right if the action returns
+		false or throws an exception. Otherwise it annotates it wrong.
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>cell annotation dowith</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>action returns</td>
+				<td class='confluenceTd'>cells marked right?</td>
+				<td class='confluenceTd'>cells marked wrong?</td>
+				<td class='confluenceTd'>cells marked exception?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ reject ][ using debugging ]</tt>
+				</td>
+				<td class='confluenceTd'>true</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>1</td>
+				<td class='confluenceTd'>[]</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ reject ][ failing build ]</tt></td>
+				<td class='confluenceTd'>false</td>
+				<td class='confluenceTd'>1</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>[]</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ reject ][ fail ][ maven ][
+						][ build ]</tt></td>
+				<td class='confluenceTd'>error</td>
+				<td class='confluenceTd'>1</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>[]</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>
+		A
+		<tt>display</tt>
+		special action annotates a new cell at the end of the row as <em>ignored</em>.
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>cell annotation dowith</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>action returns</td>
+				<td class='confluenceTd'>cells marked right?</td>
+				<td class='confluenceTd'>cells marked wrong?</td>
+				<td class='confluenceTd'>cells marked exception?</td>
+				<td class='confluenceTd'>cells marked ignored?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ display ][ using debugging
+						]</tt></td>
+				<td class='confluenceTd'>false</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>3</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ display ][ failing build ]</tt>
+				</td>
+				<td class='confluenceTd'>false</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>3</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ display ][ fail ][ maven ][
+						][ build ]</tt></td>
+				<td class='confluenceTd'>false</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>[]</td>
+				<td class='confluenceTd'>6</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3
+		id="DoWithInterpreter-Processingtableremainderwithanotherinterpreter">Processing
+		table remainder with another interpreter</h3>
+
+	<p>The action can explicitly return an interpreter, which is will
+		be used to interpret the rest of the table. After the current table,
+		that interpreter will be abandoned.</p>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<name>test livingdoc runner</name>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>livingdoc-maven</artifactId>
+				<version>1.0.0-SNAPSHOT</version>
+				<configuration>
+					<locale>en</locale>
+					<selector>info.novatec.testit.livingdoc.maven.plugin.MySelector</selector>
+					<debug>true</debug>
+					<fixtureOutputDirectory>target/test-classes</fixtureOutputDirectory>
+					<reportsDirectory>target/livingdoc-reports</reportsDirectory>
+					<systemUnderDevelopment>info.novatec.testit.livingdoc.systemunderdevelopment.DefaultSystemUnderDevelopment</systemUnderDevelopment>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>info.novatec.testit.livingdoc</groupId>
+			<artifactId>livingdoc-core</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+</project>

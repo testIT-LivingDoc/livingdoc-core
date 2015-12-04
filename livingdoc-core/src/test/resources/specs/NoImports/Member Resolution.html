@@ -1,0 +1,128 @@
+<html>
+<head>
+<title>Member Resolution</title>
+<meta name="title" content="Member Resolution" />
+<meta name="external-link"
+	content="http://testit.novatec.info/confluence/display/LIVINGDOC/Member+Resolution" />
+</head>
+<body>
+	
+	<h2 id="MemberResolution-MemberResolution">Member Resolution</h2>
+
+	<p>Given the following class:</p>
+
+	<p>
+		class ActionExampleResolution<br /> {<br /> ���public String
+		personName() {return "personName";}<br /> ���public Person
+		person() {return new Person();}
+	</p>
+
+	<p>
+		���public class Person<br /> ���{<br />
+		������public String name() {return "person.name";}<br />
+		������public String nick() {return "person.nick";}<br />
+		���}<br /> }
+	</p>
+
+	<p>At first, a member of the fixture or SUT is searched, and then
+		an expression build from the action specified:</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>fixture member name resolution example Ogn
+				</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>call</td>
+				<td class='confluenceTd'>return string()</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>person name</td>
+				<td class='confluenceTd'>personName</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>person nick</td>
+				<td class='confluenceTd'>person.nick</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>Rules for expression resolution order when not found as a member
+		of the fixture or SUT are:</p>
+
+	<p>One token, taken as is (syntax is 'Class' # 'method') :</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>list of</th>
+				<th class='confluenceTh'>Object Graph Navigation Resolution
+					Fixture</th>
+				<td class='confluenceTd'>�</td>
+				<td class='confluenceTd'>invoice</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>to string</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>#invoice</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>First tried with dot access at all spaces, and then with subset
+		of dots placed at spaces:</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>list of</th>
+				<th class='confluenceTh'>Object Graph Navigation Resolution
+					Fixture</th>
+				<td class='confluenceTd'>�</td>
+				<td class='confluenceTd'>invoice amount</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>to string</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>#invoiceamount</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>invoice#amount</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>With three tokens:</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>list of</th>
+				<th class='confluenceTh'>Object Graph Navigation Resolution
+					Fixture</th>
+				<td class='confluenceTd'>�</td>
+				<td class='confluenceTd'>invoice line amount</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>to string</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>#invoicelineamount</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>invoiceline#amount</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>invoice#lineamount</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>invoice.line#amount</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
