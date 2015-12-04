@@ -1,0 +1,8 @@
+# Eclipse & Maven specific files.
+target/
+
+.project
+.settings/
+.classpath
+
+dependency-reduced-pom.xml

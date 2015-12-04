@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+
+	<PROJECT ID="1" VERSION="0" NAME="BANK" />
+
+	<SUT ID="1" VERSION="0" NAME="Bank in Java" PROJECT_ID="1"
+		ENVIRONMENT_TYPE="JAVA" SELECTED="1" SERVER_NAME=" " SERVER_PORT=" " />
+
+	<SUT_CLASSPATHS SUT_ID="1"
+		elt="C:/Documents and Settings/user/.m2/repository/livingdoc/livingdoc-samples/livingdoc-samples/0.9-SNAPSHOT/livingdoc-samples-0.9-SNAPSHOT.jar" />
+
+	<SUT_FIXTURE_CLASSPATHS SUT_ID="1"
+		elt="C:/Documents and Settings/user/.m2/repository/livingdoc/livingdoc-samples/livingdoc-samples/0.9-SNAPSHOT/livingdoc-samples-0.9-SNAPSHOT.jar" />
+
+</dataset>

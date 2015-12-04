@@ -1,0 +1,226 @@
+<html>
+<head>
+<title>Do Setup Interpreter</title>
+<meta name="title" content="Do Setup Interpreter" />
+<meta name="external-link"
+	content="http://testit.novatec.info/confluence/display/LIVINGDOC/Do+Setup+Interpreter" />
+</head>
+<body>
+	<h2 id="DoSetupInterpreter-DoSetUpInterpreter">Do Set Up
+		Interpreter</h2>
+
+	<p>
+		The
+		<tt>DoSetUpInterpreter</tt>
+		is used to simplify the creation of a particular state for the system
+		under development. Once the state is created, we can focus on the
+		business process to test.
+	</p>
+
+	<p>
+		Many times, we can assume that the existing state is right to work
+		with, without the need to re-create it each time the specification is
+		executed. The
+		<tt>DoSetUpInterpreter</tt>
+		will allow to control a certain flow of execution for the state to be
+		ready : whenever an exception or a false value is returned from a
+		setup method, the remaining rows will be skipped.
+	</p>
+
+	<p>
+		The
+		<tt>DoSetUpInterpreter</tt>
+		is much like the
+		<tt>DoWithInterpreter</tt>
+		but without having special actions.
+	</p>
+
+	<h3 id="DoSetupInterpreter-Specifyingthefixture">Specifying the
+		fixture</h3>
+
+	<p>
+		The
+		<tt>DoSetUpInterpreter</tt>
+		follows the general rules for <a
+			href="/confluence/display/LIVINGDOC/Interpreter+and+Fixture+Selection+%28JAVA%29"
+			title="Interpreter and Fixture Selection (JAVA)">interpreter and
+			fixture selection</a> and <a
+			href="/confluence/display/LIVINGDOC/Fixture+name+resolution+%28JAVA%29"
+			title="Fixture name resolution (JAVA)">fixture naming</a>.
+	</p>
+
+	<p>
+		The first row of the table is used to indicate both that we want to
+		use a
+		<tt>DoSetUpInterpreter</tt>
+		and what fixture to use. The remaining rows capture the data to be
+		created.
+	</p>
+
+	<h3 id="DoSetupInterpreter-Interpretationflow">Interpretation flow</h3>
+
+	<p>For each table, it executes the workflow one row at a time,
+		reading cells from left to right.</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>dosetup interpretation order</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>tables</td>
+				<td class='confluenceTd'>order of interpretation?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ do setup ][ some fixture ]</tt><br
+					clear="all" /> <tt>[ row ][ 1 ][ of table ][ 1 ]</tt><br
+					clear="all" /> <tt>[ row ][ 2 ][ of table ][ 1 ]</tt><br
+					clear="all" /> <tt>[ row ][ 3 ][ of table ][ 1 ]</tt><br
+					clear="all" /> **** <br clear="all" /> <tt>[ row ][ 1 ][ of
+						table ][ 2 ]</tt><br clear="all" /> **** <br clear="all" /> <tt>[
+						row ][ 1 ][ of table ][ 3 ]</tt><br clear="all" /> <tt>[ row ][ 2
+						][ of table ][ 3 ]</tt></td>
+				<td class='confluenceTd'>row 1 of table 1, row 2 of table 1,
+					row 3 of table 1, row 1 of table 2, row 1 of table 3, row 2 of
+					table 3</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="DoSetupInterpreter-Rowsannotations">Rows annotations</h3>
+
+	<p>
+		When the
+		<tt>DoSetUpInterpreter</tt>
+		checks a table row's correctness, it uses standard <a
+			href="/confluence/display/LIVINGDOC/Value+Comparison"
+			title="Value Comparison">value comparison</a> and annotates the cell
+		accordingly.
+	</p>
+
+	<p>
+		When the entire row has been inserted in the system under development,
+		the
+		<tt>DoSetUpInterpreter</tt>
+		marks the row "Entered" by adding a new cell at the end of this row.<br />
+		(See the <span class="error">[annotation specification]</span> for
+		more about standard annotations.)
+	</p>
+
+	<p>
+		(
+		<tt>DoSetUpInterpreter</tt>
+		is not a test interpreter then doesn't compile statistics for Right,
+		Wrong, Ignore and even for Exceptions that occurs inside the fixture,
+		but will do for Exceptions when something goes bad when attempting to
+		resolve the row)
+	</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>dosetup row annotation</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>enter row</td>
+				<td class='confluenceTd'>cells marked?</td>
+				<td class='confluenceTd'>row marked as?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ row ][ 1 ][ of table ][ 1 ]</tt>
+				</td>
+				<td class='confluenceTd'>succeeded</td>
+				<td class='confluenceTd'>5</td>
+				<td class='confluenceTd'>Entered</td>
+				<td class='confluenceTd'>0 0 0 0</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ row ][ 1 ][ of table ][ 2
+						][ with ][ 3 ]</tt></td>
+				<td class='confluenceTd'>succeeded</td>
+				<td class='confluenceTd'>7</td>
+				<td class='confluenceTd'>Entered</td>
+				<td class='confluenceTd'>0 0 0 0</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ non existing method ]</tt></td>
+				<td class='confluenceTd'>N/A</td>
+				<td class='confluenceTd'>2</td>
+				<td class='confluenceTd'>exception</td>
+				<td class='confluenceTd'>0 0 0 1</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ existing method with
+						missing parameter ]</tt></td>
+				<td class='confluenceTd'>N/A</td>
+				<td class='confluenceTd'>2</td>
+				<td class='confluenceTd'>exception</td>
+				<td class='confluenceTd'>0 0 0 1</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>
+		Whenever the fixture thrown an exception or return false (for a method
+		returning a boolean), the
+		<tt>DoSetUpInterpreter</tt>
+		marks the row "Skipped" by adding a new cell at the end of this row.<br />
+		<tt>DoSetUpInterpreter</tt>
+		will not compile statistics at this point and the remaining rows would
+		also be marks as "Skipped".
+	</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>dosetup row annotation</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>row</td>
+				<td class='confluenceTd'>enter row</td>
+				<td class='confluenceTd'>cells marked?</td>
+				<td class='confluenceTd'>row marked as?</td>
+				<td class='confluenceTd'>R W I E?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ row ][ 1 ][ of table ][ 1 ]</tt>
+				</td>
+				<td class='confluenceTd'>exception</td>
+				<td class='confluenceTd'>5</td>
+				<td class='confluenceTd'>Skipped</td>
+				<td class='confluenceTd'>0 0 0 0</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ row ][ 1 ][ of table ][ 2
+						][ with ][ 3 ]</tt></td>
+				<td class='confluenceTd'>exception</td>
+				<td class='confluenceTd'>7</td>
+				<td class='confluenceTd'>Skipped</td>
+				<td class='confluenceTd'>0 0 0 0</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ row ][ 1 ][ of table ][ 1 ]</tt>
+				</td>
+				<td class='confluenceTd'>failed</td>
+				<td class='confluenceTd'>5</td>
+				<td class='confluenceTd'>Skipped</td>
+				<td class='confluenceTd'>0 0 0 0</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ row ][ 1 ][ of table ][ 2
+						][ with ][ 3 ]</tt></td>
+				<td class='confluenceTd'>failed</td>
+				<td class='confluenceTd'>7</td>
+				<td class='confluenceTd'>Skipped</td>
+				<td class='confluenceTd'>0 0 0 0</td>
+			</tr>
+		</tbody>
+	</table>
+
+</body>
+</html>

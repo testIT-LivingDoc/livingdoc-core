@@ -1,0 +1,249 @@
+<html>
+<head>
+<title>Object Graph Navigation (JAVA)</title>
+<meta name="title" content="Object Graph Navigation (JAVA)" />
+<meta name="external-link"
+	content="http://testit.novatec.info/confluence/display/LIVINGDOC/Object+Graph+Navigation+%28JAVA%29" />
+</head>
+<body>
+	<h2 id="ObjectGraphNavigation%28JAVA%29-ObjectGraphNavigation">Object
+		Graph Navigation</h2>
+	
+	<p>Supports object graph navigation to help us access properties
+		inside the domain's objects without having to build fixtures.</p>
+
+	<p>We must priviligied an existing method in the fixture. If no
+		method found in the fixture, start searching a matching method under
+		the graph representation of underlying domain objects.</p>
+
+	<h4 id="ObjectGraphNavigation%28JAVA%29-Example">Example</h4>
+
+	<div class="preformatted">
+		<div class="preformattedContent">
+			<pre> 
+public class SomeFixtureUsingEmploye
+{
+   public Employe employe = new Employe(new Name("Charles", "Smith"));
+
+   // case 1
+   public String getEmployeeNameFirst() { return employee.getName().getFirst(); }
+
+   // case 2
+   public Name getEmployeeName() { return employee.getName(); }
+}
+
+public class Employe
+{
+   public Name name;
+
+   public Employe (Name name) 
+   { 
+       this.name = name;
+   }
+
+   public Name getName{ return name; }
+   public void setName(Name name) {this.name = name; }
+
+   // case 3
+   public String getNameFirst() { return name.getFirst(); }
+}
+
+public class Name
+{
+   private String first;
+   private String last;
+
+   public Name (String first, String last) 
+   { 
+       this.first = first;
+       this.last = last;
+   }
+
+   // case 4
+   public String getFirst() { return first; }
+   public void setFirst(String first) { this.first = first; }
+   public String getLast() { return last;}
+   public void setLast(String last) {this.last = last;}
+}
+</pre>
+		</div>
+	</div>
+
+	<p>
+		<img
+			src="/confluence/download/attachments/2490471/ObjectGraphNavigation-EmployeeNameFirst.png"
+			align="absmiddle" border="0" />
+	</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>list of</th>
+				<th class='confluenceTh'>object graph navigation resolution</th>
+				<th class='confluenceTh'>for header</th>
+				<th class='confluenceTh'>Employee Name First</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>target</td>
+				<td class='confluenceTd'>method name</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>nothing</td>
+				<td class='confluenceTd'>EmployeeNameFirst</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>EmployeeName</td>
+				<td class='confluenceTd'>First</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Employee</td>
+				<td class='confluenceTd'>NameFirst</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Employee.Name</td>
+				<td class='confluenceTd'>First</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>Another case with more depth :</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>list of</th>
+				<th class='confluenceTh'>object graph navigation resolution</th>
+				<th class='confluenceTh'>for header</th>
+				<th class='confluenceTh'>a b c d</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>target</td>
+				<td class='confluenceTd'>method name</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>nothing</td>
+				<td class='confluenceTd'>abcd</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>abc</td>
+				<td class='confluenceTd'>d</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>ab</td>
+				<td class='confluenceTd'>cd</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>ab.c</td>
+				<td class='confluenceTd'>d</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a</td>
+				<td class='confluenceTd'>bcd</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a.bc</td>
+				<td class='confluenceTd'>d</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a.b</td>
+				<td class='confluenceTd'>cd</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>a.b.c</td>
+				<td class='confluenceTd'>d</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h2 id="ObjectGraphNavigation%28JAVA%29-Example">Example</h2>
+
+	<p>
+		This example shows the call of all methods involve in resolving the
+		object graph name.<br /> (Class <b>#</b> method)
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>object graph navigation example
+					fixture</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>object graph</td>
+				<td class='confluenceTd'>method name ?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>employee name first</td>
+				<td class='confluenceTd'>Fixture#getEmployeeNameFirst</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>job title short description</td>
+				<td class='confluenceTd'>Fixture#getJob,
+					Job#getTitleShortDescription</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>job title long description</td>
+				<td class='confluenceTd'>Fixture#getJob, Job#getTitle,
+					Title#getLongDescription</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>job status id</td>
+				<td class='confluenceTd'>Fixture#getJob, Job#getStatus,
+					Status#getId</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<hr />
+
+	<h1 id="ObjectGraphNavigation%28JAVA%29-Initialrequest">Initial
+		request</h1>
+
+	<h2
+		id="ObjectGraphNavigation%28JAVA%29-SupportofOGNLexpressioninsideLivingDocexamples.">Support
+		of OGNL expression inside LivingDoc examples.</h2>
+
+	<h3 id="ObjectGraphNavigation%28JAVA%29-Fixtureless">Fixtureless</h3>
+	<p>Supports OGNL to help us access properties inside the domain's
+		objects without having to build fixtures.</p>
+
+	<h4 id="ObjectGraphNavigation%28JAVA%29-Example">Example</h4>
+
+	<p>Given the following class:</p>
+	<div class="preformatted">
+		<div class="preformattedContent">
+			<pre> 
+public class Employe
+{
+   public String firstName;
+   private String lastName;
+
+   public Employe (String firstName, String lastName) 
+   { 
+       this.firstName = firstName;
+       this.lastName = lastName;
+   }
+
+   public String getLastName() { return lastName;}
+   public void setLastName(String lastName) {this.lastName = lastName;}
+
+   public String fullName() { return firstName + ", " + lastName;}
+}
+
+
+public class SomeFixtureUsingEmploye
+{
+   public Employe employe = new Employe("Charles", "Smith");
+}
+
+</pre>
+		</div>
+	</div>
+
+	<p>
+		I want to be able to access the employe fullName without having to
+		write a method <br /> <em>public String employeFullName()
+			{return employe.fullName();}</em> in my fixture.
+	</p>
+</body>
+</html>

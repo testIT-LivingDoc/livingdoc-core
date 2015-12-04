@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+
+	<PROJECT ID="1" VERSION="0" NAME="Bank" />
+	<PROJECT ID="2" VERSION="0" NAME="LivingDoc" />
+	<PROJECT ID="3" VERSION="0" NAME="JPetStore" />
+	<PROJECT ID="4" VERSION="0" NAME="Selenium" />
+
+	<SUT ID="1" VERSION="0" ENVIRONMENT_TYPE="JAVA" SELECTED="1"
+		NAME="Bank in Java" PROJECT_ID="1" SERVER_NAME="" SERVER_PORT="0"
+		FIXTURE_FACTORY="" FIXTURE_FACTORY_ARGS="" RUNNER_ARGS=""
+		DATE_CREATED="2006-09-06 17:30:50" />
+	<SUT ID="2" VERSION="0" ENVIRONMENT_TYPE="JAVA" SELECTED="1"
+		NAME="LivingDoc in Java" PROJECT_ID="2" SERVER_NAME="" SERVER_PORT="0"
+		FIXTURE_FACTORY="" FIXTURE_FACTORY_ARGS="" RUNNER_ARGS=""
+		DATE_CREATED="2006-09-06 17:30:50" />
+	<SUT ID="3" VERSION="0" ENVIRONMENT_TYPE="JAVA" SELECTED="1"
+		NAME="JPetStore in Java" PROJECT_ID="3" SERVER_NAME="" SERVER_PORT="0"
+		FIXTURE_FACTORY="" FIXTURE_FACTORY_ARGS="" RUNNER_ARGS=""
+		DATE_CREATED="2006-09-06 17:30:50" />
+	<SUT ID="4" VERSION="0" ENVIRONMENT_TYPE="JAVA" SELECTED="1"
+		NAME="Selenium in Java" PROJECT_ID="4" SERVER_NAME="" SERVER_PORT="0"
+		FIXTURE_FACTORY="" FIXTURE_FACTORY_ARGS="" RUNNER_ARGS=""
+		DATE_CREATED="2006-09-06 17:30:50" />
+
+	<SUT_CLASSPATHS SUT_ID="1"
+		elt="C:\Apps\SUT\livingdoc-samples-0.9.2-SNAPSHOT.jar" />
+	<SUT_CLASSPATHS SUT_ID="2"
+		elt="C:\Apps\SUT\livingdoc-core-0.9.2-SNAPSHOT.jar" />
+	<SUT_CLASSPATHS SUT_ID="2" elt="C:\Apps\SUT\spring.jar" />
+	<SUT_CLASSPATHS SUT_ID="3"
+		elt="C:\Apps\SUT\Jpetstore\jpetstore.jar" />
+	<SUT_CLASSPATHS SUT_ID="3"
+		elt="C:\Apps\SUT\Jpetstore\spring.jar" />
+	<SUT_CLASSPATHS SUT_ID="3"
+		elt="C:\Apps\SUT\Jpetstore\struts.jar" />
+	<SUT_CLASSPATHS SUT_ID="3"
+		elt="C:\Apps\SUT\Jpetstore\jaxrpc.jar" />
+	<SUT_CLASSPATHS SUT_ID="4"
+		elt="C:\Apps\Selenium\selenium-remote-control-0.8.1\java\selenium-java-client-driver.jar" />
+
+	<SUT_FIXTURE_CLASSPATHS SUT_ID="1"
+		elt="C:\Apps\SUT\livingdoc-samples-0.9.2-SNAPSHOT.jar" />
+	<SUT_FIXTURE_CLASSPATHS SUT_ID="2"
+		elt="C:\Apps\SUT\livingdoc-seeds-0.9-SNAPSHOT.jar" />
+	<SUT_FIXTURE_CLASSPATHS SUT_ID="3"
+		elt="C:\Apps\SUT\livingdoc-samples-0.9.2-SNAPSHOT.jar" />
+
+</dataset>

@@ -1,0 +1,40 @@
+h2. Expression syntax to call an action
+
+{livingdoc-import:cinfo.novatec.testit.livingdoc.fixture.ognl}
+
+This is the classic way to use an expression to call an action
+|| Rule for || Ognl syntax ||
+| Check | Result? |
+| give year(2006) | 2006 |
+| name of month(1) | January |
+| year second month() | February |
+I want to be able to access an element in a collection using an array syntax:
+|| rule for || Ognl syntax ||
+| Check | Result? |
+| month\[1\] | January |
+| month\[7\] | July |
+| month\[12\] | December |
+| month\[13\] | error |
+We can accept blank spaces between the method call, field or property name, and the index braquets:
+|| rule for || Ognl syntax ||
+| Check | Result? |
+| month\[1\] | January |
+| month \[1\] | January |
+| month \[ 1\] | January |
+| month\[ 1 \] | January |
+| month \[ 1 \] | January |
+
+h3. Composition of expressions
+
+When the expression is not recognized as a method, a field or a property (getter, setter),
+it fall back and evaluated as an OGNL expression:
+|| rule for || Ognl syntax ||
+| Check | Result? | is using ognl? |
+| newYear() | ActionExampleResolution$Year | false|
+| newYear().firstMonth() | January | false |
+| newYear().secondMonth() | February | false |
+| newYear().unknownMonth() | error | true |
+| year months\[3\] | March | true |
+| new year() months \[2\] | February | true |
+| year of (2006) is leap year() | false | true |
+| year of (2004) is leap year() | true | true |

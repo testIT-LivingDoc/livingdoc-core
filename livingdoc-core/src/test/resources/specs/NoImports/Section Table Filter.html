@@ -1,0 +1,242 @@
+<html>
+<head>
+<title>Section Table Filter</title>
+<meta name="title" content="Section Table Filter" />
+<meta name="external-link"
+	content="http://testit.novatec.info/confluence/display/LIVINGDOC/Section+Table+Filter" />
+</head>
+<body>
+	<table style="display: none">
+		<tr>
+			<td>Begin Info</td>
+		</tr>
+	</table>
+	<div style="padding: 0px; margin: 0px;">
+
+		<table cellpadding='5' width='85%' cellspacing='8px' class='infoMacro'
+			border="0" align='center'>
+			<colgroup>
+				<col width='24'>
+				<col>
+			</colgroup>
+			<tr>
+				<td valign='top'><img
+					src="/confluence/images/icons/emoticons/information.gif" width="16"
+					height="16" align="absmiddle" alt="" border="0"></td>
+				<td><b class="strong">Note for developpers <br /> This
+						filter is not available on Confluence
+				</b><br /></td>
+			</tr>
+		</table>
+	</div>
+	<table style="display: none">
+		<tr>
+			<td>End Info</td>
+		</tr>
+	</table>
+
+
+	<p>
+		The Section filter is used to specify what parts of a Specification
+		page must be interpreted by <span
+			style="font-family: Arial, sans-serif; font-size: 1em; font-weight: bold; padding: 0px 3px;"><img
+			src="/confluence/download/resources/info.novatec.testit.livingdoc.confluence.plugin:livingdoc-logo/images/livingdoc_12.gif"
+			alt="" border="0"><span style="color: #003300;">Living</span><span
+			style="color: #8CC06D;">Doc</span></span>.<br /> When the specification
+		page contains sections identified by tags, it is possible to execute
+		only those parts of the specification that are relevant. All specified
+		sections are comma separated's.
+	</p>
+
+	<p>If no general sections are specified, all of the document will
+		be interpreted :</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>Section filter</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Document content</td>
+				<td class='confluenceTd'>specified sections to filter</td>
+				<td class='confluenceTd'>interpreted elements?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a table]</td>
+				<td class='confluenceTd'>none</td>
+				<td class='confluenceTd'>[a table]</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[a table]</td>
+				<td class='confluenceTd'>unix</td>
+				<td class='confluenceTd'>[a table]</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>A section ends when another section is found, if not, it ends at
+		the end of the document.</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>Section filter</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Document content</td>
+				<td class='confluenceTd'>specified sections to filter</td>
+				<td class='confluenceTd'>interpreted elements?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[section] <br clear="all" /> [unix] <br
+					clear="all" /> **** <br clear="all" /> [a first table] <br
+					clear="all" /> **** <br clear="all" /> [section] <br clear="all" />
+					[mac] <br clear="all" /> **** <br clear="all" /> [a second table]
+				</td>
+				<td class='confluenceTd'>unix</td>
+				<td class='confluenceTd'>[a first table]</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[section] <br clear="all" /> [unix] <br
+					clear="all" /> **** <br clear="all" /> [a first table] <br
+					clear="all" /> **** <br clear="all" /> [a second table]
+				</td>
+				<td class='confluenceTd'>unix</td>
+				<td class='confluenceTd'>[a first table][a second table]</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>If no sections to filter are specified, all specifications
+		between sections tags are interpreted :</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>Section filter</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Document content</td>
+				<td class='confluenceTd'>specified sections to filter</td>
+				<td class='confluenceTd'>interpreted elements?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[section] <br clear="all" /> **** <br
+					clear="all" /> [a table] <br clear="all" /> **** <br clear="all" />
+					[section]
+				</td>
+				<td class='confluenceTd'>none</td>
+				<td class='confluenceTd'>[a table]</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[section] <br clear="all" /> [unix] <br
+					clear="all" /> **** <br clear="all" /> [a table] <br clear="all" />
+					**** <br clear="all" /> [section]
+				</td>
+				<td class='confluenceTd'>none</td>
+				<td class='confluenceTd'>[a table]</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<p>If a section to filter is specified, only matching sections and
+		general sections are interpreted :</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>Section filter</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Document content</td>
+				<td class='confluenceTd'>specified sections to filter</td>
+				<td class='confluenceTd'>interpreted elements?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[section] <br clear="all" /> **** <br
+					clear="all" /> [a table]
+				</td>
+				<td class='confluenceTd'>unix</td>
+				<td class='confluenceTd'>[a table]</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[section] <br clear="all" /> [mac] <br
+					clear="all" /> **** <br clear="all" /> [a table]
+				</td>
+				<td class='confluenceTd'>unix</td>
+				<td class='confluenceTd'>none</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[section] <br clear="all" /> [unix] <br
+					clear="all" /> **** <br clear="all" /> [a table]
+				</td>
+				<td class='confluenceTd'>unix</td>
+				<td class='confluenceTd'>[a table]</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<p>If there is multiple sections in a document, only matching ones
+		and general ones will be interpreted :</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>Section filter</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Document content</td>
+				<td class='confluenceTd'>specified sections to filter</td>
+				<td class='confluenceTd'>interpreted elements?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[section] <br clear="all" /> [mac] <br
+					clear="all" /> **** <br clear="all" /> [a mac table] <br
+					clear="all" /> **** <br clear="all" /> [an other mac table] <br
+					clear="all" /> **** <br clear="all" /> [section] <br clear="all" />
+					[unix] <br clear="all" /> **** <br clear="all" /> [a unix table]
+				</td>
+				<td class='confluenceTd'>unix</td>
+				<td class='confluenceTd'>[a unix table]</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+	<p>If you defined more than one section tag, all matching and
+		general sections will be interpreted :</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>Section filter</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Document content</td>
+				<td class='confluenceTd'>specified sections to filter</td>
+				<td class='confluenceTd'>interpreted elements?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>[section] <br clear="all" /> [mac] <br
+					clear="all" /> **** <br clear="all" /> [a mac table] <br
+					clear="all" /> **** <br clear="all" /> [section] <br clear="all" />
+					[windows] <br clear="all" /> **** <br clear="all" /> [a windows
+					table] <br clear="all" /> **** <br clear="all" /> [section] <br
+					clear="all" /> [unix] <br clear="all" /> **** <br clear="all" />
+					[a unix table]
+				</td>
+				<td class='confluenceTd'>unix, mac</td>
+				<td class='confluenceTd'>[a mac table][a unix table]</td>
+			</tr>
+		</tbody>
+	</table>
+
+</body>
+</html>

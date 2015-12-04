@@ -1,0 +1,97 @@
+<html>
+<head>
+<title>Custom Interpreter</title>
+<meta name="title" content="Custom Interpreter" />
+<meta name="external-link"
+	content="http://testit.novatec.info/confluence/display/LIVINGDOC/Custom+Interpreter" />
+</head>
+<body>
+	<h2 id="CustomInterpreter-CustomInterpreter">Custom Interpreter</h2>
+
+
+	<p>
+		This seed aims to prove that <span
+			style="font-family: Arial, sans-serif; font-size: 1em; font-weight: bold; padding: 0px 3px;"><img
+			src="/confluence/download/resources/info.novatec.testit.livingdoc.confluence.plugin:livingdoc-logo/images/livingdoc_12.gif"
+			alt="" border="0"><span style="color: #003300;">Living</span><span
+			style="color: #8CC06D;">Doc</span></span> allows users to create their
+		own interpreter.
+	</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>interpreter recognition</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>interpreter row</td>
+				<td class='confluenceTd'>instance of?</td>
+				<td class='confluenceTd'>is an interpreter?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ setup ] [mock]</tt></td>
+				<td class='confluenceTd'>SetupInterpreter</td>
+				<td class='confluenceTd'>true</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ do with ] [mock]</tt></td>
+				<td class='confluenceTd'>DoWithInterpreter</td>
+				<td class='confluenceTd'>true</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ list of] [mock]</tt></td>
+				<td class='confluenceTd'>ListOfInterpreter</td>
+				<td class='confluenceTd'>true</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ list of] [mock]</tt></td>
+				<td class='confluenceTd'>ListOfInterpreter</td>
+				<td class='confluenceTd'>true</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ my own]</tt></td>
+				<td class='confluenceTd'>MyOwnInterpreter</td>
+				<td class='confluenceTd'>true</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>
+		Here is an example for this interpreter
+		<tt>MyOwnInterpreter</tt>
+		. It just colors the second cell of the row depending on the first
+		cell value.
+	</p>
+
+	<p>
+		The interpreter My Own interpreter is fixtureless, <b>It just
+			colors the second cell of the row depending on the first cell value</b>.
+	</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>my own</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>right</td>
+				<td class='confluenceTd'>&#160; &#160;</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>wrong</td>
+				<td class='confluenceTd'></td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>right</td>
+				<td class='confluenceTd'></td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>ignore</td>
+				<td class='confluenceTd'></td>
+			</tr>
+		</tbody>
+	</table>
+
+</body>
+</html>

@@ -1,0 +1,185 @@
+<html>
+<body>
+
+	<h2>Testing collections of values returned by the System</h2>
+
+	LivingDoc offers different kinds of collection interpreters. This
+	example shows the use of interpreters of type collection.
+
+	<div>
+		<table border="1" cellspacing="0">
+			<tr>
+				<td>Import</td>
+			</tr>
+			<tr>
+				<td>info.novatec.testit.livingdoc.samples.application.phonebook</td>
+			</tr>
+		</table>
+	</div>
+
+	<div>
+		<h3>First lets create a collection</h3>
+
+		<table border="1" cellspacing="0">
+			<tr>
+				<td>do with</td>
+				<td colspan="5">phone book</td>
+			</tr>
+			<tr>
+				<td width="19%">insert</td>
+				<td width="19%">Paul</td>
+				<td>&nbsp;</td>
+				<td width="19%">Tobin</td>
+				<td width="19%">with number</td>
+				<td width="19%">(123) 456-7890</td>
+			</tr>
+			<tr>
+				<td width="19%">insert</td>
+				<td width="19%">Henry</td>
+				<td>&nbsp;</td>
+				<td width="19%">Cinq</td>
+				<td width="19%">with number</td>
+				<td width="19%">(123) 321-7666</td>
+			</tr>
+			<tr>
+				<td width="19%">insert</td>
+				<td width="19%">Steve</td>
+				<td>&nbsp;</td>
+				<td width="19%">Job</td>
+				<td width="19%">with number</td>
+				<td width="19%">(123) 989-4455</td>
+			</tr>
+		</table>
+
+		<p>
+			This will create a <b>phone book</b> with three entries.
+		</p>
+
+		<p>Before moving on with the example, lets clarify what is
+			happening in the above table. In this example, the columns with
+			values "insert", a whitespace and "with number" are combined by the
+			interpreter to know which function to execute. The other columns are
+			the values used by the function being executed. So in the case of the
+			second table row, LivingDoc would execute a function called
+			"insertWithNumber" and give it the parameters "Paul", "Tobin" and
+			"(123) 456-7890".</p>
+
+		<p>It is important to note that, in this case, the empty column is
+			important for the correct creation of the collection. If the empty
+			column was removed, the values that is intended to be used as a value
+			(the last name in the example above) would be instead considered as
+			part of the function name. The column removal would also offset the
+			next columns so that the function being called would be
+			"insertTobin(123)456-7890" and its values would be "Paul" and "with
+			number".</p>
+	</div>
+
+	<div>
+		<h3>Using interpreter of type list</h3>
+
+		<p>
+			A <b>list of</b> interpreter retrieves all entries of the specified
+			object and makes sure that the retrieved list are in the same order
+			as the one specified in the table.
+		</p>
+
+		<table border="1" cellspacing="0">
+			<tr>
+				<td>list of</td>
+				<td>phone book entries</td>
+			</tr>
+			<tr>
+				<td>first name</td>
+				<td>last name</td>
+			</tr>
+			<tr>
+				<td>Paul</td>
+				<td>Tobin</td>
+			</tr>
+			<tr>
+				<td>Steve</td>
+				<td>Job</td>
+			</tr>
+			<tr>
+				<td>Henry</td>
+				<td>Cinq</td>
+			</tr>
+		</table>
+	</div>
+
+	<div>
+		<h3>Using interpreter of type subset</h3>
+
+		<p>
+			In a <b>set of</b> interpreter, we try to match all the items in the
+			rows with those in the SUT collection. The items can be in a
+			different order in the test specification and in the SUT collection.
+		</p>
+
+		<p>
+			Missing rows are rows that are in the test specification but not
+			found in the SUT collection. <br /> Surplus rows are rows that are
+			found in the SUT collection but not expected in the test
+			specification.
+		</p>
+
+		<table border="1" cellspacing="0">
+			<tr>
+				<td>subset of</td>
+				<td>phone book entries</td>
+			</tr>
+			<tr>
+				<td>first name</td>
+				<td>last name</td>
+			</tr>
+			<tr>
+				<td>Joe</td>
+				<td>Tagliani</td>
+			</tr>
+			<tr>
+				<td>Henry</td>
+				<td>Cinq</td>
+			</tr>
+			<tr>
+				<td>Steve</td>
+				<td>Job</td>
+			</tr>
+		</table>
+	</div>
+
+	<div>
+
+		<h3>Using interpreter of type superset</h3>
+
+		<p>
+			In a <b>superset of</b> interpreter, we assume that all the rows
+			returned by the SUT must be present in the test specification. Some
+			rows in the test might not be returned by the SUT.
+		</p>
+
+		<table border="1" cellspacing="0">
+			<tr>
+				<td>superset of</td>
+				<td>phone book entries</td>
+			</tr>
+			<tr>
+				<td>first name</td>
+				<td>last name</td>
+			</tr>
+			<tr>
+				<td>Joe</td>
+				<td>Tagliani</td>
+			</tr>
+			<tr>
+				<td>Henry</td>
+				<td>Cinq</td>
+			</tr>
+			<tr>
+				<td>Steve</td>
+				<td>Job</td>
+			</tr>
+		</table>
+
+	</div>
+</body>
+</html>

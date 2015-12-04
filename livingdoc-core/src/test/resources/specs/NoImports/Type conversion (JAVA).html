@@ -1,0 +1,248 @@
+<html>
+<head>
+<title>Type conversion (JAVA)</title>
+<meta name="title" content="Type conversion (JAVA)" />
+<meta name="external-link"
+	content="http://testit.novatec.info/confluence/display/LIVINGDOC/Type+conversion+%28JAVA%29" />
+</head>
+<body>
+
+	<h2 id="Typeconversion%28JAVA%29-Typeconversion">Type conversion</h2>
+
+	<p>All examples are in strings, but fixtures want to process and
+		return other data types.</p>
+
+	<p>LivingDoc provides a mechanism to help conversion from String to
+		other data types and back again.</p>
+
+	<h2 id="Typeconversion%28JAVA%29-Converters">Converters</h2>
+
+	<p>
+		Converters are class implementing the interface <em>info.novatec.testit.livingdoc.converter.TypeConverter</em>
+		or LivingDoc.Converters.ITypeConverter in C#
+	</p>
+
+
+	<div class="preformatted">
+		<div class="preformattedContent">
+			<pre>public interface TypeConverter
+{
+    boolean canConvertTo( Class type );
+
+    Object parse( String value, Class type );
+
+    String toString( Object value );
+}
+
+
+</pre>
+		</div>
+	</div>
+
+
+	<p>LivingDoc provides type converters for the following types</p>
+	<table style="display: none">
+		<tr>
+			<td>Begin Info</td>
+		</tr>
+	</table>
+	<div style="padding: 0px; margin: 0px;">
+
+		<ul>
+			<li><span>Integer</span></li>
+			<li><span>Long</span></li>
+			<li><span>Float</span></li>
+			<li><span>Double</span></li>
+			<li><span>Date</span></li>
+			<li><span>Boolean</span></li>
+			<li><span>Array</span></li>
+			<li><span>Primitive Arrays (int[], float[], double[],
+					boolean[])</span></li>
+			<li><span>String</span></li>
+		</ul>
+
+	</div>
+	<table style="display: none">
+		<tr>
+			<td>End Info</td>
+		</tr>
+	</table>
+
+	<p>(order is important see adding a new type converter below)</p>
+
+	<p>
+		The <em>ArrayConverter</em> calls recursively the other converters
+		depending on the component type the array holds.
+	</p>
+
+	<h3 id="Typeconversion%28JAVA%29-Addinganewtypeconverter">Adding a
+		new type converter</h3>
+
+	<p>
+		The <em>info.novatec.testit.livingdoc.LivingDoc</em> class provides a method to
+		add your own type converter
+	</p>
+	<div class="preformatted">
+		<div class="preformattedContent">
+			<pre>   public static void register( TypeConverter converter)
+</pre>
+		</div>
+	</div>
+
+	<p>The converters are always check in an LIFO manners. If two
+		converters can process a data type the last one that has been register
+		will be used. That way, you can provides youre own converters in place
+		of the standard LivingDoc converters.</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>do with</td>
+				<td class='confluenceTd'>type conversion</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>check</td>
+				<td class='confluenceTd'>that converting to</td>
+				<td class='confluenceTd'>java.lang.Integer</td>
+				<td class='confluenceTd'>uses</td>
+				<td class='confluenceTd'>IntegerConverter</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>register</td>
+				<td class='confluenceTd'>
+					info.novatec.testit.livingdoc.fixture.converter.HexadecimalConverter</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>check</td>
+				<td class='confluenceTd'>that converting to</td>
+				<td class='confluenceTd'>java.lang.Integer</td>
+				<td class='confluenceTd'>uses</td>
+				<td class='confluenceTd'>HexadecimalConverter</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>unregister last added custom converter</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>end</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h2 id="Typeconversion%28JAVA%29-Selfconversion">Self conversion</h2>
+
+	<p>Instead of registering a TypeConverter, you can uses self
+		converting types.</p>
+
+	<p>Self converting type implies that you add a static parse method
+		to your class.</p>
+	<div class="preformatted">
+		<div class="preformattedContent">
+			<pre>public static T parse(String val);
+</pre>
+		</div>
+	</div>
+
+	<p>And then to revert back to a string,</p>
+	<div class="preformatted">
+		<div class="preformattedContent">
+			<pre>public static String toString(T value)
+</pre>
+		</div>
+	</div>
+
+	<p>Your class does not have to provides both of them.</p>
+
+	<h2 id="Typeconversion%28JAVA%29-Rulesofconversion">Rules of
+		conversion</h2>
+
+	<h3 id="Typeconversion%28JAVA%29-Fromexampletofixture">From
+		example to fixture</h3>
+
+
+	<p>
+		1 First LivingDoc will verify if the type is can self convert (ie <em>public
+			static T parse(String)</em> or <em>public static T valueOf(String)</em> )<br />
+		2 If not, look for a registered TypeConverter that can handles the
+		type.<br /> 3 An UnsupportedOperationException will be thrown
+	</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>Type conversion</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>type</td>
+				<td class='confluenceTd'>parse with?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Type no converter no self</td>
+				<td class='confluenceTd'>error</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Type no converter with Self</td>
+				<td class='confluenceTd'>self.parse</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Type with converter no Self</td>
+				<td class='confluenceTd'>converter.parse</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Type with converter with self</td>
+				<td class='confluenceTd'>self.parse</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Type no converter with self by value
+					of</td>
+				<td class='confluenceTd'>self.valueOf</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3 id="Typeconversion%28JAVA%29-FromfixturereturnvaluetoString">From
+		fixture return value to String</h3>
+
+	<p>
+		1 First LivingDoc will verify if the type is can self revert (ie <em>public
+			static String toString(T)</em> )<br /> 2 If not, look for a registered
+		TypeConverter that can handles the type.<br /> 3 Use the toString()
+		method on the data itself.
+	</p>
+
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<td class='confluenceTd'>rule for</td>
+				<td class='confluenceTd'>Type conversion</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>type</td>
+				<td class='confluenceTd'>toString with ?</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Type no converter no self</td>
+				<td class='confluenceTd'>class.toString</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Type no converter with Self</td>
+				<td class='confluenceTd'>self.toString</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Type with converter no Self</td>
+				<td class='confluenceTd'>converter.toString</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>Type with converter with self</td>
+				<td class='confluenceTd'>self.toString</td>
+			</tr>
+		</tbody>
+	</table>
+
+</body>
+</html>

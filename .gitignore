@@ -1,12 +1,76 @@
-*.class
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# /
+/*.log
+/target
+/release.properties
 
-# Package Files #
-*.jar
-*.war
-*.ear
+# IntelliJ
+**.idea/
+**.iml
+**.ipr
+**.iws
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+# Eclipse
+**.settings/
+**target/
+**.project
+**.classpath
+**.eclipse-pmd
+
+# /client/
+/client/deploy.bat
+/client/.wtpmodules
+/client/Export-To-Confluence.jardesc
+/client/client.iml
+
+# /client/src/main/java/
+/client/src/main/java/META-INF
+
+# /server/
+/server/livingdoc-runner.log
+/server/server.log
+/server/Export-To-Confluence.jardesc
+/server/Export-To-JIRA.jardesc
+/server/work
+/server/*.tomcatplugin
+/server/DATA
+/server/livingdoc-core-java.log
+/server/.wtpmodules
+/server/*.jardesc
+/server/*.log
+/server/logs
+/server/LivingDoc-Accept-BNK- TableOfRulesSample.html
+/server/LivingDoc Accept-BNKT-As a client, I want to contract a Mortgage.html
+/server/deploy.bat
+/server/server.log.1
+/server/server.log.2
+/server/server.log.3
+/server/server.log.4
+/server/server.log.5
+/server/build-war.bat
+/server/server.iml
+
+# /server/src/
+/server/src/fixtures
+
+# /server/src/main/java/
+/server/src/main/java/META-INF
+
+# /server/src/main/resources/
+/server/src/main/resources/
+/server/src/main/resources/server.xml
+/server/src/main/resources/META-INF
+/server/src/main/resources/server.cfg.xml
+/server/src/main/resources/log4j.properties
+
+# /server/src/main/webapp/
+/server/src/main/webapp/META-INF
+/server/src/main/webapp/runners
+
+# /server/src/main/webapp/WEB-INF/
+/server/src/main/webapp/WEB-INF/lib
+/server/src/main/webapp/WEB-INF/classes
+
+# /server/src/test/resources/setupdbdatas/
+/server/src/test/resources/setupdbdatas/server.data.localhost.xml
+/server/src/test/resources/setupdbdatas/server.data.user.xml

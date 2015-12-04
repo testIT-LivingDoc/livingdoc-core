@@ -1,0 +1,75 @@
+<html>
+<head>
+<title>Cell decoration</title>
+<meta name="title" content="Cell decoration" />
+<meta name="external-link"
+	content="http://testit.novatec.info/confluence/display/LIVINGDOC/Cell+decoration" />
+</head>
+<body>
+	<h2 id="Celldecoration-Celldecoration">Cell decoration</h2>
+
+	<p>
+		When the value returned by the SUT is identical to the one expected,
+		the html cell is colored in green, otherwise, it is colored in red.<br />
+		Exceptions are also considered. If an exception is awaiten, the
+		keyword error can be used. If an exception occurs while none was
+		expected, the cell is colored in yellow.
+	</p>
+	<table class='confluenceTable'>
+		<tbody>
+			<tr>
+				<th class='confluenceTh'>rule for</th>
+				<th class='confluenceTh'>html cell decoration</th>
+			</tr>
+			<tr>
+				<th class='confluenceTh'>expected</th>
+				<th class='confluenceTh'>returned</th>
+				<th class='confluenceTh'>cell color?</th>
+				<th class='confluenceTh'>cell text?</th>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>value1</td>
+				<td class='confluenceTd'>value1</td>
+				<td class='confluenceTd'>GREEN</td>
+				<td class='confluenceTd'>value1</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>value1</td>
+				<td class='confluenceTd'>value2</td>
+				<td class='confluenceTd'>RED</td>
+				<td class='confluenceTd'>Expected: value1 Received: value2</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>error</td>
+				<td class='confluenceTd'>error</td>
+				<td class='confluenceTd'>GREEN</td>
+				<td class='confluenceTd'>error</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>error</td>
+				<td class='confluenceTd'>value1</td>
+				<td class='confluenceTd'>RED</td>
+				<td class='confluenceTd'>Expected: error Received: value1</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'>value1</td>
+				<td class='confluenceTd'>error</td>
+				<td class='confluenceTd'>YELLOW</td>
+				<td class='confluenceTd'>error</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'></td>
+				<td class='confluenceTd'>value1</td>
+				<td class='confluenceTd'>GREY</td>
+				<td class='confluenceTd'>value1</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'></td>
+				<td class='confluenceTd'></td>
+				<td class='confluenceTd'>GREY</td>
+				<td class='confluenceTd'></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
