@@ -75,11 +75,8 @@ public class Country extends AbstractEntity {
         }
 
         Country countryCompared = ( Country ) o;
-        if (getName().equals(countryCompared.getName())) {
-            return true;
-        }
 
-        return false;
+        return getName().equals(countryCompared.getName());
     }
 
     @Override

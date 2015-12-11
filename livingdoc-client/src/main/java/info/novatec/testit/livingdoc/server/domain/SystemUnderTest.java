@@ -210,20 +210,22 @@ public class SystemUnderTest extends AbstractUniqueEntity implements Comparable<
         return name.compareTo(o.name);
     }
 
+    private boolean nameEqualsTo(SystemUnderTest sutCompared) {
+        return name != null && name.equals(sutCompared.getName());
+    }
+
+    private boolean projectEqualsTo(SystemUnderTest sutCompared) {
+        return project != null && project.equals(sutCompared.getProject());
+    }
+
     public boolean equalsTo(Object o) {
         if (o == null || ! ( o instanceof SystemUnderTest )) {
             return false;
         }
 
         SystemUnderTest sutCompared = ( SystemUnderTest ) o;
-        if (name == null || ! name.equals(sutCompared.getName())) {
-            return false;
-        }
-        if (project == null || ! project.equals(sutCompared.getProject())) {
-            return false;
-        }
 
-        return true;
+        return nameEqualsTo(sutCompared) && projectEqualsTo(sutCompared);
     }
 
     @Override

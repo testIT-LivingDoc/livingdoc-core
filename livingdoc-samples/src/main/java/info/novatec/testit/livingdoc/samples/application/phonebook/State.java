@@ -84,12 +84,10 @@ public class State extends AbstractEntity implements Comparable<State> {
         }
 
         State stateCompared = ( State ) o;
-        if (getName().equals(stateCompared.getName()) && getCode().equals(stateCompared.getCode()) && getCountry().equals(
-            stateCompared.getCountry())) {
-            return true;
-        }
 
-        return false;
+        return getName().equals(stateCompared.getName())
+                && getCode().equals(stateCompared.getCode())
+                && getCountry().equals(stateCompared.getCountry());
     }
 
     @Override
