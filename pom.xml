@@ -38,6 +38,8 @@
 		<project.title>testIT | LivingDoc</project.title>
 		<project.java.version>1.6</project.java.version>
 		<project.source.encoding>UTF-8</project.source.encoding>
+		<version.maven.gpg.plugin>1.5</version.maven.gpg.plugin>
+		<version.maven.nexus.staging.plugin>1.6.3</version.maven.nexus.staging.plugin>
 	</properties>
 
 	<modules>
@@ -286,10 +288,88 @@
 					<artifactId>jxr-maven-plugin</artifactId>
 					<version>2.4</version>
 				</plugin>
-
+				<!-- signing jars plugin -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>${version.maven.gpg.plugin}</version>
+					<executions>
+						<execution>
+							<id>sign-artifacts</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>sign</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<!-- maven central release plugin -->
+				<plugin>
+					<groupId>org.sonatype.plugins</groupId>
+					<artifactId>nexus-staging-maven-plugin</artifactId>
+					<version>${version.maven.nexus.staging.plugin}</version>
+					<extensions>true</extensions>
+					<configuration>
+						<serverId>ossrh</serverId>
+						<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+						<autoReleaseAfterClose>false</autoReleaseAfterClose>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 
 	</build>
-
+	<profiles>
+		<profile>
+			<id>maven-central</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	<developers>
+		<developer>
+			<id>jschlaudraff</id>
+			<name>Johannes Schlaudraff</name>
+			<email>johannes.schlaudraff@novatec-gmbh.de</email>
+			<organization>NovaTec Consulting GmbH</organization>
+			<organizationUrl>http://www.novatec-gmbh.de</organizationUrl>
+			<roles>
+				<role>project-lead</role>
+				<role>developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>pkleimann</id>
+			<name>Peter Kleimann</name>
+			<email>peter.kleimann@novatec-gmbh.de</email>
+			<organization>NovaTec Consulting GmbH</organization>
+			<organizationUrl>http://www.novatec-gmbh.de</organizationUrl>
+			<roles>
+				<role>project-lead</role>
+				<role>developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>benhamidene</id>
+			<name>Anis Ben Hamidene</name>
+			<email>anis.benhamidene@novatec-gmbh.de</email>
+			<organization>NovaTec Consulting GmbH</organization>
+			<organizationUrl>http://www.novatec-gmbh.de</organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+		</developer>
+	</developers>
+	
 </project>
