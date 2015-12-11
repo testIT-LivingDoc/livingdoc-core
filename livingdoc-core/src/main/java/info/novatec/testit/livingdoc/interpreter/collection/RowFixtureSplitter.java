@@ -51,7 +51,7 @@ public class RowFixtureSplitter {
         return surplus;
     }
 
-    void split(Example rows, List<Fixture> adapters, Example headers) {
+    public void split(Example rows, List<Fixture> adapters, Example headers) {
         LOG.trace(ENTRY_WITH_THREE, rows.toString(), adapters.toString(), headers.toString());
         surplus.addAll(adapters);
         for (Example row : rows) {

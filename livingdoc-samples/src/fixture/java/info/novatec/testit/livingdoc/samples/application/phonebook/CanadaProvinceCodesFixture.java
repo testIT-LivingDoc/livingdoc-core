@@ -11,7 +11,7 @@ import info.novatec.testit.livingdoc.samples.application.phonebook.hibernate.Pho
 
 public class CanadaProvinceCodesFixture
 {
-	PhoneBookMemoryDatabase db;
+	private PhoneBookMemoryDatabase db;
 	
 	public CanadaProvinceCodesFixture() throws Exception
 	{

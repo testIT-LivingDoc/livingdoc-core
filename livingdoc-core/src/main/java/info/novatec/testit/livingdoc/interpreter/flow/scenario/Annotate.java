@@ -25,26 +25,26 @@ import info.novatec.testit.livingdoc.call.Stub;
 
 
 final class Annotate {
-    private Annotate() {
-    }
 
-    static Stub display(Example example) {
+    private Annotate() {}
+
+    public static Stub display(Example example) {
         return new AnnotateDisplay(example);
     }
 
-    static Stub given(Annotatable annotable, ScenarioMessage message, Statistics stats) {
+    public static Stub given(Annotatable annotable, ScenarioMessage message, Statistics stats) {
         return new AnnotateGiven(annotable, message, stats);
     }
 
-    static Stub then(Annotatable annotable, ScenarioMessage message, Statistics stats) {
+    public static Stub then(Annotatable annotable, ScenarioMessage message, Statistics stats) {
         return new AnnotateThen(annotable, message, stats);
     }
 
-    static Stub when(Annotatable annotable, Statistics stats) {
+    public static Stub when(Annotatable annotable, Statistics stats) {
         return new AnnotateWhen(annotable, stats);
     }
 
-    static Stub check(Annotatable annotatable, Statistics stats) {
+    public static Stub check(Annotatable annotatable, Statistics stats) {
         return new AnnotateCheck(annotatable, stats);
     }
 }

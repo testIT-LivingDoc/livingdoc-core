@@ -112,7 +112,7 @@ public class Option {
         return arg != null;
     }
 
-    void describeTo(StringBuilder sb) {
+    private void describeTo(StringBuilder sb) {
         if (shortOpt != null) {
             sb.append(shortOpt);
         } else {
@@ -160,7 +160,7 @@ public class Option {
         this.stub = stub;
     }
 
-    boolean wasGiven() {
+    public boolean wasGiven() {
         return value != null;
     }
 

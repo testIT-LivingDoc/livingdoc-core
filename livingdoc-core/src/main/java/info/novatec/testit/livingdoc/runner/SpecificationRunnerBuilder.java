@@ -32,7 +32,7 @@ import info.novatec.testit.livingdoc.util.ClassUtils;
  * instance of the called builder instance.
  */
 public class SpecificationRunnerBuilder {
-    final static Logger LOG = LoggerFactory.getLogger(SpecificationRunnerBuilder.class);
+    private final static Logger LOG = LoggerFactory.getLogger(SpecificationRunnerBuilder.class);
 
     // Mandatory parameters
     private final String documentRepositoryClass;
