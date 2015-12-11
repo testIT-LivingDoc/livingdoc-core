@@ -61,7 +61,7 @@ public class SpecificationRunnerMojo extends AbstractMojo {
      * @required
      * @readonly
      */
-    List<String> classpathElements;
+    protected List<String> classpathElements;
 
     /**
      * The directory where compiled fixture classes go.
@@ -69,7 +69,7 @@ public class SpecificationRunnerMojo extends AbstractMojo {
      * @parameter expression="${project.build.directory}/fixture-test-classes"
      * @required
      */
-    File fixtureOutputDirectory;
+    protected File fixtureOutputDirectory;
 
     /**
      * The SystemUnderDevelopment class to use
@@ -78,32 +78,32 @@ public class SpecificationRunnerMojo extends AbstractMojo {
      * "info.novatec.testit.livingdoc.systemunderdevelopment.DefaultSystemUnderDevelopment"
      * @required
      */
-    String systemUnderDevelopment;
+    protected String systemUnderDevelopment;
 
     /**
      * @parameter expression="${project.build.directory}/livingdoc-reports"
      * @required
      */
-    File reportsDirectory;
+    protected File reportsDirectory;
 
     /**
      * @parameter expression="${maven.livingdoc.reports.type}"
      * default-value="html"
      */
-    String reportsType;
+    protected String reportsType;
 
     /**
      * @parameter expression="${livingdoc.repositories}"
      * @required
      */
-    ArrayList<Repository> repositories;
+    protected ArrayList<Repository> repositories;
 
     /**
      * @parameter expression="${plugin.artifacts}"
      * @required
      * @readonly
      */
-    List<Artifact> pluginDependencies;
+    protected List<Artifact> pluginDependencies;
 
     /**
      * Set this to 'true' to stop the execution on a failure.
@@ -111,14 +111,14 @@ public class SpecificationRunnerMojo extends AbstractMojo {
      * @parameter expression="${maven.livingdoc.test.stop}"
      * default-value="false"
      */
-    boolean stopOnFirstFailure;
+    protected boolean stopOnFirstFailure;
 
     /**
      * Set the locale for the execution.
      * 
      * @parameter expression="${maven.livingdoc.locale}"
      */
-    String locale;
+    protected String locale;
 
     /**
      * Set the Selector class.
@@ -126,14 +126,14 @@ public class SpecificationRunnerMojo extends AbstractMojo {
      * @parameter expression="${maven.livingdoc.selector}" default-value=
      * "info.novatec.testit.livingdoc.document.LivingDocInterpreterSelector"
      */
-    String selector;
+    protected String selector;
 
     /**
      * Set the Debug mode.
      * 
      * @parameter expression="${maven.livingdoc.debug}" default-value="false"
      */
-    boolean debug;
+    protected boolean debug;
 
     /**
      * Set this to true to ignore a failure during testing. Its use is NOT
@@ -142,12 +142,12 @@ public class SpecificationRunnerMojo extends AbstractMojo {
      * @parameter expression="${maven.livingdoc.test.failure.ignore}"
      * default-value="false"
      */
-    boolean testFailureIgnore;
+    protected boolean testFailureIgnore;
 
-    Statistics statistics;
+    private Statistics statistics;
 
-    boolean testFailed;
-    boolean exceptionOccured;
+    private boolean testFailed;
+    private boolean exceptionOccured;
 
     public SpecificationRunnerMojo() {
         this.statistics = new Statistics();

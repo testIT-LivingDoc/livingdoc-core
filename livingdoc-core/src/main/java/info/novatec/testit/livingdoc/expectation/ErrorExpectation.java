@@ -24,7 +24,7 @@ import info.novatec.testit.livingdoc.util.FactoryMethod;
  * @version $Revision: $ $Date: $
  */
 public class ErrorExpectation implements Expectation {
-    static final String ERROR = "error";
+    private static final String ERROR = "error";
 
     @FactoryMethod
     public static ErrorExpectation create(String expected) {

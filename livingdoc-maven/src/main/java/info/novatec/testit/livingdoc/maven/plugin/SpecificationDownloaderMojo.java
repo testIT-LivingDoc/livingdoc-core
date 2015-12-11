@@ -26,22 +26,22 @@ public class SpecificationDownloaderMojo extends AbstractMojo {
      * @parameter expression="${basedir}/src/specs"
      * @required
      */
-    File specsDirectory;
+    protected File specsDirectory;
 
     /**
      * @parameter expression="${livingdoc.repositories}"
      * @required
      */
-    ArrayList<Repository> repositories;
+    protected ArrayList<Repository> repositories;
 
     /**
      * @parameter expression="${plugin.artifacts}"
      * @required
      * @readonly
      */
-    List<Artifact> pluginDependencies;
+    protected List<Artifact> pluginDependencies;
 
-    int specCount;
+    private int specCount;
 
     public SpecificationDownloaderMojo() {
         this.repositories = new ArrayList<Repository>();
