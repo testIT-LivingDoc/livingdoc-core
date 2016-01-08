@@ -10,5 +10,5 @@ public interface LivingDocRpcHelper {
 
     String setSpecificationAsImplemented(String username, String password, Vector< ? > args);
 
-    String saveExecutionResult(String username, String password, Vector< ? > args);
+    String saveExecutionResult(String username, String password, Vector< Object > args);
 }

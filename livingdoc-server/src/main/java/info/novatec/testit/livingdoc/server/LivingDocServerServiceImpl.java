@@ -51,14 +51,6 @@ import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_C
 import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_DELETE_FAILED;
 import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_SET_DEFAULT_FAILED;
 import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_UPDATE_FAILED;
-
-import java.util.List;
-import java.util.Vector;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import info.novatec.testit.livingdoc.report.XmlReport;
 import info.novatec.testit.livingdoc.repository.DocumentRepository;
 import info.novatec.testit.livingdoc.server.database.SessionService;
@@ -79,6 +71,14 @@ import info.novatec.testit.livingdoc.server.domain.dao.ProjectDao;
 import info.novatec.testit.livingdoc.server.domain.dao.RepositoryDao;
 import info.novatec.testit.livingdoc.server.domain.dao.SystemUnderTestDao;
 import info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller;
+import info.novatec.testit.livingdoc.server.transfer.SpecificationLocation;
+
+import java.util.List;
+import java.util.Vector;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class LivingDocServerServiceImpl implements LivingDocServerService {
@@ -1017,13 +1017,13 @@ public class LivingDocServerServiceImpl implements LivingDocServerService {
             List<Specification> specifications = documentDao.getSpecifications(systemUnderTest, repository);
 
             for (Specification specification : specifications) {
-                Vector<String> specsDefinition = new Vector<String>();
-                specsDefinition.add(specification.getRepository().getType().getClassName());
-                specsDefinition.add(specification.getRepository().getBaseTestUrl());
-                specsDefinition.add(StringUtils.stripToEmpty(specification.getRepository().getUsername()));
-                specsDefinition.add(StringUtils.stripToEmpty(specification.getRepository().getPassword()));
-                specsDefinition.add(specification.getName());
-                locations.add(specsDefinition);
+                SpecificationLocation specificationLocation = new SpecificationLocation();
+                specificationLocation.setRepositoryTypeClassName(specification.getRepository().getType().getClassName());
+                specificationLocation.setBaseTestUrl(specification.getRepository().getBaseTestUrl());
+                specificationLocation.setUsername(StringUtils.stripToEmpty(specification.getRepository().getUsername()));
+                specificationLocation.setPassword(StringUtils.stripToEmpty(specification.getRepository().getPassword()));
+                specificationLocation.setSpecificationName(specification.getName());
+                locations.add(specificationLocation);
             }
 
             log.debug("Retrieved specification list: " + repository.getName());

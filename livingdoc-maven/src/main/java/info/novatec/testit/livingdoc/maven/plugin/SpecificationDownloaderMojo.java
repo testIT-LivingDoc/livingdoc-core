@@ -88,8 +88,8 @@ public class SpecificationDownloaderMojo extends AbstractMojo {
         try {
             return repository.getDocumentRepository().listDocuments(suite);
         } catch (Exception e) {
-            throw new MojoExecutionException(format("Error retrieving list of specifications %s from %s", suite, repository
-                .getName()));
+            throw new MojoExecutionException(format("Error retrieving list of specifications %s from %s (%s)", suite, repository
+                .getName(), e.getMessage()));
         }
     }
 
