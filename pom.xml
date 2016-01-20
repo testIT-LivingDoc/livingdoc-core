@@ -36,7 +36,7 @@
 	<properties>
 		<project.root>.</project.root>
 		<project.title>testIT | LivingDoc</project.title>
-		<project.java.version>1.6</project.java.version>
+		<project.java.version>1.8</project.java.version>
 		<project.source.encoding>UTF-8</project.source.encoding>
 		<version.maven.gpg.plugin>1.5</version.maven.gpg.plugin>
 		<version.maven.nexus.staging.plugin>1.6.3</version.maven.nexus.staging.plugin>
@@ -218,6 +218,9 @@
 							<goals>
 								<goal>jar</goal>
 							</goals>
+							<configuration>
+								<additionalparam>-Xdoclint:none</additionalparam>
+							</configuration>
 						</execution>
 					</executions>
 				</plugin>
