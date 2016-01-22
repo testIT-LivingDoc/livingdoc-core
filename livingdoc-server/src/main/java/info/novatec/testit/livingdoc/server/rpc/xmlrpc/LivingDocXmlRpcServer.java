@@ -36,15 +36,6 @@ import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_C
 import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_DELETE_FAILED;
 import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_SET_DEFAULT_FAILED;
 import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_UPDATE_FAILED;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Vector;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
 import info.novatec.testit.livingdoc.server.LivingDocServerService;
 import info.novatec.testit.livingdoc.server.domain.DocumentNode;
@@ -58,6 +49,14 @@ import info.novatec.testit.livingdoc.server.domain.Runner;
 import info.novatec.testit.livingdoc.server.domain.Specification;
 import info.novatec.testit.livingdoc.server.domain.SystemUnderTest;
 import info.novatec.testit.livingdoc.server.rpc.RpcServerService;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Vector;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**

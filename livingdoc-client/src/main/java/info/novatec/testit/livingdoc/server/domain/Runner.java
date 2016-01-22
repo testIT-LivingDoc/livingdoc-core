@@ -139,8 +139,8 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
     private Execution executeRemotely(Specification specification, SystemUnderTest systemUnderTest,
         boolean implementedVersion, String paramSections, String paramLocale) {
         try {
-            String sections = ( String ) XmlRpcDataMarshaller.padNull(paramSections);
-            String locale = ( String ) XmlRpcDataMarshaller.padNull(paramLocale);
+            String sections = ( String )StringUtils.stripToEmpty(paramSections);
+            String locale = ( String )StringUtils.stripToEmpty(paramLocale);
 
             XmlRpcClientExecutor xmlrpc = XmlRpcClientExecutorFactory.newExecutor(agentUrl());
 
@@ -229,8 +229,8 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
     public Vector<Object> marshallize() {
         Vector<Object> parameters = new Vector<Object>();
         parameters.add(RUNNER_NAME_IDX, name);
-        parameters.add(RUNNER_SERVER_NAME_IDX, XmlRpcDataMarshaller.padNull(serverName));
-        parameters.add(RUNNER_SERVER_PORT_IDX, XmlRpcDataMarshaller.padNull(serverPort));
+        parameters.add(RUNNER_SERVER_NAME_IDX,StringUtils.stripToEmpty(serverName));
+        parameters.add(RUNNER_SERVER_PORT_IDX,StringUtils.stripToEmpty(serverPort));
         parameters.add(RUNNER_CLASSPATH_IDX, new Vector<String>(classpaths));
         parameters.add(RUNNER_SECURED_IDX, isSecured());
         return parameters;

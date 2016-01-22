@@ -21,8 +21,6 @@ import javax.persistence.UniqueConstraint;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller;
-
 
 /**
  * TestCase Class. Main association class between a requirement, a test
@@ -123,7 +121,7 @@ public class Reference extends AbstractUniqueEntity implements Comparable<Refere
         parameters.add(REFERENCE_REQUIREMENT_IDX, requirement.marshallize());
         parameters.add(REFERENCE_SPECIFICATION_IDX, specification.marshallize());
         parameters.add(REFERENCE_SUT_IDX, systemUnderTest.marshallize());
-        parameters.add(REFERENCE_SECTIONS_IDX, XmlRpcDataMarshaller.padNull(sections));
+        parameters.add(REFERENCE_SECTIONS_IDX,StringUtils.stripToEmpty(sections));
 
         parameters.add(REFERENCE_LAST_EXECUTION_IDX, lastExecution != null ? lastExecution.marshallize() : Execution.none()
             .marshallize());

@@ -15,7 +15,6 @@ import javax.persistence.Table;
 
 import org.apache.commons.lang3.StringUtils;
 
-import info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller;
 import info.novatec.testit.livingdoc.util.URIUtil;
 
 
@@ -119,10 +118,10 @@ public class RepositoryType extends AbstractVersionedEntity implements Comparabl
     @Override
     public Vector<Object> marshallize() {
         Vector<Object> parameters = new Vector<Object>();
-        parameters.add(REPOSITORY_TYPE_NAME_IDX, XmlRpcDataMarshaller.padNull(name));
+        parameters.add(REPOSITORY_TYPE_NAME_IDX,StringUtils.stripToEmpty(name));
         parameters.add(REPOSITORY_TYPE_REPOCLASS_IDX, className);
-        parameters.add(REPOSITORY_TYPE_NAME_FORMAT_IDX, XmlRpcDataMarshaller.padNull(getDocumentUrlFormat()));
-        parameters.add(REPOSITORY_TYPE_URI_FORMAT_IDX, XmlRpcDataMarshaller.padNull(getTestUrlFormat()));
+        parameters.add(REPOSITORY_TYPE_NAME_FORMAT_IDX,StringUtils.stripToEmpty(getDocumentUrlFormat()));
+        parameters.add(REPOSITORY_TYPE_URI_FORMAT_IDX,StringUtils.stripToEmpty(getTestUrlFormat()));
         return parameters;
     }
 
