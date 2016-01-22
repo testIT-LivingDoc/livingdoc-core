@@ -142,11 +142,8 @@ public class Project extends AbstractVersionedEntity implements Comparable<Proje
         }
 
         Project projectCompared = ( Project ) o;
-        if (getName().equals(projectCompared.getName())) {
-            return true;
-        }
 
-        return false;
+        return getName().equals(projectCompared.getName());
     }
 
     @Override

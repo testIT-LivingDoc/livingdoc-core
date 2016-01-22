@@ -54,11 +54,8 @@ public class PhoneBook extends AbstractEntity {
         }
 
         PhoneBook phoneBookCompared = ( PhoneBook ) o;
-        if (getName().equals(phoneBookCompared.getName())) {
-            return true;
-        }
 
-        return false;
+        return getName().equals(phoneBookCompared.getName());
     }
 
     @Override

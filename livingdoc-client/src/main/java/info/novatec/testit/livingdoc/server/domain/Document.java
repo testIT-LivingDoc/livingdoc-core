@@ -63,20 +63,22 @@ public abstract class Document extends AbstractUniqueEntity implements Comparabl
         return parameters;
     }
 
+    private boolean nameEqualsTo(Document docCompared) {
+        return getName() != null && getName().equals(docCompared.getName());
+    }
+
+    private boolean repositoryEqualsTo(Document docCompared) {
+        return getRepository() != null && getRepository().equals(docCompared.getRepository());
+    }
+
     public boolean equalsTo(Object o) {
         if (o == null || ! ( o instanceof Document )) {
             return false;
         }
 
         Document docCompared = ( Document ) o;
-        if (getName() == null || ! getName().equals(docCompared.getName())) {
-            return false;
-        }
-        if (getRepository() == null || ! getRepository().equals(docCompared.getRepository())) {
-            return false;
-        }
 
-        return true;
+        return nameEqualsTo(docCompared) && repositoryEqualsTo(docCompared);
     }
 
     @Override

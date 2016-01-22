@@ -74,12 +74,11 @@ public class PhoneBookEntry extends AbstractEntity {
         }
 
         PhoneBookEntry entryCompared = ( PhoneBookEntry ) o;
-        if (getFirstName().equals(entryCompared.getFirstName()) && getLastName().equals(entryCompared.getLastName())
-            && getNumber().equals(entryCompared.getNumber()) && getPhoneBook().equals(entryCompared.getPhoneBook())) {
-            return true;
-        }
 
-        return false;
+        return getFirstName().equals(entryCompared.getFirstName())
+                && getLastName().equals(entryCompared.getLastName())
+                && getNumber().equals(entryCompared.getNumber())
+                && getPhoneBook().equals(entryCompared.getPhoneBook());
     }
 
     @Override
