@@ -152,26 +152,29 @@ public class Reference extends AbstractUniqueEntity implements Comparable<Refere
         return ObjectUtils.compare(sections, referenceCompared.sections);
     }
 
+    private boolean isSystemUnderTestEqualsToReferencedSystemUnderTest(Reference refCompared) {
+        return systemUnderTest != null && systemUnderTest.equalsTo(refCompared.systemUnderTest);
+    }
+
+    private boolean isRequirementEqualsToReferencedRequirement (Reference refCompared) {
+        return requirement != null && requirement.equalsTo(refCompared.requirement);
+    }
+
+    private boolean isSpecificationEqualsToReferencedSpecification(Reference refCompared) {
+        return specification != null && specification.equalsTo(refCompared.specification);
+    }
+
     public boolean equalsTo(Object o) {
         if (o == null || ! ( o instanceof Reference )) {
             return false;
         }
 
         Reference refCompared = ( Reference ) o;
-        if ( ! StringUtils.equals(sections, refCompared.sections)) {
-            return false;
-        }
-        if (systemUnderTest == null || ! systemUnderTest.equalsTo(refCompared.systemUnderTest)) {
-            return false;
-        }
-        if (requirement == null || ! requirement.equalsTo(refCompared.requirement)) {
-            return false;
-        }
-        if (specification == null || ! specification.equalsTo(refCompared.specification)) {
-            return false;
-        }
 
-        return true;
+        return StringUtils.equals(sections, refCompared.sections)
+                && isSystemUnderTestEqualsToReferencedSystemUnderTest(refCompared)
+                && isRequirementEqualsToReferencedRequirement(refCompared)
+                && isSpecificationEqualsToReferencedSpecification(refCompared);
     }
 
     @Override
