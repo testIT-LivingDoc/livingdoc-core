@@ -83,11 +83,8 @@ public class DocumentNode implements Comparable<DocumentNode>, Marshalizable {
         }
 
         DocumentNode nodeCompared = ( DocumentNode ) o;
-        if (getTitle().equals(nodeCompared.getTitle())) {
-            return true;
-        }
 
-        return false;
+        return getTitle().equals(nodeCompared.getTitle());
     }
 
     @Override

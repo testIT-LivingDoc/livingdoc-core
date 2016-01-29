@@ -152,26 +152,29 @@ public class Reference extends AbstractUniqueEntity implements Comparable<Refere
         return ObjectUtils.compare(sections, referenceCompared.sections);
     }
 
+    private boolean isSystemUnderTestEqualsTo(SystemUnderTest systemUnderTestToCompare) {
+        return systemUnderTest != null && systemUnderTest.equalsTo(systemUnderTestToCompare);
+    }
+
+    private boolean isRequirementEqualsTo(Requirement requirementToCompare) {
+        return requirement != null && requirement.equalsTo(requirementToCompare);
+    }
+
+    private boolean isSpecificationEqualsTo(Specification specificationToCompare) {
+        return specification != null && specification.equalsTo(specificationToCompare);
+    }
+
     public boolean equalsTo(Object o) {
         if (o == null || ! ( o instanceof Reference )) {
             return false;
         }
 
         Reference refCompared = ( Reference ) o;
-        if ( ! StringUtils.equals(sections, refCompared.sections)) {
-            return false;
-        }
-        if (systemUnderTest == null || ! systemUnderTest.equalsTo(refCompared.systemUnderTest)) {
-            return false;
-        }
-        if (requirement == null || ! requirement.equalsTo(refCompared.requirement)) {
-            return false;
-        }
-        if (specification == null || ! specification.equalsTo(refCompared.specification)) {
-            return false;
-        }
 
-        return true;
+        return StringUtils.equals(sections, refCompared.sections)
+                && isSystemUnderTestEqualsTo(refCompared.systemUnderTest)
+                && isRequirementEqualsTo(refCompared.requirement)
+                && isSpecificationEqualsTo(refCompared.specification);
     }
 
     @Override
