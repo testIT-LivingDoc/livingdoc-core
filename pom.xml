@@ -37,9 +37,18 @@
 		<project.root>.</project.root>
 		<project.title>testIT | LivingDoc</project.title>
 		<project.java.version>1.8</project.java.version>
-		<project.source.encoding>UTF-8</project.source.encoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<rules.pmd>${project.root}/development/pmd_rules.xml</rules.pmd>
+		<rules.checkstyle>${project.root}/development/checkstyle_rules.xml</rules.checkstyle>
+		
 		<version.maven.gpg.plugin>1.5</version.maven.gpg.plugin>
 		<version.maven.nexus.staging.plugin>1.6.3</version.maven.nexus.staging.plugin>
+		
+		<version.checkstyle>6.9</version.checkstyle>
+		<version.maven.pmd.plugin>3.2</version.maven.pmd.plugin>
+		<version.maven.checkstyle.plugin>2.13</version.maven.checkstyle.plugin>
+		<version.findbugs.maven.plugin>3.0.0</version.findbugs.maven.plugin>
 	</properties>
 
 	<modules>
@@ -192,7 +201,7 @@
 					<artifactId>maven-resources-plugin</artifactId>
 					<version>2.7</version>
 					<configuration>
-						<encoding>${project.source.encoding}</encoding>
+						<encoding>${project.build.sourceEncoding}</encoding>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -205,7 +214,7 @@
 						<showDeprecation>true</showDeprecation>
 						<showWarnings>true</showWarnings>
 						<fork>true</fork>
-						<encoding>${project.source.encoding}</encoding>
+						<encoding>${project.build.sourceEncoding}</encoding>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -237,16 +246,14 @@
 						</execution>
 					</executions>
 				</plugin>
-
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<version>2.17</version>
 					<configuration>
-						<argLine>-Dfile.encoding=${project.source.encoding}</argLine>
+						<argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
 					</configuration>
 				</plugin>
-
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>license-maven-plugin</artifactId>
@@ -270,7 +277,6 @@
 						</execution>
 					</executions>
 				</plugin>
-
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-jar-plugin</artifactId>
@@ -291,7 +297,9 @@
 					<artifactId>jxr-maven-plugin</artifactId>
 					<version>2.4</version>
 				</plugin>
+				
 				<!-- signing jars plugin -->
+				
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-gpg-plugin</artifactId>
@@ -306,7 +314,9 @@
 						</execution>
 					</executions>
 				</plugin>
+				
 				<!-- maven central release plugin -->
+				
 				<plugin>
 					<groupId>org.sonatype.plugins</groupId>
 					<artifactId>nexus-staging-maven-plugin</artifactId>
@@ -318,10 +328,86 @@
 						<autoReleaseAfterClose>false</autoReleaseAfterClose>
 					</configuration>
 				</plugin>
+				
+				
+				<!-- code quality plugins -->
+				
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-pmd-plugin</artifactId>
+					<version>${version.maven.pmd.plugin}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>check</goal>
+								<goal>cpd-check</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<rulesets>
+							<ruleset>${rules.pmd}</ruleset>
+						</rulesets>
+						<aggregate>true</aggregate>
+						<minimumTokens>100</minimumTokens>
+						<sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+						<targetJdk>${project.java.version}</targetJdk>
+						<failOnViolation>true</failOnViolation>
+						<failurePriority>5</failurePriority>
+						<minimumPriority>5</minimumPriority>
+						<linkXRef>false</linkXRef>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>${version.maven.checkstyle.plugin}</version>
+					<executions>
+						<execution>
+							<phase>validate</phase>
+							<goals>
+								<goal>check</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<configLocation>${rules.checkstyle}</configLocation>
+						<encoding>${project.reporting.outputEncoding}</encoding>
+						<consoleOutput>true</consoleOutput>
+						<failsOnError>true</failsOnError>
+						<failOnViolation>true</failOnViolation>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>com.puppycrawl.tools</groupId>
+							<artifactId>checkstyle</artifactId>
+							<version>${version.checkstyle}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>findbugs-maven-plugin</artifactId>
+					<version>${version.findbugs.maven.plugin}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>check</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<effort>Max</effort>
+						<maxRank>20</maxRank>
+						<xmlOutput>true</xmlOutput>
+					</configuration>
+				</plugin>
+			
 			</plugins>
 		</pluginManagement>
 
 	</build>
+	
 	<profiles>
 		<profile>
 			<id>maven-central</id>
@@ -338,8 +424,44 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<!-- Code quality checks are not executed by default since all violations are removed. -->
+			<id>code-quality</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-pmd-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-checkstyle-plugin</artifactId>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>findbugs-maven-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
 	</profiles>
+	
 	<developers>
+		<developer>
+			<id>jaspreetParhar</id>
+			<name>Jaspreet Kaur</name>
+			<email>jaspreet.kaur@novatec-gmbh.de</email>
+			<organization>NovaTec Consulting GmbH</organization>
+			<organizationUrl>http://www.novatec-gmbh.de</organizationUrl>
+			<roles>
+				<role>project-lead</role>
+				<role>developer</role>
+			</roles>
+		</developer>
 		<developer>
 			<id>jschlaudraff</id>
 			<name>Johannes Schlaudraff</name>
