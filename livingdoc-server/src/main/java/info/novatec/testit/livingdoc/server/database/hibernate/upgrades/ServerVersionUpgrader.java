@@ -4,7 +4,7 @@ import info.novatec.testit.livingdoc.server.database.SessionService;
 
 
 public interface ServerVersionUpgrader {
-    public void upgrade(SessionService service) throws Exception;
+    void upgrade(SessionService service) throws Exception;
 
-    public String upgradedTo();
+    String upgradedTo();
 }

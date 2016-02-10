@@ -21,7 +21,7 @@ public interface DocumentDao {
      * @param requirementName
      * @return the Requirement for the specified repository UID.
      */
-    public Requirement getRequirementByName(String repositoryUid, String requirementName);
+    Requirement getRequirementByName(String repositoryUid, String requirementName);
 
     /**
      * Saves the Requirement for the specified repository UID.
@@ -32,7 +32,7 @@ public interface DocumentDao {
      * @return the new Requirement
      * @throws LivingDocServerException
      */
-    public Requirement createRequirement(String repositoryUid, String requirementName) throws LivingDocServerException;
+    Requirement createRequirement(String repositoryUid, String requirementName) throws LivingDocServerException;
 
     /**
      * Retrieves the Requirement for the specified repository UID. If none found
@@ -44,7 +44,7 @@ public interface DocumentDao {
      * @return the retrieved/created Requirement
      * @throws LivingDocServerException
      */
-    public Requirement getOrCreateRequirement(String repositoryUid, String requirementName) throws LivingDocServerException;
+    Requirement getOrCreateRequirement(String repositoryUid, String requirementName) throws LivingDocServerException;
 
     /**
      * Removes the Requirement.
@@ -53,7 +53,7 @@ public interface DocumentDao {
      * @param requirement
      * @throws LivingDocServerException
      */
-    public void removeRequirement(Requirement requirement) throws LivingDocServerException;
+    void removeRequirement(Requirement requirement) throws LivingDocServerException;
 
     /**
      * Retrieves the Specification for the specified repository UID.
@@ -63,7 +63,7 @@ public interface DocumentDao {
      * @param specificationName
      * @return the Specification for the specified repository UID.
      */
-    public Specification getSpecificationByName(String repositoryUid, String specificationName);
+    Specification getSpecificationByName(String repositoryUid, String specificationName);
 
     /**
      * Retrieves the Specification for the specified id.
@@ -72,7 +72,7 @@ public interface DocumentDao {
      * @param id Specification id to retrieve
      * @return the Specification for the given id
      */
-    public Specification getSpecificationById(Long id);
+    Specification getSpecificationById(Long id);
 
     /**
      * Saves the Specification for the specified repository UID.
@@ -84,7 +84,7 @@ public interface DocumentDao {
      * @return the new Specification
      * @throws LivingDocServerException
      */
-    public Specification createSpecification(String systemUnderTestName, String repositoryUid, String specificationName)
+    Specification createSpecification(String systemUnderTestName, String repositoryUid, String specificationName)
         throws LivingDocServerException;
 
     /**
@@ -98,7 +98,7 @@ public interface DocumentDao {
      * @return the retrieved/created Specification
      * @throws LivingDocServerException
      */
-    public Specification getOrCreateSpecification(String systemUnderTestName, String repositoryUid, String specificationName)
+    Specification getOrCreateSpecification(String systemUnderTestName, String repositoryUid, String specificationName)
         throws LivingDocServerException;
 
     /**
@@ -109,7 +109,7 @@ public interface DocumentDao {
      * @param Specification
      * @throws LivingDocServerException
      */
-    public void updateSpecification(Specification oldSpecification, Specification newSpecification)
+    void updateSpecification(Specification oldSpecification, Specification newSpecification)
         throws LivingDocServerException;
 
     /**
@@ -119,7 +119,7 @@ public interface DocumentDao {
      * @param Specification
      * @throws LivingDocServerException
      */
-    public void removeSpecification(Specification specification) throws LivingDocServerException;
+    void removeSpecification(Specification specification) throws LivingDocServerException;
 
     /**
      * Retrieves the Reference from dataBase.
@@ -128,7 +128,7 @@ public interface DocumentDao {
      * @param Reference
      * @return the Reference from dataBase.
      */
-    public Reference get(Reference reference);
+    Reference get(Reference reference);
 
     /**
      * Retrieves the list of References linked to the Specification
@@ -137,7 +137,7 @@ public interface DocumentDao {
      * @param Specification
      * @return the list of References linked to the Specification
      */
-    public List<Reference> getAllReferences(Specification specification);
+    List<Reference> getAllReferences(Specification specification);
 
     /**
      * Retrieves the list of References linked to the Requirement
@@ -146,7 +146,7 @@ public interface DocumentDao {
      * @param Requirement
      * @return the list of References linked to the Requirement
      */
-    public List<Reference> getAllReferences(Requirement requirement);
+    List<Reference> getAllReferences(Requirement requirement);
 
     /**
      * Adds the SystemUnderTest to the SystemUnderTest list of the Specification
@@ -156,7 +156,7 @@ public interface DocumentDao {
      * @param specification
      * @throws LivingDocServerException
      */
-    public void addSystemUnderTest(SystemUnderTest systemUnderTest, Specification specification)
+    void addSystemUnderTest(SystemUnderTest systemUnderTest, Specification specification)
         throws LivingDocServerException;
 
     /**
@@ -168,7 +168,7 @@ public interface DocumentDao {
      * @param specification
      * @throws LivingDocServerException
      */
-    public void removeSystemUnderTest(SystemUnderTest systemUnderTest, Specification specification)
+    void removeSystemUnderTest(SystemUnderTest systemUnderTest, Specification specification)
         throws LivingDocServerException;
 
     /**
@@ -180,7 +180,7 @@ public interface DocumentDao {
      * @return the new Created Reference
      * @throws LivingDocServerException
      */
-    public Reference createReference(Reference reference) throws LivingDocServerException;
+    Reference createReference(Reference reference) throws LivingDocServerException;
 
     /**
      * Deletes the Reference
@@ -189,7 +189,7 @@ public interface DocumentDao {
      * @param Reference
      * @throws LivingDocServerException
      */
-    public void removeReference(Reference reference) throws LivingDocServerException;
+    void removeReference(Reference reference) throws LivingDocServerException;
 
     /**
      * Updates the old Reference with the new one. Basically removes the old one
@@ -201,7 +201,7 @@ public interface DocumentDao {
      * @return the updated Reference
      * @throws LivingDocServerException
      */
-    public Reference updateReference(Reference oldReference, Reference newReference) throws LivingDocServerException;
+    Reference updateReference(Reference oldReference, Reference newReference) throws LivingDocServerException;
 
     /**
      * Creates the Execution.
@@ -210,7 +210,7 @@ public interface DocumentDao {
      * @return the new created Execution
      * @throws LivingDocServerException
      */
-    public Execution createExecution(Execution execution) throws LivingDocServerException;
+    Execution createExecution(Execution execution) throws LivingDocServerException;
 
     /**
      * Run the Specification on the SystemUnderTest.
@@ -223,7 +223,7 @@ public interface DocumentDao {
      * @return the execution of the Specification on the SystemUnderTest.
      * @throws LivingDocServerException
      */
-    public Execution runSpecification(SystemUnderTest systemUnderTest, Specification specification, boolean implemeted,
+    Execution runSpecification(SystemUnderTest systemUnderTest, Specification specification, boolean implemeted,
         String locale) throws LivingDocServerException;
 
     /**
@@ -235,7 +235,7 @@ public interface DocumentDao {
      * @return the executed Reference
      * @throws LivingDocServerException
      */
-    public Reference runReference(Reference reference, String locale) throws LivingDocServerException;
+    Reference runReference(Reference reference, String locale) throws LivingDocServerException;
 
     /**
      * Retrieves all Specifications for a given SystemUnderTest and Repository
@@ -245,7 +245,7 @@ public interface DocumentDao {
      * @param repository
      * @return all Specifications for a given SystemUnderTest and Repository
      */
-    public List<Specification> getSpecifications(SystemUnderTest sut, Repository repository);
+    List<Specification> getSpecifications(SystemUnderTest sut, Repository repository);
 
     /**
      * Retrieve specification Executions for a given Specification where the
@@ -256,7 +256,7 @@ public interface DocumentDao {
      * @param maxResults
      * @return Specification executions containing at most the max-result items
      */
-    public List<Execution> getSpecificationExecutions(Specification specification, SystemUnderTest sut, int maxResults);
+    List<Execution> getSpecificationExecutions(Specification specification, SystemUnderTest sut, int maxResults);
 
     /**
      * Retrieve an Execution for the given id.
@@ -265,5 +265,5 @@ public interface DocumentDao {
      * @return execution for the given id
      * @throws LivingDocServerException
      */
-    public Execution getSpecificationExecution(Long id);
+    Execution getSpecificationExecution(Long id);
 }

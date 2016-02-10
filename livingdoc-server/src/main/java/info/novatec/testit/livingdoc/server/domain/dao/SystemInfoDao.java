@@ -7,7 +7,7 @@ public interface SystemInfoDao {
     /**
      * @return The SystemInfo
      */
-    public SystemInfo getSystemInfo();
+    SystemInfo getSystemInfo();
 
     /**
      * Stores the SystemInfo.
@@ -15,5 +15,5 @@ public interface SystemInfoDao {
      * 
      * @param systemInfo
      */
-    public void store(SystemInfo systemInfo);
+    void store(SystemInfo systemInfo);
 }

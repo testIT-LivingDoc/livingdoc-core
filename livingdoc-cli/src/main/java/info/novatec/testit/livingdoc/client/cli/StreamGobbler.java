@@ -4,15 +4,15 @@ import java.util.List;
 
 
 public interface StreamGobbler extends Runnable {
-    public String getOutput();
+    String getOutput();
 
-    public String getError();
+    String getError();
 
-    public List<Exception> getExceptions();
+    List<Exception> getExceptions();
 
-    public boolean hasErrors();
+    boolean hasErrors();
 
-    public boolean hasExceptions();
+    boolean hasExceptions();
 
-    public void exceptionCaught(Exception e);
+    void exceptionCaught(Exception e);
 }

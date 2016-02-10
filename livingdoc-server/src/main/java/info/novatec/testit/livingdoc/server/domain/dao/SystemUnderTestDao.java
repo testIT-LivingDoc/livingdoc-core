@@ -18,7 +18,7 @@ public interface SystemUnderTestDao {
      * @param name of the runner
      * @return the Runner for the specified name.
      */
-    public Runner getRunnerByName(String name);
+    Runner getRunnerByName(String name);
 
     /**
      * Retrieves All available runners.
@@ -26,7 +26,7 @@ public interface SystemUnderTestDao {
      * 
      * @return All available runners.
      */
-    public List<Runner> getAllRunners();
+    List<Runner> getAllRunners();
 
     /**
      * Creates the Runner
@@ -36,7 +36,7 @@ public interface SystemUnderTestDao {
      * @return the new runner.
      * @throws LivingDocServerException
      */
-    public Runner create(Runner runner) throws LivingDocServerException;
+    Runner create(Runner runner) throws LivingDocServerException;
 
     /**
      * Updates the runner.
@@ -47,7 +47,7 @@ public interface SystemUnderTestDao {
      * @return the updated runner.
      * @throws LivingDocServerException
      */
-    public Runner update(String oldRunnerName, Runner runner) throws LivingDocServerException;
+    Runner update(String oldRunnerName, Runner runner) throws LivingDocServerException;
 
     /**
      * Removes the runner.
@@ -56,7 +56,7 @@ public interface SystemUnderTestDao {
      * @param runnerName
      * @throws LivingDocServerException
      */
-    public void removeRunner(String runnerName) throws LivingDocServerException;
+    void removeRunner(String runnerName) throws LivingDocServerException;
 
     /**
      * Retrieves the SystemUnderTest for the specified name.
@@ -66,7 +66,7 @@ public interface SystemUnderTestDao {
      * @param name of the SUT
      * @return the SystemUnderTest for the specified name.
      */
-    public SystemUnderTest getByName(String projectName, String sutName);
+    SystemUnderTest getByName(String projectName, String sutName);
 
     /**
      * Retrieves all the SystemUnderTest for the registered Project.
@@ -75,7 +75,7 @@ public interface SystemUnderTestDao {
      * @param projectName
      * @return all the SystemUnderTest for the registered Project.
      */
-    public List<SystemUnderTest> getAllForProject(String projectName);
+    List<SystemUnderTest> getAllForProject(String projectName);
 
     /**
      * Retrieves all the SystemUnderTest for the registered Runner.
@@ -84,7 +84,7 @@ public interface SystemUnderTestDao {
      * @param runnerName
      * @return all the SystemUnderTest for the registered Runner.
      */
-    public List<SystemUnderTest> getAllForRunner(String runnerName);
+    List<SystemUnderTest> getAllForRunner(String runnerName);
 
     /**
      * Saves the specified SystemUnderTest.
@@ -94,7 +94,7 @@ public interface SystemUnderTestDao {
      * @return the new SystemUnderTest.
      * @throws LivingDocServerException
      */
-    public SystemUnderTest create(SystemUnderTest newSystemUnderTest) throws LivingDocServerException;
+    SystemUnderTest create(SystemUnderTest newSystemUnderTest) throws LivingDocServerException;
 
     /**
      * Updates the specified SystemUnderTest.
@@ -105,7 +105,7 @@ public interface SystemUnderTestDao {
      * @return the updated SystemUnderTest.
      * @throws LivingDocServerException
      */
-    public SystemUnderTest update(String oldSutName, SystemUnderTest updatedSystemUnderTest) throws LivingDocServerException;
+    SystemUnderTest update(String oldSutName, SystemUnderTest updatedSystemUnderTest) throws LivingDocServerException;
 
     /**
      * Deletes the specified SystemUnderTest.
@@ -115,7 +115,7 @@ public interface SystemUnderTestDao {
      * @param sutName.
      * @throws LivingDocServerException
      */
-    public void remove(String projectName, String sutName) throws LivingDocServerException;
+    void remove(String projectName, String sutName) throws LivingDocServerException;
 
     /**
      * Set the specified SystemUnderTest as the new project default.
@@ -124,7 +124,7 @@ public interface SystemUnderTestDao {
      * @param systemUnderTest.
      * @throws LivingDocServerException
      */
-    public void setAsDefault(SystemUnderTest systemUnderTest) throws LivingDocServerException;
+    void setAsDefault(SystemUnderTest systemUnderTest) throws LivingDocServerException;
 
     /**
      * Retrieves all references that depends on the SystemUnderTest
@@ -133,7 +133,7 @@ public interface SystemUnderTestDao {
      * @param sut
      * @return all references that depends on the SystemUnderTest
      */
-    public List<Reference> getAllReferences(SystemUnderTest sut);
+    List<Reference> getAllReferences(SystemUnderTest sut);
 
     /**
      * Retrieves all specifications that depends on the SystemUnderTest
@@ -142,5 +142,5 @@ public interface SystemUnderTestDao {
      * @param sut
      * @return all specifications that depends on the SystemUnderTest
      */
-    public List<Specification> getAllSpecifications(SystemUnderTest sut);
+    List<Specification> getAllSpecifications(SystemUnderTest sut);
 }
