@@ -57,7 +57,7 @@ public final class ShouldBe {
 
     public static Expectation literal(String expected) {
         if (expected == null) {
-            throw new NullPointerException("expected");
+            throw new IllegalArgumentException("the parameter was null");
         }
 
         for (int i = factories.size() - 1; i >= 0; i -- ) {

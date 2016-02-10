@@ -11,7 +11,7 @@ public class Type<T> {
 
     public Type(Class< ? extends T> klass) {
         if (klass == null) {
-            throw new NullPointerException("klass");
+            throw new IllegalArgumentException("the parameter is null");
         }
         this.klass = klass;
     }
