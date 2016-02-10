@@ -137,7 +137,7 @@ public class CommandLine {
 
         sb.append("\n\n").append("Options:");
         for (Option option : options) {
-            sb.append("\n").append(option);
+            sb.append('\n').append(option);
         }
 
         return sb.toString();

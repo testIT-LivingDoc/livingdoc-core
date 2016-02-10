@@ -129,7 +129,7 @@ public class Option {
         }
 
         if (wantsArg()) {
-            sb.append(" ").append(arg);
+            sb.append(' ').append(arg);
         }
 
         if (description != null) {
@@ -141,7 +141,7 @@ public class Option {
     private void justify(StringBuilder sb) {
         int padding = 30 - sb.length();
         if (padding <= 0) {
-            sb.append("\n");
+            sb.append('\n');
             padding = 30;
         }
         char[] filler = new char[padding];

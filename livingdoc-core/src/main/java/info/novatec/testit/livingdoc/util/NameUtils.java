@@ -77,7 +77,7 @@ public final class NameUtils {
         for (int i = 0; i < chars.length; i ++ ) {
             char c = chars[i];
             if (Character.isUpperCase(c) && i > 0) {
-                literal.append(" ");
+                literal.append(' ');
                 literal.append(Character.toLowerCase(c));
             } else {
                 literal.append(c);

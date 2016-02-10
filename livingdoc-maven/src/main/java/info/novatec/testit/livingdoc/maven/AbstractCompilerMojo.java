@@ -357,7 +357,7 @@ public abstract class AbstractCompilerMojo extends AbstractMojo {
                         StringBuffer sb = new StringBuffer();
                         sb.append(cl[0]);
                         for (int i = 1; i < cl.length; i ++ ) {
-                            sb.append(" ");
+                            sb.append(' ');
                             sb.append(cl[i]);
                         }
                         getLog().debug("Command line options:");

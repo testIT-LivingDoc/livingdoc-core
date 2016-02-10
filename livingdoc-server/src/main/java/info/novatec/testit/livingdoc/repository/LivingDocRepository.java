@@ -212,10 +212,10 @@ public class LivingDocRepository implements DocumentRepository {
         } else {
             query += "&includeStyle=false";
         }
-        sb.append("?").append(query);
+        sb.append('?').append(query);
 
         if (uri.getFragment() != null) {
-            sb.append("#").append(uri.getFragment());
+            sb.append('#').append(uri.getFragment());
         }
 
         return sb.toString();
