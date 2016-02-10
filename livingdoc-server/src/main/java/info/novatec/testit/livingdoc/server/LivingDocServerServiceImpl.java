@@ -83,7 +83,7 @@ import org.slf4j.LoggerFactory;
 
 public class LivingDocServerServiceImpl implements LivingDocServerService {
 
-    private static Logger log = LoggerFactory.getLogger(LivingDocServerServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(LivingDocServerServiceImpl.class);
 
     private SessionService sessionService;
     private ProjectDao projectDao;

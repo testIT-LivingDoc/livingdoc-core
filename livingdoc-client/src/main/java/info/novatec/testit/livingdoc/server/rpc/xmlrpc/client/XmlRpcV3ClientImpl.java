@@ -37,7 +37,7 @@ import info.novatec.testit.livingdoc.util.ClientUtils;
 public class XmlRpcV3ClientImpl implements XmlRpcClientExecutor {
 
     private final XmlRpcClient client;
-    private static Logger logger = LoggerFactory.getLogger(XmlRpcV3ClientImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(XmlRpcV3ClientImpl.class);
 
     public XmlRpcV3ClientImpl(String url) throws XmlRpcClientExecutorException {
 

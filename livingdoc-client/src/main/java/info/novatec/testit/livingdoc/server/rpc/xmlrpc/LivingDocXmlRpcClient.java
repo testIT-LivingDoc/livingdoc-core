@@ -29,7 +29,7 @@ import info.novatec.testit.livingdoc.util.CollectionUtil;
 
 @SuppressWarnings("rawtypes")
 public class LivingDocXmlRpcClient implements RpcClientService {
-    private static Logger log = LoggerFactory.getLogger(LivingDocXmlRpcClient.class);
+    private static final Logger log = LoggerFactory.getLogger(LivingDocXmlRpcClient.class);
 
     public static final String XML_RPC = "rpc/xmlrpc";
     public static final String HANDLER_SEPARTOR = ".";

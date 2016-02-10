@@ -46,7 +46,7 @@ import info.novatec.testit.livingdoc.util.FormattedDate;
  * @author JCHUET
  */
 public class XmlRpcDataMarshaller {
-    private static Logger log = LoggerFactory.getLogger(XmlRpcDataMarshaller.class);
+    private static final Logger log = LoggerFactory.getLogger(XmlRpcDataMarshaller.class);
     public static final String MARSHALLING_VERSION = "Marshall v. 1.0";
 
     public static final int PROJECT_NAME_IDX = 0;

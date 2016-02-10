@@ -36,7 +36,11 @@ public class LoggingMonitor implements SpecificationRunnerMonitor {
     @Override
     public void testDone(int rightCount, int wrongCount, int exceptionCount, int ignoreCount) {
         Statistics stats = new Statistics(rightCount, wrongCount, exceptionCount, ignoreCount);
-        LOG.info(stats.toString() + ( stats.indicatesFailure() ? " <<< FAILURE! " : "" ));
+        StringBuilder logMsg = new StringBuilder(stats.toString());
+        if (stats.indicatesFailure()) {
+            logMsg.append(" <<< FAILURE! ");
+        }
+        LOG.info(logMsg.toString());
     }
 
     @Override

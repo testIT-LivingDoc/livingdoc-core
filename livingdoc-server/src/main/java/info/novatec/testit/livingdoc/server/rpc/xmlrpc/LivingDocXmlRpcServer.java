@@ -67,7 +67,7 @@ import org.slf4j.LoggerFactory;
  * @author jchuet
  */
 public class LivingDocXmlRpcServer implements RpcServerService {
-    private static Logger log = LoggerFactory.getLogger(LivingDocXmlRpcServer.class);
+    private static final Logger log = LoggerFactory.getLogger(LivingDocXmlRpcServer.class);
 
     private LivingDocServerService service;
 
