@@ -4,6 +4,7 @@ import static info.novatec.testit.livingdoc.LivingDoc.canContinue;
 import static info.novatec.testit.livingdoc.LivingDoc.shouldStop;
 import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.slf4j.Logger;
@@ -139,7 +140,7 @@ public class AbstractFlowInterpreter extends AbstractInterpreter {
             Call call = new Call(message);
             call.will(Compile.statistics(stats)).when(ResultIs.exception());
             call.execute();
-        } catch (Exception e) {
+        } catch (InvocationTargetException | IllegalAccessException e) {
             LOG.error(LOG_ERROR, e);
             stats.exception();
         }

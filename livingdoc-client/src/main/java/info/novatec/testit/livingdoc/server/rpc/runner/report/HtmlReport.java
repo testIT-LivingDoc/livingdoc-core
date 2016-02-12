@@ -100,8 +100,8 @@ public class HtmlReport implements Report {
             if (is.read(bytes) > 0) {
                 return new String(bytes);
             }
-            throw new Exception("Cannot read style.css resource from jar");
-        } catch (Exception ex) {
+            throw new IOException("Cannot read style.css resource from jar");
+        } catch (IOException ex) {
             throw ExceptionImposter.imposterize(ex);
         }
     }

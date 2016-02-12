@@ -33,7 +33,7 @@ public class ComandLineHelper {
             if (port != null) {
                 return Integer.parseInt(port);
             }
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             // No implementation needed.
         }
 

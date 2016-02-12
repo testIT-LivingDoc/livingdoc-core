@@ -19,6 +19,7 @@
 package info.novatec.testit.livingdoc.server.rpc.xmlrpc.client;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
 import info.novatec.testit.livingdoc.util.ClassUtils;
@@ -51,7 +52,7 @@ public class XmlRpcClientExecutorFactory {
         try {
             Constructor< ? > c = xmlRpcClientImplClass.getConstructor(new Class[] { String.class });
             return ( XmlRpcClientExecutor ) c.newInstance(url);
-        } catch (Exception ex) {
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ex) {
             throw new XmlRpcClientExecutorException(LivingDocServerErrorKey.GENERAL_ERROR, ex);
         }
     }

@@ -15,14 +15,18 @@
 package info.novatec.testit.livingdoc.maven;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.maven.archiver.MavenArchiveConfiguration;
 import org.apache.maven.archiver.MavenArchiver;
+import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
+import org.codehaus.plexus.archiver.ArchiverException;
 import org.codehaus.plexus.archiver.jar.JarArchiver;
+import org.codehaus.plexus.archiver.jar.ManifestException;
 
 
 /**
@@ -154,7 +158,7 @@ public abstract class AbstractJarMojo extends AbstractMojo {
             archiver.createArchive(project, archive);
 
             return jarFile;
-        } catch (Exception e) {
+        } catch (ArchiverException | DependencyResolutionRequiredException | IOException | ManifestException e) {
             throw new MojoExecutionException("Error assembling JAR", e);
         }
     }

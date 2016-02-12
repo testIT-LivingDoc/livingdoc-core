@@ -21,6 +21,7 @@ package info.novatec.testit.livingdoc.server.rpc.xmlrpc.client;
 import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.CALL_FAILED;
 import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.XML_RPC_URL_NOTFOUND;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Vector;
 
@@ -49,7 +50,7 @@ public class XmlRpcV3ClientImpl implements XmlRpcClientExecutor {
 
             client.setTransportFactory(new XmlRpcLiteHttpTransportFactory(client));
             client.setConfig(config);
-        } catch (Exception ex) {
+        } catch (MalformedURLException ex) {
             logger.error("Error executing XML RPC call", ex);
             ex.printStackTrace();
             throw new XmlRpcClientExecutorException(XML_RPC_URL_NOTFOUND, ex);

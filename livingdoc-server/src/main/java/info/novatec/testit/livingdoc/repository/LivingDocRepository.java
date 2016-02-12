@@ -279,7 +279,7 @@ public class LivingDocRepository implements DocumentRepository {
                 String msg = ( String ) getXmlRpcClient().execute(new XmlRpcRequest(handler + ".saveExecutionResult", args));
 
                 if ( ! ( "<success>".equals(msg) )) {
-                    throw new Exception(msg);
+                    throw new IllegalStateException(msg);
                 }
             } catch (XmlRpcException e) {
                 // Old server / incompatible method ?
@@ -288,7 +288,7 @@ public class LivingDocRepository implements DocumentRepository {
                     // fail if we can't post the result back ?
                     throw ExceptionImposter.imposterize(e);
                 }
-            } catch (Exception e) {
+            } catch (IllegalStateException | IOException e) {
                 // @todo : Log ? Critical ? Do we want the test execution to
                 // fail if we can't post the result back ?
                 throw ExceptionImposter.imposterize(e);

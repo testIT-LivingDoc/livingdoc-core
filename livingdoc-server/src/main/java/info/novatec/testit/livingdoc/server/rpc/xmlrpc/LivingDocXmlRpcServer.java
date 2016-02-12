@@ -36,6 +36,8 @@ import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_C
 import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_DELETE_FAILED;
 import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_SET_DEFAULT_FAILED;
 import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_UPDATE_FAILED;
+
+import info.novatec.testit.livingdoc.server.LivingDocServer;
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
 import info.novatec.testit.livingdoc.server.LivingDocServerService;
 import info.novatec.testit.livingdoc.server.domain.DocumentNode;
@@ -116,7 +118,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Retrieved Runner name: " + name);
             return runner.marshallize();
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, RUNNER_NOT_FOUND);
         }
     }
@@ -131,7 +133,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Retrieved All Runner number: " + runners.size());
             return XmlRpcDataMarshaller.toXmlRpcRunnersParameters(runners);
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, RUNNERS_NOT_FOUND);
         }
     }
@@ -148,7 +150,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Created Runner: " + runner.getName());
             return SUCCESS;
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsString(e, RUNNER_CREATE_FAILED);
         }
     }
@@ -165,7 +167,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Updated Runner: " + oldRunnerName);
             return SUCCESS;
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsString(e, RUNNER_UPDATE_FAILED);
         }
     }
@@ -180,7 +182,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Removed Runner: " + name);
             return SUCCESS;
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsString(e, RUNNER_REMOVE_FAILED);
         }
     }
@@ -196,7 +198,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
             repository = service.getRegisteredRepository(repository);
 
             return repository.marshallize();
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, REPOSITORY_GET_REGISTERED);
         }
     }
@@ -213,7 +215,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Registered Repository: " + registeredRepository.getUid());
             return registeredRepository.marshallize();
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, REPOSITORY_REGISTRATION_FAILED);
         }
     }
@@ -230,7 +232,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Updated Repository: " + repository.getName());
             return SUCCESS;
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsString(e, REPOSITORY_UPDATE_FAILED);
         }
     }
@@ -245,7 +247,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Removed Repository: " + repositoryUid);
             return SUCCESS;
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsString(e, REPOSITORY_REMOVE_FAILED);
         }
     }
@@ -260,7 +262,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Retrieved All Projects number: " + projects.size());
             return XmlRpcDataMarshaller.toXmlRpcProjectsParameters(projects);
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, RETRIEVE_PROJECTS);
         }
     }
@@ -294,7 +296,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
             log.debug("Retrieved Test Repositories Of Associated Project of " + repository.getUid() + NUMBER
                 + repositories.size());
             return XmlRpcDataMarshaller.toXmlRpcRepositoriesParameters(repositories);
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, RETRIEVE_SPECIFICATION_REPOS);
         }
     }
@@ -311,7 +313,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
             log.debug("Retrieved All Repositories Of Associated Project of " + sut.getName() + NUMBER + repositories
                 .size());
             return XmlRpcDataMarshaller.toXmlRpcRepositoriesParameters(repositories);
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, RETRIEVE_REPOSITORIES);
         }
     }
@@ -328,7 +330,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
             log.debug("Retrieved Test Repositories Of Associated Project of " + sut.getName() + NUMBER + repositories
                 .size());
             return XmlRpcDataMarshaller.toXmlRpcRepositoriesParameters(repositories);
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, RETRIEVE_SPECIFICATION_REPOS);
         }
     }
@@ -346,7 +348,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
             log.debug("Retrieved Requirement Repositories Of Associated Project of " + repository.getUid() + NUMBER
                 + repositories.size());
             return XmlRpcDataMarshaller.toXmlRpcRepositoriesParameters(repositories);
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, RETRIEVE_REQUIREMENT_REPOS);
         }
     }
@@ -363,7 +365,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Retrieved SUTs Of Associated Project of " + repository.getUid() + NUMBER + suts.size());
             return XmlRpcDataMarshaller.toXmlRpcSystemUnderTestsParameters(suts);
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, RETRIEVE_SUTS);
         }
     }
@@ -378,7 +380,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Retrieved SUTs of Project: " + projectName + NUMBER + suts.size());
             return XmlRpcDataMarshaller.toXmlRpcSystemUnderTestsParameters(suts);
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, RETRIEVE_SUTS);
         }
     }
@@ -396,7 +398,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
             service.addSpecificationSystemUnderTest(sut, specification);
             log.debug("Added SUT " + sut.getName() + " to SUT list of specification: " + specification.getName());
             return SUCCESS;
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsString(e, SPECIFICATION_ADD_SUT_FAILED);
         }
     }
@@ -416,7 +418,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Removed SUT " + sut.getName() + " to SUT list of specification: " + specification.getName());
             return SUCCESS;
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsString(e, SPECIFICATION_REMOVE_SUT_FAILED);
         }
     }
@@ -432,7 +434,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Does Specification " + specification.getName() + "  Has References: " + hasReferences);
             return String.valueOf(hasReferences);
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsString(e, String.valueOf(false));
         }
     }
@@ -449,7 +451,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Retrieved Specification " + specification.getName() + " Test Cases number: " + references.size());
             return XmlRpcDataMarshaller.toXmlRpcReferencesParameters(references);
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, RETRIEVE_REFERENCES);
         }
     }
@@ -465,7 +467,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Does Requirement " + requirement.getName() + " Document Has References: " + hasReferences);
             return String.valueOf(hasReferences);
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsString(e, String.valueOf(false));
         }
     }
@@ -483,7 +485,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
             log.debug("Retrieved Requirement " + requirement.getName() + " Document References number: " + references
                 .size());
             return XmlRpcDataMarshaller.toXmlRpcReferencesParameters(references);
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, RETRIEVE_REFERENCES);
         }
     }
@@ -500,7 +502,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Retrieved Requirement " + requirement.getName() + " Summary");
             return requirementSummary.marshallize();
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return new RequirementSummary().marshallize();
         }
     }
@@ -522,7 +524,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
             log.debug("Retrieved Reference: " + reference.getRequirement().getName() + "," + reference.getSpecification()
                 .getName());
             return reference.marshallize();
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, RETRIEVE_REFERENCE);
         }
     }
@@ -541,7 +543,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Retrieved SystemUnderTest: " + sut.getName());
             return sut.marshallize();
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, RETRIEVE_SUTS);
         }
     }
@@ -560,7 +562,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Updated SystemUnderTest: " + newSut.getName());
             return SUCCESS;
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsString(e, SUT_CREATE_FAILED);
         }
     }
@@ -580,7 +582,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Updated SystemUnderTest: " + oldSystemUnderTestName);
             return SUCCESS;
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsString(e, SUT_UPDATE_FAILED);
         }
     }
@@ -599,7 +601,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Removed SystemUnderTest: " + sutToDelete.getName());
             return SUCCESS;
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsString(e, SUT_DELETE_FAILED);
         }
     }
@@ -618,7 +620,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Setted as default SystemUnderTest: " + sutToBeDefault.getName());
             return SUCCESS;
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsString(e, SUT_SET_DEFAULT_FAILED);
         }
     }
@@ -635,7 +637,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Removed Requirement: " + requirement.getName());
             return SUCCESS;
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsString(e, REQUIREMENT_REMOVE_FAILED);
         }
     }
@@ -655,7 +657,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
             }
             log.debug("Specification found: " + specification.getName());
             return specification.marshallize();
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, SPECIFICATION_NOT_FOUND);
         }
     }
@@ -674,7 +676,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
             log.debug("Retrieved specifications for sut: " + systemUnderTest.getName() + " and repoUID:" + repository
                 .getUid());
             return XmlRpcDataMarshaller.toXmlRpcSpecificationsParameters(specifications);
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, SPECIFICATIONS_NOT_FOUND);
         }
     }
@@ -692,7 +694,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
             log.debug("Retrieved specification list: " + repository.getName());
             return XmlRpcDataMarshaller.toXmlRpcSpecificationLocationsParameters(specificationLocations);
             
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, SPECIFICATIONS_NOT_FOUND);
         }
     }
@@ -709,7 +711,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
             DocumentNode hierarchy = service.getSpecificationHierarchy(repository, systemUnderTest);
 
             return hierarchy.marshallize();
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, SPECIFICATIONS_NOT_FOUND);
         }
     }
@@ -726,7 +728,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Created specification: " + specification.getName());
             return specification.marshallize();
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, SPECIFICATION_CREATE_FAILED);
         }
     }
@@ -744,7 +746,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Updated Specification: " + oldSpecification.getName());
             return SUCCESS;
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsString(e, SPECIFICATION_UPDATE_FAILED);
         }
     }
@@ -761,7 +763,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             log.debug("Removed specification: " + specification.getName());
             return SUCCESS;
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsString(e, SPECIFICATION_REMOVE_FAILED);
         }
     }
@@ -779,7 +781,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
             log.debug("Created Reference: " + reference.getRequirement().getName() + "," + reference.getSpecification()
                 .getName());
             return SUCCESS;
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsString(e, REFERENCE_CREATE_FAILED);
         }
     }
@@ -800,7 +802,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
                 .getName());
 
             return newReference.marshallize();
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, REFERENCE_UPDATE_FAILED);
         }
     }
@@ -819,7 +821,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
                 .getName());
 
             return SUCCESS;
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsString(e, REFERENCE_REMOVE_FAILED);
         }
     }
@@ -838,7 +840,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
             log.debug("Runned Specification: " + specification.getName() + " ON System: " + systemUnderTest.getName());
 
             return exe.marshallize();
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, SPECIFICATION_RUN_FAILED);
         }
     }
@@ -857,7 +859,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
                 .getName() + " ON System: " + reference.getSystemUnderTest().getName());
 
             return reference.marshallize();
-        } catch (Exception e) {
+        } catch (LivingDocServerException e) {
             return errorAsVector(e, RUN_REFERENCE_FAILED);
         }
     }

@@ -66,7 +66,7 @@ public class ScenarioMessage extends Message {
         } catch (InvocationTargetException ex) {
             LOG.error(LOG_ERROR, ex);
             throw new SystemUnderDevelopmentException(ex.getTargetException());
-        } catch (Exception ex) {
+        } catch (IllegalAccessException ex) {
             LOG.error(LOG_ERROR, ex);
             throw new SystemUnderDevelopmentException(ex);
         }

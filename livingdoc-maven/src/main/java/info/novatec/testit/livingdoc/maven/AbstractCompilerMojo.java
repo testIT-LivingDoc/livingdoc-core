@@ -377,7 +377,7 @@ public abstract class AbstractCompilerMojo extends AbstractMojo {
 
         try {
             messages = compiler.compile(compilerConfiguration);
-        } catch (Exception e) {
+        } catch (CompilerException e) {
             throw new MojoExecutionException("Fatal error compiling", e);
         }
 

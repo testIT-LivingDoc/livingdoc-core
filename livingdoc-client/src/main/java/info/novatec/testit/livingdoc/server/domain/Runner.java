@@ -7,6 +7,7 @@ import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshall
 import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.RUNNER_SERVER_PORT_IDX;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Locale;
@@ -22,6 +23,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import info.novatec.testit.livingdoc.server.rpc.xmlrpc.client.XmlRpcClientExecutorException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.commons.lang3.StringUtils;
@@ -45,6 +47,7 @@ import info.novatec.testit.livingdoc.util.CollectionUtil;
 import info.novatec.testit.livingdoc.util.ExceptionUtils;
 import info.novatec.testit.livingdoc.util.JoinClassLoader;
 import info.novatec.testit.livingdoc.util.URIUtil;
+import org.xml.sax.SAXException;
 
 
 /**
@@ -153,7 +156,7 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
             execution.setSpecification(specification);
             execution.setRemotelyExecuted();
             return execution;
-        } catch (Exception e) {
+        } catch (XmlRpcClientExecutorException e) {
             return Execution.error(specification, systemUnderTest, paramSections, ExceptionUtils.stackTrace(e, "<br>", 15));
         }
     }
@@ -214,7 +217,7 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
             Execution execution = Execution.newInstance(specification, systemUnderTest, report);
 
             return execution;
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException | SAXException e) {
             return Execution.error(specification, systemUnderTest, sections, ExceptionUtils.stackTrace(e, "<br>", 15));
         } finally {
             if (outputFile != null) {

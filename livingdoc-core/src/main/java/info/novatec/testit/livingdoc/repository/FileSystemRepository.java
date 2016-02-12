@@ -150,12 +150,7 @@ public class FileSystemRepository implements DocumentRepository {
         Hashtable<String, Object> hashtable = new Hashtable<String, Object>();
         if (file.isDirectory() && file.listFiles() != null) {
             for (File node : file.listFiles(NOT_HIDDEN)) {
-                try {
                     hashtable.put(node.getName(), toHierarchyNodeVector(node));
-                } catch (Exception e) {
-                    LOG.error(LOG_ERROR, e);
-                    // URI not standard skip it !
-                }
             }
         }
 

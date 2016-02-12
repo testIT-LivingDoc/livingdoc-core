@@ -18,10 +18,13 @@
  */
 package info.novatec.testit.livingdoc.server.rpc.runner;
 
+import java.io.IOException;
 import java.util.Locale;
 
 import info.novatec.testit.livingdoc.runner.SpecificationRunner;
 import info.novatec.testit.livingdoc.runner.SpecificationRunnerMonitor;
+import info.novatec.testit.livingdoc.server.LivingDocServer;
+import info.novatec.testit.livingdoc.server.LivingDocServerException;
 import info.novatec.testit.livingdoc.server.domain.Execution;
 import info.novatec.testit.livingdoc.server.rpc.runner.report.Report;
 import info.novatec.testit.livingdoc.server.rpc.runner.report.ReportGenerator;
@@ -100,7 +103,7 @@ public class RemoteDocumentRunner implements SpecificationRunner {
         }
         try {
             reportGenerator.closeReport(report);
-        } catch (Exception e) {
+        } catch (LivingDocServerException | IOException e) {
             monitor.exceptionOccurred(e);
         }
     }
