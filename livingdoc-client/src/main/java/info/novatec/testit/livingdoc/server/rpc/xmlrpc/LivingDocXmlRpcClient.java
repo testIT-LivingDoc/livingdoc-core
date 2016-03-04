@@ -29,6 +29,7 @@ import info.novatec.testit.livingdoc.util.CollectionUtil;
 
 @SuppressWarnings("rawtypes")
 public class LivingDocXmlRpcClient implements RpcClientService {
+    public static final String SUPPRESS_UNCHECKED = "unchecked";
     private static final Logger log = LoggerFactory.getLogger(LivingDocXmlRpcClient.class);
 
     public static final String XML_RPC = "rpc/xmlrpc";
@@ -59,7 +60,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public boolean ping(Repository repository, String identifier) throws LivingDocServerException {
         String hostName = propertiesManager.getProperty(ServerPropertiesManager.URL, identifier);
         log.debug("PINGING : HostName => " + hostName + "  &  Handler => " + getLocalHandler(identifier));
@@ -69,7 +70,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Runner getRunner(String name, String identifier) throws LivingDocServerException {
         log.debug("Retreiving all runners");
         Vector<Object> runnerParams = ( Vector<Object> ) execute(XmlRpcMethodName.getRunner, CollectionUtil.toVector(name),
@@ -79,7 +80,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Set<Runner> getAllRunners(String identifier) throws LivingDocServerException {
         log.debug("Retreiving all runners");
         Vector<Object> runnersParams = ( Vector<Object> ) execute(XmlRpcMethodName.getAllRunners, new Vector(), identifier);
@@ -88,7 +89,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void createRunner(Runner runner, String identifier) throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(runner.marshallize());
 
@@ -111,7 +112,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Repository getRegisteredRepository(Repository repository, String identifier) throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(repository.marshallize());
 
@@ -124,7 +125,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Repository registerRepository(Repository repository, String identifier) throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(repository.marshallize());
 
@@ -136,7 +137,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void updateRepositoryRegistration(Repository repository, String identifier) throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(repository.marshallize());
 
@@ -153,7 +154,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Set<Project> getAllProjects(String identifier) throws LivingDocServerException {
         log.debug("Retrieving All Projects");
         Vector<Object> projectsParams = ( Vector<Object> ) execute(XmlRpcMethodName.getAllProjects, identifier);
@@ -162,7 +163,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Set<Repository> getAllSpecificationRepositories(String identifier) throws LivingDocServerException {
         log.debug("Retrieving all specification repositories.");
         Vector<Object> repositoriesParams = ( Vector<Object> ) execute(XmlRpcMethodName.getAllSpecificationRepositories,
@@ -172,7 +173,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Set<Repository> getAllRepositoriesForSystemUnderTest(SystemUnderTest systemUnderTest, String identifier)
         throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(systemUnderTest.marshallize());
@@ -185,7 +186,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Set<Repository> getSpecificationRepositoriesOfAssociatedProject(Repository repository, String identifier)
         throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(repository.marshallize());
@@ -198,7 +199,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Set<Repository> getSpecificationRepositoriesOfAssociatedProject(SystemUnderTest systemUnderTest,
         String identifier) throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(systemUnderTest.marshallize());
@@ -212,7 +213,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Set<Repository> getRequirementRepositoriesOfAssociatedProject(Repository repository, String identifier)
         throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(repository.marshallize());
@@ -225,7 +226,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Set<SystemUnderTest> getSystemUnderTestsOfAssociatedProject(Repository repository, String identifier)
         throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(repository.marshallize());
@@ -238,7 +239,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Set<SystemUnderTest> getSystemUnderTestsOfProject(String projectName, String identifier)
         throws LivingDocServerException {
         log.debug("Retrieving SUT list for Project: " + projectName);
@@ -249,7 +250,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void addSystemUnderTest(SystemUnderTest systemUnderTest, Specification specification, String identifier)
         throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(systemUnderTest.marshallize(), specification.marshallize());
@@ -259,7 +260,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void removeSystemUnderTest(SystemUnderTest systemUnderTest, Specification specification, String identifier)
         throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(systemUnderTest.marshallize(), specification.marshallize());
@@ -269,7 +270,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public boolean hasReferences(Specification specification, String identifier) throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(specification.marshallize());
 
@@ -280,7 +281,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Set<Reference> getReferences(Specification specification, String identifier) throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(specification.marshallize());
 
@@ -292,7 +293,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public boolean hasReferences(Requirement requirement, String identifier) throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(requirement.marshallize());
 
@@ -303,7 +304,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Set<Reference> getReferences(Requirement requirement, String identifier) throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(requirement.marshallize());
 
@@ -315,7 +316,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Reference getReference(Reference reference, String identifier) throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(reference.marshallize());
 
@@ -327,7 +328,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public SystemUnderTest getSystemUnderTest(SystemUnderTest systemUnderTest, Repository repository, String identifier)
         throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(systemUnderTest.marshallize(), repository.marshallize());
@@ -339,7 +340,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void createSystemUnderTest(SystemUnderTest systemUnderTest, Repository repository, String identifier)
         throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(systemUnderTest.marshallize(), repository.marshallize());
@@ -359,7 +360,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void removeSystemUnderTest(SystemUnderTest systemUnderTest, Repository repository, String identifier)
         throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(systemUnderTest.marshallize(), repository.marshallize());
@@ -369,7 +370,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void setSystemUnderTestAsDefault(SystemUnderTest systemUnderTest, Repository repository, String identifier)
         throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(systemUnderTest.marshallize(), repository.marshallize());
@@ -379,7 +380,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void removeRequirement(Requirement requirement, String identifier) throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(requirement.marshallize());
 
@@ -388,7 +389,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Specification getSpecification(Specification specification, String identifier) throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(specification.marshallize());
 
@@ -400,7 +401,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Specification createSpecification(Specification specification, String identifier)
         throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(specification.marshallize());
@@ -413,7 +414,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void updateSpecification(Specification oldSpecification, Specification newSpecification, String identifier)
         throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(oldSpecification.marshallize(), newSpecification.marshallize());
@@ -423,7 +424,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void removeSpecification(Specification specification, String identifier) throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(specification.marshallize());
 
@@ -432,7 +433,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void createReference(Reference reference, String identifier) throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(reference.marshallize());
 
@@ -442,7 +443,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Reference updateReference(Reference oldReference, Reference newReference, String identifier)
         throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(oldReference.marshallize(), newReference.marshallize());
@@ -455,7 +456,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void removeReference(Reference reference, String identifier) throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(reference.marshallize());
 
@@ -465,7 +466,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Execution runSpecification(SystemUnderTest systemUnderTest, Specification specification,
         boolean implementedVersion, String locale, String identifier) throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(systemUnderTest.marshallize(), specification.marshallize(),
@@ -478,7 +479,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Reference runReference(Reference reference, String locale, String identifier) throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(reference.marshallize(), locale);
 
@@ -490,7 +491,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public RequirementSummary getSummary(Requirement requirement, String identifier) throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(requirement.marshallize());
         Vector<Object> compilParams = ( Vector<Object> ) execute(XmlRpcMethodName.getRequirementSummary, params, identifier);
@@ -501,7 +502,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public DocumentNode getSpecificationHierarchy(Repository repository, SystemUnderTest systemUnderTest, String identifier)
         throws LivingDocServerException {
         Vector params = CollectionUtil.toVector(repository.marshallize(), systemUnderTest.marshallize());

@@ -84,6 +84,7 @@ import org.slf4j.LoggerFactory;
 public class LivingDocServerServiceImpl implements LivingDocServerService {
 
     private static final Logger log = LoggerFactory.getLogger(LivingDocServerServiceImpl.class);
+    public static final String NUMBER = " number: ";
 
     private SessionService sessionService;
     private ProjectDao projectDao;
@@ -477,7 +478,7 @@ public class LivingDocServerServiceImpl implements LivingDocServerService {
 
             List<Repository> repositories = repositoryDao.getAllTestRepositories(repository.getProject().getName());
 
-            log.debug("Retrieved Test Repositories Of Associated Project of " + repository.getUid() + " number: "
+            log.debug("Retrieved Test Repositories Of Associated Project of " + repository.getUid() + NUMBER
                 + repositories.size());
             return repositories;
         } catch (Exception ex) {
@@ -497,7 +498,7 @@ public class LivingDocServerServiceImpl implements LivingDocServerService {
 
             List<Repository> repositories = repositoryDao.getAllTestRepositories(sut.getProject().getName());
 
-            log.debug("Retrieved Test Repositories Of Associated Project of " + sut.getName() + " number: " + repositories
+            log.debug("Retrieved Test Repositories Of Associated Project of " + sut.getName() + NUMBER + repositories
                 .size());
             return repositories;
         } catch (Exception ex) {
@@ -518,7 +519,7 @@ public class LivingDocServerServiceImpl implements LivingDocServerService {
 
             List<Repository> repositories = repositoryDao.getAllTestRepositories(sut.getProject().getName());
 
-            log.debug("Retrieved Test Repositories Of Associated Project of " + sut.getName() + " number: " + repositories
+            log.debug("Retrieved Test Repositories Of Associated Project of " + sut.getName() + NUMBER + repositories
                 .size());
             return repositories;
         } catch (Exception ex) {
@@ -541,7 +542,7 @@ public class LivingDocServerServiceImpl implements LivingDocServerService {
 
             List<Repository> repositories = repositoryDao.getAllRequirementRepositories(repository.getProject().getName());
 
-            log.debug("Retrieved Requirement Repositories Of Associated Project of " + repository.getUid() + " number: "
+            log.debug("Retrieved Requirement Repositories Of Associated Project of " + repository.getUid() + NUMBER
                 + repositories.size());
             return repositories;
         } catch (Exception ex) {
@@ -564,7 +565,7 @@ public class LivingDocServerServiceImpl implements LivingDocServerService {
 
             List<SystemUnderTest> suts = sutDao.getAllForProject(repository.getProject().getName());
 
-            log.debug("Retrieved SUTs Of Associated Project of " + repository.getUid() + " number: " + suts.size());
+            log.debug("Retrieved SUTs Of Associated Project of " + repository.getUid() + NUMBER + suts.size());
             return suts;
         } catch (Exception ex) {
             throw handleException(RETRIEVE_SUTS, ex);
@@ -582,7 +583,7 @@ public class LivingDocServerServiceImpl implements LivingDocServerService {
             sessionService.startSession();
             List<SystemUnderTest> suts = sutDao.getAllForProject(projectName);
 
-            log.debug("Retrieved SUTs of Project: " + projectName + " number: " + suts.size());
+            log.debug("Retrieved SUTs of Project: " + projectName + NUMBER + suts.size());
             return suts;
         } catch (NullPointerException ex) {
             throw new LivingDocServerException(RETRIEVE_SUTS, ex);

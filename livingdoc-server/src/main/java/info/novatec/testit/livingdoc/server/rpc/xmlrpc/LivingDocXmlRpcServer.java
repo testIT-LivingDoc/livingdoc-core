@@ -68,6 +68,7 @@ import org.slf4j.LoggerFactory;
  */
 public class LivingDocXmlRpcServer implements RpcServerService {
     private static final Logger log = LoggerFactory.getLogger(LivingDocXmlRpcServer.class);
+    public static final String NUMBER = " number: ";
 
     private LivingDocServerService service;
 
@@ -289,7 +290,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
             Collection<Repository> repositories = service.getSpecificationRepositoriesOfAssociatedProject(repository
                 .getUid());
 
-            log.debug("Retrieved Test Repositories Of Associated Project of " + repository.getUid() + " number: "
+            log.debug("Retrieved Test Repositories Of Associated Project of " + repository.getUid() + NUMBER
                 + repositories.size());
             return XmlRpcDataMarshaller.toXmlRpcRepositoriesParameters(repositories);
         } catch (Exception e) {
@@ -306,7 +307,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
             SystemUnderTest sut = XmlRpcDataMarshaller.toSystemUnderTest(systemUnderTestParams);
             Collection<Repository> repositories = service.getAllRepositoriesForSystemUnderTest(sut);
 
-            log.debug("Retrieved All Repositories Of Associated Project of " + sut.getName() + " number: " + repositories
+            log.debug("Retrieved All Repositories Of Associated Project of " + sut.getName() + NUMBER + repositories
                 .size());
             return XmlRpcDataMarshaller.toXmlRpcRepositoriesParameters(repositories);
         } catch (Exception e) {
@@ -323,7 +324,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
             SystemUnderTest sut = XmlRpcDataMarshaller.toSystemUnderTest(systemUnderTestParams);
             Collection<Repository> repositories = service.getSpecificationRepositoriesForSystemUnderTest(sut);
 
-            log.debug("Retrieved Test Repositories Of Associated Project of " + sut.getName() + " number: " + repositories
+            log.debug("Retrieved Test Repositories Of Associated Project of " + sut.getName() + NUMBER + repositories
                 .size());
             return XmlRpcDataMarshaller.toXmlRpcRepositoriesParameters(repositories);
         } catch (Exception e) {
@@ -341,7 +342,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             Collection<Repository> repositories = service.getRequirementRepositoriesOfAssociatedProject(repository.getUid());
 
-            log.debug("Retrieved Requirement Repositories Of Associated Project of " + repository.getUid() + " number: "
+            log.debug("Retrieved Requirement Repositories Of Associated Project of " + repository.getUid() + NUMBER
                 + repositories.size());
             return XmlRpcDataMarshaller.toXmlRpcRepositoriesParameters(repositories);
         } catch (Exception e) {
@@ -359,7 +360,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
 
             Collection<SystemUnderTest> suts = service.getSystemUnderTestsOfAssociatedProject(repository.getUid());
 
-            log.debug("Retrieved SUTs Of Associated Project of " + repository.getUid() + " number: " + suts.size());
+            log.debug("Retrieved SUTs Of Associated Project of " + repository.getUid() + NUMBER + suts.size());
             return XmlRpcDataMarshaller.toXmlRpcSystemUnderTestsParameters(suts);
         } catch (Exception e) {
             return errorAsVector(e, RETRIEVE_SUTS);
@@ -374,7 +375,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
         try {
             Collection<SystemUnderTest> suts = service.getSystemUnderTestsOfProject(projectName);
 
-            log.debug("Retrieved SUTs of Project: " + projectName + " number: " + suts.size());
+            log.debug("Retrieved SUTs of Project: " + projectName + NUMBER + suts.size());
             return XmlRpcDataMarshaller.toXmlRpcSystemUnderTestsParameters(suts);
         } catch (Exception e) {
             return errorAsVector(e, RETRIEVE_SUTS);

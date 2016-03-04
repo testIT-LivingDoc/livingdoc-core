@@ -29,6 +29,8 @@ import info.novatec.testit.livingdoc.util.cli.StringArrayConverter;
 
 
 public class CommandLineRunner {
+    public static final String RUNNER_SUITE_OPTION = "suite";
+    public static final String RUNNER_REPOSITORY_OPTION = "repository";
     private final CommandLine cli;
     private final Map<String, Object> options;
     private SpecificationRunner runner;
@@ -69,7 +71,7 @@ public class CommandLineRunner {
             throw new ArgumentMissingException("input");
         }
 
-        runner = isOptionSpecified("suite") ? new SuiteRunner() : new DocumentRunner();
+        runner = isOptionSpecified(RUNNER_SUITE_OPTION) ? new SuiteRunner() : new DocumentRunner();
         runSpec();
 
     }
@@ -78,19 +80,19 @@ public class CommandLineRunner {
         options.putAll(cli.getOptionValues());
         options.put("report generator", reportGenerator());
         options.put("monitor", monitor);
-        options.put("repository", repository());
+        options.put(RUNNER_REPOSITORY_OPTION, repository());
         new Bean(runner).setProperties(options);
         runner.run(source(), destination());
     }
 
     private DocumentRepository repository() throws IOException {
-        return isOptionSpecified("repository") ? ( DocumentRepository ) cli.getOptionValue("repository")
+        return isOptionSpecified(RUNNER_REPOSITORY_OPTION) ? ( DocumentRepository ) cli.getOptionValue(RUNNER_REPOSITORY_OPTION)
             : new FileSystemRepository(parentFile(getInput()));
     }
 
     private ReportGenerator reportGenerator() throws IOException {
         FileReportGenerator generator = new FileReportGenerator(createOuputDirectory());
-        generator.adjustReportFilesExtensions(isOptionSpecified("suite") || ! isOutputSpecified());
+        generator.adjustReportFilesExtensions(isOptionSpecified(RUNNER_SUITE_OPTION) || ! isOutputSpecified());
         generator.setReportClass(isOptionSpecified("xml") ? XmlReport.class : PlainReport.class);
         return generator;
     }
@@ -126,11 +128,11 @@ public class CommandLineRunner {
     }
 
     public String source() {
-        return isOptionSpecified("repository") ? getInput() : fileName(getInput());
+        return isOptionSpecified(RUNNER_REPOSITORY_OPTION) ? getInput() : fileName(getInput());
     }
 
     private File outputDirectory() throws IOException {
-        if (isOptionSpecified("suite")) {
+        if (isOptionSpecified(RUNNER_SUITE_OPTION)) {
             return isOutputSpecified() ? new File(getOutput()) : ( File ) cli.getOptionValue("output");
         }
         return isOutputSpecified() ? parentFile(getOutput()) : ( File ) cli.getOptionValue("output");
@@ -145,10 +147,10 @@ public class CommandLineRunner {
     }
 
     private String destination() {
-        if (isOptionSpecified("suite")) {
+        if (isOptionSpecified(RUNNER_SUITE_OPTION)) {
             return "";
         }
-        return isOutputSpecified() ? fileName(getOutput()) : isOptionSpecified("repository") ? flatten(getInput())
+        return isOutputSpecified() ? fileName(getOutput()) : isOptionSpecified(RUNNER_REPOSITORY_OPTION) ? flatten(getInput())
             : fileName(getInput());
     }
 
@@ -184,13 +186,13 @@ public class CommandLineRunner {
         cli.defineOption(cli.buildOption("output", "-o DIRECTORY",
             "Produce reports in DIRECTORY (defaults to current directory)").defaultingTo(workingDirectory).asType(
                 File.class));
-        cli.defineOption(cli.buildOption("repository", "-r CLASS;ARGS",
+        cli.defineOption(cli.buildOption(RUNNER_REPOSITORY_OPTION, "-r CLASS;ARGS",
             "Use CLASS as the document repository and instantiate it with ARGS (defaults to info.novatec.testit.livingdoc.repository.FileSystemRepository)")
             .convertedWith(new FactoryConverter()));
         cli.defineOption(cli.buildOption("interpreter selector", "--selector CLASS",
             "Use CLASS as the interpreter selector (defaults to info.novatec.testit.livingdoc.document.LivingDocInterpreterSelector)")
             .asType(Class.class).defaultingTo(LivingDocInterpreterSelector.class));
-        cli.defineOption(cli.buildOption("suite", "-s", "--suite",
+        cli.defineOption(cli.buildOption(RUNNER_SUITE_OPTION, "-s", "--suite",
             "Run a suite rather than a single test (output must refer to a directory)"));
         cli.defineOption(cli.buildOption("sections", "-t SECTIONS",
             "Filter input specification to only execute SECTIONS (comma separated list of sections)").convertedWith(

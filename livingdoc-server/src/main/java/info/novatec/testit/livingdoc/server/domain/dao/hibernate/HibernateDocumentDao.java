@@ -26,6 +26,13 @@ import info.novatec.testit.livingdoc.server.domain.dao.SystemUnderTestDao;
 
 
 public class HibernateDocumentDao implements DocumentDao {
+    public static final String SYSTEM_UNDER_TEST_NOT_FOUND_MSG = "SystemUnderTest not found";
+    public static final String SYSTEM_UNDER_TEST = "systemUnderTest";
+    public static final String SUT = "sut";
+    public static final String SUT_NAME = "sut.name";
+    public static final String REPO = "repo";
+    public static final String REPO_UID = "repo.uid";
+    public static final String SUPPRESS_UNCHECKED = "unchecked";
     private SessionService sessionService;
     private RepositoryDao repositoryDao;
     private SystemUnderTestDao systemUnderTestDao;
@@ -124,7 +131,7 @@ public class HibernateDocumentDao implements DocumentDao {
         if (systemUnderTestName != null) {
             sut = systemUnderTestDao.getByName(repository.getProject().getName(), systemUnderTestName);
             if (sut == null) {
-                throw new LivingDocServerException(LivingDocServerErrorKey.SUT_NOT_FOUND, "SystemUnderTest not found");
+                throw new LivingDocServerException(LivingDocServerErrorKey.SUT_NOT_FOUND, SYSTEM_UNDER_TEST_NOT_FOUND_MSG);
             }
         } else {
             sut = repository.getProject().getDefaultSystemUnderTest();
@@ -187,7 +194,7 @@ public class HibernateDocumentDao implements DocumentDao {
         SystemUnderTest sut = systemUnderTestDao.getByName(systemUnderTest.getProject().getName(), systemUnderTest
             .getName());
         if (sut == null) {
-            throw new LivingDocServerException(LivingDocServerErrorKey.SUT_NOT_FOUND, "SystemUnderTest not found");
+            throw new LivingDocServerException(LivingDocServerErrorKey.SUT_NOT_FOUND, SYSTEM_UNDER_TEST_NOT_FOUND_MSG);
         }
 
         specification = getSpecificationByName(specification.getRepository().getUid(), specification.getName());
@@ -210,7 +217,7 @@ public class HibernateDocumentDao implements DocumentDao {
         SystemUnderTest sut = systemUnderTestDao.getByName(systemUnderTest.getProject().getName(), systemUnderTest
             .getName());
         if (sut == null) {
-            throw new LivingDocServerException(LivingDocServerErrorKey.SUT_NOT_FOUND, "SystemUnderTest not found");
+            throw new LivingDocServerException(LivingDocServerErrorKey.SUT_NOT_FOUND, SYSTEM_UNDER_TEST_NOT_FOUND_MSG);
         }
 
         specification = getSpecificationByName(specification.getRepository().getUid(), specification.getName());
@@ -240,8 +247,8 @@ public class HibernateDocumentDao implements DocumentDao {
         crit.add(Restrictions.eq("spec.name", reference.getSpecification().getName()));
         crit.createAlias("spec.repository", "specRepo");
         crit.add(Restrictions.eq("specRepo.uid", reference.getSpecification().getRepository().getUid()));
-        crit.createAlias("systemUnderTest", "sut");
-        crit.add(Restrictions.eq("sut.name", reference.getSystemUnderTest().getName()));
+        crit.createAlias(SYSTEM_UNDER_TEST, SUT);
+        crit.add(Restrictions.eq(SUT_NAME, reference.getSystemUnderTest().getName()));
         crit.createAlias("sut.project", "sp");
         crit.add(Restrictions.eq("sp.name", reference.getSystemUnderTest().getProject().getName()));
 
@@ -254,14 +261,14 @@ public class HibernateDocumentDao implements DocumentDao {
         final Criteria crit = sessionService.getSession().createCriteria(Reference.class);
         crit.createAlias("specification", "spec");
         crit.add(Restrictions.eq("spec.name", specification.getName()));
-        crit.createAlias("spec.repository", "repo");
-        crit.add(Restrictions.eq("repo.uid", specification.getRepository().getUid()));
-        crit.createAlias("systemUnderTest", "sut");
-        crit.add(Restrictions.eq("sut.name", systemUnderTest.getName()));
+        crit.createAlias("spec.repository", REPO);
+        crit.add(Restrictions.eq(REPO_UID, specification.getRepository().getUid()));
+        crit.createAlias(SYSTEM_UNDER_TEST, SUT);
+        crit.add(Restrictions.eq(SUT_NAME, systemUnderTest.getName()));
         crit.createAlias("sut.project", "sp");
         crit.add(Restrictions.eq("sp.name", systemUnderTest.getProject().getName()));
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings(SUPPRESS_UNCHECKED)
         List<Reference> references = crit.list();
         HibernateLazyInitializer.initCollection(references);
         return references;
@@ -272,14 +279,14 @@ public class HibernateDocumentDao implements DocumentDao {
         final Criteria crit = sessionService.getSession().createCriteria(Reference.class);
         crit.createAlias("specification", "spec");
         crit.add(Restrictions.eq("spec.name", specification.getName()));
-        crit.createAlias("spec.repository", "repo");
-        crit.add(Restrictions.eq("repo.uid", specification.getRepository().getUid()));
+        crit.createAlias("spec.repository", REPO);
+        crit.add(Restrictions.eq(REPO_UID, specification.getRepository().getUid()));
         crit.createAlias("requirement", "req");
         crit.addOrder(Order.asc("req.name"));
-        crit.createAlias("systemUnderTest", "sut");
-        crit.addOrder(Order.asc("sut.name"));
+        crit.createAlias(SYSTEM_UNDER_TEST, SUT);
+        crit.addOrder(Order.asc(SUT_NAME));
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings(SUPPRESS_UNCHECKED)
         List<Reference> references = crit.list();
         HibernateLazyInitializer.initCollection(references);
         return references;
@@ -290,10 +297,10 @@ public class HibernateDocumentDao implements DocumentDao {
         final Criteria crit = sessionService.getSession().createCriteria(Reference.class);
         crit.createAlias("requirement", "req");
         crit.add(Restrictions.eq("req.name", requirement.getName()));
-        crit.createAlias("req.repository", "repo");
-        crit.add(Restrictions.eq("repo.uid", requirement.getRepository().getUid()));
+        crit.createAlias("req.repository", REPO);
+        crit.add(Restrictions.eq(REPO_UID, requirement.getRepository().getUid()));
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings(SUPPRESS_UNCHECKED)
         List<Reference> references = crit.list();
         HibernateLazyInitializer.initCollection(references);
         return references;
@@ -372,7 +379,7 @@ public class HibernateDocumentDao implements DocumentDao {
             specification.getName());
         systemUnderTest = systemUnderTestDao.getByName(systemUnderTest.getProject().getName(), systemUnderTest.getName());
         if (systemUnderTest == null) {
-            throw new LivingDocServerException(LivingDocServerErrorKey.SUT_NOT_FOUND, "SystemUnderTest not found");
+            throw new LivingDocServerException(LivingDocServerErrorKey.SUT_NOT_FOUND, SYSTEM_UNDER_TEST_NOT_FOUND_MSG);
         }
 
         Execution exe = systemUnderTest.execute(specification, implemeted, null, locale);
@@ -414,8 +421,8 @@ public class HibernateDocumentDao implements DocumentDao {
     @Override
     public List<Specification> getSpecifications(SystemUnderTest sut, Repository repository) {
         final Criteria crit = sessionService.getSession().createCriteria(Specification.class);
-        crit.createAlias("repository", "repo");
-        crit.add(Restrictions.eq("repo.uid", repository.getUid()));
+        crit.createAlias("repository", REPO);
+        crit.add(Restrictions.eq(REPO_UID, repository.getUid()));
 
         crit.createAlias("targetedSystemUnderTests", "suts");
         crit.add(Restrictions.eq("suts.name", sut.getName()));
@@ -423,7 +430,7 @@ public class HibernateDocumentDao implements DocumentDao {
         crit.add(Restrictions.eq("sp.name", sut.getProject().getName()));
         crit.addOrder(Order.asc("name"));
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings(SUPPRESS_UNCHECKED)
         List<Specification> specifications = crit.list();
         HibernateLazyInitializer.initCollection(specifications);
         return specifications;
@@ -436,8 +443,8 @@ public class HibernateDocumentDao implements DocumentDao {
         crit.add(Restrictions.eq("specification.id", specification.getId()));
 
         if (sut != null) {
-            crit.createAlias("systemUnderTest", "sut");
-            crit.add(Restrictions.eq("sut.name", sut.getName()));
+            crit.createAlias(SYSTEM_UNDER_TEST, SUT);
+            crit.add(Restrictions.eq(SUT_NAME, sut.getName()));
         }
 
         /* crit.add(Restrictions.or(Restrictions.or(Restrictions.not(
@@ -449,7 +456,7 @@ public class HibernateDocumentDao implements DocumentDao {
         crit.addOrder(Order.desc("executionDate"));
         crit.setMaxResults(maxResults);
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings(SUPPRESS_UNCHECKED)
         List<Execution> executions = crit.list();
         HibernateLazyInitializer.initCollection(executions);
         Collections.reverse(executions);

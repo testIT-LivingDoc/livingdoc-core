@@ -46,7 +46,7 @@ import info.novatec.testit.livingdoc.util.cli.ParseException;
 
 
 public class CommandLineRemoteRunner {
-
+    public static final String RUNNER_SUITE_OPTION = "suite";
     private final CommandLine cli;
     private final Map<String, Object> options;
     private SpecificationRunner runner;
@@ -87,7 +87,7 @@ public class CommandLineRemoteRunner {
 
     private ReportGenerator reportGenerator() throws IOException {
         FileReportGenerator generator = new FileReportGenerator(createOuputDirectory());
-        generator.adjustReportFilesExtensions(optionSpecified("suite") || output() == null);
+        generator.adjustReportFilesExtensions(optionSpecified(RUNNER_SUITE_OPTION) || output() == null);
         generator.setReportClass(optionSpecified("xml") ? XmlReport.class : HtmlReport.class);
         return generator;
     }
@@ -127,7 +127,7 @@ public class CommandLineRemoteRunner {
     }
 
     private File outputDirectory() throws IOException {
-        if (optionSpecified("suite")) {
+        if (optionSpecified(RUNNER_SUITE_OPTION)) {
             return output() != null ? new File(output()) : ( File ) cli.getOptionValue("output");
         }
         return output() != null ? parentFile(output()) : ( File ) cli.getOptionValue("output");
@@ -142,7 +142,7 @@ public class CommandLineRemoteRunner {
     }
 
     private String destination() {
-        if (optionSpecified("suite")) {
+        if (optionSpecified(RUNNER_SUITE_OPTION)) {
             return "";
         }
         return output() != null ? fileName(output()) : optionSpecified("repository") ? flatten(input()) : fileName(input());
@@ -172,7 +172,7 @@ public class CommandLineRemoteRunner {
             throw new ArgumentMissingException("repository id");
         }
 
-        runner = optionSpecified("suite") ? new RemoteSuiteRunner() : new RemoteDocumentRunner();
+        runner = optionSpecified(RUNNER_SUITE_OPTION) ? new RemoteSuiteRunner() : new RemoteDocumentRunner();
         return true;
     }
 
@@ -208,7 +208,7 @@ public class CommandLineRemoteRunner {
         cli.defineOption(cli.buildOption("output", "-o DIRECTORY",
             "Produce reports in DIRECTORY (defaults to current directory)").defaultingTo(workingDirectory).asType(
                 File.class));
-        cli.defineOption(cli.buildOption("suite", "-s", "--suite",
+        cli.defineOption(cli.buildOption(RUNNER_SUITE_OPTION, "-s", "--suite",
             "Run a suite rather than a single test (output must refer to a directory)"));
         cli.defineOption(cli.buildOption("xml", "--xml", "Generate XML report (defaults to plain)"));
         cli.defineOption(cli.buildOption("help", "--help", "Display this help and exit"));
