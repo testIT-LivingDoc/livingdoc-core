@@ -53,7 +53,7 @@ public class DoSetupInterpreter extends AbstractInterpreter {
 
     private final Fixture fixture;
     private Statistics stats;
-    private boolean skip = false;
+    private boolean skip;
 
     public DoSetupInterpreter(Fixture fixture) {
         this.fixture = fixture;

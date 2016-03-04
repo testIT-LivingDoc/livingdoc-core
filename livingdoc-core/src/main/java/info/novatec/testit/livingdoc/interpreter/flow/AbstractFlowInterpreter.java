@@ -39,8 +39,8 @@ public class AbstractFlowInterpreter extends AbstractInterpreter {
     private int startRow;
     private RowSelector rowSelector;
     protected final Fixture fixture;
-    private Message beforeTableMessage = null;
-    private Message afterTableMessage = null;
+    private Message beforeTableMessage;
+    private Message afterTableMessage;
     protected Statistics stats;
 
     public AbstractFlowInterpreter(Fixture fixture) {

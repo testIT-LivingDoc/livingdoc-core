@@ -31,7 +31,7 @@ import info.novatec.testit.livingdoc.util.ClassUtils;
  */
 public class XmlRpcClientExecutorFactory {
 
-    private static Class< ? > xmlRpcClientImplClass = null;
+    private static Class< ? > xmlRpcClientImplClass;
 
     public static XmlRpcClientExecutor newExecutor(String url) throws XmlRpcClientExecutorException {
 

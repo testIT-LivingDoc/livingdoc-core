@@ -33,7 +33,7 @@ public class AnnotationTypeLoader<T> implements TypeLoader<T> {
     private final ConfigurationBuilder builder;
 
     private Set<Class< ? >> annotatedAliasClasses = new HashSet<Class< ? >>();
-    private boolean isAnnotationScanningNecessary = false;
+    private boolean isAnnotationScanningNecessary;
 
     public AnnotationTypeLoader(TypeLoader<T> parent, ClassLoader classLoader) {
         this.parent = parent;

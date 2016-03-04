@@ -53,11 +53,11 @@ public class RuleForInterpreter extends AbstractInterpreter {
     protected final Fixture fixture;
     protected Statistics stats;
     private Column[] columns;
-    private Message beforeRowMessage = null;
-    private Message beforeFirstExpectationMessage = null;
-    private Message afterRowMessage = null;
-    private Message beforeTableMessage = null;
-    private Message afterTableMessage = null;
+    private Message beforeRowMessage;
+    private Message beforeFirstExpectationMessage;
+    private Message afterRowMessage;
+    private Message beforeTableMessage;
+    private Message afterTableMessage;
 
     public RuleForInterpreter(Fixture fixture) {
         super();
