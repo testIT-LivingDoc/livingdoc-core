@@ -99,8 +99,7 @@ public class RepositoryType extends AbstractVersionedEntity implements Comparabl
 
     public String asFactoryArguments(Repository repository, boolean withStyle, String user, String pwd) {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.className).append(';');
-        sb.append(withStyle || name.equals("FILE") ? repository.getBaseTestUrl() : withNoStyle(repository.getBaseTestUrl()));
+        sb.append(this.className).append(';').append(withStyle || name.equals("FILE") ? repository.getBaseTestUrl() : withNoStyle(repository.getBaseTestUrl()));
 
         if (user == null) {
             if ( ! StringUtils.isEmpty(repository.getUsername())) {
