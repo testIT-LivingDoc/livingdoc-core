@@ -17,7 +17,7 @@ import info.novatec.testit.livingdoc.server.domain.dao.hibernate.HibernateSystem
 
 
 public class BootstrapData {
-    private static Logger log = LoggerFactory.getLogger(BootstrapData.class);
+    private static final Logger log = LoggerFactory.getLogger(BootstrapData.class);
 
     private final SessionService sessionService;
     private final Properties properties;

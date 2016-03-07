@@ -21,6 +21,10 @@ import info.novatec.testit.livingdoc.server.domain.dao.SystemUnderTestDao;
 
 
 public class HibernateSystemUnderTestDao implements SystemUnderTestDao {
+    public static final String NAME = "name";
+    public static final String SUPPRESS_UNCHECKED = "unchecked";
+    public static final String RUNNER_NOT_FOUND_MSG = "Runner not found";
+    public static final String SP_NAME = "sp.name";
     private SessionService sessionService;
     private ProjectDao projectDao;
 
@@ -36,17 +40,17 @@ public class HibernateSystemUnderTestDao implements SystemUnderTestDao {
     @Override
     public Runner getRunnerByName(String name) {
         final Criteria crit = sessionService.getSession().createCriteria(Runner.class);
-        crit.add(Property.forName("name").eq(name));
+        crit.add(Property.forName(NAME).eq(name));
         Runner runner = ( Runner ) crit.uniqueResult();
         HibernateLazyInitializer.init(runner);
         return runner;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public List<Runner> getAllRunners() {
         final Criteria crit = sessionService.getSession().createCriteria(Runner.class);
-        crit.addOrder(Order.asc("name"));
+        crit.addOrder(Order.asc(NAME));
         List<Runner> list = crit.list();
         HibernateLazyInitializer.initCollection(list);
         return list;
@@ -69,7 +73,7 @@ public class HibernateSystemUnderTestDao implements SystemUnderTestDao {
 
         Runner runnerToUpdate = getRunnerByName(oldRunnerName);
         if (runnerToUpdate == null) {
-            throw new LivingDocServerException(LivingDocServerErrorKey.RUNNER_NOT_FOUND, "Runner not found");
+            throw new LivingDocServerException(LivingDocServerErrorKey.RUNNER_NOT_FOUND, RUNNER_NOT_FOUND_MSG);
         }
 
         runnerToUpdate.setName(runner.getName());
@@ -87,7 +91,7 @@ public class HibernateSystemUnderTestDao implements SystemUnderTestDao {
         Runner runner = getRunnerByName(runnerName);
 
         if (runner == null) {
-            throw new LivingDocServerException(LivingDocServerErrorKey.RUNNER_NOT_FOUND, "Runner not found");
+            throw new LivingDocServerException(LivingDocServerErrorKey.RUNNER_NOT_FOUND, RUNNER_NOT_FOUND_MSG);
         }
 
         if ( ! getAllForRunner(runnerName).isEmpty()) {
@@ -101,7 +105,7 @@ public class HibernateSystemUnderTestDao implements SystemUnderTestDao {
     @Override
     public SystemUnderTest getByName(String projectName, String sutName) {
         final Criteria crit = sessionService.getSession().createCriteria(SystemUnderTest.class);
-        crit.add(Property.forName("name").eq(sutName));
+        crit.add(Property.forName(NAME).eq(sutName));
         crit.createAlias("project", "p");
         crit.add(Restrictions.eq("p.name", projectName));
         SystemUnderTest systemUnderTest = ( SystemUnderTest ) crit.uniqueResult();
@@ -114,9 +118,9 @@ public class HibernateSystemUnderTestDao implements SystemUnderTestDao {
         final Criteria crit = sessionService.getSession().createCriteria(SystemUnderTest.class);
         crit.createAlias("project", "p");
         crit.add(Restrictions.eq("p.name", projectName));
-        crit.addOrder(Order.asc("name"));
+        crit.addOrder(Order.asc(NAME));
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings(SUPPRESS_UNCHECKED)
         List<SystemUnderTest> systemUnderTests = crit.list();
         HibernateLazyInitializer.initCollection(systemUnderTests);
         return systemUnderTests;
@@ -127,9 +131,9 @@ public class HibernateSystemUnderTestDao implements SystemUnderTestDao {
         final Criteria crit = sessionService.getSession().createCriteria(SystemUnderTest.class);
         crit.createAlias("runner", "r");
         crit.add(Restrictions.eq("r.name", runnerName));
-        crit.addOrder(Order.asc("name"));
+        crit.addOrder(Order.asc(NAME));
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings(SUPPRESS_UNCHECKED)
         List<SystemUnderTest> systemUnderTests = crit.list();
         HibernateLazyInitializer.initCollection(systemUnderTests);
         return systemUnderTests;
@@ -141,10 +145,10 @@ public class HibernateSystemUnderTestDao implements SystemUnderTestDao {
         crit.createAlias("systemUnderTest", "sut");
         crit.add(Restrictions.eq("sut.name", sut.getName()));
         crit.createAlias("sut.project", "sp");
-        crit.add(Restrictions.eq("sp.name", sut.getProject().getName()));
-        crit.addOrder(Order.asc("sp.name"));
+        crit.add(Restrictions.eq(SP_NAME, sut.getProject().getName()));
+        crit.addOrder(Order.asc(SP_NAME));
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings(SUPPRESS_UNCHECKED)
         List<Reference> references = crit.list();
         HibernateLazyInitializer.initCollection(references);
         return references;
@@ -156,10 +160,10 @@ public class HibernateSystemUnderTestDao implements SystemUnderTestDao {
         crit.createAlias("targetedSystemUnderTests", "sut");
         crit.add(Restrictions.eq("sut.name", sut.getName()));
         crit.createAlias("sut.project", "sp");
-        crit.add(Restrictions.eq("sp.name", sut.getProject().getName()));
-        crit.addOrder(Order.asc("sp.name"));
+        crit.add(Restrictions.eq(SP_NAME, sut.getProject().getName()));
+        crit.addOrder(Order.asc(SP_NAME));
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings(SUPPRESS_UNCHECKED)
         List<Specification> specifications = crit.list();
         HibernateLazyInitializer.initCollection(specifications);
         return specifications;
@@ -169,7 +173,7 @@ public class HibernateSystemUnderTestDao implements SystemUnderTestDao {
     public SystemUnderTest create(SystemUnderTest newSut) throws LivingDocServerException {
         Runner runner = getRunnerByName(newSut.getRunner().getName());
         if (runner == null) {
-            throw new LivingDocServerException(LivingDocServerErrorKey.RUNNER_NOT_FOUND, "Runner not found");
+            throw new LivingDocServerException(LivingDocServerErrorKey.RUNNER_NOT_FOUND, RUNNER_NOT_FOUND_MSG);
         }
         newSut.setRunner(runner);
 
@@ -194,7 +198,7 @@ public class HibernateSystemUnderTestDao implements SystemUnderTestDao {
         SystemUnderTest sutToUpdate = getByName(updatedSut.getProject().getName(), oldSutName);
         Runner runner = getRunnerByName(updatedSut.getRunner().getName());
         if (runner == null) {
-            throw new LivingDocServerException(LivingDocServerErrorKey.RUNNER_NOT_FOUND, "Runner not found");
+            throw new LivingDocServerException(LivingDocServerErrorKey.RUNNER_NOT_FOUND, RUNNER_NOT_FOUND_MSG);
         }
         sutToUpdate.setRunner(runner);
 
@@ -256,9 +260,9 @@ public class HibernateSystemUnderTestDao implements SystemUnderTestDao {
         crit.createAlias("systemUnderTest", "sut");
         crit.add(Restrictions.eq("sut.name", systemUnderTest.getName()));
         crit.createAlias("sut.project", "sp");
-        crit.add(Restrictions.eq("sp.name", systemUnderTest.getProject().getName()));
+        crit.add(Restrictions.eq(SP_NAME, systemUnderTest.getProject().getName()));
 
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings(SUPPRESS_UNCHECKED)
         List<Execution> executions = crit.list();
         HibernateLazyInitializer.initCollection(executions);
         return executions;

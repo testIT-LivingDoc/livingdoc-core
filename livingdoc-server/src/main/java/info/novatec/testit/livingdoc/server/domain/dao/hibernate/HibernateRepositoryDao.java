@@ -19,6 +19,7 @@ import info.novatec.testit.livingdoc.server.domain.dao.RepositoryDao;
 
 
 public class HibernateRepositoryDao implements RepositoryDao {
+    public static final String SUPPRESS_UNCHECKED = "unchecked";
     private ProjectDao projectDao;
     private SessionService sessionService;
 
@@ -32,7 +33,7 @@ public class HibernateRepositoryDao implements RepositoryDao {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public List<Repository> getAll() {
         final Criteria criteria = sessionService.getSession().createCriteria(Repository.class);
         List<Repository> list = criteria.list();
@@ -70,7 +71,7 @@ public class HibernateRepositoryDao implements RepositoryDao {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public List<Repository> getAll(String projectName) {
         final Criteria crit = sessionService.getSession().createCriteria(Repository.class);
         if (projectName != null) {
@@ -97,7 +98,7 @@ public class HibernateRepositoryDao implements RepositoryDao {
         return getAllRepositories(null, type);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     private List<Repository> getAllRepositories(String projectName, ContentType type) {
         final Criteria crit = sessionService.getSession().createCriteria(Repository.class);
         SimpleExpression restriction = Restrictions.eq("contentType", type);
@@ -176,7 +177,7 @@ public class HibernateRepositoryDao implements RepositoryDao {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public List<RepositoryType> getAllTypes() {
         final Criteria crit = sessionService.getSession().createCriteria(RepositoryType.class);
         List<RepositoryType> list = crit.list();

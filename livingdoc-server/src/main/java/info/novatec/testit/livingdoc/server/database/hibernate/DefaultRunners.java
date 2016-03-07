@@ -20,7 +20,7 @@ import info.novatec.testit.livingdoc.util.URIUtil;
 
 public class DefaultRunners {
 
-    private static Logger log = LoggerFactory.getLogger(DefaultRunners.class);
+    private static final Logger log = LoggerFactory.getLogger(DefaultRunners.class);
 
     private final SystemUnderTestDao sutDao;
     private final Properties properties;

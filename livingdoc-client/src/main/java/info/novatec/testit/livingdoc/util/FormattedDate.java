@@ -45,11 +45,11 @@ public class FormattedDate {
         StringBuilder sb = new StringBuilder();
         GregorianCalendar g = new GregorianCalendar();
         g.setTime(date);
-        sb.append(String.valueOf(g.get(Calendar.YEAR))).append("-");
-        sb.append(twoDigitFormat(g.get(Calendar.MONTH) + 1)).append("-");
-        sb.append(twoDigitFormat(g.get(Calendar.DAY_OF_MONTH))).append(" ");
-        sb.append(twoDigitFormat(g.get(Calendar.HOUR))).append(":");
-        sb.append(twoDigitFormat(g.get(Calendar.MINUTE))).append(":");
+        sb.append(String.valueOf(g.get(Calendar.YEAR))).append('-');
+        sb.append(twoDigitFormat(g.get(Calendar.MONTH) + 1)).append('-');
+        sb.append(twoDigitFormat(g.get(Calendar.DAY_OF_MONTH))).append(' ');
+        sb.append(twoDigitFormat(g.get(Calendar.HOUR))).append(':');
+        sb.append(twoDigitFormat(g.get(Calendar.MINUTE))).append(':');
         sb.append(twoDigitFormat(g.get(Calendar.SECOND)));
 
         return sb.toString();
@@ -63,8 +63,8 @@ public class FormattedDate {
         StringBuilder sb = new StringBuilder();
         GregorianCalendar g = new GregorianCalendar();
         g.setTime(date);
-        sb.append(String.valueOf(g.get(Calendar.YEAR))).append("-");
-        sb.append(twoDigitFormat(g.get(Calendar.MONTH) + 1)).append("-");
+        sb.append(String.valueOf(g.get(Calendar.YEAR))).append('-');
+        sb.append(twoDigitFormat(g.get(Calendar.MONTH) + 1)).append('-');
         sb.append(twoDigitFormat(g.get(Calendar.DAY_OF_MONTH)));
 
         return sb.toString();

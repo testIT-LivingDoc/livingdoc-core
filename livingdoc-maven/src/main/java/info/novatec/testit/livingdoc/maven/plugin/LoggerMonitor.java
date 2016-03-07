@@ -32,13 +32,18 @@ public class LoggerMonitor implements SpecificationRunnerMonitor {
 
     @Override
     public void testRunning(String name) {
-        log.info("Running " + name);
+        String logMsg = "Running " + name;
+        log.info(logMsg);
     }
 
     @Override
     public void testDone(int rightCount, int wrongCount, int exceptionCount, int ignoreCount) {
         Statistics stats = new Statistics(rightCount, wrongCount, exceptionCount, ignoreCount);
-        log.info(stats.toString() + ( stats.hasFailed() ? " <<< FAILURE! " : "" ));
+        StringBuilder logMsg = new StringBuilder(stats.toString());
+        if (stats.hasFailed()) {
+            logMsg.append(" <<< FAILURE! ");
+        }
+        log.info(logMsg.toString());
     }
 
     @Override

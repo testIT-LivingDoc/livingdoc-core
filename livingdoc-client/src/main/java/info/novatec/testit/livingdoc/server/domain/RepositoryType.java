@@ -99,16 +99,16 @@ public class RepositoryType extends AbstractVersionedEntity implements Comparabl
 
     public String asFactoryArguments(Repository repository, boolean withStyle, String user, String pwd) {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.className).append(";");
+        sb.append(this.className).append(';');
         sb.append(withStyle || name.equals("FILE") ? repository.getBaseTestUrl() : withNoStyle(repository.getBaseTestUrl()));
 
         if (user == null) {
             if ( ! StringUtils.isEmpty(repository.getUsername())) {
-                sb.append(";").append(repository.getUsername()).append(";").append(StringUtils.replaceEach(repository
+                sb.append(';').append(repository.getUsername()).append(';').append(StringUtils.replaceEach(repository
                     .getPassword(), new String[] { ";" }, new String[] { "%3B" }));
             }
         } else {
-            sb.append(";").append(user).append(";").append(StringUtils.replaceEach(pwd, new String[] { ";" }, new String[] {
+            sb.append(';').append(user).append(';').append(StringUtils.replaceEach(pwd, new String[] { ";" }, new String[] {
                     "%3B" }));
         }
 
@@ -164,10 +164,10 @@ public class RepositoryType extends AbstractVersionedEntity implements Comparabl
         } else {
             query += "&includeStyle=false";
         }
-        sb.append("?").append(query);
+        sb.append('?').append(query);
 
         if (uri.getFragment() != null) {
-            sb.append("#").append(uri.getFragment());
+            sb.append('#').append(uri.getFragment());
         }
 
         return sb.toString();

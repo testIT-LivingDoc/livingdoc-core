@@ -16,6 +16,6 @@ public interface Service {
      * @param locale the locale
      * @return the Execution of the specification under the given context
      */
-    public Vector<Object> execute(Vector<Object> runnerParams, Vector<Object> sutParams, Vector<Object> specificationParams,
+    Vector<Object> execute(Vector<Object> runnerParams, Vector<Object> sutParams, Vector<Object> specificationParams,
         boolean implemented, String sections, String locale);
 }

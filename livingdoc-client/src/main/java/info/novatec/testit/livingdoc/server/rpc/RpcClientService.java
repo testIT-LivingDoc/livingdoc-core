@@ -34,7 +34,7 @@ public interface RpcClientService {
      * @return true if server successfully pinged.
      * @throws LivingDocServerException
      */
-    public boolean testConnection(String url, String handler) throws LivingDocServerException;
+    boolean testConnection(String url, String handler) throws LivingDocServerException;
 
     /**
      * Pings the server.
@@ -45,7 +45,7 @@ public interface RpcClientService {
      * @return true if server successfully pinged.
      * @throws LivingDocServerException
      */
-    public boolean ping(Repository repository, String identifier) throws LivingDocServerException;
+    boolean ping(Repository repository, String identifier) throws LivingDocServerException;
 
     /**
      * Retrieves the Runner for a given name.
@@ -56,7 +56,7 @@ public interface RpcClientService {
      * @return the Runner for a given name.
      * @throws LivingDocServerException
      */
-    public Runner getRunner(String name, String identifier) throws LivingDocServerException;
+    Runner getRunner(String name, String identifier) throws LivingDocServerException;
 
     /**
      * Retrieves the Runners available.
@@ -66,7 +66,7 @@ public interface RpcClientService {
      * @return the all Runners available.
      * @throws LivingDocServerException
      */
-    public Set<Runner> getAllRunners(String identifier) throws LivingDocServerException;
+    Set<Runner> getAllRunners(String identifier) throws LivingDocServerException;
 
     /**
      * Creates a new Runner
@@ -76,7 +76,7 @@ public interface RpcClientService {
      * @param identifier
      * @throws LivingDocServerException
      */
-    public void createRunner(Runner runner, String identifier) throws LivingDocServerException;
+    void createRunner(Runner runner, String identifier) throws LivingDocServerException;
 
     /**
      * Updates the Runner
@@ -87,7 +87,7 @@ public interface RpcClientService {
      * @param identifier
      * @throws LivingDocServerException
      */
-    public void updateRunner(String oldRunnerName, Runner runner, String identifier) throws LivingDocServerException;
+    void updateRunner(String oldRunnerName, Runner runner, String identifier) throws LivingDocServerException;
 
     /**
      * Removes the Runner of the given name
@@ -97,7 +97,7 @@ public interface RpcClientService {
      * @param identifier
      * @throws LivingDocServerException
      */
-    public void removeRunner(String name, String identifier) throws LivingDocServerException;
+    void removeRunner(String name, String identifier) throws LivingDocServerException;
 
     /**
      * Checks if registered and Retrieves the Repository.
@@ -108,7 +108,7 @@ public interface RpcClientService {
      * @return the registered Repository.
      * @throws LivingDocServerException
      */
-    public Repository getRegisteredRepository(Repository repository, String identifier) throws LivingDocServerException;
+    Repository getRegisteredRepository(Repository repository, String identifier) throws LivingDocServerException;
 
     /**
      * Registers the repository in the server. If project not found it will be
@@ -119,7 +119,7 @@ public interface RpcClientService {
      * @return the registered repository.
      * @throws LivingDocServerException
      */
-    public Repository registerRepository(Repository repository, String identifier) throws LivingDocServerException;
+    Repository registerRepository(Repository repository, String identifier) throws LivingDocServerException;
 
     /**
      * Updates the Repository Registration. If project not found it will be
@@ -130,7 +130,7 @@ public interface RpcClientService {
      * @param identifier
      * @throws LivingDocServerException
      */
-    public void updateRepositoryRegistration(Repository repository, String identifier) throws LivingDocServerException;
+    void updateRepositoryRegistration(Repository repository, String identifier) throws LivingDocServerException;
 
     /**
      * Removes the Repository if this one doesnt hold any specifications.
@@ -140,7 +140,7 @@ public interface RpcClientService {
      * @param identifier
      * @throws LivingDocServerException
      */
-    public void removeRepository(String repositoryUid, String identifier) throws LivingDocServerException;
+    void removeRepository(String repositoryUid, String identifier) throws LivingDocServerException;
 
     /**
      * Retrieves the complete project list.
@@ -150,7 +150,7 @@ public interface RpcClientService {
      * @return the complete project list.
      * @throws LivingDocServerException
      */
-    public Set<Project> getAllProjects(String identifier) throws LivingDocServerException;
+    Set<Project> getAllProjects(String identifier) throws LivingDocServerException;
 
     /**
      * Retrieves the Specification repository list for the project associated
@@ -165,7 +165,7 @@ public interface RpcClientService {
      * occured.
      * @throws LivingDocServerException
      */
-    public Set<Repository> getSpecificationRepositoriesOfAssociatedProject(Repository repository, String identifier)
+    Set<Repository> getSpecificationRepositoriesOfAssociatedProject(Repository repository, String identifier)
         throws LivingDocServerException;
 
     /**
@@ -181,7 +181,7 @@ public interface RpcClientService {
      * occured.
      * @throws LivingDocServerException
      */
-    public Set<Repository> getSpecificationRepositoriesOfAssociatedProject(SystemUnderTest systemUnderTest,
+    Set<Repository> getSpecificationRepositoriesOfAssociatedProject(SystemUnderTest systemUnderTest,
         String identifier) throws LivingDocServerException;
 
     /**
@@ -194,7 +194,7 @@ public interface RpcClientService {
      * in a Hastable if an error occured.
      * @throws LivingDocServerException
      */
-    public Set<Repository> getAllSpecificationRepositories(String identifier) throws LivingDocServerException;
+    Set<Repository> getAllSpecificationRepositories(String identifier) throws LivingDocServerException;
 
     /**
      * Retrieves the Repository list for the project associated with the
@@ -208,7 +208,7 @@ public interface RpcClientService {
      * systemUnderTest or an error id in a Hastable if an error occured.
      * @throws LivingDocServerException
      */
-    public Set<Repository> getAllRepositoriesForSystemUnderTest(SystemUnderTest systemUnderTest, String identifier)
+    Set<Repository> getAllRepositoriesForSystemUnderTest(SystemUnderTest systemUnderTest, String identifier)
         throws LivingDocServerException;
 
     /**
@@ -224,7 +224,7 @@ public interface RpcClientService {
      * occured.
      * @throws LivingDocServerException
      */
-    public Set<Repository> getRequirementRepositoriesOfAssociatedProject(Repository repository, String identifier)
+    Set<Repository> getRequirementRepositoriesOfAssociatedProject(Repository repository, String identifier)
         throws LivingDocServerException;
 
     /**
@@ -238,7 +238,7 @@ public interface RpcClientService {
      * specified repository or an error id in a Hastable if an error occured.
      * @throws LivingDocServerException
      */
-    public Set<SystemUnderTest> getSystemUnderTestsOfAssociatedProject(Repository repository, String identifier)
+    Set<SystemUnderTest> getSystemUnderTestsOfAssociatedProject(Repository repository, String identifier)
         throws LivingDocServerException;
 
     /**
@@ -250,7 +250,7 @@ public interface RpcClientService {
      * @return the SystemUnderTest list for for the project.
      * @throws LivingDocServerException
      */
-    public Set<SystemUnderTest> getSystemUnderTestsOfProject(String projectName, String identifier)
+    Set<SystemUnderTest> getSystemUnderTestsOfProject(String projectName, String identifier)
         throws LivingDocServerException;
 
     /**
@@ -263,7 +263,7 @@ public interface RpcClientService {
      * @param identifier
      * @throws LivingDocServerException
      */
-    public void addSystemUnderTest(SystemUnderTest systemUnderTest, Specification specification, String identifier)
+    void addSystemUnderTest(SystemUnderTest systemUnderTest, Specification specification, String identifier)
         throws LivingDocServerException;
 
     /**
@@ -276,7 +276,7 @@ public interface RpcClientService {
      * @param identifier
      * @throws LivingDocServerException
      */
-    public void removeSystemUnderTest(SystemUnderTest systemUnderTest, Specification specification, String identifier)
+    void removeSystemUnderTest(SystemUnderTest systemUnderTest, Specification specification, String identifier)
         throws LivingDocServerException;
 
     /**
@@ -287,7 +287,7 @@ public interface RpcClientService {
      * @return true if the specification is in atleast one Reference.
      * @throws LivingDocServerException
      */
-    public boolean hasReferences(Specification specification, String identifier) throws LivingDocServerException;
+    boolean hasReferences(Specification specification, String identifier) throws LivingDocServerException;
 
     /**
      * Retrieves the References list of the specified Specification
@@ -298,7 +298,7 @@ public interface RpcClientService {
      * @return the References list of the specified Specification
      * @throws LivingDocServerException
      */
-    public Set<Reference> getReferences(Specification specification, String identifier) throws LivingDocServerException;
+    Set<Reference> getReferences(Specification specification, String identifier) throws LivingDocServerException;
 
     /**
      * Checks if the Requirement is in atleast one Reference.
@@ -308,7 +308,7 @@ public interface RpcClientService {
      * @return true if the Requirement is in atleast one Reference.
      * @throws LivingDocServerException
      */
-    public boolean hasReferences(Requirement requirement, String identifier) throws LivingDocServerException;
+    boolean hasReferences(Requirement requirement, String identifier) throws LivingDocServerException;
 
     /**
      * Retrieves the References list of the specified requirement
@@ -319,7 +319,7 @@ public interface RpcClientService {
      * @return the References list of the specified requirement
      * @throws LivingDocServerException
      */
-    public Set<Reference> getReferences(Requirement requirement, String identifier) throws LivingDocServerException;
+    Set<Reference> getReferences(Requirement requirement, String identifier) throws LivingDocServerException;
 
     /**
      * Retrieves the Reference.
@@ -330,7 +330,7 @@ public interface RpcClientService {
      * @return the Reference.
      * @throws LivingDocServerException
      */
-    public Reference getReference(Reference reference, String identifier) throws LivingDocServerException;
+    Reference getReference(Reference reference, String identifier) throws LivingDocServerException;
 
     /**
      * Creates a new SystemUnderTest.
@@ -341,7 +341,7 @@ public interface RpcClientService {
      * @param identifier
      * @throws LivingDocServerException
      */
-    public void createSystemUnderTest(SystemUnderTest systemUnderTest, Repository repository, String identifier)
+    void createSystemUnderTest(SystemUnderTest systemUnderTest, Repository repository, String identifier)
         throws LivingDocServerException;
 
     /**
@@ -354,7 +354,7 @@ public interface RpcClientService {
      * @return SystemUnderTest
      * @throws LivingDocServerException
      */
-    public SystemUnderTest getSystemUnderTest(SystemUnderTest systemUnderTest, Repository repository, String identifier)
+    SystemUnderTest getSystemUnderTest(SystemUnderTest systemUnderTest, Repository repository, String identifier)
         throws LivingDocServerException;
 
     /**
@@ -367,7 +367,7 @@ public interface RpcClientService {
      * @param identifier
      * @throws LivingDocServerException
      */
-    public void updateSystemUnderTest(String oldsyStemUnderTestName, SystemUnderTest newSystemUnderTest,
+    void updateSystemUnderTest(String oldsyStemUnderTestName, SystemUnderTest newSystemUnderTest,
         Repository repository, String identifier) throws LivingDocServerException;
 
     /**
@@ -379,7 +379,7 @@ public interface RpcClientService {
      * @param identifier
      * @throws LivingDocServerException
      */
-    public void removeSystemUnderTest(SystemUnderTest systemUnderTest, Repository repository, String identifier)
+    void removeSystemUnderTest(SystemUnderTest systemUnderTest, Repository repository, String identifier)
         throws LivingDocServerException;
 
     /**
@@ -391,7 +391,7 @@ public interface RpcClientService {
      * @param identifier
      * @throws LivingDocServerException
      */
-    public void setSystemUnderTestAsDefault(SystemUnderTest systemUnderTest, Repository repository, String identifier)
+    void setSystemUnderTestAsDefault(SystemUnderTest systemUnderTest, Repository repository, String identifier)
         throws LivingDocServerException;
 
     /**
@@ -402,7 +402,7 @@ public interface RpcClientService {
      * @param identifier
      * @throws LivingDocServerException
      */
-    public void removeRequirement(Requirement requirement, String identifier) throws LivingDocServerException;
+    void removeRequirement(Requirement requirement, String identifier) throws LivingDocServerException;
 
     /**
      * Retrieves the specification
@@ -413,7 +413,7 @@ public interface RpcClientService {
      * @return the specification
      * @throws LivingDocServerException
      */
-    public Specification getSpecification(Specification specification, String identifier) throws LivingDocServerException;
+    Specification getSpecification(Specification specification, String identifier) throws LivingDocServerException;
 
     /**
      * Creates the Specification
@@ -424,7 +424,7 @@ public interface RpcClientService {
      * @return the new Specification
      * @throws LivingDocServerException
      */
-    public Specification createSpecification(Specification specification, String identifier) throws LivingDocServerException;
+    Specification createSpecification(Specification specification, String identifier) throws LivingDocServerException;
 
     /**
      * Updates the Specification
@@ -435,7 +435,7 @@ public interface RpcClientService {
      * @param identifier
      * @throws LivingDocServerException
      */
-    public void updateSpecification(Specification oldSpecification, Specification newSpecification, String identifier)
+    void updateSpecification(Specification oldSpecification, Specification newSpecification, String identifier)
         throws LivingDocServerException;
 
     /**
@@ -446,7 +446,7 @@ public interface RpcClientService {
      * @param identifier
      * @throws LivingDocServerException
      */
-    public void removeSpecification(Specification specification, String identifier) throws LivingDocServerException;
+    void removeSpecification(Specification specification, String identifier) throws LivingDocServerException;
 
     /**
      * Creates a Reference
@@ -455,7 +455,7 @@ public interface RpcClientService {
      * @param Reference
      * @throws LivingDocServerException
      */
-    public void createReference(Reference reference, String identifier) throws LivingDocServerException;
+    void createReference(Reference reference, String identifier) throws LivingDocServerException;
 
     /**
      * Update the Reference. The Old one will be deleted based on the
@@ -469,7 +469,7 @@ public interface RpcClientService {
      * @return the updated Reference.
      * @throws LivingDocServerException
      */
-    public Reference updateReference(Reference oldReference, Reference newReference, String identifier)
+    Reference updateReference(Reference oldReference, Reference newReference, String identifier)
         throws LivingDocServerException;
 
     /**
@@ -479,7 +479,7 @@ public interface RpcClientService {
      * @param Reference
      * @throws LivingDocServerException
      */
-    public void removeReference(Reference reference, String identifier) throws LivingDocServerException;
+    void removeReference(Reference reference, String identifier) throws LivingDocServerException;
 
     /**
      * Executes the Specification over the selected SystemUnderTest.
@@ -494,7 +494,7 @@ public interface RpcClientService {
      * SystemUnderTest.
      * @throws LivingDocServerException
      */
-    public Execution runSpecification(SystemUnderTest systemUnderTest, Specification specification,
+    Execution runSpecification(SystemUnderTest systemUnderTest, Specification specification,
         boolean implementedVersion, String locale, String identifier) throws LivingDocServerException;
 
     /**
@@ -507,7 +507,7 @@ public interface RpcClientService {
      * @return the Reference with its last execution.
      * @throws LivingDocServerException
      */
-    public Reference runReference(Reference reference, String locale, String identifier) throws LivingDocServerException;
+    Reference runReference(Reference reference, String locale, String identifier) throws LivingDocServerException;
 
     /**
      * Retrieves the list of specification
@@ -518,7 +518,7 @@ public interface RpcClientService {
      * @param identifier
      * @return
      */
-    public DocumentNode getSpecificationHierarchy(Repository repository, SystemUnderTest systemUnderTest, String identifier)
+    DocumentNode getSpecificationHierarchy(Repository repository, SystemUnderTest systemUnderTest, String identifier)
         throws LivingDocServerException;
 
     /**
@@ -529,7 +529,7 @@ public interface RpcClientService {
      * @param identifier
      * @return the requirement summary.
      */
-    public RequirementSummary getSummary(Requirement requirement, String identifier) throws LivingDocServerException;
+    RequirementSummary getSummary(Requirement requirement, String identifier) throws LivingDocServerException;
 
     /**
      * Retrieves the server properties manager.
@@ -537,5 +537,5 @@ public interface RpcClientService {
      * 
      * @return the server properties manager.
      */
-    public ServerPropertiesManager getServerPropertiesManager();
+    ServerPropertiesManager getServerPropertiesManager();
 }

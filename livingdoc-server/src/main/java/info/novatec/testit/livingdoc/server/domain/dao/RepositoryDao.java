@@ -17,7 +17,7 @@ public interface RepositoryDao {
      * @param repositoryUid
      * @return the Repository.
      */
-    public Repository getByUID(String repositoryUID);
+    Repository getByUID(String repositoryUID);
 
     /**
      * Retrieves the Repository. If none found an LivingDocServerException is
@@ -28,7 +28,7 @@ public interface RepositoryDao {
      * @param repositoryName
      * @return the Repository.
      */
-    public Repository getByName(String projectName, String repositoryName);
+    Repository getByName(String projectName, String repositoryName);
 
     /**
      * Retrieves all the registered Repositories.
@@ -36,7 +36,7 @@ public interface RepositoryDao {
      * 
      * @return the repositories
      */
-    public List<Repository> getAll();
+    List<Repository> getAll();
 
     /**
      * Retrieves all the registered Repositories for a project.
@@ -45,7 +45,7 @@ public interface RepositoryDao {
      * @param projectName
      * @return all the registered Repositories for a project.
      */
-    public List<Repository> getAll(String projectName);
+    List<Repository> getAll(String projectName);
 
     /**
      * Retrieves all the registered Test Repositories for project.
@@ -54,7 +54,7 @@ public interface RepositoryDao {
      * @param projectName
      * @return the Tests repositories
      */
-    public List<Repository> getAllTestRepositories(String projectName);
+    List<Repository> getAllTestRepositories(String projectName);
 
     /**
      * Retrieves all the registered Requirement Repositories for a project.
@@ -64,7 +64,7 @@ public interface RepositoryDao {
      * @return the Requirements repositories
      */
 
-    public List<Repository> getAllRequirementRepositories(String projectName);
+    List<Repository> getAllRequirementRepositories(String projectName);
 
     /**
      * Retrieve all the repository of a certain type.
@@ -72,7 +72,7 @@ public interface RepositoryDao {
      * @param contentType
      * @return
      */
-    public List<Repository> getAllRepositories(ContentType contentType);
+    List<Repository> getAllRepositories(ContentType contentType);
 
     /**
      * Retrieves the repository type by name.
@@ -81,7 +81,7 @@ public interface RepositoryDao {
      * @param repositoryTypeName
      * @return the repository type.
      */
-    public RepositoryType getTypeByName(String repositoryTypeName);
+    RepositoryType getTypeByName(String repositoryTypeName);
 
     /**
      * Creates a new Repository.
@@ -91,7 +91,7 @@ public interface RepositoryDao {
      * @return the created repository
      * @throws LivingDocServerException
      */
-    public Repository create(Repository newRepository) throws LivingDocServerException;
+    Repository create(Repository newRepository) throws LivingDocServerException;
 
     /**
      * Updates the Repository.
@@ -100,7 +100,7 @@ public interface RepositoryDao {
      * @param repository
      * @throws LivingDocServerException
      */
-    public void update(Repository repository) throws LivingDocServerException;
+    void update(Repository repository) throws LivingDocServerException;
 
     /**
      * Removes the repository if this one doesnt hold any specifications
@@ -108,7 +108,7 @@ public interface RepositoryDao {
      * @param repositoryUid
      * @throws LivingDocServerException
      */
-    public void remove(String repositoryUid) throws LivingDocServerException;
+    void remove(String repositoryUid) throws LivingDocServerException;
 
     /**
      * Retrieves all available RepositoryTypes.
@@ -116,7 +116,7 @@ public interface RepositoryDao {
      * 
      * @return
      */
-    public List<RepositoryType> getAllTypes();
+    List<RepositoryType> getAllTypes();
 
     /**
      * Create a new Repository Type
@@ -125,6 +125,6 @@ public interface RepositoryDao {
      * @param Repository type
      * @return the Requirement type created
      */
-    public RepositoryType create(RepositoryType repositoryType);
+    RepositoryType create(RepositoryType repositoryType);
 
 }

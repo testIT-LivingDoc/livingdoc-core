@@ -64,7 +64,7 @@ public class CommandLineExecutor {
     private String getCmdLineToString() {
         StringBuilder sb = new StringBuilder();
         for (String cmd : cmdLine) {
-            sb.append(cmd).append(" ");
+            sb.append(cmd).append(' ');
         }
 
         return sb.toString();

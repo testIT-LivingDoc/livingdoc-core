@@ -46,7 +46,7 @@ import info.novatec.testit.livingdoc.util.FormattedDate;
  * @author JCHUET
  */
 public class XmlRpcDataMarshaller {
-    private static Logger log = LoggerFactory.getLogger(XmlRpcDataMarshaller.class);
+    private static final Logger log = LoggerFactory.getLogger(XmlRpcDataMarshaller.class);
     public static final String MARSHALLING_VERSION = "Marshall v. 1.0";
 
     public static final int PROJECT_NAME_IDX = 0;
@@ -118,7 +118,9 @@ public class XmlRpcDataMarshaller {
     public final static int NODE_SUT_NAME_INDEX = 5;
     public final static int NODE_SECTION_INDEX = 6;
 
-   
+    public static final String SUPPRESS_UNCHECKED = "unchecked";
+
+
     /**
      * Transforms the Collection of projects into a Vector of project
      * parameters.
@@ -316,7 +318,7 @@ public class XmlRpcDataMarshaller {
      * @param xmlRpcParameters
      * @return the Repository.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static Repository toRepository(Vector<Object> xmlRpcParameters) {
         Repository repository = null;
         if ( ! xmlRpcParameters.isEmpty()) {
@@ -348,7 +350,7 @@ public class XmlRpcDataMarshaller {
      * @param xmlRpcParameters
      * @return the Requirement.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static Requirement toRequirement(Vector<Object> xmlRpcParameters) {
         Requirement requirement = null;
         if ( ! xmlRpcParameters.isEmpty()) {
@@ -371,7 +373,7 @@ public class XmlRpcDataMarshaller {
      * @param Specification
      * @return the Specification.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static Specification toSpecification(Vector<Object> xmlRpcParameters) {
         Specification specification = null;
         if ( ! xmlRpcParameters.isEmpty()) {
@@ -392,7 +394,7 @@ public class XmlRpcDataMarshaller {
      * @param xmlRpcParameters
      * @return the Runner.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static Runner toRunner(Vector<Object> xmlRpcParameters) {
         Runner runner = null;
         if ( ! xmlRpcParameters.isEmpty()) {
@@ -427,7 +429,7 @@ public class XmlRpcDataMarshaller {
      * @param xmlRpcParameters
      * @return the SystemUnderTest.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static SystemUnderTest toSystemUnderTest(Vector<Object> xmlRpcParameters) {
         SystemUnderTest sut = null;
         if ( ! xmlRpcParameters.isEmpty()) {
@@ -460,7 +462,7 @@ public class XmlRpcDataMarshaller {
      * @param xmlRpcParameters
      * @return the Reference.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static Reference toReference(Vector<Object> xmlRpcParameters) {
         Reference reference = null;
         if ( ! xmlRpcParameters.isEmpty()) {
@@ -510,7 +512,7 @@ public class XmlRpcDataMarshaller {
      * @return a List of projects based on the vector of projects parameters.
      * @see toProject(Vector<Object> xmlRpcParameters)
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static Set<Project> toProjectList(Vector<Object> projectsParams) {
         Set<Project> projects = new TreeSet<Project>();
         for (Object projectParams : projectsParams) {
@@ -530,7 +532,7 @@ public class XmlRpcDataMarshaller {
      * parameters.
      * @see toRepository(Vector<Object> xmlRpcParameters)
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static Set<Repository> toRepositoryList(Vector<Object> repositoriesParams) {
         Set<Repository> repositories = new TreeSet<Repository>();
         for (Object repositoryParams : repositoriesParams) {
@@ -548,7 +550,7 @@ public class XmlRpcDataMarshaller {
      * @return a List of runners based on the vector of runners parameters.
      * @see toRunner(Vector<Object> xmlRpcParameters)
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static TreeSet<Runner> toRunnerList(Vector<Object> runnersParams) {
         TreeSet<Runner> runners = new TreeSet<Runner>();
         for (Object runnerParams : runnersParams) {
@@ -568,7 +570,7 @@ public class XmlRpcDataMarshaller {
      * systemUnderTests parameters.
      * @see toSystemUnderTest(Vector<Object> xmlRpcParameters)
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static SortedSet<SystemUnderTest> toSystemUnderTestList(Vector<Object> sutsParams) {
         SortedSet<SystemUnderTest> suts = new TreeSet<SystemUnderTest>(new SystemUnderTestByNameComparator());
         for (Object sutParams : sutsParams) {
@@ -588,7 +590,7 @@ public class XmlRpcDataMarshaller {
      * parameters.
      * @see toSpecification(Vector<Object> xmlRpcParameters)
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static Set<Specification> toSpecificationList(Vector<Object> specificationsParams) {
         Set<Specification> specifications = new TreeSet<Specification>();
         for (Object specificationParams : specificationsParams) {
@@ -609,7 +611,7 @@ public class XmlRpcDataMarshaller {
      * @throws LivingDocServerException
      * @see toReference(Vector<Object> xmlRpcParameters)
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static Set<Reference> toReferencesList(Vector<Object> referencesParams) throws LivingDocServerException {
         Set<Reference> references = new TreeSet<Reference>();
         for (Object referenceParams : referencesParams) {
@@ -626,7 +628,7 @@ public class XmlRpcDataMarshaller {
      * @param documentNodeParams
      * @return a DocumentNode based on the given vector.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static DocumentNode toDocumentNode(Vector< ? > documentNodeParams) {
         DocumentNode node = new DocumentNode(( String ) documentNodeParams.get(NODE_TITLE_INDEX));
         node.setIsExecutable(( Boolean ) documentNodeParams.get(NODE_EXECUTABLE_INDEX));
@@ -716,7 +718,7 @@ public class XmlRpcDataMarshaller {
      * @param xmlRpcResponse
      * @throws LivingDocServerException
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static void checkForErrors(Object xmlRpcResponse) throws LivingDocServerException {
         if (xmlRpcResponse instanceof Vector) {
             Vector< ? > temp = ( Vector< ? > ) xmlRpcResponse;
