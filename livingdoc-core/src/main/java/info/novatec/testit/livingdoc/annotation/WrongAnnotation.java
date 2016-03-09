@@ -21,7 +21,7 @@ public class WrongAnnotation implements Annotation {
     }
 
     private String message() {
-        StringBuilder message = new StringBuilder();
+        StringBuilder message = new StringBuilder(19);
         message.append("<b>").append($("expected")).append(":</b> ");
         expected.describeTo(message);
         message.append(" <b>").append($("received")).append(":</b> ").append(TypeConversion.toString(actual));

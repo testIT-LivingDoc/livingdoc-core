@@ -130,7 +130,7 @@ public class CommandLine {
     }
 
     public String usage() {
-        StringBuilder sb = new StringBuilder(21 + banner.length());
+        StringBuilder sb = new StringBuilder(21);
         sb.append("Usage: ").append(banner);
         if (options.isEmpty()) {
             return sb.toString();
