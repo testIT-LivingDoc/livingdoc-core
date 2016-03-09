@@ -130,12 +130,13 @@ public class CommandLine {
     }
 
     public String usage() {
-        StringBuilder sb = new StringBuilder("Usage: ").append(banner);
+        StringBuilder sb = new StringBuilder(21 + banner.length());
+        sb.append("Usage: ").append(banner);
         if (options.isEmpty()) {
             return sb.toString();
         }
 
-        sb.append("\n\n").append("Options:");
+        sb.append("\n\nOptions:");
         for (Option option : options) {
             sb.append('\n').append(option);
         }
