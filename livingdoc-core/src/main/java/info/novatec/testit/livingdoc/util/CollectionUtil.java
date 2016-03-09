@@ -36,7 +36,7 @@ public final class CollectionUtil {
         return objects;
     }
 
-    public static <T> Vector<T> toVector(T... objects) {
+    public static <T> List<T> toVector(T... objects) {
         return new Vector<T>(Arrays.asList(objects));
     }
 

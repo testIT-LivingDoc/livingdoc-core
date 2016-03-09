@@ -18,17 +18,16 @@
  */
 package info.novatec.testit.livingdoc.server.rpc.xmlrpc.client;
 
-import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.CALL_FAILED;
-import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.CONFIGURATION_ERROR;
-import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.XML_RPC_URL_NOTFOUND;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.Vector;
-
 import org.apache.xmlrpc.XmlRpcClient;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.secure.SecureXmlRpcClient;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.List;
+import java.util.Vector;
+
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.*;
 
 
 public class XmlRpcV2ClientImpl implements XmlRpcClientExecutor {
@@ -48,10 +47,10 @@ public class XmlRpcV2ClientImpl implements XmlRpcClientExecutor {
     }
 
     @Override
-    public Object execute(String method, Vector< ? > params) throws XmlRpcClientExecutorException {
+    public Object execute(String method, List< ? > params) throws XmlRpcClientExecutorException {
 
         try {
-            return client.execute(method, params);
+            return client.execute(method, (Vector) params);
         } catch (XmlRpcException ex) {
             throw new XmlRpcClientExecutorException(CALL_FAILED, ex);
         } catch (IOException ex) {

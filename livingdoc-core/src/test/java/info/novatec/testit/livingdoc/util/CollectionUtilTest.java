@@ -30,16 +30,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 
-public class CollectionUtilTest {
+public class    CollectionUtilTest {
 
     @Test
     @SuppressWarnings("unchecked")
     public void testCanConvertArraysToVectors() {
-        Vector< ? extends Object> vec = CollectionUtil.toVector("1", null, new Date());
+        List< ? extends Object> vec = CollectionUtil.toVector("1", null, new Date());
         assertEquals(3, vec.size());
-        assertTrue(vec.elementAt(0) instanceof String);
-        assertTrue(vec.elementAt(1) == null);
-        assertTrue(vec.elementAt(2) instanceof Date);
+        assertTrue(vec.get(0) instanceof String);
+        assertTrue(vec.get(1) == null);
+        assertTrue(vec.get(2) instanceof Date);
     }
 
     @Test

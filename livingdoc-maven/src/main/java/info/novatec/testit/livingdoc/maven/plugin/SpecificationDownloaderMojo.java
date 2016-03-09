@@ -32,7 +32,7 @@ public class SpecificationDownloaderMojo extends AbstractMojo {
      * @parameter expression="${livingdoc.repositories}"
      * @required
      */
-    protected ArrayList<Repository> repositories;
+    protected List<Repository> repositories;
 
     /**
      * @parameter expression="${plugin.artifacts}"

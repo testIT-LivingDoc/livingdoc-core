@@ -1,5 +1,6 @@
 package info.novatec.testit.livingdoc.agent.server;
 
+import java.util.List;
 import java.util.Vector;
 
 
@@ -16,6 +17,6 @@ public interface Service {
      * @param locale the locale
      * @return the Execution of the specification under the given context
      */
-    Vector<Object> execute(Vector<Object> runnerParams, Vector<Object> sutParams, Vector<Object> specificationParams,
-        boolean implemented, String sections, String locale);
+    List<Object> execute(Vector<Object> runnerParams, Vector<Object> sutParams, Vector<Object> specificationParams,
+                         boolean implemented, String sections, String locale);
 }

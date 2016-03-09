@@ -2,11 +2,7 @@ package info.novatec.testit.livingdoc.server.domain;
 
 import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.SPECIFICATION_SUTS_IDX;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.Vector;
+import java.util.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -106,7 +102,7 @@ public class Specification extends Document {
     @Override
     public Vector<Object> marshallize() {
         Vector<Object> parameters = super.marshallize();
-        Vector<Object> suts = XmlRpcDataMarshaller.toXmlRpcSystemUnderTestsParameters(targetedSystemUnderTests);
+        List<Object> suts = XmlRpcDataMarshaller.toXmlRpcSystemUnderTestsParameters(targetedSystemUnderTests);
         parameters.add(SPECIFICATION_SUTS_IDX, suts);
         return parameters;
     }

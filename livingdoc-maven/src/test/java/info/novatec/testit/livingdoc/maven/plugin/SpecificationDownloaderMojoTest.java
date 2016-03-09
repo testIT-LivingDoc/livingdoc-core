@@ -5,6 +5,7 @@ import static info.novatec.testit.livingdoc.util.CollectionUtil.toVector;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import org.apache.commons.io.FileUtils;
@@ -106,7 +107,7 @@ public class SpecificationDownloaderMojoTest extends AbstractMojoTestCase {
     @SuppressWarnings("unchecked")
     public void testShouldSupportCustomRepositoriesSuchAsAtlassian() throws Exception {
         startWebServer();
-        Vector< ? > expected = toVector("SPACE", "PAGE", Boolean.TRUE, Boolean.TRUE);
+        List< ? > expected = toVector("SPACE", "PAGE", Boolean.TRUE, Boolean.TRUE);
         String right = FileUtils.readFileToString(spec("spec.html"), "UTF-8");
         handler.expects(new InvokeOnceMatcher()).method("getRenderedSpecification").with(eq(""), eq(""), eq(expected)).will(
             new ReturnStub(right));

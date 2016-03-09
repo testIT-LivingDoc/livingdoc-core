@@ -18,13 +18,7 @@
  */
 package info.novatec.testit.livingdoc.server.rpc.xmlrpc.client;
 
-import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.CALL_FAILED;
-import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.XML_RPC_URL_NOTFOUND;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Vector;
-
+import info.novatec.testit.livingdoc.util.ClientUtils;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
@@ -32,7 +26,13 @@ import org.apache.xmlrpc.client.XmlRpcLiteHttpTransportFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import info.novatec.testit.livingdoc.util.ClientUtils;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
+import java.util.Vector;
+
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.CALL_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.XML_RPC_URL_NOTFOUND;
 
 
 public class XmlRpcV3ClientImpl implements XmlRpcClientExecutor {
@@ -59,11 +59,11 @@ public class XmlRpcV3ClientImpl implements XmlRpcClientExecutor {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Object execute(String method, Vector< ? > params) throws XmlRpcClientExecutorException {
+    public Object execute(String method, List< ? > params) throws XmlRpcClientExecutorException {
         try {
             Object result = client.execute(method, params);
 
-            Vector<Object> execParams;
+            List<Object> execParams;
 
             // Patch xmlrpc 3.x+
             if (result.getClass().isArray()) {
