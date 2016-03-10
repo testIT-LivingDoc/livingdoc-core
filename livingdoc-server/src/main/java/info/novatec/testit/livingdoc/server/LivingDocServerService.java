@@ -30,6 +30,7 @@ import info.novatec.testit.livingdoc.server.domain.RequirementSummary;
 import info.novatec.testit.livingdoc.server.domain.Runner;
 import info.novatec.testit.livingdoc.server.domain.Specification;
 import info.novatec.testit.livingdoc.server.domain.SystemUnderTest;
+import info.novatec.testit.livingdoc.server.transfer.SpecificationLocation;
 
 
 public interface LivingDocServerService {
@@ -410,7 +411,7 @@ public interface LivingDocServerService {
      * @return the Specification location list for a given SystemUnderTest and
      * Repository
      */
-    Vector<Object> getListOfSpecificationLocations(String repositoryUID, String systemUnderTestName)
+    List<SpecificationLocation> getListOfSpecificationLocations(String repositoryUID, String systemUnderTestName)
         throws LivingDocServerException;
 
     /**
