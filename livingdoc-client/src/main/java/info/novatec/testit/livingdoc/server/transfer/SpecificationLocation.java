@@ -1,7 +1,6 @@
 package info.novatec.testit.livingdoc.server.transfer;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Vector;
 
 import info.novatec.testit.livingdoc.server.domain.Marshalizable;
@@ -67,6 +66,7 @@ public class SpecificationLocation implements Serializable, Marshalizable {
         parameters.add(USERNAME_IDX, username);
         parameters.add(PASSWORD_IDX, password);
         parameters.add(SPEC_NAME_IDX, specificationName);
+        
         return parameters;
     }
 

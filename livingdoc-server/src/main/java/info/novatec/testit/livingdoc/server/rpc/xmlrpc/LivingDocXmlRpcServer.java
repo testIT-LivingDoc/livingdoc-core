@@ -49,6 +49,7 @@ import info.novatec.testit.livingdoc.server.domain.Runner;
 import info.novatec.testit.livingdoc.server.domain.Specification;
 import info.novatec.testit.livingdoc.server.domain.SystemUnderTest;
 import info.novatec.testit.livingdoc.server.rpc.RpcServerService;
+import info.novatec.testit.livingdoc.server.transfer.SpecificationLocation;
 
 import java.util.Collection;
 import java.util.List;
@@ -686,10 +687,11 @@ public class LivingDocXmlRpcServer implements RpcServerService {
         try {
             Repository repository = service.getRepository(repositoryUID, null);
 
-            Vector<Object> locations = service.getListOfSpecificationLocations(repositoryUID, systemUnderTestName);
-
+            List<SpecificationLocation> specificationLocations = service.getListOfSpecificationLocations(repositoryUID, systemUnderTestName);
+            
             log.debug("Retrieved specification list: " + repository.getName());
-            return locations;
+            return XmlRpcDataMarshaller.toXmlRpcSpecificationLocationsParameters(specificationLocations);
+            
         } catch (Exception e) {
             return errorAsVector(e, SPECIFICATIONS_NOT_FOUND);
         }

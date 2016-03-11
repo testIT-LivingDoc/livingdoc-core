@@ -10,6 +10,7 @@ import java.util.TreeSet;
 import java.util.Vector;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -208,6 +209,26 @@ public class XmlRpcDataMarshaller {
         return specificationsParams;
     }
 
+    
+    /**
+     * Transforms the Collection of Specification locations into a Vector of
+     * Specification location parameters.
+     * </p>
+     * 
+     * @param specification locations
+     * @return the Collection of Specifications into a Vector of Specification location
+     * parameters
+     */
+    public static Vector<Object> toXmlRpcSpecificationLocationsParameters(Collection<SpecificationLocation> specificationLocations) {
+        Vector<Object> specificationLocationsParams = new Vector<Object>();
+        for (SpecificationLocation specificationLoc : specificationLocations) {
+            specificationLocationsParams.add(specificationLoc.marshallize());
+        }
+        log.debug(ToStringBuilder.reflectionToString(specificationLocationsParams));
+        return specificationLocationsParams;
+    }
+
+    
     /**
      * Transforms the Collection of References into a Vector of Reference
      * parameters.

@@ -51,6 +51,15 @@ import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_C
 import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_DELETE_FAILED;
 import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_SET_DEFAULT_FAILED;
 import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_UPDATE_FAILED;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import info.novatec.testit.livingdoc.report.XmlReport;
 import info.novatec.testit.livingdoc.repository.DocumentRepository;
 import info.novatec.testit.livingdoc.server.database.SessionService;
@@ -72,13 +81,6 @@ import info.novatec.testit.livingdoc.server.domain.dao.RepositoryDao;
 import info.novatec.testit.livingdoc.server.domain.dao.SystemUnderTestDao;
 import info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller;
 import info.novatec.testit.livingdoc.server.transfer.SpecificationLocation;
-
-import java.util.List;
-import java.util.Vector;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 public class LivingDocServerServiceImpl implements LivingDocServerService {
@@ -1006,14 +1008,14 @@ public class LivingDocServerServiceImpl implements LivingDocServerService {
      * SECURED
      */
     @Override
-    public Vector<Object> getListOfSpecificationLocations(String repositoryUID, String systemUnderTestName)
+    public List<SpecificationLocation> getListOfSpecificationLocations(String repositoryUID, String systemUnderTestName)
         throws LivingDocServerException {
         try {
             sessionService.startSession();
 
             Repository repository = loadRepository(repositoryUID);
 
-            Vector<Object> locations = new Vector<Object>();
+            List<SpecificationLocation>  locations = new ArrayList<SpecificationLocation>();
             SystemUnderTest systemUnderTest = sutDao.getByName(repository.getProject().getName(), systemUnderTestName);
             List<Specification> specifications = documentDao.getSpecifications(systemUnderTest, repository);
 
@@ -1026,7 +1028,6 @@ public class LivingDocServerServiceImpl implements LivingDocServerService {
                 specificationLocation.setSpecificationName(specification.getName());
                 locations.add(specificationLocation);
             }
-
             log.debug("Retrieved specification list: " + repository.getName());
             return locations;
         } catch (Exception ex) {
