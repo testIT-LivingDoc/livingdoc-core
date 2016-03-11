@@ -1,6 +1,11 @@
 package info.novatec.testit.livingdoc.agent.server;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class ComandLineHelper {
+
+    private static final Logger log = LogManager.getLogger(ComandLineHelper.class);
 
     private static String SECURED = "-secured";
     private static String PORT = "-port";
@@ -35,6 +40,7 @@ public class ComandLineHelper {
             }
         } catch (NumberFormatException ex) {
             // No implementation needed.
+            log.info("LivingDoc Remote Agent's PORT is not an integer, it was: ", PORT);
         }
 
         return defaultPort;
