@@ -279,7 +279,7 @@ public abstract class AbstractCompilerMojo extends AbstractMojo {
                 Map.Entry me = i.next();
                 String key = ( String ) me.getKey();
                 StringBuilder keyBuilder = new StringBuilder();
-                if ( ! key.startsWith("-")) {
+                if (key.charAt(0) != '-') {
                     keyBuilder.append('-');
                 }
                 keyBuilder.append(key);

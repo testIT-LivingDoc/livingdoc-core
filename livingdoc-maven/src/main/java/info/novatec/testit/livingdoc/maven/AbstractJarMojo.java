@@ -123,7 +123,7 @@ public abstract class AbstractJarMojo extends AbstractMojo {
 
         if (classifier == null) {
             modifiedClassifier = "";
-        } else if (classifier.trim().length() > 0 && ! classifier.startsWith("-")) {
+        } else if (classifier.trim().length() > 0 && classifier.charAt(0) != '-') {
             modifiedClassifier = "-" + classifier;
         }
 
