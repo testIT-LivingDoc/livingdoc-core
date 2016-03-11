@@ -88,7 +88,6 @@ public class SpecificationDownloaderMojo extends AbstractMojo {
         try {
             return repository.getDocumentRepository().listDocuments(suite);
         } catch (Exception e) {
-           e.printStackTrace();
             throw new MojoExecutionException(format("Error retrieving list of specifications %s from %s (%s)", suite, repository
                 .getName(), e.getMessage()));
         }
@@ -110,7 +109,6 @@ public class SpecificationDownloaderMojo extends AbstractMojo {
             generator.closeReport(report);
             countDownload(repository, spec);
         } catch (Exception e) {
-            e.printStackTrace();
             throw new MojoExecutionException(format("Error downloading specification document %s from %s", spec, repository
                 .getName()), e);
         }

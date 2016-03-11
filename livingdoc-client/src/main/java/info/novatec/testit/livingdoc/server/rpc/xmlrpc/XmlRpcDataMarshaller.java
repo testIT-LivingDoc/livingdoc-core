@@ -1,20 +1,5 @@
 package info.novatec.testit.livingdoc.server.rpc.xmlrpc;
 
-import java.util.Collection;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.Vector;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-
 import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
 import info.novatec.testit.livingdoc.server.domain.*;
@@ -24,6 +9,7 @@ import info.novatec.testit.livingdoc.server.transfer.SpecificationLocation;
 import info.novatec.testit.livingdoc.util.ClientUtils;
 import info.novatec.testit.livingdoc.util.FormattedDate;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -212,8 +198,8 @@ public class XmlRpcDataMarshaller {
      * @return the Collection of Specifications into a Vector of Specification location
      * parameters
      */
-    public static Vector<Object> toXmlRpcSpecificationLocationsParameters(Collection<SpecificationLocation> specificationLocations) {
-        Vector<Object> specificationLocationsParams = new Vector<Object>();
+    public static List<Object> toXmlRpcSpecificationLocationsParameters(Collection<SpecificationLocation> specificationLocations) {
+        List<Object> specificationLocationsParams = new Vector<Object>();
         for (SpecificationLocation specificationLoc : specificationLocations) {
             specificationLocationsParams.add(specificationLoc.marshallize());
         }
