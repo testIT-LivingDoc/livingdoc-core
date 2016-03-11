@@ -29,7 +29,6 @@ import info.novatec.testit.livingdoc.reflect.annotation.FixtureClass;
 public class AnnotationTypeLoader<T> implements TypeLoader<T> {
 
     private final TypeLoader<T> parent;
-    private final ClassLoader classLoader;
     private final ConfigurationBuilder builder;
 
     private Set<Class< ? >> annotatedAliasClasses = new HashSet<Class< ? >>();
@@ -37,7 +36,6 @@ public class AnnotationTypeLoader<T> implements TypeLoader<T> {
 
     public AnnotationTypeLoader(TypeLoader<T> parent, ClassLoader classLoader) {
         this.parent = parent;
-        this.classLoader = classLoader;
         builder = new ConfigurationBuilder();
         builder.addClassLoader(classLoader);
     }

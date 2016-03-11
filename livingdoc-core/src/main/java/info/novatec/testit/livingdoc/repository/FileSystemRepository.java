@@ -39,8 +39,6 @@ import info.novatec.testit.livingdoc.util.URIUtil;
 
 
 public class FileSystemRepository implements DocumentRepository {
-    private static final Logger LOG = LoggerFactory.getLogger(FileSystemRepository.class);
-
     private static final FileFilter NOT_HIDDEN = new NotHiddenFilter();
     private final File root;
 
