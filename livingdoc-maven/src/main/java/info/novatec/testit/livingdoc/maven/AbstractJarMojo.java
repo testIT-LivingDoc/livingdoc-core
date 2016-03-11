@@ -117,13 +117,22 @@ public abstract class AbstractJarMojo extends AbstractMojo {
      */
     protected abstract String getClassifier();
 
+    private static boolean isStringEmpty(String string) {
+        for(int i = 0; i < string.length(); i++) {
+            if(! Character.isWhitespace(string.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     protected static File getJarFile(File basedir, String finalName, String classifier) {
 
         String modifiedClassifier = classifier;
 
         if (classifier == null) {
             modifiedClassifier = "";
-        } else if (classifier.trim().length() > 0 && classifier.charAt(0) != '-') {
+        } else if (isStringEmpty(classifier) && classifier.charAt(0) != '-') {
             modifiedClassifier = "-" + classifier;
         }
 
