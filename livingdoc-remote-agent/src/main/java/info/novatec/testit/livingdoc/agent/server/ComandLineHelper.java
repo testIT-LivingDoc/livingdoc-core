@@ -10,7 +10,7 @@ public class ComandLineHelper {
     private String args[];
 
     public ComandLineHelper(String args[]) {
-        this.args = args;
+        this.args = args.clone();
     }
 
     public String getConfig() {

@@ -57,7 +57,7 @@ public class Document {
     }
 
     public void setSections(String[] sections) {
-        this.sections = sections;
+        this.sections = sections.clone();
     }
 
     public String getName() {
