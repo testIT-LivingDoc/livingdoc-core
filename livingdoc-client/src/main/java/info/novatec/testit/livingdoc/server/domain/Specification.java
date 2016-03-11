@@ -111,4 +111,10 @@ public class Specification extends Document {
     public boolean equals(Object o) {
         return super.equals(o) && o instanceof Specification;
     }
+
+    @Override
+    public int hashCode() {
+        int hashCode = super.hashCode();
+        return hashCode;
+    }
 }
