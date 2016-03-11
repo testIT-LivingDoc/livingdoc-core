@@ -14,7 +14,7 @@ public class CommandLineBuilder {
     }
 
     public String[] getCmdLine() {
-        return cmdLine;
+        return cmdLine.clone();
     }
 
     public void setMainClass(String mainClass) {

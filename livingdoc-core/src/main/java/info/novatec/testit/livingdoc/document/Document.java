@@ -16,7 +16,7 @@ public class Document {
     private final Statistics stats;
     private final TimeStatistics timeStats;
     private final CompositeFilter filters;
-    private String[] sections;
+        private String[] sections;
     private final String name;
     private final String externalLink;
 
@@ -53,7 +53,10 @@ public class Document {
     }
 
     public String[] getSections() {
-        return sections;
+        if (sections == null) {
+            return null;
+        }
+        return sections.clone();
     }
 
     public void setSections(String[] sections) {
