@@ -143,8 +143,6 @@ public class LivingDocRepository implements DocumentRepository {
             }
 
             return document;
-        } catch (LivingDocServerException e) {
-            throw e;
         } catch (Exception e) {
             throw new LivingDocServerException(e);
         }
