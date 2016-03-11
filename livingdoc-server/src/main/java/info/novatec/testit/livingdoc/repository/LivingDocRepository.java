@@ -85,7 +85,6 @@ public class LivingDocRepository implements DocumentRepository {
 
     @Override
     public List<String> listDocuments(String uri) throws LivingDocServerException {
-        List<String> documentsURI = new ArrayList<String>();
 
         String repoUID = getPath(uri);
         if (repoUID == null) {
@@ -93,6 +92,7 @@ public class LivingDocRepository implements DocumentRepository {
         }
 
         List<List<String>> definitions = downloadSpecificationsDefinitions(repoUID);
+        List<String> documentsURI = new ArrayList<String>();
         for (List<String> definition : definitions) {
             String docName = repoUID + "/" + definition.get(4);
             documentsURI.add(docName);
@@ -171,13 +171,13 @@ public class LivingDocRepository implements DocumentRepository {
     private List<String> getDefinition(String location) throws DocumentNotFoundException, LivingDocServerException {
         String path = getPath(location);
         String[] parts = path.split("/", 2);
-        String repoUID = parts[0];
         if (parts.length == 1) {
             DocumentNotFoundException e = new DocumentNotFoundException(location);
             LOG.error(LOG_ERROR, e);
             throw e;
         }
 
+        String repoUID = parts[0];
         List<List<String>> definitions = downloadSpecificationsDefinitions(repoUID);
         return getDefinitionFor(definitions, parts[1]);
     }
