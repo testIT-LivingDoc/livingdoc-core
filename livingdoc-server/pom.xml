@@ -13,7 +13,7 @@
 
 	<artifactId>livingdoc-server</artifactId>
 	<packaging>jar</packaging>
-	<name>${project.title} - Server</name>
+	<name>testIT | LivingDoc - Server</name>
 
 	<properties>
 		<project.root>..</project.root>
