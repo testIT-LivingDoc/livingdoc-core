@@ -10,7 +10,7 @@
 
 	<artifactId>livingdoc-samples</artifactId>
 	<packaging>jar</packaging>
-	<name>${project.title} - Samples</name>
+	<name>testIT | LivingDoc - Samples</name>
 
 	<properties>
 		<project.root>..</project.root>
