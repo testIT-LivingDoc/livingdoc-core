@@ -196,7 +196,7 @@ public class LivingDocRepository implements DocumentRepository {
 
     private String withNoStyle(String location) {
         URI uri = URI.create(URIUtil.raw(location));
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(22);
         if (uri.getScheme() != null) {
             sb.append(uri.getScheme()).append("://");
         }
@@ -209,11 +209,10 @@ public class LivingDocRepository implements DocumentRepository {
 
         String query = uri.getQuery();
         if (query == null) {
-            query = "?includeStyle=false";
+            sb.append("??includeStyle=false");
         } else {
-            query += "&includeStyle=false";
+            sb.append('?').append(query).append("&includeStyle=false");
         }
-        sb.append('?').append(query);
 
         if (uri.getFragment() != null) {
             sb.append('#').append(uri.getFragment());

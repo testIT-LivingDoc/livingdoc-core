@@ -146,7 +146,7 @@ public class RepositoryType extends AbstractVersionedEntity implements Comparabl
 
     private String withNoStyle(String location) {
         URI uri = URI.create(URIUtil.raw(location));
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(23);
         if (uri.getScheme() != null) {
             sb.append(uri.getScheme()).append("://");
         }
@@ -159,11 +159,10 @@ public class RepositoryType extends AbstractVersionedEntity implements Comparabl
 
         String query = uri.getQuery();
         if (query == null) {
-            query = "?includeStyle=false";
+            sb.append("?\"?includeStyle=false\"");
         } else {
-            query += "&includeStyle=false";
+            sb.append("?" + query + "&includeStyle=false");
         }
-        sb.append('?').append(query);
 
         if (uri.getFragment() != null) {
             sb.append('#').append(uri.getFragment());
