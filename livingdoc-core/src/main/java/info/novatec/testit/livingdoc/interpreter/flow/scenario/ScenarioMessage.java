@@ -77,7 +77,7 @@ public class ScenarioMessage extends Message {
     }
 
     public Object[] arguments() {
-        return arguments;
+        return arguments.clone();
     }
 
     public MatchResult matchResult() {
