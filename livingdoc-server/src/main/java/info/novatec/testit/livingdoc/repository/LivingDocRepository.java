@@ -13,7 +13,9 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.xmlrpc.XmlRpcClient;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.XmlRpcRequest;
@@ -110,6 +112,7 @@ public class LivingDocRepository implements DocumentRepository {
         try {
             Vector<Vector<String>> definitions = ( Vector<Vector<String>> ) getXmlRpcClient().execute(new XmlRpcRequest(
                 handler + ".getListOfSpecificationLocations", CollectionUtil.toVector(repoUID, sut)));
+            LOG.debug(ToStringBuilder.reflectionToString(definitions));
             checkForErrors(definitions);
             return definitions;
         } catch (XmlRpcException e) {

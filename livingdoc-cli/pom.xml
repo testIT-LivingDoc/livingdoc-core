@@ -29,6 +29,10 @@
 					<artifactId>xmlrpc-client</artifactId>
 					<groupId>org.apache.xmlrpc</groupId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-annotations</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 
