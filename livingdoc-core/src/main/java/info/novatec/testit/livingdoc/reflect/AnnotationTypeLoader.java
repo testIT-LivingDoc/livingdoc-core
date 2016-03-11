@@ -95,7 +95,7 @@ public class AnnotationTypeLoader<T> implements TypeLoader<T> {
     private boolean hasAlias(FixtureClass aliasAnnotation, String alias) {
         if (alias != null && ! alias.isEmpty()) {
             for (String aliasInAnnotation : aliasAnnotation.value()) {
-                if (aliasInAnnotation != null && alias.equals(aliasInAnnotation)) {
+                if (aliasInAnnotation != null && aliasInAnnotation.equals(alias)) {
                     return true;
                 }
             }
