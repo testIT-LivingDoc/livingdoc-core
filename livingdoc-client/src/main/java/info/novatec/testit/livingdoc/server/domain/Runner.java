@@ -3,7 +3,6 @@ package info.novatec.testit.livingdoc.server.domain;
 import info.novatec.testit.livingdoc.report.Report;
 import info.novatec.testit.livingdoc.report.XmlReport;
 import info.novatec.testit.livingdoc.runner.*;
-import info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller;
 import info.novatec.testit.livingdoc.server.rpc.xmlrpc.client.XmlRpcClientExecutor;
 import info.novatec.testit.livingdoc.server.rpc.xmlrpc.client.XmlRpcClientExecutorException;
 import info.novatec.testit.livingdoc.server.rpc.xmlrpc.client.XmlRpcClientExecutorFactory;
@@ -125,7 +124,7 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
                 .marshallize(), implementedVersion, sections, locale);
             Vector<Object> execParams = ( Vector<Object> ) xmlrpc.execute(AGENT_HANDLER + ".execute", params);
 
-            Execution execution = XmlRpcDataMarshaller.toExecution(execParams);
+            Execution execution = toExecution(execParams);
             execution.setSystemUnderTest(systemUnderTest);
             execution.setSpecification(specification);
             execution.setRemotelyExecuted();
