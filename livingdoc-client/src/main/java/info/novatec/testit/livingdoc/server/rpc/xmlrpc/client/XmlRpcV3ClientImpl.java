@@ -52,7 +52,6 @@ public class XmlRpcV3ClientImpl implements XmlRpcClientExecutor {
             client.setConfig(config);
         } catch (MalformedURLException ex) {
             logger.error("Error executing XML RPC call", ex);
-            ex.printStackTrace();
             throw new XmlRpcClientExecutorException(XML_RPC_URL_NOTFOUND, ex);
         }
     }
