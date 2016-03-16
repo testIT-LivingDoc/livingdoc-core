@@ -81,31 +81,61 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.8</version>
+				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
-						<phase>compile</phase>
-						<configuration>
-							<tasks>
-								Remove with improved runner call
-								<copy
-									file="${settings.localRepository}/info/novatec/testit/livingdoc-core/${project.version}/livingdoc-core-${project.version}.jar"
-									tofile="src/test/resources/runners/java/livingdoc-core.jar" />
-								<copy
-									file="${settings.localRepository}/info/novatec/testit/livingdoc-core/${project.version}/livingdoc-core-${project.version}-tests.jar"
-									tofile="src/test/resources/runners/java/livingdoc-core-tests.jar" />
-								<copy
-									file="${settings.localRepository}/commons-codec/commons-codec/1.10/commons-codec-1.10.jar"
-									tofile="src/test/resources/runners/java/commons-codec.jar" />
-								<copy
-									file="${settings.localRepository}/xmlrpc/xmlrpc/2.0.1/xmlrpc-2.0.1.jar"
-									tofile="src/test/resources/runners/java/xmlrpc.jar" />
-							</tasks>
-						</configuration>
+						<id>copy</id>
+						<phase>package</phase>
 						<goals>
-							<goal>run</goal>
+							<goal>copy</goal>
 						</goals>
+						<configuration>
+						<artifactItems>
+							<artifactItem>
+								<groupId>info.novatec.testit</groupId>
+								<artifactId>livingdoc-core</artifactId>
+								<version>${project.version}</version>
+								<type>jar</type>
+						
+								<outputDirectory>${project.root}/livingdoc-remote-agent/src/test/resources/runners/java</outputDirectory>
+								<destFileName>livingdoc-core.jar</destFileName>
+							</artifactItem>
+							
+							<artifactItem>
+								<groupId>info.novatec.testit</groupId>
+								<artifactId>livingdoc-core</artifactId>
+								<version>${project.version}</version>
+								<type>jar</type>
+								<classifier> tests </classifier>
+						
+								<outputDirectory>${project.root}/livingdoc-remote-agent/src/test/resources/runners/java</outputDirectory>
+								<destFileName>livingdoc-core-tests.jar</destFileName>
+							</artifactItem>
+							
+							<artifactItem>
+								<groupId>commons-codec</groupId>
+								<artifactId>commons-codec</artifactId>
+								<version>1.10</version>
+								<type>jar</type>
+						
+								<outputDirectory>${project.root}/livingdoc-remote-agent/src/test/resources/runners/java</outputDirectory>
+								<destFileName>commons-codec.jar</destFileName>
+							</artifactItem>
+							
+							<artifactItem>
+								<groupId>xmlrpc</groupId>
+								<artifactId>xmlrpc</artifactId>
+								<version>2.0.1</version>
+								<type>jar</type>
+						
+								<outputDirectory>${project.root}/livingdoc-remote-agent/src/test/resources/runners/java</outputDirectory>
+								<destFileName>xmlrpc.jar</destFileName>
+							</artifactItem>
+						</artifactItems>
+
+						<overWriteReleases>false</overWriteReleases>
+						<overWriteSnapshots>true</overWriteSnapshots>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
