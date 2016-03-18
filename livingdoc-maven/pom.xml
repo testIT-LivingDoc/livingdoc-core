@@ -12,7 +12,7 @@
 	</parent>
 
 	<artifactId>livingdoc-maven</artifactId>
-	<name>${project.title} - Maven</name>
+	<name>testIT | LivingDoc - Maven</name>
 	<packaging>maven-plugin</packaging>
 
 	<properties>

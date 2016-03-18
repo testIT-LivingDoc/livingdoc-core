@@ -12,7 +12,7 @@
 	</parent>
 
 	<artifactId>livingdoc-cli</artifactId>
-	<name>${project.title} - Command Line</name>
+	<name>testIT | LivingDoc - Command Line</name>
 
 	<properties>
 		<project.root>..</project.root>

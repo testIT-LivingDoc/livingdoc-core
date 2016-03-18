@@ -13,7 +13,7 @@
 
 	<artifactId>livingdoc-plugin</artifactId>
 	<packaging>pom</packaging>
-	<name>${project.title} - Plugin</name>
+	<name>testIT | LivingDoc - Plugin</name>
 	<description>An util parent pom for projects which USE LivingDoc.</description>
 
 	<properties>
