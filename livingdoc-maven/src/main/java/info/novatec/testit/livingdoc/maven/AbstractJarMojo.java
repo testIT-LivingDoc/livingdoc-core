@@ -15,14 +15,18 @@
 package info.novatec.testit.livingdoc.maven;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.maven.archiver.MavenArchiveConfiguration;
 import org.apache.maven.archiver.MavenArchiver;
+import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
+import org.codehaus.plexus.archiver.ArchiverException;
 import org.codehaus.plexus.archiver.jar.JarArchiver;
+import org.codehaus.plexus.archiver.jar.ManifestException;
 
 
 /**
@@ -113,13 +117,22 @@ public abstract class AbstractJarMojo extends AbstractMojo {
      */
     protected abstract String getClassifier();
 
+    private static boolean isStringEmpty(String string) {
+        for(int i = 0; i < string.length(); i++) {
+            if(! Character.isWhitespace(string.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     protected static File getJarFile(File basedir, String finalName, String classifier) {
 
         String modifiedClassifier = classifier;
 
         if (classifier == null) {
             modifiedClassifier = "";
-        } else if (classifier.trim().length() > 0 && ! classifier.startsWith("-")) {
+        } else if (isStringEmpty(classifier) && classifier.charAt(0) != '-') {
             modifiedClassifier = "-" + classifier;
         }
 
@@ -154,7 +167,7 @@ public abstract class AbstractJarMojo extends AbstractMojo {
             archiver.createArchive(project, archive);
 
             return jarFile;
-        } catch (Exception e) {
+        } catch (ArchiverException | DependencyResolutionRequiredException | IOException | ManifestException e) {
             throw new MojoExecutionException("Error assembling JAR", e);
         }
     }

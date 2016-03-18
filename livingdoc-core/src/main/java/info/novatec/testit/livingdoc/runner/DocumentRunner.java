@@ -19,6 +19,7 @@ package info.novatec.testit.livingdoc.runner;
 
 import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
@@ -133,7 +134,7 @@ public class DocumentRunner implements SpecificationRunner {
         }
         try {
             reportGenerator.closeReport(report);
-        } catch (Exception e) {
+        } catch (IOException e) {
             LOG.error(LOG_ERROR, e);
             monitor.exceptionOccurred(e);
         }

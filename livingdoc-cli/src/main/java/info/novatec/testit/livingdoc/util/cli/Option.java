@@ -17,6 +17,7 @@
 
 package info.novatec.testit.livingdoc.util.cli;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class Option {
     private Object convert(String valueToConvert) throws WrongOptionUsageException {
         try {
             return converter.convert(valueToConvert);
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new WrongOptionUsageException(this, e);
         }
     }

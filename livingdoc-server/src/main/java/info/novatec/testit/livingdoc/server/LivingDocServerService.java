@@ -16,21 +16,11 @@
  * http://www.fsf.org. */
 package info.novatec.testit.livingdoc.server;
 
-import java.util.List;
-import java.util.Vector;
-
 import info.novatec.testit.livingdoc.report.XmlReport;
-import info.novatec.testit.livingdoc.server.domain.DocumentNode;
-import info.novatec.testit.livingdoc.server.domain.Execution;
-import info.novatec.testit.livingdoc.server.domain.Project;
-import info.novatec.testit.livingdoc.server.domain.Reference;
-import info.novatec.testit.livingdoc.server.domain.Repository;
-import info.novatec.testit.livingdoc.server.domain.Requirement;
-import info.novatec.testit.livingdoc.server.domain.RequirementSummary;
-import info.novatec.testit.livingdoc.server.domain.Runner;
-import info.novatec.testit.livingdoc.server.domain.Specification;
-import info.novatec.testit.livingdoc.server.domain.SystemUnderTest;
+import info.novatec.testit.livingdoc.server.domain.*;
 import info.novatec.testit.livingdoc.server.transfer.SpecificationLocation;
+
+import java.util.List;
 
 
 public interface LivingDocServerService {

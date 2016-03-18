@@ -1,5 +1,6 @@
 package info.novatec.testit.livingdoc.agent.server;
 
+import java.io.IOException;
 import java.nio.charset.Charset;
 
 import org.apache.logging.log4j.LogManager;
@@ -47,7 +48,7 @@ public class Agent {
 
             log.info("File encoding : {}, Charset : {}", System.getProperty("file.encoding"), Charset.defaultCharset()
                 .toString());
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             log.error("Error starting LivingDoc Remote Agent", ex);
         }
     }

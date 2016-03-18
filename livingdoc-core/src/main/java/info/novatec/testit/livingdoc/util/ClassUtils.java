@@ -21,10 +21,7 @@ import static info.novatec.testit.livingdoc.util.CollectionUtil.shift;
 import static info.novatec.testit.livingdoc.util.CollectionUtil.toList;
 
 import java.io.File;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Member;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.UndeclaredThrowableException;
+import java.lang.reflect.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -33,6 +30,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import info.novatec.testit.livingdoc.reflect.NoSuchMessageException;
 import org.apache.commons.lang3.StringUtils;
 
 
@@ -206,7 +204,7 @@ public final class ClassUtils {
             String[] args = parameters.toArray(new String[parameters.size()]);
             Constructor< ? > constructor = klass.getConstructor(args.getClass());
             return expectedType.cast(constructor.newInstance(new Object[] { args }));
-        } catch (Exception e) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             throw new UndeclaredThrowableException(e);
         }
     }

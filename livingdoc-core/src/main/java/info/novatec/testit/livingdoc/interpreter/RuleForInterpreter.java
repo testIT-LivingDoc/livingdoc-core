@@ -30,6 +30,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+import info.novatec.testit.livingdoc.reflect.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,14 +45,6 @@ import info.novatec.testit.livingdoc.call.ResultIs;
 import info.novatec.testit.livingdoc.interpreter.column.Column;
 import info.novatec.testit.livingdoc.interpreter.column.ExpectedColumn;
 import info.novatec.testit.livingdoc.interpreter.column.NullColumn;
-import info.novatec.testit.livingdoc.reflect.AfterRow;
-import info.novatec.testit.livingdoc.reflect.AfterTable;
-import info.novatec.testit.livingdoc.reflect.BeforeFirstExpectation;
-import info.novatec.testit.livingdoc.reflect.BeforeRow;
-import info.novatec.testit.livingdoc.reflect.BeforeTable;
-import info.novatec.testit.livingdoc.reflect.Fixture;
-import info.novatec.testit.livingdoc.reflect.Message;
-import info.novatec.testit.livingdoc.reflect.StaticInvocation;
 
 
 public class RuleForInterpreter extends AbstractInterpreter {
@@ -60,11 +53,11 @@ public class RuleForInterpreter extends AbstractInterpreter {
     protected final Fixture fixture;
     protected Statistics stats;
     private Column[] columns;
-    private Message beforeRowMessage = null;
-    private Message beforeFirstExpectationMessage = null;
-    private Message afterRowMessage = null;
-    private Message beforeTableMessage = null;
-    private Message afterTableMessage = null;
+    private Message beforeRowMessage;
+    private Message beforeFirstExpectationMessage;
+    private Message afterRowMessage;
+    private Message beforeTableMessage;
+    private Message afterTableMessage;
 
     public RuleForInterpreter(Fixture fixture) {
         super();
@@ -129,7 +122,7 @@ public class RuleForInterpreter extends AbstractInterpreter {
             Column parsedColumn = HeaderForm.parse(header.getContent()).selectColumn(fixture);
             LOG.trace(EXIT_WITH, parsedColumn);
             return parsedColumn;
-        } catch (Exception e) {
+        } catch (NoSuchMessageException e) {
             header.annotate(exception(e));
             stats.exception();
             LOG.error(LOG_ERROR, e);
@@ -225,7 +218,7 @@ public class RuleForInterpreter extends AbstractInterpreter {
             Call call = new Call(message);
             call.will(Compile.statistics(stats)).when(ResultIs.exception());
             call.execute();
-        } catch (Exception e) {
+        } catch (InvocationTargetException | IllegalAccessException e) {
             stats.exception();
             LOG.error(LOG_ERROR, e);
         }

@@ -55,7 +55,7 @@ public class ArrayConverter implements TypeConverter {
     }
 
     protected String removeSquareBrackets(String value) {
-        if (value.startsWith("[") && value.endsWith("]")) {
+        if (value.charAt(0) == '[' && value.endsWith("]")) {
             return value.substring(1, value.length() - 1);
         }
         return value;

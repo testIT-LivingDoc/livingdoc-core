@@ -21,10 +21,10 @@ public class SpecificationRunnerExecutor {
     private final SpecificationRunner specificationRunner;
 
     // Optional parameters
-    private File outputFile = null;
+    private File outputFile;
 
-    private boolean stopOnFirstFailure = false;
-    private boolean debugEnabled = false;
+    private boolean stopOnFirstFailure;
+    private boolean debugEnabled;
     private Locale locale = new Locale("en");
 
     public SpecificationRunnerExecutor(SpecificationRunner specificationRunner) {

@@ -19,6 +19,7 @@ package info.novatec.testit.livingdoc.interpreter.flow.dowith;
 
 import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -62,7 +63,7 @@ public class CheckRow extends AbstractRow {
             call.will(Annotate.exception(CollectionUtil.first(keywordCells(row)))).when(ResultIs.exception());
             call.will(tallyStatistics(table));
             call.execute();
-        } catch (Exception e) {
+        } catch (InvocationTargetException | IllegalAccessException e) {
             LOG.error(LOG_ERROR, e);
             reportException(table);
             CollectionUtil.first(keywordCells(row)).annotate(Annotations.exception(e));

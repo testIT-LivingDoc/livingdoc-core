@@ -10,10 +10,8 @@ import info.novatec.testit.livingdoc.server.domain.RepositoryType;
 import info.novatec.testit.livingdoc.server.domain.SystemInfo;
 import info.novatec.testit.livingdoc.server.domain.dao.RepositoryDao;
 import info.novatec.testit.livingdoc.server.domain.dao.SystemInfoDao;
-import info.novatec.testit.livingdoc.server.domain.dao.SystemUnderTestDao;
 import info.novatec.testit.livingdoc.server.domain.dao.hibernate.HibernateRepositoryDao;
 import info.novatec.testit.livingdoc.server.domain.dao.hibernate.HibernateSystemInfoDao;
-import info.novatec.testit.livingdoc.server.domain.dao.hibernate.HibernateSystemUnderTestDao;
 
 
 public class InitialDatas {
@@ -23,11 +21,11 @@ public class InitialDatas {
     private final RepositoryDao repoDao;
 
     public InitialDatas(SessionService sessionService) {
-        this(new HibernateSystemInfoDao(sessionService), new HibernateSystemUnderTestDao(sessionService),
-            new HibernateRepositoryDao(sessionService));
+        this(new HibernateSystemInfoDao(sessionService),
+                new HibernateRepositoryDao(sessionService));
     }
 
-    public InitialDatas(SystemInfoDao systemInfoDao, SystemUnderTestDao systemUnderTestDao, RepositoryDao repositoryDao) {
+    public InitialDatas(SystemInfoDao systemInfoDao, RepositoryDao repositoryDao) {
         this.systDao = systemInfoDao;
         this.repoDao = repositoryDao;
     }

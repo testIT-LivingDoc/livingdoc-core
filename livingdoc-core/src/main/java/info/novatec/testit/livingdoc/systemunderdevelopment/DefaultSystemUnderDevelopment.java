@@ -33,7 +33,7 @@ public class DefaultSystemUnderDevelopment implements SystemUnderDevelopment {
     private TypeLoader< ? > typeLoader;
     private AnnotationLoader< ? > altLoader;
     private Set<String> importedPackages = new HashSet<String>();
-    private boolean hasImports = false;
+    private boolean hasImports;
     private ClassLoader classLoader;
 
     public DefaultSystemUnderDevelopment() {

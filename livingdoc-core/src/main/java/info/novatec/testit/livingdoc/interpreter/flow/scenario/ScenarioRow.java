@@ -20,6 +20,7 @@ package info.novatec.testit.livingdoc.interpreter.flow.scenario;
 
 import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -67,7 +68,7 @@ public class ScenarioRow extends AbstractRow {
             call.execute();
 
             table.exampleDone(stats);
-        } catch (Exception e) {
+        } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
             LOG.error(LOG_ERROR, e);
             reportException(table);
             scenario.annotate(Annotations.exception(e));

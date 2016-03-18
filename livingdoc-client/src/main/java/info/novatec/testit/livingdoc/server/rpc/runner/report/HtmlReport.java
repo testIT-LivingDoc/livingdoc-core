@@ -77,20 +77,16 @@ public class HtmlReport implements Report {
     }
 
     private String toHtml(Execution paramExecution, boolean includeStyle) {
-        StringBuilder html = new StringBuilder();
-
         String results = paramExecution.getResults();
 
         if (includeStyle) {
-            html.append("<html>\n").append("  <head>\n").append("  <title>").append(getName()).append("</title>\n").append(
+            return new StringBuilder().append("<html>\n").append("  <head>\n").append("  <title>").append(getName()).append("</title>\n").append(
                 "<style>\n").append(getStyleContent()).append("\n</style>\n").append("</head>\n").append("<body>\n").append(
                     "<div id=\"Content\" style=\"text-align:left; padding: 5px;\">").append(results.replace("<html>", "")
-                        .replace("</html>", "")).append("</div>\n").append("</body>\n").append("</html>");
+                        .replace("</html>", "")).append("</div>\n").append("</body>\n").append("</html>").toString();
         } else {
-            html.append(results);
+            return results;
         }
-
-        return html.toString();
     }
 
     private String getStyleContent() {
@@ -100,8 +96,8 @@ public class HtmlReport implements Report {
             if (is.read(bytes) > 0) {
                 return new String(bytes);
             }
-            throw new Exception("Cannot read style.css resource from jar");
-        } catch (Exception ex) {
+            throw new IOException("Cannot read style.css resource from jar");
+        } catch (IOException ex) {
             throw ExceptionImposter.imposterize(ex);
         }
     }

@@ -4,6 +4,7 @@ import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
 import static info.novatec.testit.livingdoc.util.NameUtils.toJavaIdentifierForm;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -95,7 +96,7 @@ public abstract class AbstractFixture implements Fixture {
     protected Object invoke(Method method) {
         try {
             return method.invoke(target);
-        } catch (Exception e) {
+        } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
             LOG.error(LOG_ERROR, e);
             return null;
         }

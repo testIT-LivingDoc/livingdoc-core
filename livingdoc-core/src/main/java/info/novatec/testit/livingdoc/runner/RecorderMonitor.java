@@ -23,7 +23,7 @@ import info.novatec.testit.livingdoc.Statistics;
 public class RecorderMonitor implements SpecificationRunnerMonitor {
     private Statistics statistics = new Statistics();
     private Throwable exception;
-    private int locationCount = 0;
+    private int locationCount;
 
     @Override
     public void testRunning(String location) {

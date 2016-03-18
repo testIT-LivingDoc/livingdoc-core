@@ -92,7 +92,7 @@ public class ListOfInterpreter extends CollectionInterpreter {
                     break;
                 }
             }
-        } catch (Exception e) {
+        } catch (InvocationTargetException | IllegalAccessException | NoSuchMessageException e) {
             example.firstChild().annotate(exception(e));
             stats.exception();
 

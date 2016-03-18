@@ -14,7 +14,7 @@ public class CommandLineBuilder {
     }
 
     public String[] getCmdLine() {
-        return cmdLine;
+        return cmdLine.clone();
     }
 
     public void setMainClass(String mainClass) {
@@ -63,9 +63,7 @@ public class CommandLineBuilder {
 
     private void addOption(String cmd, String args) {
         String[] newCmdLine = new String[cmdLine.length + 2];
-        for (int i = 0; i < cmdLine.length; i ++ ) {
-            newCmdLine[i] = cmdLine[i];
-        }
+        System.arraycopy(cmdLine, 0, newCmdLine, 0, cmdLine.length);
 
         newCmdLine[newCmdLine.length - 2] = cmd;
         newCmdLine[newCmdLine.length - 1] = args;

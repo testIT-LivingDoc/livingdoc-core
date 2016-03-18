@@ -37,4 +37,10 @@ public class SystemInfo extends AbstractUniqueEntity {
 
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        int hashCode = super.hashCode();
+        return hashCode;
+    }
 }

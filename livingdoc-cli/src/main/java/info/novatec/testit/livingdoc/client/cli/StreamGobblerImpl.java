@@ -1,5 +1,6 @@
 package info.novatec.testit.livingdoc.client.cli;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -74,7 +75,7 @@ public class StreamGobblerImpl implements StreamGobbler {
                     stdin.write(input.getBytes("UTF-8"));
                     stdin.flush();
                     stdin.close();
-                } catch (Exception e) {
+                } catch (IOException e) {
                     exceptionCaught(e);
                 }
             }
@@ -83,7 +84,7 @@ public class StreamGobblerImpl implements StreamGobbler {
         try {
             thread.start();
             thread.join();
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
             exceptionCaught(e);
         }
     }
@@ -94,7 +95,7 @@ public class StreamGobblerImpl implements StreamGobbler {
             while ( ( c = inputStream.read() ) != - 1) {
                 buffer.append(( char ) c);
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             exceptionCaught(e);
         }
     }

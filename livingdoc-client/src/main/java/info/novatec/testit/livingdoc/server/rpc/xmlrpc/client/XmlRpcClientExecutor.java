@@ -18,10 +18,11 @@
  */
 package info.novatec.testit.livingdoc.server.rpc.xmlrpc.client;
 
+import java.util.List;
 import java.util.Vector;
 
 
 public interface XmlRpcClientExecutor {
 
-    Object execute(String method, Vector< ? > params) throws XmlRpcClientExecutorException;
+    Object execute(String method, List< ? > params) throws XmlRpcClientExecutorException;
 }

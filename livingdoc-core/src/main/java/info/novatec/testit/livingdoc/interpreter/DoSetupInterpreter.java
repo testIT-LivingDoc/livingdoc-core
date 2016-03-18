@@ -26,8 +26,10 @@ import static info.novatec.testit.livingdoc.util.LoggerConstants.EXIT;
 import static info.novatec.testit.livingdoc.util.LoggerConstants.EXIT_WITH;
 import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import info.novatec.testit.livingdoc.reflect.NoSuchMessageException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,7 +53,7 @@ public class DoSetupInterpreter extends AbstractInterpreter {
 
     private final Fixture fixture;
     private Statistics stats;
-    private boolean skip = false;
+    private boolean skip;
 
     public DoSetupInterpreter(Fixture fixture) {
         this.fixture = fixture;
@@ -88,7 +90,7 @@ public class DoSetupInterpreter extends AbstractInterpreter {
             boolean doRowWasRight = call.wasRight();
             LOG.trace(EXIT_WITH, doRowWasRight);
             return doRowWasRight;
-        } catch (Exception e) {
+        } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException | NoSuchMessageException e) {
             LOG.error(LOG_ERROR, e);
             stats.exception();
             annotateException(row, e);

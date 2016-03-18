@@ -14,7 +14,7 @@ public class CommandLineExecutor {
     private String[] cmdLine;
 
     public CommandLineExecutor(String[] cmdLine) {
-        this.cmdLine = cmdLine;
+        this.cmdLine = cmdLine.clone();
     }
 
     public void executeAndWait() throws IOException, InterruptedException, LivingDocCLIException {

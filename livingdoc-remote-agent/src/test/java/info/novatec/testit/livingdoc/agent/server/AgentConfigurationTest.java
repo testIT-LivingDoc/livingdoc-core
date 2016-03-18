@@ -30,7 +30,7 @@ import java.io.IOException;
 import org.junit.Test;
 
 
-public class AgentConfigurationTest {
+public class    AgentConfigurationTest {
 
     @Test(expected = FileNotFoundException.class)
     public void testReadingConfigurationWithUnexistingConfigurationFile() throws Exception {

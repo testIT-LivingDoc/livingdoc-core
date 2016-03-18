@@ -24,20 +24,20 @@ public class DuplicateAnnotatedFixturesFoundException extends RuntimeException {
 
     @Override
     public String getMessage() {
-        String message = "";
+        StringBuilder message = new StringBuilder();
 
         if (foundFixtures.size() > 1) {
-            message = message + "Following annotated fixtures have been found in doubles: \n";
+            message.append("Following annotated fixtures have been found in doubles: \n");
             for (Class< ? > str : foundFixtures) {
-                message = message + str.getName() + "\n";
+                message.append(str.getName()).append('\n');
             }
         }
         if (foundAliases.size() > 1) {
-            message = message + "Following aliases of annotated fixtures have been found in doubles: \n";
+            message.append("Following aliases of annotated fixtures have been found in doubles: \n");
             for (Class< ? > str : foundAliases) {
-                message = message + str.getName() + "\n";
+                message.append(str.getName()).append('\n');
             }
         }
-        return message;
+        return message.toString();
     }
 }
