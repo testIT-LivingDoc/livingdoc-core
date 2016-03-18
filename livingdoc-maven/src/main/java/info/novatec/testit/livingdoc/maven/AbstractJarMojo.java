@@ -1,11 +1,11 @@
 /* Copyright 2001-2006 The Apache Software Foundation.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -15,19 +15,24 @@
 package info.novatec.testit.livingdoc.maven;
 
 import java.io.File;
+import java.io.IOException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.archiver.MavenArchiveConfiguration;
 import org.apache.maven.archiver.MavenArchiver;
+import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
+import org.codehaus.plexus.archiver.ArchiverException;
 import org.codehaus.plexus.archiver.jar.JarArchiver;
+import org.codehaus.plexus.archiver.jar.ManifestException;
 
 
 /**
  * Base class for creating a jar from project classes.
- * 
+ *
  * @author <a href="evenisse@apache.org">Emmanuel Venisse</a>
  * @version $Id$
  */
@@ -39,7 +44,7 @@ public abstract class AbstractJarMojo extends AbstractMojo {
 
     /**
      * Directory containing the generated JAR.
-     * 
+     *
      * @parameter expression="${project.build.directory}"
      * @required
      */
@@ -47,7 +52,7 @@ public abstract class AbstractJarMojo extends AbstractMojo {
 
     /**
      * Name of the generated JAR.
-     * 
+     *
      * @parameter alias="jarName" expression="${project.build.finalName}"
      * @required
      */
@@ -55,7 +60,7 @@ public abstract class AbstractJarMojo extends AbstractMojo {
 
     /**
      * The Jar archiver.
-     * 
+     *
      * @parameter expression=
      * "${component.org.codehaus.plexus.archiver.Archiver#jar}"
      * @required
@@ -64,7 +69,7 @@ public abstract class AbstractJarMojo extends AbstractMojo {
 
     /**
      * The maven project.
-     * 
+     *
      * @parameter expression="${project}"
      * @required
      * @readonly
@@ -73,11 +78,11 @@ public abstract class AbstractJarMojo extends AbstractMojo {
 
     /**
      * The maven archive configuration to use.
-     * 
+     *
      * See <a href=
      * "http://maven.apache.org/ref/current/maven-archiver/apidocs/org/apache/maven/archiver/MavenArchiveConfiguration.html"
      * >the Javadocs for MavenArchiveConfiguration</a>.
-     * 
+     *
      * @parameter
      */
     private MavenArchiveConfiguration archive = new MavenArchiveConfiguration();
@@ -89,7 +94,7 @@ public abstract class AbstractJarMojo extends AbstractMojo {
 
     /**
      * Whether creating the archive should be forced.
-     * 
+     *
      * @parameter expression="${jar.forceCreation}" default-value="false"
      */
     private boolean forceCreation;
@@ -97,7 +102,7 @@ public abstract class AbstractJarMojo extends AbstractMojo {
     /**
      * Return the specific output directory to serve as the root for the
      * archive.
-     * 
+     *
      * @return the class directory
      */
     protected abstract File getClassesDirectory();
@@ -108,19 +113,20 @@ public abstract class AbstractJarMojo extends AbstractMojo {
 
     /**
      * Overload this to produce a test-jar, for example.
-     * 
+     *
      * @return the classifier
      */
     protected abstract String getClassifier();
 
     protected static File getJarFile(File basedir, String finalName, String classifier) {
 
-        String modifiedClassifier = classifier;
+        if (StringUtils.isBlank(classifier)) {
+            return new File(basedir, finalName + ".jar");
+        }
 
-        if (classifier == null) {
-            modifiedClassifier = "";
-        } else if (classifier.trim().length() > 0 && ! classifier.startsWith("-")) {
-            modifiedClassifier = "-" + classifier;
+        String modifiedClassifier = StringUtils.deleteWhitespace(classifier);
+        if (modifiedClassifier.charAt(0) != '-') {
+            modifiedClassifier = '-' + modifiedClassifier;
         }
 
         return new File(basedir, finalName + modifiedClassifier + ".jar");
@@ -128,7 +134,7 @@ public abstract class AbstractJarMojo extends AbstractMojo {
 
     /**
      * Generates the JAR.
-     * 
+     *
      * @return the created archive file
      * @throws MojoExecutionException if the assembling of the jar fails
      */
@@ -154,7 +160,7 @@ public abstract class AbstractJarMojo extends AbstractMojo {
             archiver.createArchive(project, archive);
 
             return jarFile;
-        } catch (Exception e) {
+        } catch (ArchiverException | DependencyResolutionRequiredException | IOException | ManifestException e) {
             throw new MojoExecutionException("Error assembling JAR", e);
         }
     }

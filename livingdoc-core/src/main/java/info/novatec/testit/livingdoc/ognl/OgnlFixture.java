@@ -2,6 +2,7 @@ package info.novatec.testit.livingdoc.ognl;
 
 import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.slf4j.Logger;
@@ -105,7 +106,7 @@ public class OgnlFixture implements Fixture {
     private Object invoke(Method method) {
         try {
             return method.invoke(getTarget());
-        } catch (Exception e) {
+        } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
             LOG.error(LOG_ERROR, e);
             return null;
         }

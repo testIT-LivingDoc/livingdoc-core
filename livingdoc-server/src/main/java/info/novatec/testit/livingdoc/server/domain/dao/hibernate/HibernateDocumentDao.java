@@ -121,7 +121,6 @@ public class HibernateDocumentDao implements DocumentDao {
     @Override
     public Specification createSpecification(String systemUnderTestName, String repositoryUid, String specificationName)
         throws LivingDocServerException {
-        Specification specification = Specification.newInstance(specificationName);
         Repository repository = repositoryDao.getByUID(repositoryUid);
         if (repository == null) {
             throw new LivingDocServerException(LivingDocServerErrorKey.REPOSITORY_NOT_FOUND, "Repo not found");
@@ -141,6 +140,7 @@ public class HibernateDocumentDao implements DocumentDao {
             }
         }
 
+        Specification specification = Specification.newInstance(specificationName);
         repository.addSpecification(specification);
         specification.addSystemUnderTest(sut);
 

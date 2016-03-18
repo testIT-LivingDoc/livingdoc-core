@@ -195,11 +195,11 @@ public class HibernateSystemUnderTestDao implements SystemUnderTestDao {
             throw new LivingDocServerException(LivingDocServerErrorKey.SUT_ALREADY_EXISTS, "SUT already exists");
         }
 
-        SystemUnderTest sutToUpdate = getByName(updatedSut.getProject().getName(), oldSutName);
         Runner runner = getRunnerByName(updatedSut.getRunner().getName());
         if (runner == null) {
             throw new LivingDocServerException(LivingDocServerErrorKey.RUNNER_NOT_FOUND, RUNNER_NOT_FOUND_MSG);
         }
+        SystemUnderTest sutToUpdate = getByName(updatedSut.getProject().getName(), oldSutName);
         sutToUpdate.setRunner(runner);
 
         sutToUpdate.setName(updatedSut.getName());

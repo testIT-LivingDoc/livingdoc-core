@@ -19,8 +19,10 @@ package info.novatec.testit.livingdoc.interpreter.flow.dowith;
 
 import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import info.novatec.testit.livingdoc.reflect.NoSuchMessageException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,7 +60,7 @@ public class DefaultRow extends AbstractRow {
             call.will(Do.both(Annotate.exception(CollectionUtil.first(keywordCells(row)))).and(countRowOf(table)
                 .exception())).when(ResultIs.exception());
             call.execute();
-        } catch (Exception e) {
+        } catch (InvocationTargetException | IllegalAccessException | NoSuchMessageException e) {
             LOG.error(LOG_ERROR, e);
             CollectionUtil.first(keywordCells(row)).annotate(Annotations.exception(e));
             reportException(table);

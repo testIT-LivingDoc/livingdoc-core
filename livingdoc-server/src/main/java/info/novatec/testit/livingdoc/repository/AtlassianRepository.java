@@ -1,5 +1,14 @@
 package info.novatec.testit.livingdoc.repository;
 
+import info.novatec.testit.livingdoc.document.Document;
+import info.novatec.testit.livingdoc.html.HtmlDocumentBuilder;
+import info.novatec.testit.livingdoc.util.CollectionUtil;
+import info.novatec.testit.livingdoc.util.URIUtil;
+import org.apache.commons.io.IOUtils;
+import org.apache.xmlrpc.XmlRpcClient;
+import org.apache.xmlrpc.XmlRpcException;
+import org.apache.xmlrpc.XmlRpcRequest;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
@@ -8,16 +17,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.xmlrpc.XmlRpcClient;
-import org.apache.xmlrpc.XmlRpcException;
-import org.apache.xmlrpc.XmlRpcRequest;
-
-import info.novatec.testit.livingdoc.document.Document;
-import info.novatec.testit.livingdoc.html.HtmlDocumentBuilder;
-import info.novatec.testit.livingdoc.util.CollectionUtil;
-import info.novatec.testit.livingdoc.util.URIUtil;
 
 
 public class AtlassianRepository implements DocumentRepository {
@@ -55,9 +54,9 @@ public class AtlassianRepository implements DocumentRepository {
     // 'setDocumentAsImplemented(String location)'
     public void setDocumentAsImplemented(String location) throws MalformedURLException, XmlRpcException, IOException,
         Exception {
-        Vector< ? > args = CollectionUtil.toVector(username, password, args(URI.create(URIUtil.raw(location))));
+        List< ? > args = CollectionUtil.toVector(username, password, args(URI.create(URIUtil.raw(location))));
         XmlRpcClient xmlrpc = new XmlRpcClient(root.getScheme() + "://" + root.getAuthority() + root.getPath());
-        String msg = ( String ) xmlrpc.execute(new XmlRpcRequest(handler + ".setSpecificationAsImplemented", args));
+        String msg = ( String ) xmlrpc.execute(new XmlRpcRequest(handler + ".setSpecificationAsImplemented", (Vector) args));
 
         if ( ! ( "<success>".equals(msg) )) {
             throw new Exception(msg);
@@ -73,17 +72,17 @@ public class AtlassianRepository implements DocumentRepository {
     @Override
     @SuppressWarnings("unchecked")
     public List<Object> listDocumentsInHierarchy() throws XmlRpcException, IOException {
-        Vector< ? > args = CollectionUtil.toVector(username, password, CollectionUtil.toVector(root.getFragment()));
+        List< ? > args = CollectionUtil.toVector(username, password, CollectionUtil.toVector(root.getFragment()));
         XmlRpcClient xmlrpc = new XmlRpcClient(root.getScheme() + "://" + root.getAuthority() + root.getPath());
-        XmlRpcRequest request = new XmlRpcRequest(handler + ".getSpecificationHierarchy", args);
+        XmlRpcRequest request = new XmlRpcRequest(handler + ".getSpecificationHierarchy", (Vector) args);
         Vector<Object> response = ( Vector<Object> ) xmlrpc.execute(request);
         return response;
     }
 
     private String retrieveSpecification(URI location) throws XmlRpcException, IOException {
-        Vector< ? > args = CollectionUtil.toVector(username, password, args(location));
+        List< ? > args = CollectionUtil.toVector(username, password, args(location));
         XmlRpcClient xmlrpc = new XmlRpcClient(root.getScheme() + "://" + root.getAuthority() + root.getPath());
-        XmlRpcRequest request = new XmlRpcRequest(handler + ".getRenderedSpecification", args);
+        XmlRpcRequest request = new XmlRpcRequest(handler + ".getRenderedSpecification", (Vector) args);
         String response = ( String ) xmlrpc.execute(request);
         return response;
     }
@@ -97,7 +96,7 @@ public class AtlassianRepository implements DocumentRepository {
         }
     }
 
-    private Vector<Object> args(URI location) {
+    private List<Object> args(URI location) {
         String[] locationArgs = location.getPath().split("/");
         Vector<Object> args = new Vector<Object>();
         args.add(root.getFragment());

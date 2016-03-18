@@ -27,17 +27,16 @@ public final class Colors {
     public static final String ORANGE = "#FFC800"; // 255, 200, 0
 
     public static String toRGB(Color color) {
-        String rgb = "#";
-        rgb += formatAsHex(color.getRed());
-        rgb += formatAsHex(color.getGreen());
-        rgb += formatAsHex(color.getBlue());
-        return rgb;
+        return new StringBuilder("#").append(formatAsHex(color.getRed()))
+                .append(formatAsHex(color.getGreen()))
+                .append(formatAsHex(color.getBlue()))
+                .toString();
     }
 
     private static String formatAsHex(int value) {
         String hexaString = Integer.toString(value, 16).toUpperCase();
         if (hexaString.length() == 1) {
-            hexaString = "0" + hexaString;
+            return "0" + hexaString;
         }
         return hexaString;
     }

@@ -72,10 +72,11 @@ public class FileReportGenerator implements ReportGenerator {
 
     private String outputNameOf(Report report) {
         String name = report.getName();
+        StringBuilder nameBuilder = new StringBuilder(name);
         if (automaticExtension && ! name.endsWith(extensionOf(report))) {
-            name += extensionOf(report);
+            nameBuilder.append(extensionOf(report));
         }
-        return URIUtil.escapeFileSystemForbiddenCharacters(name);
+        return URIUtil.escapeFileSystemForbiddenCharacters(nameBuilder.toString());
     }
 
     private String extensionOf(Report report) {

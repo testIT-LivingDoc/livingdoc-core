@@ -278,10 +278,12 @@ public abstract class AbstractCompilerMojo extends AbstractMojo {
             for (Iterator<Map.Entry> i = compilerArguments.entrySet().iterator(); i.hasNext();) {
                 Map.Entry me = i.next();
                 String key = ( String ) me.getKey();
-                if ( ! key.startsWith("-")) {
-                    key = "-" + key;
+                StringBuilder keyBuilder = new StringBuilder();
+                if (key.charAt(0) != '-') {
+                    keyBuilder.append('-');
                 }
-                cplrArgsCopy.put(key, me.getValue());
+                keyBuilder.append(key);
+                cplrArgsCopy.put(keyBuilder.toString(), me.getValue());
             }
             compilerConfiguration.setCustomCompilerArguments(cplrArgsCopy);
         }
@@ -377,7 +379,7 @@ public abstract class AbstractCompilerMojo extends AbstractMojo {
 
         try {
             messages = compiler.compile(compilerConfiguration);
-        } catch (Exception e) {
+        } catch (CompilerException e) {
             throw new MojoExecutionException("Fatal error compiling", e);
         }
 

@@ -51,7 +51,7 @@ public final class URIUtil {
     }
 
     public static String resolve(String base, String child) {
-        String childPath = child.startsWith("/") ? child.substring(1) : child;
+        String childPath = child.charAt(0) == '/' ? child.substring(1) : child;
         String basePath = base.endsWith("/") ? base : base + "/";
         return basePath + childPath;
     }
@@ -72,7 +72,7 @@ public final class URIUtil {
     }
 
     private static String stripLeadingSlash(String path) {
-        return path.startsWith("/") ? path.substring(1) : path;
+        return path.charAt(0) == '/' ? path.substring(1) : path;
     }
 
     public static String escapeFileSystemForbiddenCharacters(String input) {

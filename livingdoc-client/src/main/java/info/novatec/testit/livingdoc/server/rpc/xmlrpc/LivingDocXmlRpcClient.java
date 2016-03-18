@@ -1,30 +1,21 @@
 package info.novatec.testit.livingdoc.server.rpc.xmlrpc;
 
-import java.util.Set;
-import java.util.Vector;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
 import info.novatec.testit.livingdoc.server.ServerPropertiesManager;
-import info.novatec.testit.livingdoc.server.domain.DocumentNode;
-import info.novatec.testit.livingdoc.server.domain.Execution;
-import info.novatec.testit.livingdoc.server.domain.Project;
-import info.novatec.testit.livingdoc.server.domain.Reference;
-import info.novatec.testit.livingdoc.server.domain.Repository;
-import info.novatec.testit.livingdoc.server.domain.Requirement;
-import info.novatec.testit.livingdoc.server.domain.RequirementSummary;
-import info.novatec.testit.livingdoc.server.domain.Runner;
-import info.novatec.testit.livingdoc.server.domain.Specification;
-import info.novatec.testit.livingdoc.server.domain.SystemUnderTest;
+import info.novatec.testit.livingdoc.server.domain.*;
 import info.novatec.testit.livingdoc.server.rpc.RpcClientService;
 import info.novatec.testit.livingdoc.server.rpc.xmlrpc.client.XmlRpcClientExecutor;
 import info.novatec.testit.livingdoc.server.rpc.xmlrpc.client.XmlRpcClientExecutorException;
 import info.novatec.testit.livingdoc.server.rpc.xmlrpc.client.XmlRpcClientExecutorFactory;
 import info.novatec.testit.livingdoc.util.CollectionUtil;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Set;
+import java.util.Vector;
 
 
 @SuppressWarnings("rawtypes")
@@ -91,7 +82,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @Override
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void createRunner(Runner runner, String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(runner.marshallize());
+        List params = CollectionUtil.toVector(runner.marshallize());
 
         log.debug("Creating runner: " + runner.getName());
         execute(XmlRpcMethodName.createRunner, params, identifier);
@@ -99,7 +90,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
 
     @Override
     public void updateRunner(String oldRunnerName, Runner runner, String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(oldRunnerName, runner.marshallize());
+        List params = CollectionUtil.toVector(oldRunnerName, runner.marshallize());
 
         log.debug("Updating runner: " + oldRunnerName);
         execute(XmlRpcMethodName.updateRunner, params, identifier);
@@ -114,7 +105,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @Override
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Repository getRegisteredRepository(Repository repository, String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(repository.marshallize());
+        List params = CollectionUtil.toVector(repository.marshallize());
 
         log.debug("Retrieving Registered Repository: " + repository.getUid());
         Vector<Object> repositoryParams = ( Vector<Object> ) execute(XmlRpcMethodName.getRegisteredRepository, params,
@@ -127,7 +118,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @Override
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Repository registerRepository(Repository repository, String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(repository.marshallize());
+        List params = CollectionUtil.toVector(repository.marshallize());
 
         log.debug("Registering Repository: " + repository.getUid());
         Vector<Object> repositoryParams = ( Vector<Object> ) execute(XmlRpcMethodName.registerRepository, params,
@@ -139,7 +130,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @Override
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void updateRepositoryRegistration(Repository repository, String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(repository.marshallize());
+        List params = CollectionUtil.toVector(repository.marshallize());
 
         log.debug("Updating Repository registration: " + repository.getUid());
         execute(XmlRpcMethodName.updateRepositoryRegistration, params, identifier);
@@ -147,7 +138,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
 
     @Override
     public void removeRepository(String repositoryUid, String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(repositoryUid);
+        List params = CollectionUtil.toVector(repositoryUid);
 
         log.debug("Removing Repository " + repositoryUid);
         execute(XmlRpcMethodName.removeRepository, params, identifier);
@@ -176,7 +167,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Set<Repository> getAllRepositoriesForSystemUnderTest(SystemUnderTest systemUnderTest, String identifier)
         throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(systemUnderTest.marshallize());
+        List params = CollectionUtil.toVector(systemUnderTest.marshallize());
 
         log.debug("Retrieving repositories for Associated project. (SystemUnderTest : " + systemUnderTest.getName() + ")");
         Vector<Object> repositoriesParams = ( Vector<Object> ) execute(XmlRpcMethodName.getAllRepositoriesForSystemUnderTest,
@@ -189,7 +180,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Set<Repository> getSpecificationRepositoriesOfAssociatedProject(Repository repository, String identifier)
         throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(repository.marshallize());
+        List params = CollectionUtil.toVector(repository.marshallize());
 
         log.debug("Retrieving Specification repositories for Associated project. (Repo UID: " + repository.getUid() + ")");
         Vector<Object> repositoriesParams = ( Vector<Object> ) execute(
@@ -202,7 +193,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Set<Repository> getSpecificationRepositoriesOfAssociatedProject(SystemUnderTest systemUnderTest,
         String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(systemUnderTest.marshallize());
+        List params = CollectionUtil.toVector(systemUnderTest.marshallize());
 
         log.debug("Retrieving Specification repositories for Associated project. (SystemUnderTest : " + systemUnderTest
             .getName() + ")");
@@ -216,7 +207,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Set<Repository> getRequirementRepositoriesOfAssociatedProject(Repository repository, String identifier)
         throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(repository.marshallize());
+        List params = CollectionUtil.toVector(repository.marshallize());
 
         log.debug("Retrieving Requirement repositories for Associated project. (Repo UID: " + repository.getUid() + ")");
         Vector<Object> repositoriesParams = ( Vector<Object> ) execute(
@@ -229,7 +220,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Set<SystemUnderTest> getSystemUnderTestsOfAssociatedProject(Repository repository, String identifier)
         throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(repository.marshallize());
+        List params = CollectionUtil.toVector(repository.marshallize());
 
         log.debug("Retrieving SUT list for Associated repository: " + repository.getName());
         Vector<Object> sutsParams = ( Vector<Object> ) execute(XmlRpcMethodName.getSystemUnderTestsOfAssociatedProject,
@@ -253,7 +244,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void addSystemUnderTest(SystemUnderTest systemUnderTest, Specification specification, String identifier)
         throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(systemUnderTest.marshallize(), specification.marshallize());
+        List params = CollectionUtil.toVector(systemUnderTest.marshallize(), specification.marshallize());
 
         log.debug("Adding SUT " + systemUnderTest.getName() + " to SUT list of specification: " + specification.getName());
         execute(XmlRpcMethodName.addSpecificationSystemUnderTest, params, identifier);
@@ -263,7 +254,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void removeSystemUnderTest(SystemUnderTest systemUnderTest, Specification specification, String identifier)
         throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(systemUnderTest.marshallize(), specification.marshallize());
+        List params = CollectionUtil.toVector(systemUnderTest.marshallize(), specification.marshallize());
 
         log.debug("Adding SUT " + systemUnderTest.getName() + " to SUT list of specification: " + specification.getName());
         execute(XmlRpcMethodName.removeSpecificationSystemUnderTest, params, identifier);
@@ -272,7 +263,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @Override
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public boolean hasReferences(Specification specification, String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(specification.marshallize());
+        List params = CollectionUtil.toVector(specification.marshallize());
 
         log.debug("Does specification " + specification.getName() + " Has References");
         String hasReferences = ( String ) execute(XmlRpcMethodName.doesSpecificationHasReferences, params, identifier);
@@ -283,7 +274,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @Override
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Set<Reference> getReferences(Specification specification, String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(specification.marshallize());
+        List params = CollectionUtil.toVector(specification.marshallize());
 
         log.debug("Retrieving Specification " + specification.getName() + " References");
         Vector<Object> referencesParams = ( Vector<Object> ) execute(XmlRpcMethodName.getSpecificationReferences, params,
@@ -295,7 +286,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @Override
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public boolean hasReferences(Requirement requirement, String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(requirement.marshallize());
+        List params = CollectionUtil.toVector(requirement.marshallize());
 
         log.debug("Does Requirement " + requirement.getName() + " Has References");
         String hasReferences = ( String ) execute(XmlRpcMethodName.doesRequirementHasReferences, params, identifier);
@@ -306,7 +297,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @Override
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Set<Reference> getReferences(Requirement requirement, String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(requirement.marshallize());
+        List params = CollectionUtil.toVector(requirement.marshallize());
 
         log.debug("Retrieving Requirement " + requirement.getName() + " References");
         Vector<Object> referencesParams = ( Vector<Object> ) execute(XmlRpcMethodName.getRequirementReferences, params,
@@ -318,7 +309,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @Override
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Reference getReference(Reference reference, String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(reference.marshallize());
+        List params = CollectionUtil.toVector(reference.marshallize());
 
         log.debug("Retrieving Reference: " + reference.getRequirement().getName() + "," + reference.getSpecification()
             .getName());
@@ -331,7 +322,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public SystemUnderTest getSystemUnderTest(SystemUnderTest systemUnderTest, Repository repository, String identifier)
         throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(systemUnderTest.marshallize(), repository.marshallize());
+        List params = CollectionUtil.toVector(systemUnderTest.marshallize(), repository.marshallize());
 
         log.debug("Retrieving SystemUnderTest: " + systemUnderTest.getName());
         Vector<Object> sutParams = ( Vector<Object> ) execute(XmlRpcMethodName.getSystemUnderTest, params, identifier);
@@ -343,7 +334,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void createSystemUnderTest(SystemUnderTest systemUnderTest, Repository repository, String identifier)
         throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(systemUnderTest.marshallize(), repository.marshallize());
+        List params = CollectionUtil.toVector(systemUnderTest.marshallize(), repository.marshallize());
 
         log.debug("Creating SystemUnderTest: " + systemUnderTest.getName());
         execute(XmlRpcMethodName.createSystemUnderTest, params, identifier);
@@ -352,7 +343,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @Override
     public void updateSystemUnderTest(String oldSystemUnderTestName, SystemUnderTest newSystemUnderTest,
         Repository repository, String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(oldSystemUnderTestName, newSystemUnderTest.marshallize(), repository
+        List params = CollectionUtil.toVector(oldSystemUnderTestName, newSystemUnderTest.marshallize(), repository
             .marshallize());
 
         log.debug("Updating SystemUnderTest: " + oldSystemUnderTestName);
@@ -363,7 +354,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void removeSystemUnderTest(SystemUnderTest systemUnderTest, Repository repository, String identifier)
         throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(systemUnderTest.marshallize(), repository.marshallize());
+        List params = CollectionUtil.toVector(systemUnderTest.marshallize(), repository.marshallize());
 
         log.debug("Removing SystemUnderTest: " + systemUnderTest.getName());
         execute(XmlRpcMethodName.removeSystemUnderTest, params, identifier);
@@ -373,7 +364,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void setSystemUnderTestAsDefault(SystemUnderTest systemUnderTest, Repository repository, String identifier)
         throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(systemUnderTest.marshallize(), repository.marshallize());
+        List params = CollectionUtil.toVector(systemUnderTest.marshallize(), repository.marshallize());
 
         log.debug("Setting as default the SystemUnderTest: " + systemUnderTest.getName());
         execute(XmlRpcMethodName.setSystemUnderTestAsDefault, params, identifier);
@@ -382,7 +373,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @Override
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void removeRequirement(Requirement requirement, String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(requirement.marshallize());
+        List params = CollectionUtil.toVector(requirement.marshallize());
 
         log.debug("Removing Requirement: " + requirement.getName());
         execute(XmlRpcMethodName.removeRequirement, params, identifier);
@@ -391,7 +382,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @Override
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Specification getSpecification(Specification specification, String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(specification.marshallize());
+        List params = CollectionUtil.toVector(specification.marshallize());
 
         log.debug("Retrieving Specification: " + specification.getName());
         Vector<Object> specificationParams = ( Vector<Object> ) execute(XmlRpcMethodName.getSpecification, params,
@@ -404,7 +395,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Specification createSpecification(Specification specification, String identifier)
         throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(specification.marshallize());
+        List params = CollectionUtil.toVector(specification.marshallize());
 
         log.debug("Creating Specification: " + specification.getName());
         Vector<Object> specificationParams = ( Vector<Object> ) execute(XmlRpcMethodName.createSpecification, params,
@@ -417,7 +408,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void updateSpecification(Specification oldSpecification, Specification newSpecification, String identifier)
         throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(oldSpecification.marshallize(), newSpecification.marshallize());
+        List params = CollectionUtil.toVector(oldSpecification.marshallize(), newSpecification.marshallize());
 
         log.debug("Updating Specification: " + oldSpecification.getName());
         execute(XmlRpcMethodName.updateSpecification, params, identifier);
@@ -426,7 +417,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @Override
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void removeSpecification(Specification specification, String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(specification.marshallize());
+        List params = CollectionUtil.toVector(specification.marshallize());
 
         log.debug("Removing Specification: " + specification.getName());
         execute(XmlRpcMethodName.removeSpecification, params, identifier);
@@ -435,7 +426,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @Override
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void createReference(Reference reference, String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(reference.marshallize());
+        List params = CollectionUtil.toVector(reference.marshallize());
 
         log.debug("Creating Test Case: " + reference.getRequirement().getName() + "," + reference.getSpecification()
             .getName());
@@ -446,7 +437,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Reference updateReference(Reference oldReference, Reference newReference, String identifier)
         throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(oldReference.marshallize(), newReference.marshallize());
+        List params = CollectionUtil.toVector(oldReference.marshallize(), newReference.marshallize());
 
         log.debug("Updating Reference: " + newReference.getRequirement().getName() + "," + newReference.getSpecification()
             .getName());
@@ -458,7 +449,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @Override
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public void removeReference(Reference reference, String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(reference.marshallize());
+        List params = CollectionUtil.toVector(reference.marshallize());
 
         log.debug("Removing Reference: " + reference.getRequirement().getName() + "," + reference.getSpecification()
             .getName());
@@ -469,7 +460,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Execution runSpecification(SystemUnderTest systemUnderTest, Specification specification,
         boolean implementedVersion, String locale, String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(systemUnderTest.marshallize(), specification.marshallize(),
+        List params = CollectionUtil.toVector(systemUnderTest.marshallize(), specification.marshallize(),
             implementedVersion, locale);
 
         log.debug("Running Specification: " + specification.getName() + " ON System:" + systemUnderTest.getName());
@@ -481,7 +472,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @Override
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public Reference runReference(Reference reference, String locale, String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(reference.marshallize(), locale);
+        List params = CollectionUtil.toVector(reference.marshallize(), locale);
 
         log.debug("Running Reference: " + reference.getRequirement().getName() + "," + reference.getSpecification()
             .getName());
@@ -493,7 +484,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @Override
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public RequirementSummary getSummary(Requirement requirement, String identifier) throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(requirement.marshallize());
+        List params = CollectionUtil.toVector(requirement.marshallize());
         Vector<Object> compilParams = ( Vector<Object> ) execute(XmlRpcMethodName.getRequirementSummary, params, identifier);
 
         log.debug("Getting Requirement " + requirement.getName() + " summary");
@@ -505,7 +496,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public DocumentNode getSpecificationHierarchy(Repository repository, SystemUnderTest systemUnderTest, String identifier)
         throws LivingDocServerException {
-        Vector params = CollectionUtil.toVector(repository.marshallize(), systemUnderTest.marshallize());
+        List params = CollectionUtil.toVector(repository.marshallize(), systemUnderTest.marshallize());
 
         log.debug("Get Specification Hierarchy: " + repository.getName() + " & " + systemUnderTest.getName());
         Vector<Object> vector = ( Vector<Object> ) execute(XmlRpcMethodName.getSpecificationHierarchy, params, identifier);
@@ -522,7 +513,7 @@ public class LivingDocXmlRpcClient implements RpcClientService {
         return execute(methodName, new Vector(), identifier);
     }
 
-    private Object execute(XmlRpcMethodName methodName, Vector params, String identifier) throws LivingDocServerException {
+    private Object execute(XmlRpcMethodName methodName, List params, String identifier) throws LivingDocServerException {
         String handler = getLocalHandler(identifier);
 
         XmlRpcClientExecutor xmlrpc = XmlRpcClientExecutorFactory.newExecutor(getLocalXmlRpcUrl(identifier));

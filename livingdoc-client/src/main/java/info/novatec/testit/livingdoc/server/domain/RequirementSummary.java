@@ -10,11 +10,11 @@ import java.util.Vector;
 
 
 public class RequirementSummary implements Marshalizable {
-    private int referencesSize = 0;
-    private int success = 0;
-    private int errors = 0;
-    private int failures = 0;
-    private int exceptions = 0;
+    private int referencesSize;
+    private int success;
+    private int errors;
+    private int failures;
+    private int exceptions;
 
     public RequirementSummary() {
     }

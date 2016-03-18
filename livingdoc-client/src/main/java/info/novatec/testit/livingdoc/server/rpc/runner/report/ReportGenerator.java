@@ -18,9 +18,13 @@
  */
 package info.novatec.testit.livingdoc.server.rpc.runner.report;
 
+import info.novatec.testit.livingdoc.server.LivingDocServerException;
+
+import java.io.IOException;
+
 public interface ReportGenerator {
 
     Report openReport(String name);
 
-    void closeReport(Report report) throws Exception;
+    void closeReport(Report report) throws IOException, LivingDocServerException;
 }

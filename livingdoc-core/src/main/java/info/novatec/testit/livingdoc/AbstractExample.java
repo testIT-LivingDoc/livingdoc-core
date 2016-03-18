@@ -29,7 +29,7 @@ public abstract class AbstractExample implements Example {
     @Override
     public Iterator<Example> iterator() {
         return new Iterator<Example>() {
-            private int index = 0;
+            private int index;
 
             @Override
             public boolean hasNext() {

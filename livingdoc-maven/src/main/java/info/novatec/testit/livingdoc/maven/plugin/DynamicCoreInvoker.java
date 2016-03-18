@@ -42,7 +42,8 @@ public class DynamicCoreInvoker {
 
         try {
             doRun(args);
-        } catch (Exception e) {
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException
+                | ClassNotFoundException | InstantiationException e) {
             monitor.exceptionOccurred(e);
         }
 

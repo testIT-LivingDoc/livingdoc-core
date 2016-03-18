@@ -4,6 +4,7 @@ import static info.novatec.testit.livingdoc.LivingDoc.canContinue;
 import static info.novatec.testit.livingdoc.LivingDoc.shouldStop;
 import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.slf4j.Logger;
@@ -38,8 +39,8 @@ public class AbstractFlowInterpreter extends AbstractInterpreter {
     private int startRow;
     private RowSelector rowSelector;
     protected final Fixture fixture;
-    private Message beforeTableMessage = null;
-    private Message afterTableMessage = null;
+    private Message beforeTableMessage;
+    private Message afterTableMessage;
     protected Statistics stats;
 
     public AbstractFlowInterpreter(Fixture fixture) {
@@ -139,7 +140,7 @@ public class AbstractFlowInterpreter extends AbstractInterpreter {
             Call call = new Call(message);
             call.will(Compile.statistics(stats)).when(ResultIs.exception());
             call.execute();
-        } catch (Exception e) {
+        } catch (InvocationTargetException | IllegalAccessException e) {
             LOG.error(LOG_ERROR, e);
             stats.exception();
         }

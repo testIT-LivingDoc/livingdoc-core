@@ -43,7 +43,7 @@ public class BootstrapData {
         try {
             sessionService.beginTransaction();
 
-            new InitialDatas(systemInfoDao, systemUnderTestDao, repositoryDao).insert();
+            new InitialDatas(systemInfoDao, repositoryDao).insert();
             new DefaultRunners(systemUnderTestDao, properties).insertJavaRunner();
             new ServerUpgrader(sessionService, systemInfoDao).upgradeTo(LivingDocServer.VERSION);
 

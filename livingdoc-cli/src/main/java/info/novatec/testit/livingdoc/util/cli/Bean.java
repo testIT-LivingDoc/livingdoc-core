@@ -17,6 +17,7 @@
 
 package info.novatec.testit.livingdoc.util.cli;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class Bean {
     private void invoke(Method method, Object value) {
         try {
             method.invoke(target, value);
-        } catch (Exception e) {
+        } catch (IllegalAccessException | InvocationTargetException e) {
             throw new IllegalArgumentException(String.format("%s to method %s", value, method.getName()), e);
         }
     }
