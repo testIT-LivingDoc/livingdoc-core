@@ -43,10 +43,10 @@ public class Execution extends AbstractUniqueEntity implements Comparable<Execut
     private String sections;
 
     private String results;
-    private int success = 0;
-    private int failures = 0;
-    private int errors = 0;
-    private int ignored = 0;
+    private int success;
+    private int failures;
+    private int errors;
+    private int ignored;
     private String executionErrorId;
     private Timestamp executionDate;
     private boolean executedRemotely;

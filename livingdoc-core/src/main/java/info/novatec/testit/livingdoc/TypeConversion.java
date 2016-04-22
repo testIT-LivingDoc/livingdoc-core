@@ -25,6 +25,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
+import info.novatec.testit.livingdoc.reflect.NoSuchMessageException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -110,7 +111,7 @@ public final class TypeConversion {
             Method method = type.getMethod(parsingMethod, String.class);
             return type.isAssignableFrom(method.getReturnType()) && ClassUtils.isPublic(method) && ClassUtils.isStatic(
                 method);
-        } catch (Exception e) {
+        } catch (NoSuchMethodException e) {
             LOG.trace(LOG_ERROR, e);
             return false;
         }
@@ -155,7 +156,7 @@ public final class TypeConversion {
         } catch (InvocationTargetException e) {
             LOG.error(LOG_ERROR, e);
             throw new IllegalArgumentException("Can't convert " + value + " to " + type.getName(), e.getCause());
-        } catch (Exception e) {
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             LOG.error(LOG_ERROR, e);
             throw new IllegalArgumentException("Can't convert " + value + " to " + type.getName(), e);
         }
@@ -190,7 +191,7 @@ public final class TypeConversion {
             Method method = type.getMethod("toString", type);
             return String.class.isAssignableFrom(method.getReturnType()) && ClassUtils.isPublic(method) && ClassUtils
                 .isStatic(method);
-        } catch (Exception e) {
+        } catch (NoSuchMethodException e) {
             LOG.trace(LOG_ERROR, e);
             return false;
         }
@@ -204,7 +205,7 @@ public final class TypeConversion {
         } catch (InvocationTargetException e) {
             LOG.error(LOG_ERROR, e);
             throw new IllegalArgumentException("Can't get a string for " + value + " of to " + type.getName(), e.getCause());
-        } catch (Exception e) {
+        } catch (NoSuchMethodException | IllegalAccessException e) {
             LOG.error(LOG_ERROR, e);
             throw new IllegalArgumentException("Can't get a string for " + value + " of to " + type.getName(), e);
         }

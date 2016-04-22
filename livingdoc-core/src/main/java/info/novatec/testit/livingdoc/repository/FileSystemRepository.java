@@ -39,8 +39,6 @@ import info.novatec.testit.livingdoc.util.URIUtil;
 
 
 public class FileSystemRepository implements DocumentRepository {
-    private static final Logger LOG = LoggerFactory.getLogger(FileSystemRepository.class);
-
     private static final FileFilter NOT_HIDDEN = new NotHiddenFilter();
     private final File root;
 
@@ -82,10 +80,10 @@ public class FileSystemRepository implements DocumentRepository {
 
     @Override
     public List<Object> listDocumentsInHierarchy() {
-        Vector<Object> hierarchy = toHierarchyNodeVector(root);
-        hierarchy.setElementAt(root.getName(), 0);
-        hierarchy.setElementAt(false, 1);
-        hierarchy.setElementAt(false, 2);
+        List<Object> hierarchy = toHierarchyNodeVector(root);
+        hierarchy.set(0, root.getName());
+        hierarchy.set(1, false);
+        hierarchy.set(2, false);
         return hierarchy;
     }
 
@@ -141,8 +139,8 @@ public class FileSystemRepository implements DocumentRepository {
         return FileTypes.NOTSUPPORTED;
     }
 
-    private Vector<Object> toHierarchyNodeVector(File file) {
-        Vector<Object> vector = new Vector<Object>();
+    private List<Object> toHierarchyNodeVector(File file) {
+        List<Object> vector = new Vector<Object>();
         vector.add(0, URIUtil.relativize(root.getAbsolutePath(), file.getAbsolutePath()));
         vector.add(1, ! file.isDirectory());
         vector.add(2, false);
@@ -150,12 +148,7 @@ public class FileSystemRepository implements DocumentRepository {
         Hashtable<String, Object> hashtable = new Hashtable<String, Object>();
         if (file.isDirectory() && file.listFiles() != null) {
             for (File node : file.listFiles(NOT_HIDDEN)) {
-                try {
                     hashtable.put(node.getName(), toHierarchyNodeVector(node));
-                } catch (Exception e) {
-                    LOG.error(LOG_ERROR, e);
-                    // URI not standard skip it !
-                }
             }
         }
 

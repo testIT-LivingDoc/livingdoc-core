@@ -13,7 +13,7 @@
 
 	<artifactId>livingdoc-core</artifactId>
 	<packaging>jar</packaging>
-	<name>${project.title} - Core</name>
+	<name>testIT | LivingDoc - Core</name>
 
 	<properties>
 		<project.root>..</project.root>

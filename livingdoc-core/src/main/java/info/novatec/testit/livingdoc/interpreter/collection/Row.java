@@ -17,6 +17,8 @@ import info.novatec.testit.livingdoc.expectation.ShouldBe;
 import info.novatec.testit.livingdoc.interpreter.HeaderForm;
 import info.novatec.testit.livingdoc.reflect.Fixture;
 
+import java.lang.reflect.InvocationTargetException;
+
 
 public class Row {
     private static final Logger LOG = LoggerFactory.getLogger(Row.class);
@@ -58,7 +60,7 @@ public class Row {
                         LOG.debug(EXIT_WITH, false);
                         return false;
                     }
-                } catch (Exception e) {
+                } catch (InvocationTargetException | IllegalAccessException e) {
                     LOG.error(LOG_ERROR, e);
                     LOG.debug(EXIT_WITH, false);
                     return false;

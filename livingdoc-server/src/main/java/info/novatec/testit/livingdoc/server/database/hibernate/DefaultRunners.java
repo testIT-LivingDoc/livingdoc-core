@@ -6,6 +6,7 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import info.novatec.testit.livingdoc.server.LivingDocServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,7 +77,7 @@ public class DefaultRunners {
             classpaths.add(normalize(runnerJarFile));
             File runnerDir = runnerJarFile.getParentFile();
             createJavaRunner(classpaths, normalize(runnerDir));
-        } catch (Exception e) {
+        } catch (IOException | LivingDocServerException e) {
             log.warn("Runner registration failed: " + e.getMessage());
         }
     }
@@ -88,7 +89,7 @@ public class DefaultRunners {
             if (shouldCreateJavaRunner()) {
                 createJavaRunner(getJavaRunnerClassPathsFromDir(dir), jarFile);
             }
-        } catch (Exception e) {
+        } catch (IOException | LivingDocServerException e) {
             log.warn("Runner registration failed: " + e.getMessage());
         }
     }
@@ -157,7 +158,7 @@ public class DefaultRunners {
                     createJavaRunner(classpaths, normalize(runnerDir));
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException | LivingDocServerException e) {
             log.warn("Runner registration failed: " + e.getMessage());
         }
     }

@@ -99,8 +99,7 @@ public class RepositoryType extends AbstractVersionedEntity implements Comparabl
 
     public String asFactoryArguments(Repository repository, boolean withStyle, String user, String pwd) {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.className).append(';');
-        sb.append(withStyle || name.equals("FILE") ? repository.getBaseTestUrl() : withNoStyle(repository.getBaseTestUrl()));
+        sb.append(this.className).append(';').append(withStyle || name.equals("FILE") ? repository.getBaseTestUrl() : withNoStyle(repository.getBaseTestUrl()));
 
         if (user == null) {
             if ( ! StringUtils.isEmpty(repository.getUsername())) {
@@ -147,7 +146,7 @@ public class RepositoryType extends AbstractVersionedEntity implements Comparabl
 
     private String withNoStyle(String location) {
         URI uri = URI.create(URIUtil.raw(location));
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(23);
         if (uri.getScheme() != null) {
             sb.append(uri.getScheme()).append("://");
         }
@@ -160,11 +159,10 @@ public class RepositoryType extends AbstractVersionedEntity implements Comparabl
 
         String query = uri.getQuery();
         if (query == null) {
-            query = "?includeStyle=false";
+            sb.append("?\"?includeStyle=false\"");
         } else {
-            query += "&includeStyle=false";
+            sb.append("?" + query + "&includeStyle=false");
         }
-        sb.append('?').append(query);
 
         if (uri.getFragment() != null) {
             sb.append('#').append(uri.getFragment());

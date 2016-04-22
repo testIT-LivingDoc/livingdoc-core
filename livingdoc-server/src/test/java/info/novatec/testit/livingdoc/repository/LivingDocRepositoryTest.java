@@ -1,19 +1,6 @@
 package info.novatec.testit.livingdoc.repository;
 
-import static info.novatec.testit.livingdoc.util.CollectionUtil.toVector;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.List;
-import java.util.Vector;
-
+import info.novatec.testit.livingdoc.document.Document;
 import org.apache.xmlrpc.WebServer;
 import org.apache.xmlrpc.XmlRpcException;
 import org.junit.AfterClass;
@@ -24,7 +11,14 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import info.novatec.testit.livingdoc.document.Document;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.List;
+import java.util.Vector;
+
+import static info.novatec.testit.livingdoc.util.CollectionUtil.toVector;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -73,7 +67,7 @@ public class LivingDocRepositoryTest {
     @SuppressWarnings("unchecked")
     public void testCanDownloadPageContentFromConfluence() throws Exception {
         final Vector<String> page1 = confPageDefinition();
-        final Vector< ? > expected = toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.TRUE);
+        final Vector< ? > expected = (Vector) toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.TRUE);
         doReturn(toVector(page1)).when(handler).getListOfSpecificationLocations("REPO", "SUT");
         doReturn(dummySpec).when(handler).getRenderedSpecification("user", "pwd", expected);
 
@@ -90,7 +84,7 @@ public class LivingDocRepositoryTest {
     @SuppressWarnings("unchecked")
     public void testhandlesImplementedVersionAttribute() throws Exception {
         final Vector<String> page1 = confPageDefinition();
-        final Vector< ? > expected = toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.FALSE);
+        final Vector< ? > expected = (Vector) toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.FALSE);
         doReturn(toVector(page1)).when(handler).getListOfSpecificationLocations("REPO", "SUT");
         doReturn(dummySpec).when(handler).getRenderedSpecification("user", "pwd", expected);
 
@@ -108,8 +102,8 @@ public class LivingDocRepositoryTest {
     @SuppressWarnings("unchecked")
     public void testHandlesPostBackExecutionResult() throws Exception {
         final Vector<String> page1 = confPageDefinition();
-        final Vector< ? > expected1 = toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.TRUE);
-        final Vector< ? > expected2 = toVector("SPACE%20KEY", "PAGE TITLE", "SUT",
+        final Vector< ? > expected1 = (Vector) toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.TRUE);
+        final Vector< ? > expected2 = (Vector) toVector("SPACE%20KEY", "PAGE TITLE", "SUT",
             TestStringSpecifications.SimpleAlternateCalculatorXmlReport);
         doReturn(toVector(page1)).when(handler).getListOfSpecificationLocations("REPO", "SUT");
         doReturn(dummySpec).when(handler).getRenderedSpecification("user", "pwd", expected1);
@@ -131,8 +125,8 @@ public class LivingDocRepositoryTest {
     @SuppressWarnings("unchecked")
     public void testHandlesNoSuchMethodPostBackExecutionResultQuietly() throws Exception {
         final Vector<String> page1 = confPageDefinition();
-        final Vector< ? > expected1 = toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.TRUE);
-        final Vector< ? > expected2 = toVector("SPACE%20KEY", "PAGE TITLE", "SUT",
+        final Vector< ? > expected1 = (Vector) toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.TRUE);
+        final Vector< ? > expected2 = (Vector) toVector("SPACE%20KEY", "PAGE TITLE", "SUT",
             TestStringSpecifications.SimpleAlternateCalculatorXmlReport);
         final RuntimeException noSuchMethodException = new RuntimeException(new NoSuchMethodException());
         doReturn(toVector(page1)).when(handler).getListOfSpecificationLocations("REPO", "SUT");
@@ -155,8 +149,8 @@ public class LivingDocRepositoryTest {
     @SuppressWarnings("unchecked")
     public void testHandlesOtherXmlRpcExceptionPostBackExecutionResult() throws Exception {
         final Vector<String> page1 = confPageDefinition();
-        final Vector< ? > expected1 = toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.TRUE);
-        final Vector< ? > expected2 = toVector("SPACE%20KEY", "PAGE TITLE", "SUT",
+        final Vector< ? > expected1 = (Vector) toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.TRUE);
+        final Vector< ? > expected2 = (Vector) toVector("SPACE%20KEY", "PAGE TITLE", "SUT",
             TestStringSpecifications.SimpleAlternateCalculatorXmlReport);
         final XmlRpcException noSuchMethodException = new XmlRpcException(0, "junit");
         doReturn(toVector(page1)).when(handler).getListOfSpecificationLocations("REPO", "SUT");
@@ -182,8 +176,8 @@ public class LivingDocRepositoryTest {
     @SuppressWarnings("unchecked")
     public void testHandlesUnsuccessfulPostBackExecutionResult() throws Exception {
         final Vector<String> page1 = confPageDefinition();
-        final Vector< ? > expected1 = toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.TRUE);
-        final Vector< ? > expected2 = toVector("SPACE%20KEY", "PAGE TITLE", "SUT",
+        final Vector< ? > expected1 = (Vector) toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.TRUE);
+        final Vector< ? > expected2 = (Vector) toVector("SPACE%20KEY", "PAGE TITLE", "SUT",
             TestStringSpecifications.SimpleAlternateCalculatorXmlReport);
         doReturn(toVector(page1)).when(handler).getListOfSpecificationLocations("REPO", "SUT");
         doReturn(dummySpec).when(handler).getRenderedSpecification("user", "pwd", expected1);

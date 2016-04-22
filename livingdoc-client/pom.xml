@@ -13,7 +13,7 @@
 
 	<artifactId>livingdoc-client</artifactId>
 	<packaging>jar</packaging>
-	<name>${project.title} - Client</name>
+	<name>testIT | LivingDoc - Client</name>
 
 	<properties>
 		<project.root>..</project.root>

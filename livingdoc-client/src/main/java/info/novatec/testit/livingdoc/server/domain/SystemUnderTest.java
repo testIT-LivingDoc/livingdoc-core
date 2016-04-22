@@ -56,7 +56,7 @@ public class SystemUnderTest extends AbstractUniqueEntity implements Comparable<
     private String fixtureFactory;
     private String fixtureFactoryArgs;
 
-    private byte selected = 0;
+    private byte selected;
 
     private String projectDependencyDescriptor;
 

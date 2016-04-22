@@ -37,6 +37,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import info.novatec.testit.livingdoc.reflect.NoSuchMessageException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,7 +109,7 @@ public abstract class CollectionInterpreter extends AbstractInterpreter {
                     }
 
                     call.execute();
-                } catch (Exception e) {
+                } catch (InvocationTargetException | IllegalAccessException | NoSuchMessageException e) {
                     cell.annotate(exception(e));
                     stats.exception();
                     LOG.error(LOG_ERROR, e);
@@ -137,7 +138,7 @@ public abstract class CollectionInterpreter extends AbstractInterpreter {
                 {
                     stats.wrong();
                 }
-            } catch (Exception e) {
+            } catch (InvocationTargetException | IllegalAccessException | NoSuchMessageException e) {
                 // TODO: STATS count stats?
                 cell.annotate(ignored(e));
                 LOG.error(LOG_ERROR, e);
@@ -182,7 +183,7 @@ public abstract class CollectionInterpreter extends AbstractInterpreter {
             Object result = method.invoke(target);
             LOG.trace(EXIT_WITH, result.toString());
             return result;
-        } catch (Exception e) {
+        } catch (InvocationTargetException | IllegalAccessException e) {
             LOG.error(LOG_ERROR, e);
             LOG.trace(EXIT_WITH_NULL);
             return null;
@@ -279,7 +280,7 @@ public abstract class CollectionInterpreter extends AbstractInterpreter {
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (InvocationTargetException | IllegalAccessException | NoSuchMessageException e) {
             stats.exception();
             example.firstChild().annotate(exception(e));
 

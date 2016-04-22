@@ -29,15 +29,13 @@ import info.novatec.testit.livingdoc.reflect.annotation.FixtureClass;
 public class AnnotationTypeLoader<T> implements TypeLoader<T> {
 
     private final TypeLoader<T> parent;
-    private final ClassLoader classLoader;
     private final ConfigurationBuilder builder;
 
     private Set<Class< ? >> annotatedAliasClasses = new HashSet<Class< ? >>();
-    private boolean isAnnotationScanningNecessary = false;
+    private boolean isAnnotationScanningNecessary;
 
     public AnnotationTypeLoader(TypeLoader<T> parent, ClassLoader classLoader) {
         this.parent = parent;
-        this.classLoader = classLoader;
         builder = new ConfigurationBuilder();
         builder.addClassLoader(classLoader);
     }
@@ -97,7 +95,7 @@ public class AnnotationTypeLoader<T> implements TypeLoader<T> {
     private boolean hasAlias(FixtureClass aliasAnnotation, String alias) {
         if (alias != null && ! alias.isEmpty()) {
             for (String aliasInAnnotation : aliasAnnotation.value()) {
-                if (aliasInAnnotation != null && alias.equals(aliasInAnnotation)) {
+                if (aliasInAnnotation != null && aliasInAnnotation.equals(alias)) {
                     return true;
                 }
             }

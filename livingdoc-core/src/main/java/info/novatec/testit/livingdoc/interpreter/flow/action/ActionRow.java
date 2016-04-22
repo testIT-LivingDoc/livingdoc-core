@@ -2,8 +2,10 @@ package info.novatec.testit.livingdoc.interpreter.flow.action;
 
 import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import info.novatec.testit.livingdoc.reflect.NoSuchMessageException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +45,7 @@ public class ActionRow extends AbstractRow {
             call.will(Do.both(Annotate.exception(keywordCells(row))).and(countRowOf(spec).exception())).when(ResultIs
                 .exception());
             call.execute();
-        } catch (Exception e) {
+        } catch (InvocationTargetException | IllegalAccessException | NoSuchMessageException | NullPointerException e) {
             LOG.error(LOG_ERROR, e);
             keywordCells(row).annotate(Annotations.exception(e));
             reportException(spec);

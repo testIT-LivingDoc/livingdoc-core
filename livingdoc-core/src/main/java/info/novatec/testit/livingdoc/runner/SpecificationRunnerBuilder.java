@@ -43,7 +43,7 @@ public class SpecificationRunnerBuilder {
     private String systemUnderDevelopmentClass = DefaultSystemUnderDevelopment.class.getName();
     private String interpreterSelectorClass = LivingDocInterpreterSelector.class.getName();
     private String reportClass = PlainReport.class.getName();
-    private boolean lazy = false;
+    private boolean lazy;
 
     // Predefined parameters (not to set)
     private final CompositeSpecificationRunnerMonitor compositeMonitor = new CompositeSpecificationRunnerMonitor();

@@ -29,6 +29,8 @@ import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import info.novatec.testit.livingdoc.reflect.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,10 +44,6 @@ import info.novatec.testit.livingdoc.call.Compile;
 import info.novatec.testit.livingdoc.call.ResultIs;
 import info.novatec.testit.livingdoc.interpreter.column.Column;
 import info.novatec.testit.livingdoc.interpreter.column.NullColumn;
-import info.novatec.testit.livingdoc.reflect.EnterRow;
-import info.novatec.testit.livingdoc.reflect.Fixture;
-import info.novatec.testit.livingdoc.reflect.Message;
-import info.novatec.testit.livingdoc.reflect.StaticInvocation;
 
 
 public class SetupInterpreter extends AbstractInterpreter {
@@ -96,7 +94,7 @@ public class SetupInterpreter extends AbstractInterpreter {
             Message checkEnterRow = fixture.check("enterRow");
             LOG.trace(EXIT_WITH, checkEnterRow.toString());
             return checkEnterRow;
-        } catch (Exception e) {
+        } catch (NoSuchMessageException e) {
             table.at(0, 1, 0).annotate(exception(e));
             stats.exception();
             LOG.trace(EXIT + " with null");
@@ -132,7 +130,7 @@ public class SetupInterpreter extends AbstractInterpreter {
             Column parsedColumn = HeaderForm.parse(header.getContent()).selectColumn(fixture);
             LOG.trace(EXIT_WITH, parsedColumn.toString());
             return parsedColumn;
-        } catch (Exception e) {
+        } catch (NoSuchMessageException e) {
             header.annotate(exception(e));
             stats.exception();
             LOG.error(LOG_ERROR, e);
@@ -172,7 +170,7 @@ public class SetupInterpreter extends AbstractInterpreter {
             call.will(new AnnotateSetup(row));
             call.will(Compile.statistics(stats)).when(ResultIs.exception());
             call.execute();
-        } catch (Exception e) {
+        } catch (InvocationTargetException | IllegalAccessException | NullPointerException e) {
             stats.exception();
             LOG.error(LOG_ERROR, e);
         }
@@ -183,15 +181,7 @@ public class SetupInterpreter extends AbstractInterpreter {
         LOG.trace(ENTRY_WITH_TWO, column.toString(), cell.toString());
         try {
             stats.tally(column.doCell(cell));
-        } catch (IllegalArgumentException e) {
-            cell.annotate(exception(e));
-            stats.exception();
-            LOG.error(LOG_ERROR, e);
-        } catch (InvocationTargetException e) {
-            cell.annotate(exception(e));
-            stats.exception();
-            LOG.error(LOG_ERROR, e);
-        } catch (IllegalAccessException e) {
+        } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
             cell.annotate(exception(e));
             stats.exception();
             LOG.error(LOG_ERROR, e);

@@ -82,36 +82,36 @@ public class OgnlResolution {
     }
 
     private void asIs(List<String> expressionsList, String[] parts) {
-        String addExpression = "";
+        StringBuilder addExpression = new StringBuilder();
 
         for (int i = 0; i < parts.length; i ++ ) {
-            addExpression += parts[i] + " ";
+            addExpression.append(parts[i]).append(' ');
         }
 
-        addToList(expressionsList, addExpression);
+        addToList(expressionsList, addExpression.toString());
     }
 
     private void addExpression(List<String> expressionsList, String[] parts, boolean[] dots) {
-        String addExpression = "";
-        String identifier = "";
+        StringBuilder addExpression = new StringBuilder();
+        StringBuilder identifier = new StringBuilder();
 
         for (int i = 0; i < parts.length; i ++ ) {
             if (startAsAnIdentifier(parts[i])) {
-                identifier += parts[i] + " ";
+                identifier.append(parts[i]).append(' ');
 
                 if (identifierComplete(parts, dots, i)) {
-                    addExpression += NameUtils.toLowerCamelCase(identifier);
-                    addExpression += ( insertDot(parts, dots, i) ? "." : " " );
+                    addExpression.append(NameUtils.toLowerCamelCase(identifier.toString()));
+                    addExpression.append( insertDot(parts, dots, i) ? "." : " " );
 
-                    identifier = "";
+                    identifier.setLength(0);
                 }
             } else {
-                addExpression += parts[i];
-                addExpression += ( insertDot(parts, dots, i) ? "." : " " );
+                addExpression.append(parts[i]);
+                addExpression.append(insertDot(parts, dots, i) ? "." : " " );
             }
         }
 
-        addToList(expressionsList, addExpression);
+        addToList(expressionsList, addExpression.toString());
     }
 
     private void addToList(List<String> expressionsList, String paramExpression) {
