@@ -9,7 +9,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>livingdoc-maven</artifactId>
-				<version>1.0-SNAPSHOT</version>
+				<version>1.0.1</version>
 				<configuration>
 					<locale>en</locale>
 					<selector>info.novatec.testit.livingdoc.maven.plugin.MySelector</selector>
@@ -26,7 +26,7 @@
 		<dependency>
 			<groupId>info.novatec.testit.livingdoc</groupId>
 			<artifactId>livingdoc-core</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>1.0.1</version>
 		</dependency>
 	</dependencies>
 </project>
