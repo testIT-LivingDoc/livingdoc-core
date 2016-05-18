@@ -2,13 +2,13 @@
 <project
 	xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>info.novatec.testit</groupId>
 		<artifactId>livingdoc</artifactId>
-		<version>1.2.0-SNAPSHOT</version>
+		<version>1.2-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>livingdoc-remote-agent</artifactId>
@@ -85,56 +85,48 @@
 				<executions>
 					<execution>
 						<id>copy</id>
-						<phase>package</phase>
+						<phase>generate-test-resources</phase>
 						<goals>
 							<goal>copy</goal>
 						</goals>
 						<configuration>
-						<artifactItems>
-							<artifactItem>
-								<groupId>info.novatec.testit</groupId>
-								<artifactId>livingdoc-core</artifactId>
-								<version>${project.version}</version>
-								<type>jar</type>
-						
-								<outputDirectory>${project.root}/livingdoc-remote-agent/src/test/resources/runners/java</outputDirectory>
-								<destFileName>livingdoc-core.jar</destFileName>
-							</artifactItem>
-							
-							<artifactItem>
-								<groupId>info.novatec.testit</groupId>
-								<artifactId>livingdoc-core</artifactId>
-								<version>${project.version}</version>
-								<type>jar</type>
-								<classifier> tests </classifier>
-						
-								<outputDirectory>${project.root}/livingdoc-remote-agent/src/test/resources/runners/java</outputDirectory>
-								<destFileName>livingdoc-core-tests.jar</destFileName>
-							</artifactItem>
-							
-							<artifactItem>
-								<groupId>commons-codec</groupId>
-								<artifactId>commons-codec</artifactId>
-								<version>1.10</version>
-								<type>jar</type>
-						
-								<outputDirectory>${project.root}/livingdoc-remote-agent/src/test/resources/runners/java</outputDirectory>
-								<destFileName>commons-codec.jar</destFileName>
-							</artifactItem>
-							
-							<artifactItem>
-								<groupId>xmlrpc</groupId>
-								<artifactId>xmlrpc</artifactId>
-								<version>2.0.1</version>
-								<type>jar</type>
-						
-								<outputDirectory>${project.root}/livingdoc-remote-agent/src/test/resources/runners/java</outputDirectory>
-								<destFileName>xmlrpc.jar</destFileName>
-							</artifactItem>
-						</artifactItems>
-
-						<overWriteReleases>false</overWriteReleases>
-						<overWriteSnapshots>true</overWriteSnapshots>
+							<artifactItems>
+								<artifactItem>
+									<groupId>info.novatec.testit</groupId>
+									<artifactId>livingdoc-core</artifactId>
+									<version>${project.version}</version>
+									<type>jar</type>
+									<outputDirectory>${project.basedir}/src/test/resources/runners/java</outputDirectory>
+									<destFileName>livingdoc-core.jar</destFileName>
+								</artifactItem>
+								<artifactItem>
+									<groupId>info.novatec.testit</groupId>
+									<artifactId>livingdoc-core</artifactId>
+									<version>${project.version}</version>
+									<type>jar</type>
+									<classifier> tests </classifier>
+									<outputDirectory>${project.basedir}/src/test/resources/runners/java</outputDirectory>
+									<destFileName>livingdoc-core-tests.jar</destFileName>
+								</artifactItem>
+								<artifactItem>
+									<groupId>commons-codec</groupId>
+									<artifactId>commons-codec</artifactId>
+									<version>1.10</version>
+									<type>jar</type>
+									<outputDirectory>${project.basedir}/src/test/resources/runners/java</outputDirectory>
+									<destFileName>commons-codec.jar</destFileName>
+								</artifactItem>
+								<artifactItem>
+									<groupId>xmlrpc</groupId>
+									<artifactId>xmlrpc</artifactId>
+									<version>2.0.1</version>
+									<type>jar</type>
+									<outputDirectory>${project.basedir}/src/test/resources/runners/java</outputDirectory>
+									<destFileName>xmlrpc.jar</destFileName>
+								</artifactItem>
+							</artifactItems>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
 						</configuration>
 					</execution>
 				</executions>
