@@ -8,7 +8,7 @@ import java.util.List;
  * available methods are documented here.
  * <p/>
  * Copyright (c) 2006 Pyxis technologies inc. All Rights Reserved.
- * 
+ *
  * @author JCHUET
  */
 public interface RpcServerService {
@@ -17,7 +17,7 @@ public interface RpcServerService {
     /**
      * Test the connection to the server.
      * <p/>
-     * 
+     *
      * @return success.
      */
     String testConnection();
@@ -25,7 +25,7 @@ public interface RpcServerService {
     /**
      * Pings the server.
      * <p/>
-     * 
+     *
      * @param repositoryParams
      * @return success.
      */
@@ -34,7 +34,7 @@ public interface RpcServerService {
     /**
      * Retrieves the runner for a given the name.
      * <p/>
-     * 
+     *
      * @param name
      * @return the runner for a given the name.
      */
@@ -43,7 +43,7 @@ public interface RpcServerService {
     /**
      * Retrieves all available Runners.
      * <p/>
-     * 
+     *
      * @return all available Runners
      */
     List<Object> getAllRunners();
@@ -51,35 +51,35 @@ public interface RpcServerService {
     /**
      * Creates a new Runner.
      * <p/>
-     * 
+     *
      * @param runnerParams
-     * @return error id if an error occured
+     * @return error id if an error occurred
      */
     String createRunner(List<Object> runnerParams);
 
     /**
      * Updates the Runner.
      * <p/>
-     * 
+     *
      * @param oldRunnerName
      * @param runnerParams
-     * @return error id if an error occured
+     * @return error id if an error occurred
      */
     String updateRunner(String oldRunnerName, List<Object> runnerParams);
 
     /**
      * Creates a new Runner.
      * <p/>
-     * 
+     *
      * @param name
-     * @return error id if an error occured
+     * @return error id if an error occurred
      */
     String removeRunner(String name);
 
     /**
      * Retrieves the Repository for the uid.
      * <p/>
-     * 
+     *
      * @param repositoryParams
      * @return the Repository for the uid.
      */
@@ -89,7 +89,7 @@ public interface RpcServerService {
      * Registers the repository in LivingDoc-server. If project not found it
      * will be created.
      * <p/>
-     * 
+     *
      * @param repositoryParams
      * @return the registered repository.
      */
@@ -99,15 +99,15 @@ public interface RpcServerService {
      * Updates the Repository Registration. If project not found it will be
      * created.
      * <p/>
-     * 
+     *
      * @param repositoryParams
      */
     String updateRepositoryRegistration(List<Object> repositoryParams);
 
     /**
-     * Removes the Repository if this one doesnt hold any specifications.
+     * Removes the Repository if this one does not hold any specifications.
      * <p/>
-     * 
+     *
      * @param repositoryParams
      */
     String removeRepository(String repositoryUid);
@@ -115,91 +115,91 @@ public interface RpcServerService {
     /**
      * Retrieves the complete project list.
      * <p/>
-     * 
+     *
      * @return the complete project list.
      */
     List<Object> getAllProjects();
 
     /**
      * Retrieves all the Specification repository grouped by project or an error
-     * id in a Hastable if an error occured.
+     * id in a HashTable if an error occurred.
      * <p/>
-     * 
+     *
      * @return the Specification repository list grouped by types for the
-     * project or an error id in a Hastable if an error occured.
+     * project or an error id in a HashTable if an error occurred.
      */
     List<Object> getAllSpecificationRepositories();
 
     /**
      * Retrieves the Specification repository list grouped by types for the
      * project associated with the specified repository or an error id in a
-     * Hastable if an error occured.
+     * HashTable if an error occurred.
      * <p/>
-     * 
+     *
      * @param repositoryParams
      * @return the Specification repository list grouped by types for the
      * project associated with the specified repository or an error id in a
-     * Hastable if an error occured.
+     * HashTable if an error occurred.
      */
     List<Object> getSpecificationRepositoriesOfAssociatedProject(List<Object> repositoryParams);
 
     /**
      * Retrieves the Repository list for the project associated with the
-     * specified system under test or an error id in a Hastable if an error
-     * occured.
+     * specified system under test or an error id in a HashTable if an error
+     * occurred.
      * <p/>
-     * 
+     *
      * @param systemUnderTestParams
      * @return the repository list for the project associated with the specified
-     * systemUnderTest or an error id in a Hastable if an error occured.
+     * systemUnderTest or an error id in a HashTable if an error occurred.
      */
     List<Object> getAllRepositoriesForSystemUnderTest(List<Object> systemUnderTestParams);
 
     /**
      * Retrieves the Specification repository list grouped by types for the
      * project associated with the specified SystemUnderTest or an error id in a
-     * Hastable if an error occured.
+     * HashTable if an error occurred.
      * <p/>
-     * 
+     *
      * @param systemUnderTestParams
      * @return the Specification repository list grouped by types for the
      * project associated with the specified SystemUnderTest or an error id in a
-     * Hastable if an error occured.
+     * HashTable if an error occurred.
      */
     List<Object> getSpecificationRepositoriesForSystemUnderTest(List<Object> systemUnderTestParams);
 
     /**
      * Retrieves the Requirement repository list for the project associated with
-     * the specified repository or an error id in a Hastable if an error
-     * occured.
+     * the specified repository or an error id in a HashTable if an error
+     * occurred.
      * <p/>
-     * 
+     *
      * @param repositoryParams
      * @return the Requirement repository list for the project associated with
-     * the specified repository or an error id in a Hastable if an error
-     * occured.
+     * the specified repository or an error id in a HashTable if an error
+     * occurred.
      */
     List<Object> getRequirementRepositoriesOfAssociatedProject(List<Object> repositoryParams);
 
     /**
      * Retrieves the SystemUnderTest list for the project associated with the
-     * specified repository or an error id in a Hastable if an error occured.
+     * specified repository or an error id in a HashTable if an error occurred.
      * <p/>
-     * 
+     *
      * @param repositoryParams
      * @return the SystemUnderTest list for the project associated with the
-     * specified repository or an error id in a Hastable if an error occured.
+     * specified repository or an error id in a HashTable if an error occurred.
      */
     List<Object> getSystemUnderTestsOfAssociatedProject(List<Object> repositoryParams);
 
     /**
      * Retrieves the SystemUnderTest list for the project associated or an error
-     * id in a Hastable if an error occured.
+     * id in a HashTable if an error occurred.
      * <p/>
-     * 
+     *
      * @param projectName
      * @return the SystemUnderTest list for the project associated or an error
-     * id in a Hastable if an error occured.
+     * id in a HashTable if an error occurred.
      */
     List<Object> getSystemUnderTestsOfProject(String projectName);
 
@@ -207,10 +207,10 @@ public interface RpcServerService {
      * Adds the SystemUnderTest to the SystemUnderTest list of the
      * Specification.
      * <p/>
-     * 
+     *
      * @param systemUnderTestParams
      * @param specificationParams
-     * @return error id if an error occured
+     * @return error id if an error occurred
      */
     String addSpecificationSystemUnderTest(List<Object> systemUnderTestParams, List<Object> specificationParams);
 
@@ -218,45 +218,44 @@ public interface RpcServerService {
      * Removes the SystemUnderTest to the SystemUnderTest list of the
      * Specification.
      * <p/>
-     * 
+     *
      * @param systemUnderTestParams
      * @param specificationParams
-     * @return error id if an error occured
+     * @return error id if an error occurred
      */
-    String removeSpecificationSystemUnderTest(List<Object> systemUnderTestParams,
-        List<Object> specificationParams);
+    String removeSpecificationSystemUnderTest(List<Object> systemUnderTestParams, List<Object> specificationParams);
 
     /**
-     * Checks if the Specification is in atleast one reference.
+     * Checks if the Specification is in at least one reference.
      * <p/>
-     * 
+     *
      * @param specificationParams
-     * @return true if the Specification is in atleast one reference.
+     * @return true if the Specification is in at least one reference.
      */
     String doesSpecificationHasReferences(List<Object> specificationParams);
 
     /**
      * Retrieves the references list of the specified Specification
      * <p/>
-     * 
+     *
      * @param specificationParams
      * @return the references list of the specified Specification
      */
     List<Object> getSpecificationReferences(List<Object> specificationParams);
 
     /**
-     * Checks if the Requirement is in atleast one Reference.
+     * Checks if the Requirement is in at least one Reference.
      * <p/>
-     * 
+     *
      * @param requirementParams
-     * @return true if the Requirement is in atleast one Reference.
+     * @return true if the Requirement is in at least one Reference.
      */
     String doesRequirementHasReferences(List<Object> requirementParams);
 
     /**
      * Retrieves the References list of the specified requirement
      * <p/>
-     * 
+     *
      * @param requirementParams
      * @return the References list of the specified requirement
      */
@@ -265,7 +264,7 @@ public interface RpcServerService {
     /**
      * Retrieves the Reference.
      * </p>
-     * 
+     *
      * @param referenceParams
      * @return the Reference.
      */
@@ -274,68 +273,68 @@ public interface RpcServerService {
     /**
      * Retrieves the systemUnderTest
      * <p/>
-     * 
+     *
      * @param systemUnderTestParams
      * @param repositoryParams
-     * @return error id if an error occured
+     * @return error id if an error occurred
      */
     List<Object> getSystemUnderTest(List<Object> systemUnderTestParams, List<Object> repositoryParams);
 
     /**
      * Creates the systemUnderTest
      * <p/>
-     * 
+     *
      * @param systemUnderTestParams
      * @param repositoryParams
-     * @return error id if an error occured
+     * @return error id if an error occurred
      */
     String createSystemUnderTest(List<Object> systemUnderTestParams, List<Object> repositoryParams);
 
     /**
      * Updates the systemUnderTest
      * <p/>
-     * 
+     *
      * @param oldSystemUnderTestName
      * @param systemUnderTestParams
      * @param repositoryParams
-     * @return error id if an error occured
+     * @return error id if an error occurred
      */
     String updateSystemUnderTest(String oldSystemUnderTestName, List<Object> systemUnderTestParams,
-                                 List<Object> repositoryParams);
+        List<Object> repositoryParams);
 
     /**
      * Removes the systemUnderTest
      * <p/>
-     * 
+     *
      * @param systemUnderTestParams
      * @param repositoryParams
-     * @return error id if an error occured
+     * @return error id if an error occurred
      */
     String removeSystemUnderTest(List<Object> systemUnderTestParams, List<Object> repositoryParams);
 
     /**
      * Sets the systemUnderTest as the project default SystemUnderTest
      * <p/>
-     * 
+     *
      * @param systemUnderTestParams
      * @param repositoryParams
-     * @return error id if an error occured
+     * @return error id if an error occurred
      */
     String setSystemUnderTestAsDefault(List<Object> systemUnderTestParams, List<Object> repositoryParams);
 
     /**
      * Removes the Requirement.
      * <p/>
-     * 
+     *
      * @param requirementParams
-     * @return error id if an error occured
+     * @return error id if an error occurred
      */
     String removeRequirement(List<Object> requirementParams);
 
     /**
      * Retrieves the Specification
      * <p/>
-     * 
+     *
      * @param specificationParams
      * @return the Specification
      */
@@ -344,7 +343,7 @@ public interface RpcServerService {
     /**
      * Retrieves all Specifications for a given SystemUnderTest and Repository
      * <p>
-     * 
+     *
      * @param systemUnderTestParams
      * @param repositoryParams
      * @return all Specifications for a given SystemUnderTest and Repository
@@ -355,7 +354,7 @@ public interface RpcServerService {
      * Retrieves the Specification location list for a given SystemUnderTest and
      * Repository
      * <p/>
-     * 
+     *
      * @param repositoryUID
      * @param systemUnderTestName
      * @return the Specification location list for a given SystemUnderTest and
@@ -366,7 +365,7 @@ public interface RpcServerService {
     /**
      * Creates the Specification
      * <p/>
-     * 
+     *
      * @param specificationParams
      * @return the new Specification
      */
@@ -375,28 +374,28 @@ public interface RpcServerService {
     /**
      * Updates the Specification.
      * <p/>
-     * 
+     *
      * @param oldSpecificationParams
      * @param newSpecificationParams
-     * @return error id if an error occured
+     * @return error id if an error occurred
      */
     String updateSpecification(List<Object> oldSpecificationParams, List<Object> newSpecificationParams);
 
     /**
      * Removes the Specification.
      * <p/>
-     * 
+     *
      * @param specificationParams
-     * @return error id if an error occured
+     * @return error id if an error occurred
      */
     String removeSpecification(List<Object> specificationParams);
 
     /**
      * Creates a Reference
      * <p/>
-     * 
+     *
      * @param referenceParams
-     * @return error id if an error occured
+     * @return error id if an error occurred
      */
     String createReference(List<Object> referenceParams);
 
@@ -405,7 +404,7 @@ public interface RpcServerService {
      * oldReferenceParams and a new One will be created based on the
      * newReferenceParams.
      * <p/>
-     * 
+     *
      * @param oldReferenceParams
      * @param newReferenceParams
      * @return the updated Reference
@@ -415,16 +414,16 @@ public interface RpcServerService {
     /**
      * Deletes the specified Reference.
      * <p/>
-     * 
+     *
      * @param referenceParams
-     * @return error id if an eror occured
+     * @return error id if an error occurred
      */
     String removeReference(List<Object> referenceParams);
 
     /**
      * Executes the Specification over the selected SystemUnderTest.
      * <p/>
-     * 
+     *
      * @param systemUnderTestParams
      * @param specificationParams
      * @param implementedVersion
@@ -438,7 +437,7 @@ public interface RpcServerService {
     /**
      * Executes the Reference.
      * <p/>
-     * 
+     *
      * @param referenceParams
      * @param locale
      * @return the Reference executed
@@ -448,16 +447,16 @@ public interface RpcServerService {
     /**
      * Retrieves the Requirement summary.
      * <p/>
-     * 
+     *
      * @param requirementParams
      * @return the Requirement summary.
      */
     List<Object> getRequirementSummary(List<Object> requirementParams);
 
     /**
-     * Retrieve the spcifications hierarchy for a Repository.
+     * Retrieve the specifications hierarchy for a Repository.
      * <p/>
-     * 
+     *
      * @param repositoryParams
      * @param sutParams
      * @return the TestCase executed

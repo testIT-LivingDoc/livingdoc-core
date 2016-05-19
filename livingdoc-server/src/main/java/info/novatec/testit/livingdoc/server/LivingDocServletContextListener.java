@@ -7,11 +7,12 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.dom4j.DocumentException;
+
 import info.novatec.testit.livingdoc.server.configuration.ServerConfiguration;
 import info.novatec.testit.livingdoc.server.database.hibernate.BootstrapData;
 import info.novatec.testit.livingdoc.server.database.hibernate.HibernateSessionService;
 import info.novatec.testit.livingdoc.util.URIUtil;
-import org.dom4j.DocumentException;
 
 
 public class LivingDocServletContextListener implements ServletContextListener {
@@ -32,7 +33,9 @@ public class LivingDocServletContextListener implements ServletContextListener {
             ctx.log("Bootstrapping data");
             new BootstrapData(service, sProperties).execute();
 
-        } catch (DocumentException | LivingDocServerException e) {
+        } catch (DocumentException e) {
+            throw new RuntimeException(e);
+        } catch (LivingDocServerException e) {
             throw new RuntimeException(e);
         }
     }

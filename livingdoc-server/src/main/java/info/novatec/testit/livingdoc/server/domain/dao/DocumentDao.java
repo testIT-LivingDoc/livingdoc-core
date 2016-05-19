@@ -16,7 +16,7 @@ public interface DocumentDao {
      * Retrieves the Requirement for the specified repository UID. If none found
      * an LivingDocServerException is thrown.
      * </p>
-     * 
+     *
      * @param repositoryUid
      * @param requirementName
      * @return the Requirement for the specified repository UID.
@@ -26,7 +26,7 @@ public interface DocumentDao {
     /**
      * Saves the Requirement for the specified repository UID.
      * </p>
-     * 
+     *
      * @param repositoryUid
      * @param requirementName
      * @return the new Requirement
@@ -38,7 +38,7 @@ public interface DocumentDao {
      * Retrieves the Requirement for the specified repository UID. If none found
      * then a new is saved and returned.
      * </p>
-     * 
+     *
      * @param repositoryUid
      * @param requirementName
      * @return the retrieved/created Requirement
@@ -49,7 +49,7 @@ public interface DocumentDao {
     /**
      * Removes the Requirement.
      * </p>
-     * 
+     *
      * @param requirement
      * @throws LivingDocServerException
      */
@@ -58,7 +58,7 @@ public interface DocumentDao {
     /**
      * Retrieves the Specification for the specified repository UID.
      * </p>
-     * 
+     *
      * @param repositoryUid
      * @param specificationName
      * @return the Specification for the specified repository UID.
@@ -68,7 +68,7 @@ public interface DocumentDao {
     /**
      * Retrieves the Specification for the specified id.
      * </p>
-     * 
+     *
      * @param id Specification id to retrieve
      * @return the Specification for the given id
      */
@@ -77,7 +77,7 @@ public interface DocumentDao {
     /**
      * Saves the Specification for the specified repository UID.
      * </p>
-     * 
+     *
      * @param systemUnderTestName
      * @param repositoryUid
      * @param specificationName
@@ -91,7 +91,7 @@ public interface DocumentDao {
      * Retrieves the Specification for the specified repository UID. If none
      * found then a new is saved and returned.
      * </p>
-     * 
+     *
      * @param systemUnderTestName
      * @param repositoryUid
      * @param specificationName
@@ -104,19 +104,18 @@ public interface DocumentDao {
     /**
      * UPdates the Specification.
      * </p>
-     * 
+     *
+     * @param oldSpecification
      * @param newSpecification
-     * @param Specification
      * @throws LivingDocServerException
      */
-    void updateSpecification(Specification oldSpecification, Specification newSpecification)
-        throws LivingDocServerException;
+    void updateSpecification(Specification oldSpecification, Specification newSpecification) throws LivingDocServerException;
 
     /**
      * Removes the Specification.
      * </p>
-     * 
-     * @param Specification
+     *
+     * @param specification
      * @throws LivingDocServerException
      */
     void removeSpecification(Specification specification) throws LivingDocServerException;
@@ -124,8 +123,8 @@ public interface DocumentDao {
     /**
      * Retrieves the Reference from dataBase.
      * </p>
-     * 
-     * @param Reference
+     *
+     * @param reference
      * @return the Reference from dataBase.
      */
     Reference get(Reference reference);
@@ -133,8 +132,8 @@ public interface DocumentDao {
     /**
      * Retrieves the list of References linked to the Specification
      * </p>
-     * 
-     * @param Specification
+     *
+     * @param specification
      * @return the list of References linked to the Specification
      */
     List<Reference> getAllReferences(Specification specification);
@@ -142,8 +141,8 @@ public interface DocumentDao {
     /**
      * Retrieves the list of References linked to the Requirement
      * </p>
-     * 
-     * @param Requirement
+     *
+     * @param requirement
      * @return the list of References linked to the Requirement
      */
     List<Reference> getAllReferences(Requirement requirement);
@@ -151,32 +150,30 @@ public interface DocumentDao {
     /**
      * Adds the SystemUnderTest to the SystemUnderTest list of the Specification
      * </p>
-     * 
+     *
      * @param systemUnderTest
      * @param specification
      * @throws LivingDocServerException
      */
-    void addSystemUnderTest(SystemUnderTest systemUnderTest, Specification specification)
-        throws LivingDocServerException;
+    void addSystemUnderTest(SystemUnderTest systemUnderTest, Specification specification) throws LivingDocServerException;
 
     /**
      * Removes the SystemUnderTest to the SystemUnderTest list of the
      * Specification
      * </p>
-     * 
+     *
      * @param systemUnderTest
      * @param specification
      * @throws LivingDocServerException
      */
-    void removeSystemUnderTest(SystemUnderTest systemUnderTest, Specification specification)
-        throws LivingDocServerException;
+    void removeSystemUnderTest(SystemUnderTest systemUnderTest, Specification specification) throws LivingDocServerException;
 
     /**
      * Creates the Reference. The Project, the repositories and the System under
      * test have to exist else an exception will be thrown.
      * </p>
-     * 
-     * @param Reference
+     *
+     * @param reference
      * @return the new Created Reference
      * @throws LivingDocServerException
      */
@@ -185,8 +182,8 @@ public interface DocumentDao {
     /**
      * Deletes the Reference
      * </p>
-     * 
-     * @param Reference
+     *
+     * @param reference
      * @throws LivingDocServerException
      */
     void removeReference(Reference reference) throws LivingDocServerException;
@@ -195,7 +192,7 @@ public interface DocumentDao {
      * Updates the old Reference with the new one. Basically removes the old one
      * and creates a new one.
      * </p>
-     * 
+     *
      * @param oldReference
      * @param newReference
      * @return the updated Reference
@@ -205,7 +202,7 @@ public interface DocumentDao {
 
     /**
      * Creates the Execution.
-     * 
+     *
      * @param execution
      * @return the new created Execution
      * @throws LivingDocServerException
@@ -215,7 +212,7 @@ public interface DocumentDao {
     /**
      * Run the Specification on the SystemUnderTest.
      * </p>
-     * 
+     *
      * @param systemUnderTest
      * @param specification
      * @param implemeted
@@ -229,7 +226,7 @@ public interface DocumentDao {
     /**
      * Run the Specification of the reference.
      * </p>
-     * 
+     *
      * @param reference
      * @param locale
      * @return the executed Reference
@@ -240,7 +237,7 @@ public interface DocumentDao {
     /**
      * Retrieves all Specifications for a given SystemUnderTest and Repository
      * <p>
-     * 
+     *
      * @param sut
      * @param repository
      * @return all Specifications for a given SystemUnderTest and Repository
@@ -250,7 +247,7 @@ public interface DocumentDao {
     /**
      * Retrieve specification Executions for a given Specification where the
      * specification has been executed before the given start date.
-     * 
+     *
      * @param specification
      * @param sut
      * @param maxResults
@@ -260,7 +257,7 @@ public interface DocumentDao {
 
     /**
      * Retrieve an Execution for the given id.
-     * 
+     *
      * @param id
      * @return execution for the given id
      * @throws LivingDocServerException

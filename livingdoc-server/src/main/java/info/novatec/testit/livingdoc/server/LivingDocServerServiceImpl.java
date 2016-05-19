@@ -1,15 +1,15 @@
 /* Copyright (c) 2008 Pyxis Technologies inc.
- * 
+ *
  * This is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This software is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 51
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
@@ -480,8 +480,8 @@ public class LivingDocServerServiceImpl implements LivingDocServerService {
 
             List<Repository> repositories = repositoryDao.getAllTestRepositories(repository.getProject().getName());
 
-            log.debug("Retrieved Test Repositories Of Associated Project of " + repository.getUid() + NUMBER
-                + repositories.size());
+            log.debug("Retrieved Test Repositories Of Associated Project of " + repository.getUid() + NUMBER + repositories
+                .size());
             return repositories;
         } catch (Exception ex) {
             throw handleException(RETRIEVE_SPECIFICATION_REPOS, ex);
@@ -1015,7 +1015,7 @@ public class LivingDocServerServiceImpl implements LivingDocServerService {
 
             Repository repository = loadRepository(repositoryUID);
 
-            List<SpecificationLocation>  locations = new ArrayList<SpecificationLocation>();
+            List<SpecificationLocation> locations = new ArrayList<SpecificationLocation>();
             SystemUnderTest systemUnderTest = sutDao.getByName(repository.getProject().getName(), systemUnderTestName);
             List<Specification> specifications = documentDao.getSpecifications(systemUnderTest, repository);
 

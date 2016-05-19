@@ -1,22 +1,6 @@
 package info.novatec.testit.livingdoc.repository;
 
-import info.novatec.testit.livingdoc.Example;
-import info.novatec.testit.livingdoc.Statistics;
-import info.novatec.testit.livingdoc.document.Document;
-import info.novatec.testit.livingdoc.document.SpecificationListener;
-import info.novatec.testit.livingdoc.report.XmlReport;
-import info.novatec.testit.livingdoc.server.LivingDocServerException;
-import info.novatec.testit.livingdoc.util.ClassUtils;
-import info.novatec.testit.livingdoc.util.CollectionUtil;
-import info.novatec.testit.livingdoc.util.ExceptionImposter;
-import info.novatec.testit.livingdoc.util.URIUtil;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.xmlrpc.XmlRpcClient;
-import org.apache.xmlrpc.XmlRpcException;
-import org.apache.xmlrpc.XmlRpcRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -29,7 +13,24 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
-import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.xmlrpc.XmlRpcClient;
+import org.apache.xmlrpc.XmlRpcException;
+import org.apache.xmlrpc.XmlRpcRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import info.novatec.testit.livingdoc.Example;
+import info.novatec.testit.livingdoc.Statistics;
+import info.novatec.testit.livingdoc.document.Document;
+import info.novatec.testit.livingdoc.document.SpecificationListener;
+import info.novatec.testit.livingdoc.report.XmlReport;
+import info.novatec.testit.livingdoc.server.LivingDocServerException;
+import info.novatec.testit.livingdoc.util.ClassUtils;
+import info.novatec.testit.livingdoc.util.CollectionUtil;
+import info.novatec.testit.livingdoc.util.ExceptionImposter;
+import info.novatec.testit.livingdoc.util.URIUtil;
 
 
 public class LivingDocRepository implements DocumentRepository {
@@ -108,8 +109,8 @@ public class LivingDocRepository implements DocumentRepository {
     @SuppressWarnings("unchecked")
     private List<List<String>> downloadSpecificationsDefinitions(String repoUID) throws LivingDocServerException {
         try {
-            List<List<String>> definitions = ( List<List<String>> ) getXmlRpcClient().execute(new XmlRpcRequest(
-                handler + ".getListOfSpecificationLocations", (Vector) CollectionUtil.toVector(repoUID, sut)));
+            List<List<String>> definitions = ( List<List<String>> ) getXmlRpcClient().execute(new XmlRpcRequest(handler
+                + ".getListOfSpecificationLocations", ( Vector<String> ) CollectionUtil.toVector(repoUID, sut)));
             LOG.debug(ToStringBuilder.reflectionToString(definitions));
             checkForErrors(definitions);
             return definitions;
@@ -156,8 +157,7 @@ public class LivingDocRepository implements DocumentRepository {
         return ( DocumentRepository ) constructor.newInstance(new Object[] { args(definition) });
     }
 
-    private List<String> getDefinitionFor(List<List<String>> definitions, String location)
-        throws DocumentNotFoundException {
+    private List<String> getDefinitionFor(List<List<String>> definitions, String location) throws DocumentNotFoundException {
         for (List<String> def : definitions) {
             if (def.get(4).equals(location)) {
                 return def;
@@ -268,10 +268,11 @@ public class LivingDocRepository implements DocumentRepository {
             try {
                 String[] args1 = args(definitionRef);
                 URI location = URI.create(URIUtil.raw(definitionRef.get(1)));
-                List<Serializable> args = CollectionUtil.toVector(args1[1], args1[2], (Vector) CollectionUtil.
-                        toVector(location.getFragment(), definitionRef.get(4), sut, XmlReport.toXml(documentRef)));
+                List<Serializable> args = CollectionUtil.toVector(args1[1], args1[2], ( Vector<String> ) CollectionUtil
+                    .toVector(location.getFragment(), definitionRef.get(4), sut, XmlReport.toXml(documentRef)));
 
-                String msg = ( String ) getXmlRpcClient().execute(new XmlRpcRequest(handler + ".saveExecutionResult", (Vector) args));
+                String msg = ( String ) getXmlRpcClient().execute(new XmlRpcRequest(handler + ".saveExecutionResult",
+                    ( Vector<Serializable> ) args));
 
                 if ( ! ( "<success>".equals(msg) )) {
                     throw new IllegalStateException(msg);
@@ -283,7 +284,11 @@ public class LivingDocRepository implements DocumentRepository {
                     // fail if we can't post the result back ?
                     throw ExceptionImposter.imposterize(e);
                 }
-            } catch (IllegalStateException | IOException e) {
+            } catch (IllegalStateException e) {
+                // @todo : Log ? Critical ? Do we want the test execution to
+                // fail if we can't post the result back ?
+                throw ExceptionImposter.imposterize(e);
+            } catch (IOException e) {
                 // @todo : Log ? Critical ? Do we want the test execution to
                 // fail if we can't post the result back ?
                 throw ExceptionImposter.imposterize(e);
