@@ -1,12 +1,30 @@
 package info.novatec.testit.livingdoc.server.domain;
 
-import info.novatec.testit.livingdoc.report.Report;
-import info.novatec.testit.livingdoc.report.XmlReport;
-import info.novatec.testit.livingdoc.runner.*;
-import info.novatec.testit.livingdoc.server.rpc.xmlrpc.client.XmlRpcClientExecutor;
-import info.novatec.testit.livingdoc.server.rpc.xmlrpc.client.XmlRpcClientExecutorException;
-import info.novatec.testit.livingdoc.server.rpc.xmlrpc.client.XmlRpcClientExecutorFactory;
-import info.novatec.testit.livingdoc.util.*;
+import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.RUNNER_CLASSPATH_IDX;
+import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.RUNNER_NAME_IDX;
+import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.RUNNER_SECURED_IDX;
+import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.RUNNER_SERVER_NAME_IDX;
+import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.RUNNER_SERVER_PORT_IDX;
+import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.toExecution;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.Vector;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.commons.lang3.StringUtils;
@@ -15,19 +33,29 @@ import org.hibernate.annotations.Sort;
 import org.hibernate.annotations.SortType;
 import org.xml.sax.SAXException;
 
-import javax.persistence.*;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.*;
+import info.novatec.testit.livingdoc.report.Report;
+import info.novatec.testit.livingdoc.report.XmlReport;
+import info.novatec.testit.livingdoc.runner.DocumentRunner;
+import info.novatec.testit.livingdoc.runner.LoggingMonitor;
+import info.novatec.testit.livingdoc.runner.RecorderMonitor;
+import info.novatec.testit.livingdoc.runner.SpecificationRunner;
+import info.novatec.testit.livingdoc.runner.SpecificationRunnerBuilder;
+import info.novatec.testit.livingdoc.runner.SpecificationRunnerExecutor;
+import info.novatec.testit.livingdoc.server.rpc.xmlrpc.client.XmlRpcClientExecutor;
+import info.novatec.testit.livingdoc.server.rpc.xmlrpc.client.XmlRpcClientExecutorException;
+import info.novatec.testit.livingdoc.server.rpc.xmlrpc.client.XmlRpcClientExecutorFactory;
+import info.novatec.testit.livingdoc.util.ClassUtils;
+import info.novatec.testit.livingdoc.util.CollectionUtil;
+import info.novatec.testit.livingdoc.util.ExceptionUtils;
+import info.novatec.testit.livingdoc.util.JoinClassLoader;
+import info.novatec.testit.livingdoc.util.URIUtil;
 
 
 /**
  * Runner Class. Definition of a Runner.
  * <p/>
  * Copyright (c) 2006-2007 Pyxis technologies inc. All Rights Reserved.
- * 
+ *
  * @author JCHUET
  */
 
@@ -115,8 +143,8 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
     private Execution executeRemotely(Specification specification, SystemUnderTest systemUnderTest,
         boolean implementedVersion, String paramSections, String paramLocale) {
         try {
-            String sections = ( String )StringUtils.stripToEmpty(paramSections);
-            String locale = ( String )StringUtils.stripToEmpty(paramLocale);
+            String sections = StringUtils.stripToEmpty(paramSections);
+            String locale = StringUtils.stripToEmpty(paramLocale);
 
             XmlRpcClientExecutor xmlrpc = XmlRpcClientExecutorFactory.newExecutor(agentUrl());
 
@@ -190,7 +218,11 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
             Execution execution = Execution.newInstance(specification, systemUnderTest, report);
 
             return execution;
-        } catch (IOException | ClassNotFoundException | SAXException e) {
+        } catch (IOException e) {
+            return Execution.error(specification, systemUnderTest, sections, ExceptionUtils.stackTrace(e, "<br>", 15));
+        } catch (ClassNotFoundException e) {
+            return Execution.error(specification, systemUnderTest, sections, ExceptionUtils.stackTrace(e, "<br>", 15));
+        } catch (SAXException e) {
             return Execution.error(specification, systemUnderTest, sections, ExceptionUtils.stackTrace(e, "<br>", 15));
         } finally {
             if (outputFile != null) {
@@ -205,8 +237,8 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
     public Vector<Object> marshallize() {
         Vector<Object> parameters = new Vector<Object>();
         parameters.add(RUNNER_NAME_IDX, name);
-        parameters.add(RUNNER_SERVER_NAME_IDX,StringUtils.stripToEmpty(serverName));
-        parameters.add(RUNNER_SERVER_PORT_IDX,StringUtils.stripToEmpty(serverPort));
+        parameters.add(RUNNER_SERVER_NAME_IDX, StringUtils.stripToEmpty(serverName));
+        parameters.add(RUNNER_SERVER_PORT_IDX, StringUtils.stripToEmpty(serverPort));
         parameters.add(RUNNER_CLASSPATH_IDX, new Vector<String>(classpaths));
         parameters.add(RUNNER_SECURED_IDX, isSecured());
         return parameters;

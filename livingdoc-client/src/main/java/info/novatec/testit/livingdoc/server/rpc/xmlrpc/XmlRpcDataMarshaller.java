@@ -1,19 +1,41 @@
 package info.novatec.testit.livingdoc.server.rpc.xmlrpc;
 
-import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
-import info.novatec.testit.livingdoc.server.LivingDocServerException;
-import info.novatec.testit.livingdoc.server.domain.*;
-import info.novatec.testit.livingdoc.server.domain.component.ContentType;
-import info.novatec.testit.livingdoc.server.transfer.ExecutionResult;
-import info.novatec.testit.livingdoc.server.transfer.SpecificationLocation;
-import info.novatec.testit.livingdoc.util.ClientUtils;
-import info.novatec.testit.livingdoc.util.FormattedDate;
+import java.util.Collection;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.Vector;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
+import info.novatec.testit.livingdoc.server.LivingDocServerException;
+import info.novatec.testit.livingdoc.server.domain.ClasspathSet;
+import info.novatec.testit.livingdoc.server.domain.DocumentNode;
+import info.novatec.testit.livingdoc.server.domain.Execution;
+import info.novatec.testit.livingdoc.server.domain.Project;
+import info.novatec.testit.livingdoc.server.domain.Reference;
+import info.novatec.testit.livingdoc.server.domain.ReferenceNode;
+import info.novatec.testit.livingdoc.server.domain.Repository;
+import info.novatec.testit.livingdoc.server.domain.RepositoryType;
+import info.novatec.testit.livingdoc.server.domain.Requirement;
+import info.novatec.testit.livingdoc.server.domain.RequirementSummary;
+import info.novatec.testit.livingdoc.server.domain.Runner;
+import info.novatec.testit.livingdoc.server.domain.Specification;
+import info.novatec.testit.livingdoc.server.domain.SystemUnderTest;
+import info.novatec.testit.livingdoc.server.domain.SystemUnderTestByNameComparator;
+import info.novatec.testit.livingdoc.server.domain.component.ContentType;
+import info.novatec.testit.livingdoc.server.transfer.ExecutionResult;
+import info.novatec.testit.livingdoc.server.transfer.SpecificationLocation;
+import info.novatec.testit.livingdoc.util.ClientUtils;
+import info.novatec.testit.livingdoc.util.FormattedDate;
 
 
 /**
@@ -22,7 +44,7 @@ import java.util.*;
  * supported objects to POJO.
  * <p/>
  * Copyright (c) 2006 Pyxis technologies inc. All Rights Reserved.
- * 
+ *
  * @author JCHUET
  */
 public class XmlRpcDataMarshaller {
@@ -100,12 +122,11 @@ public class XmlRpcDataMarshaller {
 
     public static final String SUPPRESS_UNCHECKED = "unchecked";
 
-
     /**
      * Transforms the Collection of projects into a Vector of project
      * parameters.
      * </p>
-     * 
+     *
      * @param projects
      * @return the Collection of projects into a Vector of projects parameters
      */
@@ -121,7 +142,7 @@ public class XmlRpcDataMarshaller {
     /**
      * Transforms the Collection of runners into a Vector of runners parameters.
      * </p>
-     * 
+     *
      * @param runners
      * @return the Collection of runners into a Vector of runners parameters
      */
@@ -138,7 +159,7 @@ public class XmlRpcDataMarshaller {
      * Transforms the Collection of SystemUnderTests into a Vector of
      * SystemUnderTests parameters.
      * </p>
-     * 
+     *
      * @param suts
      * @return the Collection of SystemUnderTests into a Vector of
      * SystemUnderTests parameters
@@ -154,11 +175,11 @@ public class XmlRpcDataMarshaller {
 
     /**
      * Transforms the Collection of Repositories into a Vector of Repositories
-     * parameters by repositoriy types.
+     * parameters by repository types.
      * </p>
-     * 
+     *
      * @param repositories
-     * @return the Collection of Repositories into a Vecotr of Repositories
+     * @return the Collection of Repositories into a Vector of Repositories
      * parameters by type.
      */
     public static List<Object> toXmlRpcRepositoriesParameters(Collection<Repository> repositories) {
@@ -174,7 +195,7 @@ public class XmlRpcDataMarshaller {
      * Transforms the Collection of Specifications into a Vector of
      * Specification parameters.
      * </p>
-     * 
+     *
      * @param specifications
      * @return the Collection of Specifications into a Vector of Specification
      * parameters
@@ -188,17 +209,17 @@ public class XmlRpcDataMarshaller {
         return specificationsParams;
     }
 
-    
     /**
      * Transforms the Collection of Specification locations into a Vector of
      * Specification location parameters.
      * </p>
-     * 
-     * @param specification locations
-     * @return the Collection of Specifications into a Vector of Specification location
-     * parameters
+     *
+     * @param specificationLocations
+     * @return the Collection of Specifications into a Vector of Specification
+     * location parameters
      */
-    public static List<Object> toXmlRpcSpecificationLocationsParameters(Collection<SpecificationLocation> specificationLocations) {
+    public static List<Object> toXmlRpcSpecificationLocationsParameters(
+        Collection<SpecificationLocation> specificationLocations) {
         List<Object> specificationLocationsParams = new Vector<Object>();
         for (SpecificationLocation specificationLoc : specificationLocations) {
             specificationLocationsParams.add(specificationLoc.marshallize());
@@ -207,13 +228,12 @@ public class XmlRpcDataMarshaller {
         return specificationLocationsParams;
     }
 
-    
     /**
      * Transforms the Collection of References into a Vector of Reference
      * parameters.
      * </p>
-     * 
-     * @param References
+     *
+     * @param references
      * @return the Collection of References into a Vector of Reference
      * parameters
      */
@@ -227,8 +247,9 @@ public class XmlRpcDataMarshaller {
     }
 
     /**
-     * Transforms the Vector of the Execution result parameters into a {@link ExecutionResult} Object.
-     * 
+     * Transforms the Vector of the Execution result parameters into a
+     * {@link ExecutionResult} Object.
+     *
      * @param xmlRpcParameters
      * @return the execution result.
      */
@@ -245,8 +266,9 @@ public class XmlRpcDataMarshaller {
     }
 
     /**
-     * Transforms the Vector of the specification location parameters into a {@link SpecificationLocation} Object.
-     * 
+     * Transforms the Vector of the specification location parameters into a
+     * {@link SpecificationLocation} Object.
+     *
      * @param xmlRpcParameters
      * @return the specification location.
      */
@@ -255,21 +277,21 @@ public class XmlRpcDataMarshaller {
         if ( ! xmlRpcParameters.isEmpty()) {
             specLoc = new SpecificationLocation();
             specLoc.setRepositoryTypeClassName(xmlRpcParameters.get(SpecificationLocation.REPOSITORY_TYPE_CLASSNAME_IDX));
-            specLoc.setBaseTestUrl( xmlRpcParameters.get(SpecificationLocation.BASE_TEST_URL_IDX));
-            specLoc.setUsername( xmlRpcParameters.get(SpecificationLocation.USERNAME_IDX));
-            specLoc.setPassword( xmlRpcParameters.get(SpecificationLocation.PASSWORD_IDX));
-            specLoc.setSpecificationName( xmlRpcParameters.get(SpecificationLocation.SPEC_NAME_IDX));
+            specLoc.setBaseTestUrl(xmlRpcParameters.get(SpecificationLocation.BASE_TEST_URL_IDX));
+            specLoc.setUsername(xmlRpcParameters.get(SpecificationLocation.USERNAME_IDX));
+            specLoc.setPassword(xmlRpcParameters.get(SpecificationLocation.PASSWORD_IDX));
+            specLoc.setSpecificationName(xmlRpcParameters.get(SpecificationLocation.SPEC_NAME_IDX));
         }
         return specLoc;
     }
-    
+
     /**
-     * Transforms the Vector of the Project parameters into a {@link Project} Object.
-     * <br>
+     * Transforms the Vector of the Project parameters into a {@link Project}
+     * Object. <br>
      * Structure of the parameters:<br>
      * Vector[name]
      * </p>
-     * 
+     *
      * @param xmlRpcParameters
      * @return the Project.
      */
@@ -288,7 +310,7 @@ public class XmlRpcDataMarshaller {
      * Structure of the parameters:<br>
      * Vector[name, uriFormat]
      * </p>
-     * 
+     *
      * @param xmlRpcParameters
      * @return the RepositoryType.
      */
@@ -314,7 +336,7 @@ public class XmlRpcDataMarshaller {
      * Structure of the parameters:<br>
      * Vector[name, Vector[project parameters], type, content type, uri]
      * </p>
-     * 
+     *
      * @param xmlRpcParameters
      * @return the Repository.
      */
@@ -346,7 +368,7 @@ public class XmlRpcDataMarshaller {
      * Structure of the parameters:<br>
      * Vector[name, Vector[repository parameters]]
      * </p>
-     * 
+     *
      * @param xmlRpcParameters
      * @return the Requirement.
      */
@@ -369,8 +391,8 @@ public class XmlRpcDataMarshaller {
      * Structure of the parameters:<br>
      * Vector[name, Vector[repository parameters]]
      * </p>
-     * 
-     * @param Specification
+     *
+     * @param xmlRpcParameters
      * @return the Specification.
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
@@ -390,7 +412,7 @@ public class XmlRpcDataMarshaller {
     /**
      * Transforms the Vector of the Runner parameters into a Runner Object.<br>
      * </p>
-     * 
+     *
      * @param xmlRpcParameters
      * @return the Runner.
      */
@@ -425,7 +447,7 @@ public class XmlRpcDataMarshaller {
      * Vector[name, Vector[project parameters], Vector[seeds classPaths],
      * Vector[fixture classPaths], env]
      * </p>
-     * 
+     *
      * @param xmlRpcParameters
      * @return the SystemUnderTest.
      */
@@ -458,7 +480,7 @@ public class XmlRpcDataMarshaller {
     /**
      * Transforms the Vector of the Reference parameters into a Reference
      * Object.<br>
-     * 
+     *
      * @param xmlRpcParameters
      * @return the Reference.
      */
@@ -507,10 +529,10 @@ public class XmlRpcDataMarshaller {
     /**
      * Rebuild a List of projects based on the vector of projects parameters.
      * </p>
-     * 
+     *
      * @param projectsParams
      * @return a List of projects based on the vector of projects parameters.
-     * @see toProject(Vector<Object> xmlRpcParameters)
+     * @see toProject(Vector<Object> projectParams)
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static Set<Project> toProjectList(List<Object> projectsParams) {
@@ -526,11 +548,11 @@ public class XmlRpcDataMarshaller {
      * Rebuild a List of repositories based on the vector of repositories
      * parameters.
      * </p>
-     * 
+     *
      * @param repositoriesParams
      * @return a List of repositories based on the vector of repositories
      * parameters.
-     * @see toRepository(Vector<Object> xmlRpcParameters)
+     * @see toRepository(Vector<Object> repositoryParams)
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static Set<Repository> toRepositoryList(List<Object> repositoriesParams) {
@@ -545,10 +567,10 @@ public class XmlRpcDataMarshaller {
     /**
      * Rebuild a List of runners based on the vector of runners parameters.
      * </p>
-     * 
+     *
      * @param runnersParams
      * @return a List of runners based on the vector of runners parameters.
-     * @see toRunner(Vector<Object> xmlRpcParameters)
+     * @see toRunner(Vector<Object> runnerParams)
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static Set<Runner> toRunnerList(List<Object> runnersParams) {
@@ -564,11 +586,11 @@ public class XmlRpcDataMarshaller {
      * Rebuild a List of systemUnderTests based on the vector of
      * systemUnderTests parameters.
      * </p>
-     * 
+     *
      * @param sutsParams
      * @return a List of systemUnderTests based on the vector of
      * systemUnderTests parameters.
-     * @see toSystemUnderTest(Vector<Object> xmlRpcParameters)
+     * @see toSystemUnderTest(Vector<Object> sutParams)
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static SortedSet<SystemUnderTest> toSystemUnderTestList(List<Object> sutsParams) {
@@ -584,11 +606,11 @@ public class XmlRpcDataMarshaller {
      * Rebuild a List of specifications based on the vector of specifications
      * parameters.
      * </p>
-     * 
+     *
      * @param specificationsParams
      * @return a List of specifications based on the vector of specifications
      * parameters.
-     * @see toSpecification(Vector<Object> xmlRpcParameters)
+     * @see toSpecification(Vector<Object> specificationParams)
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static Set<Specification> toSpecificationList(List<Object> specificationsParams) {
@@ -604,12 +626,12 @@ public class XmlRpcDataMarshaller {
      * Rebuild a List of References with their last execution based on the
      * vector of References parameters.
      * </p>
-     * 
+     *
      * @param referencesParams
      * @return a List of References based on the vector of References
      * parameters.
      * @throws LivingDocServerException
-     * @see toReference(Vector<Object> xmlRpcParameters)
+     * @see toReference(Vector<Object> referenceParams)
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static Set<Reference> toReferencesList(List<Object> referencesParams) throws LivingDocServerException {
@@ -624,7 +646,7 @@ public class XmlRpcDataMarshaller {
     /**
      * Rebuilds a DocumentNode based on the given vector.
      * </p>
-     * 
+     *
      * @param documentNodeParams
      * @return a DocumentNode based on the given vector.
      */
@@ -671,7 +693,7 @@ public class XmlRpcDataMarshaller {
      * Structure of the error:<br>
      * TAG_ERROR errorId
      * </p>
-     * 
+     *
      * @param msgId
      * @return the error message id as a String.
      */
@@ -684,7 +706,7 @@ public class XmlRpcDataMarshaller {
      * Structure of the error:<br>
      * Vector[Vector[TAG_ERROR errorId]]
      * </p>
-     * 
+     *
      * @param msgId
      * @return the error message id as a Vector.
      */
@@ -700,7 +722,7 @@ public class XmlRpcDataMarshaller {
      * Structure of the error:<br>
      * HashTable[TAG_ERROR, Vector[Vector[TAG_ERROR errorId]]]
      * </p>
-     * 
+     *
      * @param msgId
      * @return the error message id as a HashTable.
      */
@@ -714,7 +736,7 @@ public class XmlRpcDataMarshaller {
      * Checks if the XML-RPC response is an server Exception. If so an
      * LivingDocServerException will be thrown with the error id found.
      * </p>
-     * 
+     *
      * @param xmlRpcResponse
      * @throws LivingDocServerException
      */
@@ -739,7 +761,7 @@ public class XmlRpcDataMarshaller {
      * Checks if the message is an server tagged Exception. If so an
      * LivingDocServerException will be thrown with the error id found.
      * </p>
-     * 
+     *
      * @param object the error id found.
      * @throws LivingDocServerException
      */

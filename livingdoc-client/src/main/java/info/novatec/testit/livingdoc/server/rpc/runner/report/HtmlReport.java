@@ -1,16 +1,16 @@
 /**
  * Copyright (c) 2008 Pyxis Technologies inc.
- * 
+ *
  * This is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This software is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 51
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
@@ -80,13 +80,14 @@ public class HtmlReport implements Report {
         String results = paramExecution.getResults();
 
         if (includeStyle) {
-            return new StringBuilder().append("<html>\n").append("  <head>\n").append("  <title>").append(getName()).append("</title>\n").append(
-                "<style>\n").append(getStyleContent()).append("\n</style>\n").append("</head>\n").append("<body>\n").append(
-                    "<div id=\"Content\" style=\"text-align:left; padding: 5px;\">").append(results.replace("<html>", "")
-                        .replace("</html>", "")).append("</div>\n").append("</body>\n").append("</html>").toString();
-        } else {
-            return results;
+            return new StringBuilder().append("<html>\n").append("  <head>\n").append("  <title>").append(getName()).append(
+                "</title>\n").append("<style>\n").append(getStyleContent()).append("\n</style>\n").append("</head>\n")
+                .append("<body>\n").append("<div id=\"Content\" style=\"text-align:left; padding: 5px;\">").append(results
+                    .replace("<html>", "").replace("</html>", "")).append("</div>\n").append("</body>\n").append("</html>")
+                .toString();
         }
+
+        return results;
     }
 
     private String getStyleContent() {
