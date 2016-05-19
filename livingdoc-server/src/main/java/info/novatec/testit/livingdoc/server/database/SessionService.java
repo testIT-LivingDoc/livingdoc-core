@@ -6,7 +6,7 @@ import org.hibernate.Session;
 /**
  * <p/>
  * Copyright (c) 2005 Pyxis technologies inc. All Rights Reserved.
- * 
+ *
  * @author gcarey
  */
 public interface SessionService {
@@ -17,7 +17,7 @@ public interface SessionService {
 
     /**
      * Retrieves the database session
-     * 
+     *
      * @return the database session
      */
     Session getSession();

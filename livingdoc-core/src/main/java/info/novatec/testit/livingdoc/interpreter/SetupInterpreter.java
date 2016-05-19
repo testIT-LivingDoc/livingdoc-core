@@ -1,15 +1,15 @@
 /* Copyright (c) 2006 Pyxis Technologies inc.
- * 
+ *
  * This is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This software is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 51
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
@@ -29,8 +29,6 @@ import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import info.novatec.testit.livingdoc.reflect.*;
-import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +42,11 @@ import info.novatec.testit.livingdoc.call.Compile;
 import info.novatec.testit.livingdoc.call.ResultIs;
 import info.novatec.testit.livingdoc.interpreter.column.Column;
 import info.novatec.testit.livingdoc.interpreter.column.NullColumn;
+import info.novatec.testit.livingdoc.reflect.EnterRow;
+import info.novatec.testit.livingdoc.reflect.Fixture;
+import info.novatec.testit.livingdoc.reflect.Message;
+import info.novatec.testit.livingdoc.reflect.NoSuchMessageException;
+import info.novatec.testit.livingdoc.reflect.StaticInvocation;
 
 
 public class SetupInterpreter extends AbstractInterpreter {
@@ -170,7 +173,13 @@ public class SetupInterpreter extends AbstractInterpreter {
             call.will(new AnnotateSetup(row));
             call.will(Compile.statistics(stats)).when(ResultIs.exception());
             call.execute();
-        } catch (InvocationTargetException | IllegalAccessException | NullPointerException e) {
+        } catch (InvocationTargetException e) {
+            stats.exception();
+            LOG.error(LOG_ERROR, e);
+        } catch (IllegalAccessException e) {
+            stats.exception();
+            LOG.error(LOG_ERROR, e);
+        } catch (NullPointerException e) {
             stats.exception();
             LOG.error(LOG_ERROR, e);
         }
@@ -181,7 +190,15 @@ public class SetupInterpreter extends AbstractInterpreter {
         LOG.trace(ENTRY_WITH_TWO, column.toString(), cell.toString());
         try {
             stats.tally(column.doCell(cell));
-        } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
+        } catch (InvocationTargetException e) {
+            cell.annotate(exception(e));
+            stats.exception();
+            LOG.error(LOG_ERROR, e);
+        } catch (IllegalAccessException e) {
+            cell.annotate(exception(e));
+            stats.exception();
+            LOG.error(LOG_ERROR, e);
+        } catch (IllegalArgumentException e) {
             cell.annotate(exception(e));
             stats.exception();
             LOG.error(LOG_ERROR, e);

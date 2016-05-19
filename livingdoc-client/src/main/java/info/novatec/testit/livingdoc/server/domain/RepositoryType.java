@@ -22,7 +22,7 @@ import info.novatec.testit.livingdoc.util.URIUtil;
  * RepositoryType Class. Known types: CONFLUENCE / FILE ...
  * <p/>
  * Copyright (c) 2006 Pyxis technologies inc. All Rights Reserved.
- * 
+ *
  * @author JCHUET
  */
 
@@ -99,7 +99,8 @@ public class RepositoryType extends AbstractVersionedEntity implements Comparabl
 
     public String asFactoryArguments(Repository repository, boolean withStyle, String user, String pwd) {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.className).append(';').append(withStyle || name.equals("FILE") ? repository.getBaseTestUrl() : withNoStyle(repository.getBaseTestUrl()));
+        sb.append(this.className).append(';').append(withStyle || name.equals("FILE") ? repository.getBaseTestUrl()
+            : withNoStyle(repository.getBaseTestUrl()));
 
         if (user == null) {
             if ( ! StringUtils.isEmpty(repository.getUsername())) {
@@ -117,10 +118,10 @@ public class RepositoryType extends AbstractVersionedEntity implements Comparabl
     @Override
     public Vector<Object> marshallize() {
         Vector<Object> parameters = new Vector<Object>();
-        parameters.add(REPOSITORY_TYPE_NAME_IDX,StringUtils.stripToEmpty(name));
+        parameters.add(REPOSITORY_TYPE_NAME_IDX, StringUtils.stripToEmpty(name));
         parameters.add(REPOSITORY_TYPE_REPOCLASS_IDX, className);
-        parameters.add(REPOSITORY_TYPE_NAME_FORMAT_IDX,StringUtils.stripToEmpty(getDocumentUrlFormat()));
-        parameters.add(REPOSITORY_TYPE_URI_FORMAT_IDX,StringUtils.stripToEmpty(getTestUrlFormat()));
+        parameters.add(REPOSITORY_TYPE_NAME_FORMAT_IDX, StringUtils.stripToEmpty(getDocumentUrlFormat()));
+        parameters.add(REPOSITORY_TYPE_URI_FORMAT_IDX, StringUtils.stripToEmpty(getTestUrlFormat()));
         return parameters;
     }
 

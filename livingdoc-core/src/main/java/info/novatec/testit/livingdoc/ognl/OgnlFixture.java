@@ -106,9 +106,13 @@ public class OgnlFixture implements Fixture {
     private Object invoke(Method method) {
         try {
             return method.invoke(getTarget());
-        } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
+        } catch (InvocationTargetException e) {
             LOG.error(LOG_ERROR, e);
-            return null;
+        } catch (IllegalAccessException e) {
+            LOG.error(LOG_ERROR, e);
+        } catch (IllegalArgumentException e) {
+            LOG.error(LOG_ERROR, e);
         }
+        return null;
     }
 }

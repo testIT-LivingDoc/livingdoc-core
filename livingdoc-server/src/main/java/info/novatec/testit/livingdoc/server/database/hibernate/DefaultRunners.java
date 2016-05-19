@@ -6,7 +6,6 @@ import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import info.novatec.testit.livingdoc.server.LivingDocServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,7 +76,9 @@ public class DefaultRunners {
             classpaths.add(normalize(runnerJarFile));
             File runnerDir = runnerJarFile.getParentFile();
             createJavaRunner(classpaths, normalize(runnerDir));
-        } catch (IOException | LivingDocServerException e) {
+        } catch (IOException e) {
+            log.warn("Runner registration failed: " + e.getMessage());
+        } catch (LivingDocServerException e) {
             log.warn("Runner registration failed: " + e.getMessage());
         }
     }
@@ -89,7 +90,9 @@ public class DefaultRunners {
             if (shouldCreateJavaRunner()) {
                 createJavaRunner(getJavaRunnerClassPathsFromDir(dir), jarFile);
             }
-        } catch (IOException | LivingDocServerException e) {
+        } catch (IOException e) {
+            log.warn("Runner registration failed: " + e.getMessage());
+        } catch (LivingDocServerException e) {
             log.warn("Runner registration failed: " + e.getMessage());
         }
     }
@@ -126,7 +129,7 @@ public class DefaultRunners {
 
     private String detectVersion(File livingDocJarFile) {
         String livingDocJarFileName = livingDocJarFile.getName();
-        // E.g. livingdoc-confluence-plugin-4.0.0-SNAPSHOT.jar -> 4.0.0-SNAPSHOT
+        // E.g. livingdoc-confluence-plugin-1.0-SNAPSHOT.jar
         return livingDocJarFileName.replace("livingdoc-confluence-plugin-", "").replace(".jar", "");
     }
 
@@ -158,7 +161,9 @@ public class DefaultRunners {
                     createJavaRunner(classpaths, normalize(runnerDir));
                 }
             }
-        } catch (IOException | LivingDocServerException e) {
+        } catch (IOException e) {
+            log.warn("Runner registration failed: " + e.getMessage());
+        } catch (LivingDocServerException e) {
             log.warn("Runner registration failed: " + e.getMessage());
         }
     }

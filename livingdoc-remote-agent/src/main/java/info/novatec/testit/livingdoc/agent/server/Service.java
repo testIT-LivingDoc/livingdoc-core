@@ -8,7 +8,7 @@ public interface Service {
     /**
      * Executes the Specification under the given context: Runner /
      * SystemUnderTest.
-     * 
+     *
      * @param runnerParams the runner params
      * @param sutParams the sut params
      * @param specificationParams the specification params
@@ -18,5 +18,5 @@ public interface Service {
      * @return the Execution of the specification under the given context
      */
     List<Object> execute(Vector<Object> runnerParams, Vector<Object> sutParams, Vector<Object> specificationParams,
-                         boolean implemented, String sections, String locale);
+        boolean implemented, String sections, String locale);
 }

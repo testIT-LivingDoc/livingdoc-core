@@ -1,6 +1,18 @@
 package info.novatec.testit.livingdoc.repository;
 
-import info.novatec.testit.livingdoc.document.Document;
+import static info.novatec.testit.livingdoc.util.CollectionUtil.toVector;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Vector;
+
 import org.apache.xmlrpc.WebServer;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -10,16 +22,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Vector;
-
-import static info.novatec.testit.livingdoc.util.CollectionUtil.toVector;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.verify;
+import info.novatec.testit.livingdoc.document.Document;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -55,8 +58,8 @@ public class AtlassianRepositoryTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testProvideAHierarchyListOfSpecifications() throws Exception {
-        final Vector< ? > expected1 = (Vector) toVector("SPACE KEY");
-        final Vector< ? > expected2 = (Vector) toVector("SPACE KEY", "PAGE", Boolean.TRUE, Boolean.TRUE);
+        final Vector< ? > expected1 = ( Vector< ? > ) toVector("SPACE KEY");
+        final Vector< ? > expected2 = ( Vector< ? > ) toVector("SPACE KEY", "PAGE", Boolean.TRUE, Boolean.TRUE);
         doReturn(hierarchy()).when(handler).getSpecificationHierarchy("", "", expected1);
         doReturn(specification()).when(handler).getRenderedSpecification("", "", expected2);
 
@@ -72,7 +75,7 @@ public class AtlassianRepositoryTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testCanDowloadPageContentFromAConfluenceServer() throws Exception {
-        final Vector< ? > expected = (Vector) toVector("SPACE KEY", "PAGE", Boolean.TRUE, Boolean.TRUE);
+        final Vector< ? > expected = ( Vector< ? > ) toVector("SPACE KEY", "PAGE", Boolean.TRUE, Boolean.TRUE);
         doReturn(specification()).when(handler).getRenderedSpecification("", "", expected);
 
         repo = new AtlassianRepository("http://localhost:19005/rpc/xmlrpc?handler=livingdoc1&includeStyle=true#SPACE KEY");
@@ -85,7 +88,7 @@ public class AtlassianRepositoryTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testCanDowloadPageContentFromAJiraServer() throws Exception {
-        final Vector< ? > expected = (Vector) toVector("PROJECT ID", "ISSUE KEY", Boolean.FALSE, Boolean.TRUE);
+        final Vector< ? > expected = ( Vector< ? > ) toVector("PROJECT ID", "ISSUE KEY", Boolean.FALSE, Boolean.TRUE);
         doReturn(specification()).when(handler).getRenderedSpecification("", "", expected);
 
         repo = new AtlassianRepository("http://localhost:19005/rpc/xmlrpc?handler=livingdoc1&includeStyle=false#PROJECT ID");
@@ -98,7 +101,7 @@ public class AtlassianRepositoryTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testImplementedIsPassedInTheArgumenents() throws Exception {
-        final Vector< ? > expected = (Vector) toVector("SPACE KEY", "PAGE", Boolean.TRUE, Boolean.FALSE);
+        final Vector< ? > expected = ( Vector< ? > ) toVector("SPACE KEY", "PAGE", Boolean.TRUE, Boolean.FALSE);
         doReturn(specification()).when(handler).getRenderedSpecification("", "", expected);
 
         repo = new AtlassianRepository("http://localhost:19005/rpc/xmlrpc?handler=livingdoc1#SPACE KEY");
@@ -110,7 +113,7 @@ public class AtlassianRepositoryTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testStyleDefaultsToTrueAndImplementedDefaultsToTrue() throws Exception {
-        final Vector< ? > expected = (Vector) toVector("SPACE KEY", "PAGE", Boolean.TRUE, Boolean.TRUE);
+        final Vector< ? > expected = ( Vector< ? > ) toVector("SPACE KEY", "PAGE", Boolean.TRUE, Boolean.TRUE);
         doReturn(specification()).when(handler).getRenderedSpecification("", "", expected);
 
         repo = new AtlassianRepository("http://localhost:19005/rpc/xmlrpc?handler=livingdoc1#SPACE KEY");
@@ -128,7 +131,7 @@ public class AtlassianRepositoryTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testWeCanSetASpecificationAsImplemented() throws Exception {
-        final Vector< ? > expected = (Vector) toVector("SPACE KEY", "PAGE", Boolean.TRUE, Boolean.TRUE);
+        final Vector< ? > expected = ( Vector< ? > ) toVector("SPACE KEY", "PAGE", Boolean.TRUE, Boolean.TRUE);
         doReturn("<success>").when(handler).setSpecificationAsImplemented("", "", expected);
 
         repo = new AtlassianRepository("http://localhost:19005/rpc/xmlrpc?handler=livingdoc1#SPACE KEY");
@@ -140,7 +143,7 @@ public class AtlassianRepositoryTest {
     @Test(expected = Exception.class)
     @SuppressWarnings("unchecked")
     public void testExceptionIsThrownIfReturnedValueFromSettingAsImplementedDiffersFromSuccess() throws Exception {
-        final Vector< ? > expected = (Vector) toVector("SPACE KEY", "PAGE", Boolean.TRUE, Boolean.TRUE);
+        final Vector< ? > expected = ( Vector< ? > ) toVector("SPACE KEY", "PAGE", Boolean.TRUE, Boolean.TRUE);
         doReturn("exception").when(handler).setSpecificationAsImplemented("", "", expected);
 
         try {

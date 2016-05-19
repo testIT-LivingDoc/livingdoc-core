@@ -1,11 +1,14 @@
 package info.novatec.testit.livingdoc.agent.server;
 
-import info.novatec.testit.livingdoc.repository.AtlassianRepository;
-import info.novatec.testit.livingdoc.server.LivingDocServerException;
-import info.novatec.testit.livingdoc.server.domain.*;
-import info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller;
-import info.novatec.testit.livingdoc.util.CollectionUtil;
-import info.novatec.testit.livingdoc.util.URIUtil;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.doReturn;
+
+import java.io.File;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Vector;
+
 import org.apache.xmlrpc.WebServer;
 import org.apache.xmlrpc.XmlRpcClient;
 import org.junit.After;
@@ -15,14 +18,19 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.io.File;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Vector;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.doReturn;
+import info.novatec.testit.livingdoc.repository.AtlassianRepository;
+import info.novatec.testit.livingdoc.server.LivingDocServerException;
+import info.novatec.testit.livingdoc.server.domain.ClasspathSet;
+import info.novatec.testit.livingdoc.server.domain.Execution;
+import info.novatec.testit.livingdoc.server.domain.Project;
+import info.novatec.testit.livingdoc.server.domain.Repository;
+import info.novatec.testit.livingdoc.server.domain.RepositoryType;
+import info.novatec.testit.livingdoc.server.domain.Runner;
+import info.novatec.testit.livingdoc.server.domain.Specification;
+import info.novatec.testit.livingdoc.server.domain.SystemUnderTest;
+import info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller;
+import info.novatec.testit.livingdoc.util.CollectionUtil;
+import info.novatec.testit.livingdoc.util.URIUtil;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -56,12 +64,12 @@ public class AgentTest {
         List< ? > expected = CollectionUtil.toVector("SPACE", "MyTest", Boolean.FALSE, Boolean.TRUE);
         String testSpecification = testContent();
 
-        doReturn(testSpecification).when(handler).getRenderedSpecification("", "", (Vector) expected);
+        doReturn(testSpecification).when(handler).getRenderedSpecification("", "", ( Vector< ? > ) expected);
 
         XmlRpcClient xmlrpc = new XmlRpcClient("http://localhost:7777");
         List<Serializable> params = CollectionUtil.toVector(getRunner().marshallize(), getSystemUnderTest().marshallize(),
             getSpecification().marshallize(), true, "", "en");
-        List<Object> execParams = ( List<Object> ) xmlrpc.execute("livingdoc-agent1.execute", (Vector) params);
+        List<Object> execParams = ( List<Object> ) xmlrpc.execute("livingdoc-agent1.execute", ( Vector< ? > ) params);
         Execution execution = XmlRpcDataMarshaller.toExecution(execParams);
         assertEquals(2, execution.getSuccess());
         assertEquals(0, execution.getErrors());

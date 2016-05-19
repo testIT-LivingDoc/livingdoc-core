@@ -37,7 +37,7 @@ import info.novatec.testit.livingdoc.systemunderdevelopment.DefaultSystemUnderDe
  * SystemUnderTest Class.
  * <p/>
  * Copyright (c) 2006 Pyxis technologies inc. All Rights Reserved.
- * 
+ *
  * @author JCHUET
  */
 
@@ -190,11 +190,11 @@ public class SystemUnderTest extends AbstractUniqueEntity implements Comparable<
         parameters.add(SUT_PROJECT_IDX, project.marshallize());
         parameters.add(SUT_CLASSPATH_IDX, new Vector<String>(sutClasspaths));
         parameters.add(SUT_FIXTURE_CLASSPATH_IDX, new Vector<String>(fixtureClasspaths));
-        parameters.add(SUT_FIXTURE_FACTORY_IDX,StringUtils.stripToEmpty(fixtureFactory));
-        parameters.add(SUT_FIXTURE_FACTORY_ARGS_IDX,StringUtils.stripToEmpty(fixtureFactoryArgs));
+        parameters.add(SUT_FIXTURE_FACTORY_IDX, StringUtils.stripToEmpty(fixtureFactory));
+        parameters.add(SUT_FIXTURE_FACTORY_ARGS_IDX, StringUtils.stripToEmpty(fixtureFactoryArgs));
         parameters.add(SUT_IS_DEFAULT_IDX, isDefault());
         parameters.add(SUT_RUNNER_IDX, runner != null ? runner.marshallize() : Runner.newInstance("N/A").marshallize());
-        parameters.add(SUT_PROJECT_DEPENDENCY_DESCRIPTOR_IDX,StringUtils.stripToEmpty(projectDependencyDescriptor));
+        parameters.add(SUT_PROJECT_DEPENDENCY_DESCRIPTOR_IDX, StringUtils.stripToEmpty(projectDependencyDescriptor));
         return parameters;
     }
 

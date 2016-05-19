@@ -1,7 +1,6 @@
 package info.novatec.testit.livingdoc.server.rpc;
 
 import java.util.List;
-import java.util.Vector;
 
 
 public interface LivingDocRpcHelper {
@@ -11,5 +10,5 @@ public interface LivingDocRpcHelper {
 
     String setSpecificationAsImplemented(String username, String password, List< ? > args);
 
-    String saveExecutionResult(String username, String password, List< Object > args);
+    String saveExecutionResult(String username, String password, List<Object> args);
 }

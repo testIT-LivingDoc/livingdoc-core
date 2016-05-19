@@ -1,15 +1,15 @@
 /* Copyright (c) 2006 Pyxis Technologies inc.
- * 
+ *
  * This is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This software is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 51
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
@@ -21,7 +21,11 @@ import static info.novatec.testit.livingdoc.util.CollectionUtil.shift;
 import static info.novatec.testit.livingdoc.util.CollectionUtil.toList;
 
 import java.io.File;
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Member;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.UndeclaredThrowableException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -30,7 +34,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import info.novatec.testit.livingdoc.reflect.NoSuchMessageException;
 import org.apache.commons.lang3.StringUtils;
 
 
@@ -183,9 +186,6 @@ public final class ClassUtils {
         return classLoader;
     }
 
-    /**
-     * @throws UndeclaredThrowableException if any exception occurs.
-     */
     public static <C> C createInstanceFromClassNameWithArguments(ClassLoader classLoader, String classWithArguments,
         Class<C> expectedType) throws UndeclaredThrowableException {
         try {
@@ -204,7 +204,15 @@ public final class ClassUtils {
             String[] args = parameters.toArray(new String[parameters.size()]);
             Constructor< ? > constructor = klass.getConstructor(args.getClass());
             return expectedType.cast(constructor.newInstance(new Object[] { args }));
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+        } catch (ClassNotFoundException e) {
+            throw new UndeclaredThrowableException(e);
+        } catch (InstantiationException e) {
+            throw new UndeclaredThrowableException(e);
+        } catch (IllegalAccessException e) {
+            throw new UndeclaredThrowableException(e);
+        } catch (NoSuchMethodException e) {
+            throw new UndeclaredThrowableException(e);
+        } catch (InvocationTargetException e) {
             throw new UndeclaredThrowableException(e);
         }
     }

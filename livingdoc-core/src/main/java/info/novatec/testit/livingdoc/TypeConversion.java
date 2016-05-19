@@ -1,15 +1,15 @@
 /* Copyright (c) 2006 Pyxis Technologies inc.
- * 
+ *
  * This is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This software is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 51
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
@@ -25,7 +25,6 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-import info.novatec.testit.livingdoc.reflect.NoSuchMessageException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -120,7 +119,7 @@ public final class TypeConversion {
     /**
      * Converts <code>value</code> to the object type of <code>type</code> by
      * using the appropriate <code>TypeConverter</code>.
-     * 
+     *
      * @param value The string value to convert
      * @param type The type to convert to
      * @return The converted value
@@ -143,7 +142,7 @@ public final class TypeConversion {
      * SelfConversion implies that if a class has the given static method named
      * that receive a String and that returns a instance of the class, then it
      * can serve for conversion purpose.
-     * 
+     *
      * @param parsingMethod The parsing method to use
      * @param value The string value to convert
      * @param type The type to convert to
@@ -156,7 +155,10 @@ public final class TypeConversion {
         } catch (InvocationTargetException e) {
             LOG.error(LOG_ERROR, e);
             throw new IllegalArgumentException("Can't convert " + value + " to " + type.getName(), e.getCause());
-        } catch (IllegalAccessException | NoSuchMethodException e) {
+        } catch (IllegalAccessException e) {
+            LOG.error(LOG_ERROR, e);
+            throw new IllegalArgumentException("Can't convert " + value + " to " + type.getName(), e);
+        } catch (NoSuchMethodException e) {
             LOG.error(LOG_ERROR, e);
             throw new IllegalArgumentException("Can't convert " + value + " to " + type.getName(), e);
         }
@@ -165,7 +167,7 @@ public final class TypeConversion {
     /**
      * Converts <code>value</code> to a String by using the appropriate
      * <code>TypeConverter</code>.
-     * 
+     *
      * @param value The object value to convert
      * @return The string value
      */
@@ -205,7 +207,10 @@ public final class TypeConversion {
         } catch (InvocationTargetException e) {
             LOG.error(LOG_ERROR, e);
             throw new IllegalArgumentException("Can't get a string for " + value + " of to " + type.getName(), e.getCause());
-        } catch (NoSuchMethodException | IllegalAccessException e) {
+        } catch (NoSuchMethodException e) {
+            LOG.error(LOG_ERROR, e);
+            throw new IllegalArgumentException("Can't get a string for " + value + " of to " + type.getName(), e);
+        } catch (IllegalAccessException e) {
             LOG.error(LOG_ERROR, e);
             throw new IllegalArgumentException("Can't get a string for " + value + " of to " + type.getName(), e);
         }

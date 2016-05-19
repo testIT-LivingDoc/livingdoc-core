@@ -1,25 +1,70 @@
 package info.novatec.testit.livingdoc.server.rpc.xmlrpc;
 
-import info.novatec.testit.livingdoc.server.LivingDocServerException;
-import info.novatec.testit.livingdoc.server.LivingDocServerService;
-import info.novatec.testit.livingdoc.server.domain.*;
-import info.novatec.testit.livingdoc.server.rpc.RpcServerService;
-import info.novatec.testit.livingdoc.server.transfer.SpecificationLocation;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.GENERAL_ERROR;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.REFERENCE_CREATE_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.REFERENCE_NOT_FOUND;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.REFERENCE_REMOVE_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.REFERENCE_UPDATE_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.REPOSITORY_GET_REGISTERED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.REPOSITORY_REGISTRATION_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.REPOSITORY_REMOVE_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.REPOSITORY_UPDATE_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.REQUIREMENT_REMOVE_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.RETRIEVE_PROJECTS;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.RETRIEVE_REFERENCE;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.RETRIEVE_REFERENCES;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.RETRIEVE_REPOSITORIES;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.RETRIEVE_REQUIREMENT_REPOS;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.RETRIEVE_SPECIFICATION_REPOS;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.RETRIEVE_SUTS;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.RUNNERS_NOT_FOUND;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.RUNNER_CREATE_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.RUNNER_NOT_FOUND;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.RUNNER_REMOVE_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.RUNNER_UPDATE_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.RUN_REFERENCE_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SPECIFICATIONS_NOT_FOUND;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SPECIFICATION_ADD_SUT_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SPECIFICATION_CREATE_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SPECIFICATION_NOT_FOUND;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SPECIFICATION_REMOVE_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SPECIFICATION_REMOVE_SUT_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SPECIFICATION_RUN_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SPECIFICATION_UPDATE_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUCCESS;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_CREATE_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_DELETE_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_SET_DEFAULT_FAILED;
+import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_UPDATE_FAILED;
 
 import java.util.Collection;
 import java.util.List;
 
-import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.*;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import info.novatec.testit.livingdoc.server.LivingDocServerException;
+import info.novatec.testit.livingdoc.server.LivingDocServerService;
+import info.novatec.testit.livingdoc.server.domain.DocumentNode;
+import info.novatec.testit.livingdoc.server.domain.Execution;
+import info.novatec.testit.livingdoc.server.domain.Project;
+import info.novatec.testit.livingdoc.server.domain.Reference;
+import info.novatec.testit.livingdoc.server.domain.Repository;
+import info.novatec.testit.livingdoc.server.domain.Requirement;
+import info.novatec.testit.livingdoc.server.domain.RequirementSummary;
+import info.novatec.testit.livingdoc.server.domain.Runner;
+import info.novatec.testit.livingdoc.server.domain.Specification;
+import info.novatec.testit.livingdoc.server.domain.SystemUnderTest;
+import info.novatec.testit.livingdoc.server.rpc.RpcServerService;
+import info.novatec.testit.livingdoc.server.transfer.SpecificationLocation;
 
 
 /**
  * The XML-RPC Servlet
  * <p/>
  * Copyright (c) 2006 Pyxis technologies inc. All Rights Reserved.
- * 
+ *
  * @author jchuet
  */
 public class LivingDocXmlRpcServer implements RpcServerService {
@@ -246,8 +291,8 @@ public class LivingDocXmlRpcServer implements RpcServerService {
             Collection<Repository> repositories = service.getSpecificationRepositoriesOfAssociatedProject(repository
                 .getUid());
 
-            log.debug("Retrieved Test Repositories Of Associated Project of " + repository.getUid() + NUMBER
-                + repositories.size());
+            log.debug("Retrieved Test Repositories Of Associated Project of " + repository.getUid() + NUMBER + repositories
+                .size());
             return XmlRpcDataMarshaller.toXmlRpcRepositoriesParameters(repositories);
         } catch (LivingDocServerException e) {
             return errorAsVector(e, RETRIEVE_SPECIFICATION_REPOS);
@@ -263,8 +308,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
             SystemUnderTest sut = XmlRpcDataMarshaller.toSystemUnderTest(systemUnderTestParams);
             Collection<Repository> repositories = service.getAllRepositoriesForSystemUnderTest(sut);
 
-            log.debug("Retrieved All Repositories Of Associated Project of " + sut.getName() + NUMBER + repositories
-                .size());
+            log.debug("Retrieved All Repositories Of Associated Project of " + sut.getName() + NUMBER + repositories.size());
             return XmlRpcDataMarshaller.toXmlRpcRepositoriesParameters(repositories);
         } catch (LivingDocServerException e) {
             return errorAsVector(e, RETRIEVE_REPOSITORIES);
@@ -523,7 +567,8 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public String updateSystemUnderTest(String oldSystemUnderTestName, List<Object> systemUnderTestParams, List<Object> repositoryParams) {
+    public String updateSystemUnderTest(String oldSystemUnderTestName, List<Object> systemUnderTestParams,
+        List<Object> repositoryParams) {
         try {
             Repository repository = loadRepository(repositoryParams);
 
@@ -640,11 +685,12 @@ public class LivingDocXmlRpcServer implements RpcServerService {
         try {
             Repository repository = service.getRepository(repositoryUID, null);
 
-            List<SpecificationLocation> specificationLocations = service.getListOfSpecificationLocations(repositoryUID, systemUnderTestName);
+            List<SpecificationLocation> specificationLocations = service.getListOfSpecificationLocations(repositoryUID,
+                systemUnderTestName);
 
             log.debug("Retrieved specification list: " + repository.getName());
             return XmlRpcDataMarshaller.toXmlRpcSpecificationLocationsParameters(specificationLocations);
-            
+
         } catch (LivingDocServerException e) {
             return errorAsVector(e, SPECIFICATIONS_NOT_FOUND);
         }
