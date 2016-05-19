@@ -6,6 +6,8 @@ import static info.novatec.testit.livingdoc.util.LoggerConstants.ENTRY_WITH_TWO;
 import static info.novatec.testit.livingdoc.util.LoggerConstants.EXIT_WITH;
 import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +18,6 @@ import info.novatec.testit.livingdoc.expectation.Expectation;
 import info.novatec.testit.livingdoc.expectation.ShouldBe;
 import info.novatec.testit.livingdoc.interpreter.HeaderForm;
 import info.novatec.testit.livingdoc.reflect.Fixture;
-
-import java.lang.reflect.InvocationTargetException;
 
 
 public class Row {
@@ -60,7 +60,11 @@ public class Row {
                         LOG.debug(EXIT_WITH, false);
                         return false;
                     }
-                } catch (InvocationTargetException | IllegalAccessException e) {
+                } catch (InvocationTargetException e) {
+                    LOG.error(LOG_ERROR, e);
+                    LOG.debug(EXIT_WITH, false);
+                    return false;
+                } catch (IllegalAccessException e) {
                     LOG.error(LOG_ERROR, e);
                     LOG.debug(EXIT_WITH, false);
                     return false;

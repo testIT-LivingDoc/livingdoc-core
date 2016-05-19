@@ -96,9 +96,13 @@ public abstract class AbstractFixture implements Fixture {
     protected Object invoke(Method method) {
         try {
             return method.invoke(target);
-        } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException e) {
+        } catch (InvocationTargetException e) {
             LOG.error(LOG_ERROR, e);
-            return null;
+        } catch (IllegalAccessException e) {
+            LOG.error(LOG_ERROR, e);
+        } catch (IllegalArgumentException e) {
+            LOG.error(LOG_ERROR, e);
         }
+        return null;
     }
 }

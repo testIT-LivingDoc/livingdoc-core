@@ -1,22 +1,20 @@
 /* Copyright (c) 2006 Pyxis Technologies inc.
- * 
+ *
  * This is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This software is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 51
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
  * http://www.fsf.org. */
 package info.novatec.testit.livingdoc.repository;
-
-import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -30,8 +28,6 @@ import java.util.List;
 import java.util.Vector;
 
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import info.novatec.testit.livingdoc.document.Document;
 import info.novatec.testit.livingdoc.html.HtmlDocumentBuilder;
@@ -148,7 +144,7 @@ public class FileSystemRepository implements DocumentRepository {
         Hashtable<String, Object> hashtable = new Hashtable<String, Object>();
         if (file.isDirectory() && file.listFiles() != null) {
             for (File node : file.listFiles(NOT_HIDDEN)) {
-                    hashtable.put(node.getName(), toHierarchyNodeVector(node));
+                hashtable.put(node.getName(), toHierarchyNodeVector(node));
             }
         }
 

@@ -140,7 +140,10 @@ public class AbstractFlowInterpreter extends AbstractInterpreter {
             Call call = new Call(message);
             call.will(Compile.statistics(stats)).when(ResultIs.exception());
             call.execute();
-        } catch (InvocationTargetException | IllegalAccessException e) {
+        } catch (InvocationTargetException e) {
+            LOG.error(LOG_ERROR, e);
+            stats.exception();
+        } catch (IllegalAccessException e) {
             LOG.error(LOG_ERROR, e);
             stats.exception();
         }

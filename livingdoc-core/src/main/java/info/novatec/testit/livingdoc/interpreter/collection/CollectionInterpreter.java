@@ -1,15 +1,15 @@
 /* Copyright (c) 2006 Pyxis Technologies inc.
- * 
+ *
  * This is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This software is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 51
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
@@ -37,7 +37,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import info.novatec.testit.livingdoc.reflect.NoSuchMessageException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,10 +53,10 @@ import info.novatec.testit.livingdoc.interpreter.AbstractInterpreter;
 import info.novatec.testit.livingdoc.interpreter.HeaderForm;
 import info.novatec.testit.livingdoc.reflect.CollectionProvider;
 import info.novatec.testit.livingdoc.reflect.Fixture;
+import info.novatec.testit.livingdoc.reflect.NoSuchMessageException;
 
 
-// TODO: STATS compile stats here and in derived classes ( no test for that yet
-// )
+// TODO: STATS compile stats here and in derived classes (no test for that yet)
 public abstract class CollectionInterpreter extends AbstractInterpreter {
     private static final Logger LOG = LoggerFactory.getLogger(CollectionInterpreter.class);
 
@@ -109,7 +108,15 @@ public abstract class CollectionInterpreter extends AbstractInterpreter {
                     }
 
                     call.execute();
-                } catch (InvocationTargetException | IllegalAccessException | NoSuchMessageException e) {
+                } catch (InvocationTargetException e) {
+                    cell.annotate(exception(e));
+                    stats.exception();
+                    LOG.error(LOG_ERROR, e);
+                } catch (IllegalAccessException e) {
+                    cell.annotate(exception(e));
+                    stats.exception();
+                    LOG.error(LOG_ERROR, e);
+                } catch (NoSuchMessageException e) {
                     cell.annotate(exception(e));
                     stats.exception();
                     LOG.error(LOG_ERROR, e);
@@ -138,7 +145,15 @@ public abstract class CollectionInterpreter extends AbstractInterpreter {
                 {
                     stats.wrong();
                 }
-            } catch (InvocationTargetException | IllegalAccessException | NoSuchMessageException e) {
+            } catch (InvocationTargetException e) {
+                // TODO: STATS count stats?
+                cell.annotate(ignored(e));
+                LOG.error(LOG_ERROR, e);
+            } catch (IllegalAccessException e) {
+                // TODO: STATS count stats?
+                cell.annotate(ignored(e));
+                LOG.error(LOG_ERROR, e);
+            } catch (NoSuchMessageException e) {
                 // TODO: STATS count stats?
                 cell.annotate(ignored(e));
                 LOG.error(LOG_ERROR, e);
@@ -179,15 +194,18 @@ public abstract class CollectionInterpreter extends AbstractInterpreter {
 
     private Object invoke(Object target, Method method) {
         LOG.trace(ENTRY_WITH_TWO, target.toString(), method.toString());
+        Object result = null;
         try {
-            Object result = method.invoke(target);
+            result = method.invoke(target);
             LOG.trace(EXIT_WITH, result.toString());
-            return result;
-        } catch (InvocationTargetException | IllegalAccessException e) {
+        } catch (InvocationTargetException e) {
             LOG.error(LOG_ERROR, e);
             LOG.trace(EXIT_WITH_NULL);
-            return null;
+        } catch (IllegalAccessException e) {
+            LOG.error(LOG_ERROR, e);
+            LOG.trace(EXIT_WITH_NULL);
         }
+        return result;
     }
 
     public List<Fixture> getFixtureList() throws IllegalArgumentException, InvocationTargetException,
@@ -280,7 +298,23 @@ public abstract class CollectionInterpreter extends AbstractInterpreter {
                     }
                 }
             }
-        } catch (InvocationTargetException | IllegalAccessException | NoSuchMessageException e) {
+        } catch (InvocationTargetException e) {
+            stats.exception();
+            example.firstChild().annotate(exception(e));
+
+            if (shouldStop(stats)) {
+                example.addChild().annotate(Annotations.stopped());
+            }
+            LOG.error(LOG_ERROR, e);
+        } catch (IllegalAccessException e) {
+            stats.exception();
+            example.firstChild().annotate(exception(e));
+
+            if (shouldStop(stats)) {
+                example.addChild().annotate(Annotations.stopped());
+            }
+            LOG.error(LOG_ERROR, e);
+        } catch (NoSuchMessageException e) {
             stats.exception();
             example.firstChild().annotate(exception(e));
 

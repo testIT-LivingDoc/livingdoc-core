@@ -5,7 +5,6 @@ import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import info.novatec.testit.livingdoc.reflect.NoSuchMessageException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +17,7 @@ import info.novatec.testit.livingdoc.call.Do;
 import info.novatec.testit.livingdoc.call.ResultIs;
 import info.novatec.testit.livingdoc.interpreter.flow.AbstractRow;
 import info.novatec.testit.livingdoc.reflect.Fixture;
+import info.novatec.testit.livingdoc.reflect.NoSuchMessageException;
 import info.novatec.testit.livingdoc.util.ExampleUtil;
 
 
@@ -45,7 +45,19 @@ public class ActionRow extends AbstractRow {
             call.will(Do.both(Annotate.exception(keywordCells(row))).and(countRowOf(spec).exception())).when(ResultIs
                 .exception());
             call.execute();
-        } catch (InvocationTargetException | IllegalAccessException | NoSuchMessageException | NullPointerException e) {
+        } catch (InvocationTargetException e) {
+            LOG.error(LOG_ERROR, e);
+            keywordCells(row).annotate(Annotations.exception(e));
+            reportException(spec);
+        } catch (IllegalAccessException e) {
+            LOG.error(LOG_ERROR, e);
+            keywordCells(row).annotate(Annotations.exception(e));
+            reportException(spec);
+        } catch (NoSuchMessageException e) {
+            LOG.error(LOG_ERROR, e);
+            keywordCells(row).annotate(Annotations.exception(e));
+            reportException(spec);
+        } catch (NullPointerException e) {
             LOG.error(LOG_ERROR, e);
             keywordCells(row).annotate(Annotations.exception(e));
             reportException(spec);

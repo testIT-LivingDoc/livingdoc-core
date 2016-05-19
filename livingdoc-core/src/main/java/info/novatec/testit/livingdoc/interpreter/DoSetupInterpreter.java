@@ -1,16 +1,16 @@
 /**
  * Copyright (c) 2009 Pyxis Technologies inc.
- * 
+ *
  * This is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This software is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 51
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
@@ -29,7 +29,6 @@ import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import info.novatec.testit.livingdoc.reflect.NoSuchMessageException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +44,7 @@ import info.novatec.testit.livingdoc.call.Stub;
 import info.novatec.testit.livingdoc.expectation.ShouldBe;
 import info.novatec.testit.livingdoc.interpreter.flow.dowith.Action;
 import info.novatec.testit.livingdoc.reflect.Fixture;
+import info.novatec.testit.livingdoc.reflect.NoSuchMessageException;
 import info.novatec.testit.livingdoc.util.ExampleUtil;
 
 
@@ -90,7 +90,19 @@ public class DoSetupInterpreter extends AbstractInterpreter {
             boolean doRowWasRight = call.wasRight();
             LOG.trace(EXIT_WITH, doRowWasRight);
             return doRowWasRight;
-        } catch (InvocationTargetException | IllegalAccessException | IllegalArgumentException | NoSuchMessageException e) {
+        } catch (InvocationTargetException e) {
+            LOG.error(LOG_ERROR, e);
+            stats.exception();
+            annotateException(row, e);
+        } catch (IllegalAccessException e) {
+            LOG.error(LOG_ERROR, e);
+            stats.exception();
+            annotateException(row, e);
+        } catch (IllegalArgumentException e) {
+            LOG.error(LOG_ERROR, e);
+            stats.exception();
+            annotateException(row, e);
+        } catch (NoSuchMessageException e) {
             LOG.error(LOG_ERROR, e);
             stats.exception();
             annotateException(row, e);
