@@ -71,21 +71,28 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.8</version>
+				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
-						<phase>validate</phase>
-						<configuration>
-							<tasks>
-								<copy
-									file="${settings.localRepository}/info/novatec/testit/livingdoc-core/${project.version}/livingdoc-core-${project.version}.jar"
-									tofile="src/test/resources/livingdoc-core.jar" />
-							</tasks>
-						</configuration>
+						<id>copy</id>
+						<phase>generate-test-resources</phase>
 						<goals>
-							<goal>run</goal>
+							<goal>copy</goal>
 						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>info.novatec.testit</groupId>
+									<artifactId>livingdoc-core</artifactId>
+									<version>${project.version}</version>
+									<type>jar</type>
+									<outputDirectory>${project.basedir}/src/test/resources</outputDirectory>
+									<destFileName>livingdoc-core.jar</destFileName>
+								</artifactItem>
+							</artifactItems>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -103,30 +110,10 @@
 							<pluginExecutions>
 								<pluginExecution>
 									<pluginExecutionFilter>
-										<groupId>
-											org.apache.maven.plugins
-										</groupId>
-										<artifactId>
-											maven-antrun-plugin
-										</artifactId>
-										<versionRange>
-											[1.8,)
-										</versionRange>
-										<goals>
-											<goal>run</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-								<pluginExecution>
-									<pluginExecutionFilter>
 										<groupId>org.apache.maven.plugins</groupId>
 										<artifactId>maven-plugin-plugin</artifactId>
 										<versionRange>[3.2,)</versionRange>
 										<goals>
-											<goal></goal>
 											<goal>generate-resources</goal>
 										</goals>
 									</pluginExecutionFilter>
@@ -136,15 +123,9 @@
 								</pluginExecution>
 								<pluginExecution>
 									<pluginExecutionFilter>
-										<groupId>
-											org.apache.maven.plugins
-										</groupId>
-										<artifactId>
-											maven-plugin-plugin
-										</artifactId>
-										<versionRange>
-											[3.2,)
-										</versionRange>
+										<groupId>org.apache.maven.plugins</groupId>
+										<artifactId>maven-plugin-plugin</artifactId>
+										<versionRange>[3.2,)</versionRange>
 										<goals>
 											<goal>descriptor</goal>
 										</goals>
