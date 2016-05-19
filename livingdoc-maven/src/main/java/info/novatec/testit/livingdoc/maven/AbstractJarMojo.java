@@ -160,7 +160,13 @@ public abstract class AbstractJarMojo extends AbstractMojo {
             archiver.createArchive(project, archive);
 
             return jarFile;
-        } catch (ArchiverException | DependencyResolutionRequiredException | IOException | ManifestException e) {
+        } catch (ArchiverException e) {
+            throw new MojoExecutionException("Error assembling JAR", e);
+        } catch (DependencyResolutionRequiredException e) {
+            throw new MojoExecutionException("Error assembling JAR", e);
+        } catch (IOException e) {
+            throw new MojoExecutionException("Error assembling JAR", e);
+        } catch (ManifestException e) {
             throw new MojoExecutionException("Error assembling JAR", e);
         }
     }
