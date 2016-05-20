@@ -6,7 +6,6 @@ import static org.mockito.Mockito.doReturn;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.List;
 import java.util.Vector;
 
 import org.apache.xmlrpc.WebServer;
@@ -61,15 +60,15 @@ public class AgentTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testCanExecuteASpecification() throws Exception {
-        List< ? > expected = CollectionUtil.toVector("SPACE", "MyTest", Boolean.FALSE, Boolean.TRUE);
+        Vector< ? > expected = CollectionUtil.toVector("SPACE", "MyTest", Boolean.FALSE, Boolean.TRUE);
         String testSpecification = testContent();
 
-        doReturn(testSpecification).when(handler).getRenderedSpecification("", "", ( Vector< ? > ) expected);
+        doReturn(testSpecification).when(handler).getRenderedSpecification("", "", expected);
 
         XmlRpcClient xmlrpc = new XmlRpcClient("http://localhost:7777");
-        List<Serializable> params = CollectionUtil.toVector(getRunner().marshallize(), getSystemUnderTest().marshallize(),
+        Vector<Serializable> params = CollectionUtil.toVector(getRunner().marshallize(), getSystemUnderTest().marshallize(),
             getSpecification().marshallize(), true, "", "en");
-        List<Object> execParams = ( List<Object> ) xmlrpc.execute("livingdoc-agent1.execute", ( Vector< ? > ) params);
+        Vector<Object> execParams = ( Vector<Object> ) xmlrpc.execute("livingdoc-agent1.execute", params);
         Execution execution = XmlRpcDataMarshaller.toExecution(execParams);
         assertEquals(2, execution.getSuccess());
         assertEquals(0, execution.getErrors());

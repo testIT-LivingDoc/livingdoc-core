@@ -39,6 +39,7 @@ import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.SUT_U
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Vector;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -96,7 +97,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * NO NEEDS TO SECURE THIS
      */
     @Override
-    public String ping(List<Object> repositoryParams) {
+    public String ping(Vector<Object> repositoryParams) {
         try {
             loadRepository(repositoryParams);
 
@@ -110,7 +111,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * NO NEEDS TO SECURE THIS
      */
     @Override
-    public List<Object> getRunner(String name) {
+    public Vector<Object> getRunner(String name) {
         try {
             Runner runner = service.getRunner(name);
 
@@ -125,7 +126,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * NO NEEDS TO SECURE THIS
      */
     @Override
-    public List<Object> getAllRunners() {
+    public Vector<Object> getAllRunners() {
         try {
             List<Runner> runners = service.getAllRunners();
 
@@ -140,7 +141,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * NO NEEDS TO SECURE THIS
      */
     @Override
-    public String createRunner(List<Object> runnerParams) {
+    public String createRunner(Vector<Object> runnerParams) {
         try {
             Runner runner = XmlRpcDataMarshaller.toRunner(runnerParams);
 
@@ -157,7 +158,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * NO NEEDS TO SECURE THIS
      */
     @Override
-    public String updateRunner(String oldRunnerName, List<Object> runnerParams) {
+    public String updateRunner(String oldRunnerName, Vector<Object> runnerParams) {
         try {
             Runner runner = XmlRpcDataMarshaller.toRunner(runnerParams);
 
@@ -189,7 +190,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public List<Object> getRegisteredRepository(List<Object> repositoryParams) {
+    public Vector<Object> getRegisteredRepository(Vector<Object> repositoryParams) {
         try {
             Repository repository = loadRepository(repositoryParams);
 
@@ -205,7 +206,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public List<Object> registerRepository(List<Object> repositoryParams) {
+    public Vector<Object> registerRepository(Vector<Object> repositoryParams) {
         try {
             Repository repository = XmlRpcDataMarshaller.toRepository(repositoryParams);
 
@@ -222,7 +223,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public String updateRepositoryRegistration(List<Object> repositoryParams) {
+    public String updateRepositoryRegistration(Vector<Object> repositoryParams) {
         try {
             Repository repository = XmlRpcDataMarshaller.toRepository(repositoryParams);
 
@@ -254,7 +255,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * NO NEEDS TO SECURE THIS
      */
     @Override
-    public List<Object> getAllProjects() {
+    public Vector<Object> getAllProjects() {
         try {
             List<Project> projects = service.getAllProjects();
 
@@ -269,7 +270,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * NO NEED TO SECURED THIS
      */
     @Override
-    public List<Object> getAllSpecificationRepositories() {
+    public Vector<Object> getAllSpecificationRepositories() {
         try {
             Collection<Repository> repositories = service.getAllSpecificationRepositories();
 
@@ -284,7 +285,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public List<Object> getSpecificationRepositoriesOfAssociatedProject(List<Object> repositoryParams) {
+    public Vector<Object> getSpecificationRepositoriesOfAssociatedProject(Vector<Object> repositoryParams) {
         try {
             Repository repository = loadRepository(repositoryParams);
 
@@ -303,7 +304,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * CANT SECURE
      */
     @Override
-    public List<Object> getAllRepositoriesForSystemUnderTest(List<Object> systemUnderTestParams) {
+    public Vector<Object> getAllRepositoriesForSystemUnderTest(Vector<Object> systemUnderTestParams) {
         try {
             SystemUnderTest sut = XmlRpcDataMarshaller.toSystemUnderTest(systemUnderTestParams);
             Collection<Repository> repositories = service.getAllRepositoriesForSystemUnderTest(sut);
@@ -319,7 +320,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * CANT SECURE
      */
     @Override
-    public List<Object> getSpecificationRepositoriesForSystemUnderTest(List<Object> systemUnderTestParams) {
+    public Vector<Object> getSpecificationRepositoriesForSystemUnderTest(Vector<Object> systemUnderTestParams) {
         try {
             SystemUnderTest sut = XmlRpcDataMarshaller.toSystemUnderTest(systemUnderTestParams);
             Collection<Repository> repositories = service.getSpecificationRepositoriesForSystemUnderTest(sut);
@@ -336,7 +337,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public List<Object> getRequirementRepositoriesOfAssociatedProject(List<Object> repositoryParams) {
+    public Vector<Object> getRequirementRepositoriesOfAssociatedProject(Vector<Object> repositoryParams) {
         try {
             Repository repository = loadRepository(repositoryParams);
 
@@ -354,7 +355,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public List<Object> getSystemUnderTestsOfAssociatedProject(List<Object> repositoryParams) {
+    public Vector<Object> getSystemUnderTestsOfAssociatedProject(Vector<Object> repositoryParams) {
         try {
             Repository repository = loadRepository(repositoryParams);
 
@@ -371,7 +372,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * NO NEEDS TO SECURE THIS
      */
     @Override
-    public List<Object> getSystemUnderTestsOfProject(String projectName) {
+    public Vector<Object> getSystemUnderTestsOfProject(String projectName) {
         try {
             Collection<SystemUnderTest> suts = service.getSystemUnderTestsOfProject(projectName);
 
@@ -386,7 +387,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public String addSpecificationSystemUnderTest(List<Object> systemUnderTestParams, List<Object> specificationParams) {
+    public String addSpecificationSystemUnderTest(Vector<Object> systemUnderTestParams, Vector<Object> specificationParams) {
         try {
             Specification specification = XmlRpcDataMarshaller.toSpecification(specificationParams);
 
@@ -404,7 +405,8 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public String removeSpecificationSystemUnderTest(List<Object> systemUnderTestParams, List<Object> specificationParams) {
+    public String removeSpecificationSystemUnderTest(Vector<Object> systemUnderTestParams,
+        Vector<Object> specificationParams) {
         try {
             Specification specification = XmlRpcDataMarshaller.toSpecification(specificationParams);
 
@@ -423,7 +425,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * NO NEEDS TO SECURE THIS
      */
     @Override
-    public String doesSpecificationHasReferences(List<Object> specificationParams) {
+    public String doesSpecificationHasReferences(Vector<Object> specificationParams) {
         try {
             Specification specification = XmlRpcDataMarshaller.toSpecification(specificationParams);
             boolean hasReferences = service.doesSpecificationHasReferences(specification);
@@ -439,7 +441,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public List<Object> getSpecificationReferences(List<Object> specificationParams) {
+    public Vector<Object> getSpecificationReferences(Vector<Object> specificationParams) {
         try {
             Specification specification = XmlRpcDataMarshaller.toSpecification(specificationParams);
 
@@ -456,7 +458,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * NO NEEDS TO SECURE THIS
      */
     @Override
-    public String doesRequirementHasReferences(List<Object> requirementParams) {
+    public String doesRequirementHasReferences(Vector<Object> requirementParams) {
         try {
             Requirement requirement = XmlRpcDataMarshaller.toRequirement(requirementParams);
             boolean hasReferences = service.doesRequirementHasReferences(requirement);
@@ -472,7 +474,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public List<Object> getRequirementReferences(List<Object> requirementParams) {
+    public Vector<Object> getRequirementReferences(Vector<Object> requirementParams) {
         try {
             Requirement requirement = XmlRpcDataMarshaller.toRequirement(requirementParams);
 
@@ -490,7 +492,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public List<Object> getRequirementSummary(List<Object> requirementParams) {
+    public Vector<Object> getRequirementSummary(Vector<Object> requirementParams) {
         try {
             Requirement requirement = XmlRpcDataMarshaller.toRequirement(requirementParams);
 
@@ -507,7 +509,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public List<Object> getReference(List<Object> referenceParams) {
+    public Vector<Object> getReference(Vector<Object> referenceParams) {
         try {
             Reference reference = XmlRpcDataMarshaller.toReference(referenceParams);
 
@@ -529,7 +531,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public List<Object> getSystemUnderTest(List<Object> systemUnderTestParams, List<Object> repositoryParams) {
+    public Vector<Object> getSystemUnderTest(Vector<Object> systemUnderTestParams, Vector<Object> repositoryParams) {
         try {
             Repository repository = loadRepository(repositoryParams);
 
@@ -548,7 +550,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public String createSystemUnderTest(List<Object> systemUnderTestParams, List<Object> repositoryParams) {
+    public String createSystemUnderTest(Vector<Object> systemUnderTestParams, Vector<Object> repositoryParams) {
         try {
             Repository repository = loadRepository(repositoryParams);
 
@@ -567,8 +569,8 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public String updateSystemUnderTest(String oldSystemUnderTestName, List<Object> systemUnderTestParams,
-        List<Object> repositoryParams) {
+    public String updateSystemUnderTest(String oldSystemUnderTestName, Vector<Object> systemUnderTestParams,
+        Vector<Object> repositoryParams) {
         try {
             Repository repository = loadRepository(repositoryParams);
 
@@ -587,7 +589,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public String removeSystemUnderTest(List<Object> systemUnderTestParams, List<Object> repositoryParams) {
+    public String removeSystemUnderTest(Vector<Object> systemUnderTestParams, Vector<Object> repositoryParams) {
         try {
             Repository repository = loadRepository(repositoryParams);
 
@@ -606,7 +608,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public String setSystemUnderTestAsDefault(List<Object> systemUnderTestParams, List<Object> repositoryParams) {
+    public String setSystemUnderTestAsDefault(Vector<Object> systemUnderTestParams, Vector<Object> repositoryParams) {
         try {
             Repository repository = loadRepository(repositoryParams);
 
@@ -625,7 +627,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * NOT SECURED FOR SYNCHRONIZATION PURPOSES
      */
     @Override
-    public String removeRequirement(List<Object> requirementParams) {
+    public String removeRequirement(Vector<Object> requirementParams) {
         try {
             Requirement requirement = XmlRpcDataMarshaller.toRequirement(requirementParams);
 
@@ -642,7 +644,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * NO NEEDS TO SECURE THIS
      */
     @Override
-    public List<Object> getSpecification(List<Object> specificationParams) {
+    public Vector<Object> getSpecification(Vector<Object> specificationParams) {
         try {
             Specification specification = XmlRpcDataMarshaller.toSpecification(specificationParams);
 
@@ -662,7 +664,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public List<Object> getSpecifications(List<Object> systemUnderTestParams, List<Object> repositoryParams) {
+    public Vector<Object> getSpecifications(Vector<Object> systemUnderTestParams, Vector<Object> repositoryParams) {
         try {
             Repository repository = loadRepository(repositoryParams);
 
@@ -681,7 +683,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public List<Object> getListOfSpecificationLocations(String repositoryUID, String systemUnderTestName) {
+    public Vector<Object> getListOfSpecificationLocations(String repositoryUID, String systemUnderTestName) {
         try {
             Repository repository = service.getRepository(repositoryUID, null);
 
@@ -700,7 +702,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public List<Object> getSpecificationHierarchy(List<Object> repositoryParams, List<Object> sutParams) {
+    public Vector<Object> getSpecificationHierarchy(Vector<Object> repositoryParams, Vector<Object> sutParams) {
         try {
             Repository repository = loadRepository(repositoryParams);
             SystemUnderTest systemUnderTest = XmlRpcDataMarshaller.toSystemUnderTest(sutParams);
@@ -717,7 +719,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public List<Object> createSpecification(List<Object> specificationParams) {
+    public Vector<Object> createSpecification(Vector<Object> specificationParams) {
         try {
             Specification specification = XmlRpcDataMarshaller.toSpecification(specificationParams);
 
@@ -734,7 +736,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * NOT SECURED FOR SYNCHRONIZATION PURPOSES
      */
     @Override
-    public String updateSpecification(List<Object> oldSpecificationParams, List<Object> newSpecificationParams) {
+    public String updateSpecification(Vector<Object> oldSpecificationParams, Vector<Object> newSpecificationParams) {
         try {
             Specification oldSpecification = XmlRpcDataMarshaller.toSpecification(oldSpecificationParams);
             Specification newSpecification = XmlRpcDataMarshaller.toSpecification(newSpecificationParams);
@@ -752,7 +754,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * NOT SECURED FOR SYNCHRONIZATION PURPOSES
      */
     @Override
-    public String removeSpecification(List<Object> specificationParams) {
+    public String removeSpecification(Vector<Object> specificationParams) {
         try {
             Specification specification = XmlRpcDataMarshaller.toSpecification(specificationParams);
 
@@ -769,7 +771,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public String createReference(List<Object> referenceParams) {
+    public String createReference(Vector<Object> referenceParams) {
         try {
             Reference reference = XmlRpcDataMarshaller.toReference(referenceParams);
 
@@ -787,7 +789,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public List<Object> updateReference(List<Object> oldReferenceParams, List<Object> newReferenceParams) {
+    public Vector<Object> updateReference(Vector<Object> oldReferenceParams, Vector<Object> newReferenceParams) {
         try {
             Reference oldReference = XmlRpcDataMarshaller.toReference(oldReferenceParams);
 
@@ -808,7 +810,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public String removeReference(List<Object> referenceParams) {
+    public String removeReference(Vector<Object> referenceParams) {
         try {
             Reference reference = XmlRpcDataMarshaller.toReference(referenceParams);
 
@@ -827,7 +829,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public List<Object> runSpecification(List<Object> systemUnderTestParams, List<Object> specificationParams,
+    public Vector<Object> runSpecification(Vector<Object> systemUnderTestParams, Vector<Object> specificationParams,
         boolean implementedVersion, String locale) {
         try {
             SystemUnderTest systemUnderTest = XmlRpcDataMarshaller.toSystemUnderTest(systemUnderTestParams);
@@ -846,7 +848,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
      * SECURED
      */
     @Override
-    public List<Object> runReference(List<Object> referenceParams, String locale) {
+    public Vector<Object> runReference(Vector<Object> referenceParams, String locale) {
         try {
             Reference reference = XmlRpcDataMarshaller.toReference(referenceParams);
 
@@ -861,7 +863,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
         }
     }
 
-    private Repository loadRepository(List<Object> repositoryParams) throws LivingDocServerException {
+    private Repository loadRepository(Vector<Object> repositoryParams) throws LivingDocServerException {
         return loadRepository(XmlRpcDataMarshaller.toRepository(repositoryParams));
     }
 
@@ -869,7 +871,7 @@ public class LivingDocXmlRpcServer implements RpcServerService {
         return service.getRepository(repo.getUid(), repo.getMaxUsers());
     }
 
-    private List<Object> errorAsVector(Exception e, String id) {
+    private Vector<Object> errorAsVector(Exception e, String id) {
         if (e != null) {
             log.info(e.getMessage());
             log.debug(e.getMessage(), e);
