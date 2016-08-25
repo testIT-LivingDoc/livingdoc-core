@@ -53,7 +53,6 @@
 	<modules>
 		<module>livingdoc-core</module>
 		<module>livingdoc-client</module>
-		<module>livingdoc-server</module>
 		<module>livingdoc-plugin</module>
 		<module>livingdoc-samples</module>
 		<module>livingdoc-cli</module>
