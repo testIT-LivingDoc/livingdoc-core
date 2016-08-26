@@ -26,11 +26,6 @@
 			<version>${project.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>info.novatec.testit</groupId>
-			<artifactId>livingdoc-server</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.apache.maven.plugins</groupId>

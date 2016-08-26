@@ -22,7 +22,7 @@
 
 		<dependency>
 			<groupId>info.novatec.testit</groupId>
-			<artifactId>livingdoc-server</artifactId>
+			<artifactId>livingdoc-client</artifactId>
 			<version>${project.version}</version>
 			<!-- Make sure we are only using xmlrpc v2 (compatible with confluence) -->
 			<exclusions>
