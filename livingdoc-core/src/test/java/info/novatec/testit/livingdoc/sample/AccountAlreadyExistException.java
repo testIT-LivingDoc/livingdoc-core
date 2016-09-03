@@ -16,20 +16,16 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
  * http://www.fsf.org.
  */
-package info.novatec.testit.livingdoc.interpreter.flow.scenario;
+package info.novatec.testit.livingdoc.sample;
 
-import info.novatec.testit.livingdoc.converter.AbstractTypeConverter;
-
-
-public class OwnerTypeConverter extends AbstractTypeConverter {
-    @Override
-    public boolean canConvertTo(Class< ? > type) {
-        return Owner.class.isAssignableFrom(type);
+@SuppressWarnings("serial")
+public class AccountAlreadyExistException extends AccountException {
+    public AccountAlreadyExistException(String number) {
+        super(number);
     }
 
     @Override
-    protected Object doConvert(String value) {
-        String[] names = value.split("\\s");
-        return new Owner(names[0], names.length > 1 ? names[1] : null);
+    public String getMessage() {
+        return String.format("Account '%s' already exist", getNumber());
     }
 }

@@ -75,7 +75,13 @@ public final class HeaderForm {
         LOG.debug(EXIT_WITH, isSaved);
         return isSaved;
     }
-
+    
+    public boolean isIgnored(){
+        LOG.debug(ENTRY);
+        boolean isIgnored = header().startsWith("*");
+        LOG.debug(EXIT_WITH, isIgnored);
+        return isIgnored;
+    }
     public boolean isRecalled() {
         LOG.debug(ENTRY);
         boolean isRecalled = header().startsWith("=");
@@ -92,7 +98,7 @@ public final class HeaderForm {
 
     public Column selectColumn(Fixture fixture) throws NoSuchMessageException {
         LOG.debug(ENTRY_WITH, fixture.toString());
-        if (isNull()) {
+        if (isNull() || isIgnored()) {
             NullColumn nullColumn = new NullColumn();
             LOG.debug(EXIT_WITH, nullColumn.toString());
             return nullColumn;

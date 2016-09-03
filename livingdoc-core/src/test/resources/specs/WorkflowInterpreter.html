@@ -1,0 +1,143 @@
+<html>
+<body>
+	<h1>Workflow interpreter</h1>
+
+	<h2>Testing a Workflow on a system</h2>
+
+	Let's walk through a simple example of a test using a Given When Then flow style
+	interpreter.
+
+	<div>
+		<p>First, we need to import the package containing the fixture
+			code for our banking application.</p>
+		<table border="1" >
+			<tr>
+				<td>import</td>
+			</tr>
+			<tr>
+				<td>info.novatec.testit.livingdoc.interpreter.flow.workflow</td>
+			</tr>
+		</table>
+	</div>
+
+	<div>
+		<p>
+			We'll  use the <code>WorkflowInterpreter</code>
+
+		</p>
+
+		<TABLE border="1" >
+			<TR>
+				<td>Workflow</td>
+				<td>Testing the Workflow interpreter</td>
+			</TR>
+		</table>
+		<p>
+		we <b>arrange</b> the scnenario  context using <code>Given</code> keyword.<br/>
+			The method behind it should return a boolean.
+		</p>
+		<TABLE border="1" >
+			<tr>
+				<td>Given</td>
+				<td>a method returning true with one parameter</td>
+				<td>parameter</td>
+			</tr>
+		</TABLE>
+
+		<p>
+			We define the <b>action</b> using the <code>When</code> keyword. <br/>
+			The method behind it should return a boolean.
+		</p>
+
+		<table border="1" >
+			<tr>
+				<td>When</td>
+				<td>a method returning true</td>
+			</tr>
+		</table>
+		<p>
+			We verify the <b>result</b> using the <code>check</code> or  <code>check that</code> keyword. <br/>
+			The method behind it should return a value written in the last cell of the row that would be asserted by LivingDoc.
+		</p>
+		<table border="1" >
+		
+			<tr>
+				<td>check that</td>
+				<td>the method returns a value of</td>
+				<td>12345</td>
+			</tr>
+			<tr> 
+				<td>check</td>
+				<td>the method returns a value of</td>
+				<td>12345</td>
+			</tr>
+		</table>
+		<p>
+			We could also verify <b>result</b> using the <code>Then</code> or  <code>And</code> keywords. <br/>
+			The method behind it should return a boolean.
+		</p>
+		<table border="1" >
+		
+			<tr>
+				<td>Then</td>
+				<td>a method returning true</td>
+			</tr>
+			<tr>
+				<td>And</td>
+				<td>a method returning true</td>
+			</tr>
+		</table>
+		<p>
+			To check a negative test (returning false) use the keyword <code>And not that</code>
+		</p>
+		<table border="1" >
+		
+			<tr>
+				<td>And not that</td>
+				<td>a method returning false</td>
+			</tr>
+			
+		</table>
+		<p>
+			To embed another interpreter type define a method returning a fixtire of that interpreter  <code>And not that</code>
+		</p>
+		<TABLE border="1" >
+			<TR>
+				<td>Decision Table</td>
+				<td>an embedded decision table</td>
+			</TR>
+			<tr>
+				<td>*Must be ignored</td>
+				<td>input 1</td>
+				<td>input 2</td>
+				<td>Expected 1?</td>
+				<td>Expected 2?</td>
+			</tr>
+			<tr>
+				<td>to be ignored</td>
+				<td>1</td>
+				<td>2</td>
+				<td>1</td>
+				<td> 2</td>
+			</tr>
+			<tr>
+				<td>to be ignored</td>
+				<td>100</td>
+				<td>200</td>
+				<td> 100</td>
+				<td>200</td>
+			</tr>
+		</table>
+		<p>
+			To mark the end of the workflow write a one cell table with "END"
+		</p>
+		<table border="1" >
+		
+			<tr>
+				<td>End</td>
+			</tr>
+			
+		</table>
+	</div>
+</body>
+</html>

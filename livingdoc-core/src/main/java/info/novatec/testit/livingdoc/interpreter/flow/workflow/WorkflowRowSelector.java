@@ -1,4 +1,4 @@
-package info.novatec.testit.livingdoc.interpreter.flow.dowith;
+package info.novatec.testit.livingdoc.interpreter.flow.workflow;
 
 import static info.novatec.testit.livingdoc.LivingDoc.isAnInterpreter;
 import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
@@ -14,22 +14,21 @@ import info.novatec.testit.livingdoc.annotation.Annotations;
 import info.novatec.testit.livingdoc.interpreter.flow.InterpretRow;
 import info.novatec.testit.livingdoc.interpreter.flow.Row;
 import info.novatec.testit.livingdoc.interpreter.flow.RowSelector;
-import info.novatec.testit.livingdoc.interpreter.flow.workflow.DefaultRow;
 import info.novatec.testit.livingdoc.reflect.Fixture;
 import info.novatec.testit.livingdoc.reflect.Type;
 import info.novatec.testit.livingdoc.reflect.TypeLoader;
 import info.novatec.testit.livingdoc.util.AliasLoader;
 import info.novatec.testit.livingdoc.util.ExampleUtil;
 
-@Deprecated
-public class DoWithRowSelector implements RowSelector {
-    private static final Logger LOG = LoggerFactory.getLogger(DoWithRowSelector.class);
+
+public class WorkflowRowSelector implements RowSelector {
+    private static final Logger LOG = LoggerFactory.getLogger(WorkflowRowSelector.class);
 
     protected final Fixture fixture;
 
     private TypeLoader<Row> typeLoader;
 
-    public DoWithRowSelector(Fixture fixture) {
+    public WorkflowRowSelector(Fixture fixture) {
         this.fixture = fixture;
         this.typeLoader = new TypeLoaderChain<Row>(Row.class);
         searchPackage(getClass().getPackage().getName());
