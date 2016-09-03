@@ -26,7 +26,7 @@ import info.novatec.testit.livingdoc.interpreter.flow.AbstractAction;
 import info.novatec.testit.livingdoc.util.CollectionUtil;
 import info.novatec.testit.livingdoc.util.ExampleUtil;
 
-
+@Deprecated
 public class Action extends AbstractAction {
     public Action(Iterable<String> cells) {
         super(cells);

@@ -19,6 +19,7 @@ import info.novatec.testit.livingdoc.reflect.Fixture;
 import info.novatec.testit.livingdoc.util.ExampleUtil;
 
 
+@Deprecated
 public class ActionRow extends AbstractRow {
     private static final Logger LOG = LoggerFactory.getLogger(ActionRow.class);
 

@@ -35,7 +35,7 @@ import info.novatec.testit.livingdoc.reflect.Fixture;
 import info.novatec.testit.livingdoc.util.CollectionUtil;
 import info.novatec.testit.livingdoc.util.ExampleUtil;
 
-
+@Deprecated
 public class CheckRow extends AbstractRow {
     private static final Logger LOG = LoggerFactory.getLogger(CheckRow.class);
 

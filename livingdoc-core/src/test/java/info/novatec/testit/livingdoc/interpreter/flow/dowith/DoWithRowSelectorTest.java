@@ -13,6 +13,7 @@ import info.novatec.testit.livingdoc.Example;
 import info.novatec.testit.livingdoc.Specification;
 import info.novatec.testit.livingdoc.document.FakeSpecification;
 import info.novatec.testit.livingdoc.interpreter.flow.Row;
+import info.novatec.testit.livingdoc.interpreter.flow.workflow.DefaultRow;
 import info.novatec.testit.livingdoc.reflect.PlainOldFixture;
 import info.novatec.testit.livingdoc.util.Rows;
 
@@ -43,7 +44,7 @@ public class DoWithRowSelectorTest {
 
     @Test
     public void testSearchesForRowClassInIncludedPackages() {
-        Rows rows = Rows.parse("[RejectRow]");
+        Rows rows = Rows.parse("[AndNotThatRow]");
         selector.searchPackage(packageName(RejectRow.class));
         Row row = selector.select(rows);
         assertThat(row, is(instanceOf(RejectRow.class)));
@@ -59,7 +60,7 @@ public class DoWithRowSelectorTest {
 
     @Test
     public void testThatDefaultRowPackageIsIncludedByDefault() {
-        Rows rows = Rows.parse("[RejectRow]");
+        Rows rows = Rows.parse("[AndNotThatRow]");
         Row row = selector.select(rows);
         assertThat(row, is(instanceOf(RejectRow.class)));
     }

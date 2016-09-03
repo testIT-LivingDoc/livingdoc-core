@@ -35,6 +35,7 @@ import info.novatec.testit.livingdoc.util.ExampleUtil;
 import info.novatec.testit.livingdoc.util.ExampleWrapper;
 
 
+@Deprecated
 public class InterpretRow extends AbstractRow {
     public InterpretRow(Fixture fixture) {
         super(fixture);

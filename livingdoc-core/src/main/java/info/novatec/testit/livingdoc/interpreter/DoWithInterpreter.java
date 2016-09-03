@@ -32,6 +32,7 @@ import info.novatec.testit.livingdoc.interpreter.flow.dowith.DoWithRowSelector;
 import info.novatec.testit.livingdoc.reflect.Fixture;
 
 
+@Deprecated
 public class DoWithInterpreter extends AbstractFlowInterpreter {
     private static final Logger LOG = LoggerFactory.getLogger(DoWithInterpreter.class);
 

@@ -13,13 +13,14 @@ import info.novatec.testit.livingdoc.TypeLoaderChain;
 import info.novatec.testit.livingdoc.annotation.Annotations;
 import info.novatec.testit.livingdoc.interpreter.flow.Row;
 import info.novatec.testit.livingdoc.interpreter.flow.RowSelector;
+import info.novatec.testit.livingdoc.interpreter.flow.workflow.DefaultRow;
 import info.novatec.testit.livingdoc.reflect.Fixture;
 import info.novatec.testit.livingdoc.reflect.Type;
 import info.novatec.testit.livingdoc.reflect.TypeLoader;
 import info.novatec.testit.livingdoc.util.AliasLoader;
 import info.novatec.testit.livingdoc.util.ExampleUtil;
 
-
+@Deprecated
 public class DoWithRowSelector implements RowSelector {
     private static final Logger LOG = LoggerFactory.getLogger(DoWithRowSelector.class);
 

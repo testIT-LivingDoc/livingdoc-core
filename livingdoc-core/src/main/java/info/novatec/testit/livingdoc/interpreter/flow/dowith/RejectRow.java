@@ -39,6 +39,7 @@ import info.novatec.testit.livingdoc.util.CollectionUtil;
 import info.novatec.testit.livingdoc.util.ExampleUtil;
 
 
+@Deprecated
 public class RejectRow extends AbstractRow {
     private static final Logger LOG = LoggerFactory.getLogger(RejectRow.class);
 
