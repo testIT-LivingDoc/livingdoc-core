@@ -1,9 +1,9 @@
-package info.novatec.testit.livingdoc.interpreter.flow.dowith;
+package info.novatec.testit.livingdoc.interpreter.flow.workflow;
 
 import info.novatec.testit.livingdoc.Specification;
 import info.novatec.testit.livingdoc.interpreter.flow.Row;
 
-@Deprecated
+
 public class SkipRow implements Row {
 
     @Override

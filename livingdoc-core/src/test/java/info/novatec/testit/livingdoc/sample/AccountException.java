@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008 Pyxis Technologies inc.
+ * Copyright (c) 2009 Pyxis Technologies inc.
  * 
  * This is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
@@ -16,22 +16,17 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
  * http://www.fsf.org.
  */
-package info.novatec.testit.livingdoc.interpreter.flow.scenario;
+package info.novatec.testit.livingdoc.sample;
 
 @SuppressWarnings("serial")
-public class NoSuchAccountException extends Exception {
+public class AccountException extends Exception {
     private final String number;
 
-    public NoSuchAccountException(String number) {
+    public AccountException(String number) {
         this.number = number;
     }
 
     public String getNumber() {
         return number;
-    }
-
-    @Override
-    public String getMessage() {
-        return "Account does not exist: " + number;
     }
 }

@@ -5,6 +5,7 @@ import info.novatec.testit.livingdoc.interpreter.flow.action.ActionRowSelector;
 import info.novatec.testit.livingdoc.reflect.Fixture;
 
 
+@Deprecated
 public class ActionInterpreter extends AbstractFlowInterpreter {
     public ActionInterpreter(Fixture fixture) {
         super(fixture);

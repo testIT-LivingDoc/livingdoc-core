@@ -1,22 +1,24 @@
-package info.novatec.testit.livingdoc.runner;
+package info.novatec.testit.livingdoc.interpreter;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import info.novatec.testit.livingdoc.document.Document;
+import info.novatec.testit.livingdoc.Interpreter;
 import info.novatec.testit.livingdoc.document.LivingDocInterpreterSelector;
 import info.novatec.testit.livingdoc.report.FileReportGenerator;
 import info.novatec.testit.livingdoc.repository.FileSystemRepository;
+import info.novatec.testit.livingdoc.runner.DocumentRunner;
+import info.novatec.testit.livingdoc.runner.RecorderMonitor;
 import info.novatec.testit.livingdoc.systemunderdevelopment.DefaultSystemUnderDevelopment;
 import info.novatec.testit.livingdoc.util.URIUtil;
 
 
-public class DocumentRunnerTest {
+public class HtmlFileBasedInterpreterTest {
     private File specificationDirectory = null;
 
     @Before
@@ -28,24 +30,33 @@ public class DocumentRunnerTest {
     }
 
     @Test
-    public void testCallsBackOnSystemUnderDevelopmentOnStartAndEndOfDocumentExecution() {
+    public void testWorkflowInterpreter(){
+        testInterpreter(WorkflowInterpreter.class, 11);
+    }
+    @Test
+    public void testDecisionTableInterpreter(){
+        testInterpreter(DecisionTableInterpreter.class, 4);
+    }
+    private void testInterpreter(Class<? extends Interpreter> interpreterType, int expectedRightCount) {
         DocumentRunner runner = new DocumentRunner();
-
-        FakeSystemUnderDevelopment sud = new FakeSystemUnderDevelopment();
-
+        RecorderMonitor recorderMonitor = new RecorderMonitor();
         runner.setInterpreterSelector(LivingDocInterpreterSelector.class);
-        runner.setSystemUnderDevelopment(sud);
+        runner.setSystemUnderDevelopment(new DefaultSystemUnderDevelopment());
         runner.setSections();
         runner.setReportGenerator(new FileReportGenerator(specificationDirectory));
         runner.setRepository(new FileSystemRepository(specificationDirectory));
-
-        runner.run("specs/ABankSample.html", "specs/ABankSample.out.html");
-        assertTrue(sud.onStartDocumentHasBeenCalled);
-        assertTrue(sud.onEndDocumentHasBeenCalled);
+        runner.setMonitor(recorderMonitor);
+        runner.run("specs/"+interpreterType.getSimpleName()+".html", "specs/"+interpreterType.getSimpleName()+".out.html");
+        assertNotNull(recorderMonitor.getStatistics());
+        assertEquals(0, recorderMonitor.getStatistics().exceptionCount());
+        assertEquals(0,recorderMonitor.getStatistics().ignoredCount());
+        assertEquals(0,recorderMonitor.getStatistics().wrongCount());
+        assertEquals(expectedRightCount, recorderMonitor.getStatistics().rightCount());
+         
     }
 
     private String getRessource(String name) {
-        return DocumentRunnerTest.class.getResource(name).getPath();
+        return HtmlFileBasedInterpreterTest.class.getResource(name).getPath();
     }
 
     private File findSpecsDirectory(File root) {
@@ -62,20 +73,5 @@ public class DocumentRunnerTest {
         return null;
     }
 
-    private static class FakeSystemUnderDevelopment extends DefaultSystemUnderDevelopment {
-        public boolean onStartDocumentHasBeenCalled = false;
-        public boolean onEndDocumentHasBeenCalled = false;
-
-       
-
-        @Override
-        public void onEndDocument(Document document) {
-            onEndDocumentHasBeenCalled = true;
-        }
-
-        @Override
-        public void onStartDocument(Document document) {
-            onStartDocumentHasBeenCalled = true;
-        }
-    }
+   
 }

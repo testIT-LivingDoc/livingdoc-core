@@ -16,7 +16,7 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
  * http://www.fsf.org.
  */
-package info.novatec.testit.livingdoc.interpreter.flow.scenario;
+package info.novatec.testit.livingdoc.sample;
 
 import java.util.EnumMap;
 

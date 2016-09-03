@@ -15,7 +15,7 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
  * http://www.fsf.org. */
 
-package info.novatec.testit.livingdoc.interpreter.flow.dowith;
+package info.novatec.testit.livingdoc.interpreter.flow;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -27,7 +27,6 @@ import info.novatec.testit.livingdoc.Example;
 import info.novatec.testit.livingdoc.Specification;
 import info.novatec.testit.livingdoc.document.Document;
 import info.novatec.testit.livingdoc.document.LivingDocInterpreterSelector;
-import info.novatec.testit.livingdoc.interpreter.flow.AbstractRow;
 import info.novatec.testit.livingdoc.reflect.Fixture;
 import info.novatec.testit.livingdoc.systemunderdevelopment.DefaultSystemUnderDevelopment;
 import info.novatec.testit.livingdoc.systemunderdevelopment.SystemUnderDevelopment;

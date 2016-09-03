@@ -1,25 +1,7 @@
-/* Copyright (c) 2006 Pyxis Technologies inc.
- *
- * This is free software; you can redistribute it and/or modify it under the
- * terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- *
- * This software is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
- * http://www.fsf.org. */
-
-package info.novatec.testit.livingdoc.interpreter.flow.dowith;
+package info.novatec.testit.livingdoc.interpreter.flow.workflow;
 
 import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -37,7 +19,7 @@ import info.novatec.testit.livingdoc.reflect.Fixture;
 import info.novatec.testit.livingdoc.util.CollectionUtil;
 import info.novatec.testit.livingdoc.util.ExampleUtil;
 
-@Deprecated
+
 public class CheckRow extends AbstractRow {
     private static final Logger LOG = LoggerFactory.getLogger(CheckRow.class);
 
@@ -64,11 +46,7 @@ public class CheckRow extends AbstractRow {
             call.will(Annotate.exception(CollectionUtil.first(keywordCells(row)))).when(ResultIs.exception());
             call.will(tallyStatistics(table));
             call.execute();
-        } catch (InvocationTargetException e) {
-            LOG.error(LOG_ERROR, e);
-            reportException(table);
-            CollectionUtil.first(keywordCells(row)).annotate(Annotations.exception(e));
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
             LOG.error(LOG_ERROR, e);
             reportException(table);
             CollectionUtil.first(keywordCells(row)).annotate(Annotations.exception(e));

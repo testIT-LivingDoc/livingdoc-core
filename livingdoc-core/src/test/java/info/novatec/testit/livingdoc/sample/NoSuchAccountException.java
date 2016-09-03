@@ -16,17 +16,22 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
  * http://www.fsf.org.
  */
-package info.novatec.testit.livingdoc.interpreter.flow.scenario;
+package info.novatec.testit.livingdoc.sample;
 
-public class SavingsAccount extends BankAccount {
-    public SavingsAccount(String number, Owner owner) {
-        super(AccountType.SAVINGS, number, owner);
+@SuppressWarnings("serial")
+public class NoSuchAccountException extends Exception {
+    private final String number;
+
+    public NoSuchAccountException(String number) {
+        this.number = number;
+    }
+
+    public String getNumber() {
+        return number;
     }
 
     @Override
-    public void checkFunds(Money amount) throws Exception {
-        if (getBalance().lowerThan(amount)) {
-            throw new Exception("Not enougth money !");
-        }
+    public String getMessage() {
+        return "Account does not exist: " + number;
     }
 }

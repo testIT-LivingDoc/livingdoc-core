@@ -39,13 +39,13 @@ import org.mockito.ArgumentCaptor;
 
 import info.novatec.testit.livingdoc.Statistics;
 import info.novatec.testit.livingdoc.document.FakeSpecification;
-import info.novatec.testit.livingdoc.interpreter.flow.scenario.AccountAlreadyExistException;
-import info.novatec.testit.livingdoc.interpreter.flow.scenario.Bank;
 import info.novatec.testit.livingdoc.interpreter.flow.scenario.BankFixture;
 import info.novatec.testit.livingdoc.interpreter.flow.scenario.Expectation;
-import info.novatec.testit.livingdoc.interpreter.flow.scenario.Money;
-import info.novatec.testit.livingdoc.interpreter.flow.scenario.Owner;
 import info.novatec.testit.livingdoc.reflect.PlainOldFixture;
+import info.novatec.testit.livingdoc.sample.AccountAlreadyExistException;
+import info.novatec.testit.livingdoc.sample.Bank;
+import info.novatec.testit.livingdoc.sample.Money;
+import info.novatec.testit.livingdoc.sample.Owner;
 import info.novatec.testit.livingdoc.util.Tables;
 
 
