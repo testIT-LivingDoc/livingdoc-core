@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2008 Pyxis Technologies inc.
+ * Copyright (c) 2009 Pyxis Technologies inc.
  * 
  * This is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
@@ -16,19 +16,20 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
  * http://www.fsf.org.
  */
-package info.novatec.testit.livingdoc.interpreter.flow.scenario;
+package info.novatec.testit.livingdoc.sample;
 
-public enum WithdrawType {
-    ATM ( "ATM" ), INTERAC ( "Interact" ), PERSONAL_CHECK ( "Personal Check" );
+import info.novatec.testit.livingdoc.converter.AbstractTypeConverter;
 
-    private final String description;
 
-    private WithdrawType(String description) {
-        this.description = description;
+public class OwnerTypeConverter extends AbstractTypeConverter {
+    @Override
+    public boolean canConvertTo(Class< ? > type) {
+        return Owner.class.isAssignableFrom(type);
     }
 
     @Override
-    public String toString() {
-        return description;
+    protected Object doConvert(String value) {
+        String[] names = value.split("\\s");
+        return new Owner(names[0], names.length > 1 ? names[1] : null);
     }
 }

@@ -34,11 +34,13 @@ import info.novatec.testit.livingdoc.call.Annotate;
 import info.novatec.testit.livingdoc.call.ResultIs;
 import info.novatec.testit.livingdoc.expectation.ShouldBe;
 import info.novatec.testit.livingdoc.interpreter.flow.AbstractRow;
+import info.novatec.testit.livingdoc.interpreter.flow.Action;
 import info.novatec.testit.livingdoc.reflect.Fixture;
 import info.novatec.testit.livingdoc.util.CollectionUtil;
 import info.novatec.testit.livingdoc.util.ExampleUtil;
 
 
+@Deprecated
 public class RejectRow extends AbstractRow {
     private static final Logger LOG = LoggerFactory.getLogger(RejectRow.class);
 

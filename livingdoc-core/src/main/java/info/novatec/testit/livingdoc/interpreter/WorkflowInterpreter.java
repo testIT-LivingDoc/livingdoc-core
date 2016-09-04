@@ -28,20 +28,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import info.novatec.testit.livingdoc.interpreter.flow.AbstractFlowInterpreter;
-import info.novatec.testit.livingdoc.interpreter.flow.dowith.DoWithRowSelector;
+import info.novatec.testit.livingdoc.interpreter.flow.workflow.WorkflowRowSelector;
 import info.novatec.testit.livingdoc.reflect.Fixture;
 
 
-@Deprecated
-public class DoWithInterpreter extends AbstractFlowInterpreter {
-    private static final Logger LOG = LoggerFactory.getLogger(DoWithInterpreter.class);
+public class WorkflowInterpreter extends AbstractFlowInterpreter {
+    private static final Logger LOG = LoggerFactory.getLogger(WorkflowInterpreter.class);
 
     private static final Collection<String> suffixes = Collections.synchronizedCollection(new ArrayList<String>());
     private static final Collection<String> packages = Collections.synchronizedCollection(new ArrayList<String>());
 
-    public DoWithInterpreter(Fixture fixture) {
+    public WorkflowInterpreter(Fixture fixture) {
         super(fixture);
-        DoWithRowSelector selector = new DoWithRowSelector(fixture);
+        WorkflowRowSelector selector = new WorkflowRowSelector(fixture);
         selector.addSuffixes(suffixes);
         selector.addPackages(packages);
         setRowSelector(selector);

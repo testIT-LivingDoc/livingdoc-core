@@ -21,9 +21,9 @@ package info.novatec.testit.livingdoc.interpreter.flow.scenario;
 import static info.novatec.testit.livingdoc.LivingDoc.isAnInterpreter;
 
 import info.novatec.testit.livingdoc.Example;
+import info.novatec.testit.livingdoc.interpreter.flow.InterpretRow;
 import info.novatec.testit.livingdoc.interpreter.flow.Row;
 import info.novatec.testit.livingdoc.interpreter.flow.RowSelector;
-import info.novatec.testit.livingdoc.interpreter.flow.dowith.InterpretRow;
 import info.novatec.testit.livingdoc.reflect.Fixture;
 import info.novatec.testit.livingdoc.util.ExampleUtil;
 

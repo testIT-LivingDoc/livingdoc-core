@@ -19,7 +19,7 @@ package info.novatec.testit.livingdoc.fixture.interpreter.flow.dowith;
 
 import info.novatec.testit.livingdoc.interpreter.flow.AbstractRow;
 import info.novatec.testit.livingdoc.interpreter.flow.RowSelector;
-import info.novatec.testit.livingdoc.interpreter.flow.dowith.Action;
+import info.novatec.testit.livingdoc.interpreter.flow.Action;
 import info.novatec.testit.livingdoc.interpreter.flow.dowith.DoWithRowSelector;
 import info.novatec.testit.livingdoc.reflect.PlainOldFixture;
 import info.novatec.testit.livingdoc.reflect.annotation.FixtureClass;
