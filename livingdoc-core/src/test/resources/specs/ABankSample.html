@@ -15,7 +15,7 @@
 				<td>import</td>
 			</tr>
 			<tr>
-				<td>info.novatec.testit.livingdoc.samples.fixture.bank</td>
+				<td>info.novatec.testit.livingdoc.interpreter.flow.workflow</td>
 			</tr>
 		</table>
 	</div>
@@ -24,15 +24,20 @@
 		<p>
 			We want to execute a sequence of actions on the bank fixture. We'll
 			use the
-			<code>DoWithInterpreter</code>
+			<code>WorkflowInterpreter</code>
 			for that.
 		</p>
 
 		<TABLE border="1" cellspacing="0">
 			<TR>
-				<td>do with</td>
-				<td>bank</td>
+				<td>Workflow</td>
+				<td>Withdrawing money from account</td>
 			</TR>
+			<tr>
+				<td>Given</td>
+				<td>an interested customer</td>
+				<td>Johnny Smith</td>
+			</tr>
 		</TABLE>
 
 		<p>
@@ -48,16 +53,18 @@
 
 		<table border="1" cellspacing="0">
 			<tr>
-				<td>open checking account</td>
+				<td>When</td>
+				<td>he opens a new checking account</td>
 				<td>12345</td>
 			</tr>
 			<tr>
-				<td>check</td>
-				<td>that balance of account</td>
+				<td>check that</td>
+				<td>the balance of account</td>
 				<td>12345</td>
 				<td>is</td>
-				<td>0</td>
+				<td>$0</td>
 			</tr>
+			
 		</table>
 
 		<p>Savings account should follow the same rule. Let's verify that.
@@ -65,185 +72,26 @@
 
 		<table border="1" cellspacing="0">
 			<tr>
-				<td>open savings account</td>
+				<td>When</td>
+				<td>he opens a new savings account</td>
 				<td>54321</td>
 			</tr>
 			<tr>
-				<td>check</td>
-				<td>that balance of account</td>
+				<td>check that</td>
+				<td>the balance of account</td>
 				<td>54321</td>
 				<td>is</td>
-				<td>0</td>
+				<td>$0</td>
+			</tr>
+			<tr>
+				<td>And not that</td>
+				<td>an error occured</td>
 			</tr>
 		</table>
 
-		<p>
-			Our next rule says that the bank should not take any fee when we
-			deposit money in our account. <br /> So if we deposit 100 dollars in
-			one of the newly created accounts, we expect the balance to be
-			exactly 100 dollars:
-		</p>
+		
 
-		<table border="1" cellspacing="0">
-			<tr>
-				<td>deposit money</td>
-				<td>100</td>
-				<td>in</td>
-				<td>12345</td>
-			</tr>
-			<tr>
-				<td>check</td>
-				<td>that balance of account</td>
-				<td>12345</td>
-				<td>is</td>
-				<td>100</td>
-			</tr>
-		</table>
-
-		<p>The following rule says that a customer should be able to
-			withdraw funds if the balance of his account is sufficient.</p>
-
-		<table border="1" cellspacing="0">
-			<tr>
-				<td>withdraw money</td>
-				<td>50</td>
-				<td>from</td>
-				<td>12345</td>
-			</tr>
-			<tr>
-				<td>check</td>
-				<td>that balance of account</td>
-				<td>12345</td>
-				<td>is</td>
-				<td>50</td>
-			</tr>
-		</table>
-
-		<p>
-			Nevertheless, checking accounts cannot go overdrawn. If we attempt to
-			withdraw too much money, the bank should reject our request. <br />
-			Let's try that:
-		</p>
-
-		<table border="1" cellspacing="0">
-			<tr>
-				<td>reject</td>
-				<td>withdraw money</td>
-				<td>75</td>
-				<td>from</td>
-				<td>12345</td>
-			</tr>
-			<tr>
-				<td>check</td>
-				<td>that balance of account</td>
-				<td>12345</td>
-				<td>is</td>
-				<td>50</td>
-			</tr>
-		</table>
-
-		<p>Once an account is frozen, we can deposit money in it, but not
-			longer withdraw any money from it.</p>
-
-		<table border="1" cellspacing="0">
-			<tr>
-				<td>freeze account</td>
-				<td>12345</td>
-			</tr>
-			<tr>
-				<td>deposit money</td>
-				<td>75</td>
-				<td>in</td>
-				<td>12345</td>
-			</tr>
-			<tr>
-				<td>withdraw money</td>
-				<td>25</td>
-				<td>from</td>
-				<td>12345</td>
-			</tr>
-			<tr>
-				<td>check</td>
-				<td>that balance of account</td>
-				<td>12345</td>
-				<td>is</td>
-				<td>125</td>
-			</tr>
-		</table>
-
-	</div>
-
-	<h2>Testing collections of values returned by the System</h2>
-
-	In this section, we demonstrate the use of another interpreter, the
-	<code>SetOfInterperter</code>
-	. We want to check that all the accounts created previously have been
-	correctly registered by the bank.
-
-
-	<div>
-		<p>Let's create a new account to make the test a bit more
-			interesting.</p>
-
-		<table border="1" cellspacing="0">
-			<tr>
-				<td>open checking account</td>
-				<td>67890</td>
-			</tr>
-			<tr>
-				<td>check</td>
-				<td>that balance of account</td>
-				<td>67890</td>
-				<td>is</td>
-				<td>0</td>
-			</tr>
-		</table>
-
-		<p>Let's list the accounts known to the bank and check their
-			numbers.</p>
-
-		<table border="1" cellspacing="0">
-			<tr>
-				<td>set of</td>
-				<td>existing accounts</td>
-			</tr>
-			<tr>
-				<td>number</td>
-			</tr>
-			<tr>
-				<td>12345</td>
-			</tr>
-			<tr>
-				<td>67890</td>
-			</tr>
-			<tr>
-				<td>54321</td>
-			</tr>
-		</table>
-
-		<p>
-			Our final test uses the
-			<code>SubSetOfInterpreter</code>
-			to verify a (you've gessed it) subset of accounts against the list of
-			accounts opened at the bank. Notice that if one of the specified
-			accounts doesn't exist, it is noted missing in the result table.
-		</p>
-
-		<table border="1" cellspacing="0">
-			<tr>
-				<td>subset of</td>
-				<td>existing accounts</td>
-			</tr>
-			<tr>
-				<td>number</td>
-			</tr>
-			<tr>
-				<td>67890</td>
-			</tr>
-			<tr>
-				<td>87890</td>
-			</tr>
-		</table>
+		
 
 	</div>
 </body>

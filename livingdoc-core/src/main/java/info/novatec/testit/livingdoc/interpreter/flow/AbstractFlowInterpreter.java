@@ -18,7 +18,6 @@ import info.novatec.testit.livingdoc.annotation.Annotations;
 import info.novatec.testit.livingdoc.call.Compile;
 import info.novatec.testit.livingdoc.call.ResultIs;
 import info.novatec.testit.livingdoc.interpreter.AbstractInterpreter;
-import info.novatec.testit.livingdoc.interpreter.flow.dowith.InterpretRow;
 import info.novatec.testit.livingdoc.reflect.AfterTable;
 import info.novatec.testit.livingdoc.reflect.BeforeTable;
 import info.novatec.testit.livingdoc.reflect.Fixture;
@@ -53,7 +52,7 @@ public class AbstractFlowInterpreter extends AbstractInterpreter {
         stats = new Statistics();
 
         skipFirstRowOfNextTable();
-
+        callBeforeTable();
         while (specification.hasMoreExamples() && canContinue(stats)) {
             Example next = specification.nextExample();
             if (indicatesEndOfFlow(next)) {
@@ -64,7 +63,6 @@ public class AbstractFlowInterpreter extends AbstractInterpreter {
 
             Table table = new Table(firstRowOf(next));
             execute(table);
-            callAfterTable();
             specification.exampleDone(table.getStatistics());
             stats.tally(table.getStatistics());
 
@@ -85,12 +83,9 @@ public class AbstractFlowInterpreter extends AbstractInterpreter {
             Example example = table.peek();
 
             Row row = rowSelector.select(example);
-            if (row instanceof InterpretRow) {
-                callBeforeTable();
-            }
-
+           
             row.interpret(table);
-
+            
             if (shouldStop(table.getStatistics())) {
                 example.firstChild().lastSibling().addSibling().annotate(Annotations.stopped());
             }
@@ -125,13 +120,19 @@ public class AbstractFlowInterpreter extends AbstractInterpreter {
 
     private void callBeforeTable() {
         if (beforeTableMessage != null) {
+            LOG.debug("Calling @BeforeMethod "+ beforeTableMessage);
             callMessage(beforeTableMessage);
+        }else{
+            LOG.debug("No @BeforeMethod defined");
         }
     }
 
     private void callAfterTable() {
         if (afterTableMessage != null) {
+            LOG.debug("Calling @AftereMethod "+ afterTableMessage);
             callMessage(afterTableMessage);
+        }else{
+            LOG.debug("No @AfterMethod defined");
         }
     }
 

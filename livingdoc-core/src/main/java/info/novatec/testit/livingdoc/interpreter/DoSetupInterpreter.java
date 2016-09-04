@@ -42,7 +42,7 @@ import info.novatec.testit.livingdoc.annotation.SkippedAnnotation;
 import info.novatec.testit.livingdoc.call.Result;
 import info.novatec.testit.livingdoc.call.Stub;
 import info.novatec.testit.livingdoc.expectation.ShouldBe;
-import info.novatec.testit.livingdoc.interpreter.flow.dowith.Action;
+import info.novatec.testit.livingdoc.interpreter.flow.Action;
 import info.novatec.testit.livingdoc.reflect.Fixture;
 import info.novatec.testit.livingdoc.reflect.NoSuchMessageException;
 import info.novatec.testit.livingdoc.util.ExampleUtil;

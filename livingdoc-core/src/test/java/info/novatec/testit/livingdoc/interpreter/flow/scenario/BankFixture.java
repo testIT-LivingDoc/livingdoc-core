@@ -21,6 +21,14 @@ package info.novatec.testit.livingdoc.interpreter.flow.scenario;
 import java.math.BigDecimal;
 
 import info.novatec.testit.livingdoc.TypeConversion;
+import info.novatec.testit.livingdoc.sample.AccountAlreadyExistException;
+import info.novatec.testit.livingdoc.sample.AccountException;
+import info.novatec.testit.livingdoc.sample.Bank;
+import info.novatec.testit.livingdoc.sample.Money;
+import info.novatec.testit.livingdoc.sample.NoSuchAccountException;
+import info.novatec.testit.livingdoc.sample.Owner;
+import info.novatec.testit.livingdoc.sample.OwnerTypeConverter;
+import info.novatec.testit.livingdoc.sample.WithdrawType;
 
 
 public class BankFixture {

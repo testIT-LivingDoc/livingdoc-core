@@ -15,14 +15,13 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
  * http://www.fsf.org. */
 
-package info.novatec.testit.livingdoc.interpreter.flow.dowith;
+package info.novatec.testit.livingdoc.interpreter.flow;
 
 import static info.novatec.testit.livingdoc.util.CollectionUtil.even;
 
 import java.util.List;
 
 import info.novatec.testit.livingdoc.Example;
-import info.novatec.testit.livingdoc.interpreter.flow.AbstractAction;
 import info.novatec.testit.livingdoc.util.CollectionUtil;
 import info.novatec.testit.livingdoc.util.ExampleUtil;
 
