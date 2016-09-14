@@ -2,7 +2,12 @@ package info.novatec.testit.livingdoc.server.domain;
 
 import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.SPECIFICATION_SUTS_IDX;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.Vector;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -12,9 +17,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-
-import org.hibernate.annotations.Sort;
-import org.hibernate.annotations.SortType;
 
 import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
@@ -47,7 +49,6 @@ public class Specification extends Document {
     @JoinTable(name = "SUT_SPECIFICATION",
         joinColumns = { @JoinColumn(name = "SPECIFICATION_ID") },
         inverseJoinColumns = { @JoinColumn(name = "SUT_ID") })
-    @Sort(type = SortType.COMPARATOR, comparator = SystemUnderTestByNameComparator.class)
     public SortedSet<SystemUnderTest> getTargetedSystemUnderTests() {
         return targetedSystemUnderTests;
     }

@@ -19,6 +19,7 @@ import java.util.Vector;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -28,9 +29,6 @@ import javax.persistence.Transient;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.CollectionOfElements;
-import org.hibernate.annotations.Sort;
-import org.hibernate.annotations.SortType;
 import org.xml.sax.SAXException;
 
 import info.novatec.testit.livingdoc.report.Report;
@@ -103,10 +101,9 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
         return secured != null && secured.booleanValue();
     }
 
-    @CollectionOfElements
+    @ElementCollection
     @JoinTable(name = "RUNNER_CLASSPATHS", joinColumns = { @JoinColumn(name = "RUNNER_ID") })
     @Column(name = "elt", nullable = true, length = 255)
-    @Sort(type = SortType.COMPARATOR, comparator = ClasspathComparator.class)
     public SortedSet<String> getClasspaths() {
         return classpaths;
     }

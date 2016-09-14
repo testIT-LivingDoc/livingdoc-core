@@ -17,6 +17,7 @@ import java.util.Vector;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -26,9 +27,6 @@ import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.CollectionOfElements;
-import org.hibernate.annotations.Sort;
-import org.hibernate.annotations.SortType;
 
 import info.novatec.testit.livingdoc.systemunderdevelopment.DefaultSystemUnderDevelopment;
 
@@ -84,18 +82,16 @@ public class SystemUnderTest extends AbstractUniqueEntity implements Comparable<
         return project;
     }
 
-    @CollectionOfElements
+    @ElementCollection
     @JoinTable(name = "SUT_FIXTURE_CLASSPATHS", joinColumns = { @JoinColumn(name = "SUT_ID") })
     @Column(name = "elt", nullable = true, length = 255)
-    @Sort(type = SortType.COMPARATOR, comparator = ClasspathComparator.class)
     public SortedSet<String> getFixtureClasspaths() {
         return fixtureClasspaths;
     }
 
-    @CollectionOfElements
+    @ElementCollection
     @JoinTable(name = "SUT_CLASSPATHS", joinColumns = { @JoinColumn(name = "SUT_ID") })
     @Column(name = "elt", nullable = true, length = 255)
-    @Sort(type = SortType.COMPARATOR, comparator = ClasspathComparator.class)
     public SortedSet<String> getSutClasspaths() {
         return sutClasspaths;
     }
