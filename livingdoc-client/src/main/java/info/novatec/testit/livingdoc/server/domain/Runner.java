@@ -11,12 +11,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.Set;
 import java.util.Vector;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -68,7 +67,7 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
     private String serverPort;
     private Boolean secured;
 
-    private SortedSet<String> classpaths = new TreeSet<String>();
+    private Set<String> classpaths = new HashSet<String>();
 
     public static Runner newInstance(String name) {
         Runner runner = new Runner();
@@ -104,7 +103,7 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
     @ElementCollection
     @JoinTable(name = "RUNNER_CLASSPATHS", joinColumns = { @JoinColumn(name = "RUNNER_ID") })
     @Column(name = "elt", nullable = true, length = 255)
-    public SortedSet<String> getClasspaths() {
+    public Set<String> getClasspaths() {
         return classpaths;
     }
 
@@ -124,7 +123,7 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
         this.secured = secured != null && secured.booleanValue();
     }
 
-    public void setClasspaths(SortedSet<String> classpaths) {
+    public void setClasspaths(Set<String> classpaths) {
         this.classpaths = classpaths;
     }
 

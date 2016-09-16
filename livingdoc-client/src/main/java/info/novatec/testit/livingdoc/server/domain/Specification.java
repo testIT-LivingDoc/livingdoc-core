@@ -5,10 +5,7 @@ import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshall
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.Vector;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -35,7 +32,7 @@ import info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller;
 @Table(name = "SPECIFICATION", uniqueConstraints = { @UniqueConstraint(columnNames = { "NAME", "REPOSITORY_ID" }) })
 @SuppressWarnings("serial")
 public class Specification extends Document {
-    private SortedSet<SystemUnderTest> targetedSystemUnderTests = new TreeSet<SystemUnderTest>();
+    private Set<SystemUnderTest> targetedSystemUnderTests = new HashSet<SystemUnderTest>();
     protected Set<Reference> references = new HashSet<Reference>();
     private Set<Execution> executions = new HashSet<Execution>();
 
@@ -49,7 +46,7 @@ public class Specification extends Document {
     @JoinTable(name = "SUT_SPECIFICATION",
         joinColumns = { @JoinColumn(name = "SPECIFICATION_ID") },
         inverseJoinColumns = { @JoinColumn(name = "SUT_ID") })
-    public SortedSet<SystemUnderTest> getTargetedSystemUnderTests() {
+    public Set<SystemUnderTest> getTargetedSystemUnderTests() {
         return targetedSystemUnderTests;
     }
 
@@ -63,7 +60,7 @@ public class Specification extends Document {
         return references;
     }
 
-    public void setTargetedSystemUnderTests(SortedSet<SystemUnderTest> targetedSystemUnderTests) {
+    public void setTargetedSystemUnderTests(Set<SystemUnderTest> targetedSystemUnderTests) {
         this.targetedSystemUnderTests = targetedSystemUnderTests;
     }
 

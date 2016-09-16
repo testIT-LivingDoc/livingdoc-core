@@ -30,7 +30,7 @@ import info.novatec.testit.livingdoc.util.HtmlUtil;
 
 
 @Entity
-@Table(name = "EXECUTION", indexes = {@Index(columnList = "executionDate", name ="executionDateIndex")})
+@Table(name = "EXECUTION", indexes = {@Index(columnList = "EXECUTION_DATE", name ="executionDateIndex")})
 @SuppressWarnings("serial")
 public class Execution extends AbstractUniqueEntity implements Comparable<Execution> {
     public static final String NOT_RUNNED = "notrunned";

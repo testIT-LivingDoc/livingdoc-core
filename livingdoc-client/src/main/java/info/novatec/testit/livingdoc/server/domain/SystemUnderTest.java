@@ -10,10 +10,9 @@ import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshall
 import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.SUT_PROJECT_IDX;
 import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.SUT_RUNNER_IDX;
 
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
-
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -48,8 +47,8 @@ public class SystemUnderTest extends AbstractUniqueEntity implements Comparable<
     private String name;
     private Project project;
     private Runner runner;
-    private SortedSet<String> sutClasspaths = new TreeSet<String>();
-    private SortedSet<String> fixtureClasspaths = new TreeSet<String>();
+    private Set<String> sutClasspaths = new HashSet<String>();
+    private Set<String> fixtureClasspaths = new HashSet<String>();
 
     private String fixtureFactory;
     private String fixtureFactoryArgs;
@@ -85,14 +84,14 @@ public class SystemUnderTest extends AbstractUniqueEntity implements Comparable<
     @ElementCollection
     @JoinTable(name = "SUT_FIXTURE_CLASSPATHS", joinColumns = { @JoinColumn(name = "SUT_ID") })
     @Column(name = "elt", nullable = true, length = 255)
-    public SortedSet<String> getFixtureClasspaths() {
+    public Set<String> getFixtureClasspaths() {
         return fixtureClasspaths;
     }
 
     @ElementCollection
     @JoinTable(name = "SUT_CLASSPATHS", joinColumns = { @JoinColumn(name = "SUT_ID") })
     @Column(name = "elt", nullable = true, length = 255)
-    public SortedSet<String> getSutClasspaths() {
+    public Set<String> getSutClasspaths() {
         return sutClasspaths;
     }
 
@@ -132,11 +131,11 @@ public class SystemUnderTest extends AbstractUniqueEntity implements Comparable<
         this.project = project;
     }
 
-    public void setFixtureClasspaths(SortedSet<String> fixturesClasspaths) {
+    public void setFixtureClasspaths(Set<String> fixturesClasspaths) {
         this.fixtureClasspaths = fixturesClasspaths;
     }
 
-    public void setSutClasspaths(SortedSet<String> sutClasspaths) {
+    public void setSutClasspaths(Set<String> sutClasspaths) {
         this.sutClasspaths = sutClasspaths;
     }
 
