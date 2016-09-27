@@ -2,8 +2,10 @@ package info.novatec.testit.livingdoc.server.domain;
 
 import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.SPECIFICATION_SUTS_IDX;
 
-import java.util.*;
-
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.Vector;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -12,9 +14,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-
-import org.hibernate.annotations.Sort;
-import org.hibernate.annotations.SortType;
 
 import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
@@ -33,7 +32,7 @@ import info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller;
 @Table(name = "SPECIFICATION", uniqueConstraints = { @UniqueConstraint(columnNames = { "NAME", "REPOSITORY_ID" }) })
 @SuppressWarnings("serial")
 public class Specification extends Document {
-    private SortedSet<SystemUnderTest> targetedSystemUnderTests = new TreeSet<SystemUnderTest>();
+    private Set<SystemUnderTest> targetedSystemUnderTests = new HashSet<SystemUnderTest>();
     protected Set<Reference> references = new HashSet<Reference>();
     private Set<Execution> executions = new HashSet<Execution>();
 
@@ -47,8 +46,7 @@ public class Specification extends Document {
     @JoinTable(name = "SUT_SPECIFICATION",
         joinColumns = { @JoinColumn(name = "SPECIFICATION_ID") },
         inverseJoinColumns = { @JoinColumn(name = "SUT_ID") })
-    @Sort(type = SortType.COMPARATOR, comparator = SystemUnderTestByNameComparator.class)
-    public SortedSet<SystemUnderTest> getTargetedSystemUnderTests() {
+    public Set<SystemUnderTest> getTargetedSystemUnderTests() {
         return targetedSystemUnderTests;
     }
 
@@ -62,7 +60,7 @@ public class Specification extends Document {
         return references;
     }
 
-    public void setTargetedSystemUnderTests(SortedSet<SystemUnderTest> targetedSystemUnderTests) {
+    public void setTargetedSystemUnderTests(Set<SystemUnderTest> targetedSystemUnderTests) {
         this.targetedSystemUnderTests = targetedSystemUnderTests;
     }
 
