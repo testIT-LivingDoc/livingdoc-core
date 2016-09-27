@@ -10,13 +10,13 @@ import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshall
 import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.SUT_PROJECT_IDX;
 import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.SUT_RUNNER_IDX;
 
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
-
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -26,9 +26,6 @@ import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.CollectionOfElements;
-import org.hibernate.annotations.Sort;
-import org.hibernate.annotations.SortType;
 
 import info.novatec.testit.livingdoc.systemunderdevelopment.DefaultSystemUnderDevelopment;
 
@@ -50,8 +47,8 @@ public class SystemUnderTest extends AbstractUniqueEntity implements Comparable<
     private String name;
     private Project project;
     private Runner runner;
-    private SortedSet<String> sutClasspaths = new TreeSet<String>();
-    private SortedSet<String> fixtureClasspaths = new TreeSet<String>();
+    private Set<String> sutClasspaths = new HashSet<String>();
+    private Set<String> fixtureClasspaths = new HashSet<String>();
 
     private String fixtureFactory;
     private String fixtureFactoryArgs;
@@ -84,19 +81,17 @@ public class SystemUnderTest extends AbstractUniqueEntity implements Comparable<
         return project;
     }
 
-    @CollectionOfElements
+    @ElementCollection
     @JoinTable(name = "SUT_FIXTURE_CLASSPATHS", joinColumns = { @JoinColumn(name = "SUT_ID") })
     @Column(name = "elt", nullable = true, length = 255)
-    @Sort(type = SortType.COMPARATOR, comparator = ClasspathComparator.class)
-    public SortedSet<String> getFixtureClasspaths() {
+    public Set<String> getFixtureClasspaths() {
         return fixtureClasspaths;
     }
 
-    @CollectionOfElements
+    @ElementCollection
     @JoinTable(name = "SUT_CLASSPATHS", joinColumns = { @JoinColumn(name = "SUT_ID") })
     @Column(name = "elt", nullable = true, length = 255)
-    @Sort(type = SortType.COMPARATOR, comparator = ClasspathComparator.class)
-    public SortedSet<String> getSutClasspaths() {
+    public Set<String> getSutClasspaths() {
         return sutClasspaths;
     }
 
@@ -136,11 +131,11 @@ public class SystemUnderTest extends AbstractUniqueEntity implements Comparable<
         this.project = project;
     }
 
-    public void setFixtureClasspaths(SortedSet<String> fixturesClasspaths) {
+    public void setFixtureClasspaths(Set<String> fixturesClasspaths) {
         this.fixtureClasspaths = fixturesClasspaths;
     }
 
-    public void setSutClasspaths(SortedSet<String> sutClasspaths) {
+    public void setSutClasspaths(Set<String> sutClasspaths) {
         this.sutClasspaths = sutClasspaths;
     }
 
