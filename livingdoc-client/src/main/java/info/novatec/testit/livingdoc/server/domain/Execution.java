@@ -15,14 +15,13 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.Index;
 
 import info.novatec.testit.livingdoc.report.XmlReport;
 import info.novatec.testit.livingdoc.util.FormattedDate;
@@ -30,7 +29,7 @@ import info.novatec.testit.livingdoc.util.HtmlUtil;
 
 
 @Entity
-@Table(name = "EXECUTION")
+@Table(name = "EXECUTION", indexes = {@Index(columnList = "EXECUTION_DATE", name ="executionDateIndex")})
 @SuppressWarnings("serial")
 public class Execution extends AbstractUniqueEntity implements Comparable<Execution> {
     public static final String NOT_RUNNED = "notrunned";
@@ -127,13 +126,12 @@ public class Execution extends AbstractUniqueEntity implements Comparable<Execut
         return sections;
     }
 
-    @Lob
     @Column(name = "RESULTS", nullable = true, length = 2147483647)
     public String getResults() {
         return results;
     }
 
-    @Lob
+    
     @Column(name = "ERRORID", nullable = true, length = 2147483647)
     public String getExecutionErrorId() {
         return executionErrorId;
@@ -165,7 +163,6 @@ public class Execution extends AbstractUniqueEntity implements Comparable<Execut
 
     @Basic
     @Column(name = "EXECUTION_DATE")
-    @Index(name = "executionDateIndex")
     public Timestamp getExecutionDate() {
         return executionDate;
     }
