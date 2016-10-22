@@ -19,7 +19,6 @@
 package info.novatec.testit.livingdoc.server.rpc.runner;
 
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
-import info.novatec.testit.livingdoc.server.ServerPropertiesManager;
 import info.novatec.testit.livingdoc.server.domain.DocumentNode;
 import info.novatec.testit.livingdoc.server.domain.Execution;
 import info.novatec.testit.livingdoc.server.domain.Project;
@@ -28,35 +27,20 @@ import info.novatec.testit.livingdoc.server.domain.Repository;
 import info.novatec.testit.livingdoc.server.domain.Requirement;
 import info.novatec.testit.livingdoc.server.domain.Specification;
 import info.novatec.testit.livingdoc.server.domain.SystemUnderTest;
-import info.novatec.testit.livingdoc.server.rpc.xmlrpc.LivingDocXmlRpcClient;
+import info.novatec.testit.livingdoc.server.rest.LivingDocRestClient;
 
 
 public class XmlRpcRemoteRunner {
-    private final LivingDocXmlRpcClient xmlRpc;
+
+    private final LivingDocRestClient client;
 
     public XmlRpcRemoteRunner(final String url, final String handler) {
-        xmlRpc = new LivingDocXmlRpcClient(new ServerPropertiesManager() {
-            @Override
-            public String getProperty(String key, String identifier) {
-                if (ServerPropertiesManager.URL.equals(key)) {
-                    return url;
-                } else if (ServerPropertiesManager.HANDLER.equals(key)) {
-                    return handler;
-                } else {
-                    return null;
-                }
-            }
-
-            @Override
-            public void setProperty(String key, String value, String identifier) {
-                // No implementation needed.
-            }
-        });
+        client = new LivingDocRestClient(url);
     }
 
     public DocumentNode getSpecificationHierarchy(Repository repository, SystemUnderTest systemUnderTest)
         throws LivingDocServerException {
-        return xmlRpc.getSpecificationHierarchy(repository, systemUnderTest, getIdentifier());
+        return client.getSpecificationHierarchy(repository, systemUnderTest, getIdentifier());
     }
 
     public Execution runSpecification(String projectName, String sutName, String repositoryId, String specificationName,
@@ -80,7 +64,7 @@ public class XmlRpcRemoteRunner {
             throw new IllegalArgumentException("Missing Repository in Specification");
         }
 
-        return xmlRpc.runSpecification(sut, specification, implementedVersion, locale, getIdentifier());
+        return client.runSpecification(sut, specification, implementedVersion, locale, getIdentifier());
     }
 
     public Reference runReference(String projectName, String sutName, String requirementRepositoryId, String requirementName,
@@ -125,7 +109,7 @@ public class XmlRpcRemoteRunner {
     }
 
     public Reference runReference(Reference reference, String locale) throws LivingDocServerException {
-        return xmlRpc.runReference(reference, locale, getIdentifier());
+        return client.runReference(reference, locale, getIdentifier());
     }
 
     private String getIdentifier() {
