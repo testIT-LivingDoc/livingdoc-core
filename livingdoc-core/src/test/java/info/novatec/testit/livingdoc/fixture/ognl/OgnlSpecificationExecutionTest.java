@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import info.novatec.testit.livingdoc.document.LivingDocInterpreterSelector;
-import info.novatec.testit.livingdoc.fixture.systemunderdevelopment.LivingDocSystemUnderDevelopment;
+import info.novatec.testit.livingdoc.fixture.systemunderdevelopment.LivingDocTestSystemUnderDevelopment;
 import info.novatec.testit.livingdoc.report.FileReportGenerator;
 import info.novatec.testit.livingdoc.report.PlainReport;
 import info.novatec.testit.livingdoc.repository.FileSystemRepository;
@@ -62,7 +62,7 @@ public class OgnlSpecificationExecutionTest {
     @Test
     public void shouldRunAcceptanceTestsForCore() throws Exception {
         runner.setRepository(repo);
-        runner.setSystemUnderDevelopment(new LivingDocSystemUnderDevelopment());
+        runner.setSystemUnderDevelopment(new LivingDocTestSystemUnderDevelopment());
         runner.setReportGenerator(generator);
         runner.setInterpreterSelector(LivingDocInterpreterSelector.class);
         runner.setSections();

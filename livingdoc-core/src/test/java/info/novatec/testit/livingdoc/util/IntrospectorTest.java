@@ -66,7 +66,6 @@ public class IntrospectorTest {
         assertEquals("method", methods.get(1).getName());
     }
 
-    @SuppressWarnings("unused")
     public static class Target {
 
         public String field;

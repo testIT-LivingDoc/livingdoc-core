@@ -30,7 +30,6 @@ public class CellAnnotationFixture {
         comparisonValue = text == null ? "" : text;
     }
 
-    @SuppressWarnings("unused")
     public static class MyFixture {
         private CellAnnotationFixture cellAnnotationFixture;
 

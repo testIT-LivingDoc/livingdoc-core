@@ -30,8 +30,7 @@ import java.util.Locale;
 import org.junit.After;
 import org.junit.Test;
 
-import info.novatec.testit.livingdoc.interpreter.AbstractInterpreter;
-import info.novatec.testit.livingdoc.interpreter.RuleForInterpreter;
+import info.novatec.testit.livingdoc.interpreter.DecisionTableInterpreter;
 import info.novatec.testit.livingdoc.reflect.Fixture;
 import info.novatec.testit.livingdoc.reflect.PlainOldFixture;
 
@@ -44,15 +43,15 @@ public class LivingDocTest {
 
     @Test
     public void testCanFindAnInterpreterGivenAClassName() {
-        assertTrue(LivingDoc.isAnInterpreter("info.novatec.testit.livingdoc.interpreter.RuleForInterpreter"));
+        assertTrue(LivingDoc.isAnInterpreter("info.novatec.testit.livingdoc.interpreter.DecisionTableInterpreter"));
         assertFalse(LivingDoc.isAnInterpreter("MissingInterpreter"));
     }
 
     @Test
     public void testCanInstantiateAnInterpreterGivenAClassName() throws Throwable {
-        Interpreter interpreter = LivingDoc.getInterpreter("info.novatec.testit.livingdoc.interpreter.RuleForInterpreter",
+        Interpreter interpreter = LivingDoc.getInterpreter("info.novatec.testit.livingdoc.interpreter.DecisionTableInterpreter",
             dummyFixture());
-        assertThat(interpreter, is(instanceOf(RuleForInterpreter.class)));
+        assertThat(interpreter, is(instanceOf(DecisionTableInterpreter.class)));
     }
 
     @Test
@@ -77,7 +76,7 @@ public class LivingDocTest {
 
     @Test
     public void testInterpreterClassNamesCanBeAliased() {
-        LivingDoc.aliasInterpreter("Calculate", RuleForInterpreter.class.getName());
+        LivingDoc.aliasInterpreter("Calculate", DecisionTableInterpreter.class.getName());
         assertTrue(LivingDoc.isAnInterpreter("Calculate"));
     }
 
@@ -115,7 +114,7 @@ public class LivingDocTest {
         assertEquals("Attendu", LivingDoc.$("expected"));
     }
 
-    public static class BadInterpreter extends AbstractInterpreter {
+    public static class BadInterpreter implements Interpreter {
         // cannot be instantiated.
         private BadInterpreter() {
             super();

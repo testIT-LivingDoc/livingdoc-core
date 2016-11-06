@@ -177,12 +177,10 @@ public class PlainOldFixtureTest {
             return 0;
         }
 
-        @SuppressWarnings("unused")
         public int functionWithDifferentArities(int aParam) {
             return 1;
         }
 
-        @SuppressWarnings("unused")
         public int functionWithDifferentArities(int aParam, int anotherParam) {
             return 2;
         }

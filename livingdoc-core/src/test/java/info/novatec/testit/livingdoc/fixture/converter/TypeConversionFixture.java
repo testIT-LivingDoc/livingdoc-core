@@ -76,7 +76,6 @@ public class TypeConversionFixture {
     }
 
     @FixtureClass
-    @SuppressWarnings("unused")
     public static class TypeNoConverterWithSelf {
         private String toStringValue = "class.toString";
 
@@ -106,7 +105,6 @@ public class TypeConversionFixture {
     }
 
     @FixtureClass
-    @SuppressWarnings("unused")
     public static class TypeNoConverterWithSelfByValueOf {
         private String toStringValue = "class.toString";
 
@@ -138,7 +136,6 @@ public class TypeConversionFixture {
         }
     }
 
-    @SuppressWarnings("unused")
     public static class TypeWithConverterWithSelf {
         private String toStringValue = "class.toString";
 

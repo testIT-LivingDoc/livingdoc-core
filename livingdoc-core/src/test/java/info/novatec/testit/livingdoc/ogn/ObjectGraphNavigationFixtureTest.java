@@ -269,7 +269,6 @@ public class ObjectGraphNavigationFixtureTest {
             // No implementation needed.
         }
 
-        @SuppressWarnings("unused")
         public static Obj parse(String value) {
             return new Obj();
         }

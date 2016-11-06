@@ -21,6 +21,7 @@ import info.novatec.testit.livingdoc.reflect.PlainOldFixture;
 import info.novatec.testit.livingdoc.util.Tables;
 
 
+@Deprecated
 @RunWith(MockitoJUnitRunner.class)
 public class ActionInterpreterTest {
 

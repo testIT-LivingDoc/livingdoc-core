@@ -5,7 +5,7 @@ import info.novatec.testit.livingdoc.interpreter.flow.Row;
 import info.novatec.testit.livingdoc.interpreter.flow.RowSelector;
 import info.novatec.testit.livingdoc.reflect.Fixture;
 
-
+@Deprecated
 public class ActionRowSelector implements RowSelector {
     private Fixture fixture;
 
