@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 
 import info.novatec.testit.livingdoc.Call;
 import info.novatec.testit.livingdoc.Example;
+import info.novatec.testit.livingdoc.Interpreter;
 import info.novatec.testit.livingdoc.Specification;
 import info.novatec.testit.livingdoc.Statistics;
 import info.novatec.testit.livingdoc.annotation.Annotations;
@@ -49,7 +50,7 @@ import info.novatec.testit.livingdoc.reflect.NoSuchMessageException;
 import info.novatec.testit.livingdoc.reflect.StaticInvocation;
 
 
-public class SetupInterpreter extends AbstractInterpreter {
+public class SetupInterpreter implements Interpreter {
     private static final Logger LOG = LoggerFactory.getLogger(SetupInterpreter.class);
 
     private final Fixture fixture;
