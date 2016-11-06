@@ -5,8 +5,7 @@ import info.novatec.testit.livingdoc.reflect.PlainOldFixture;
 import info.novatec.testit.livingdoc.systemunderdevelopment.SystemUnderDevelopment;
 
 
-public class AnInterpreter extends RuleForInterpreter {
-    @SuppressWarnings("unused")
+public class AnInterpreter extends DecisionTableInterpreter {
     public AnInterpreter(SystemUnderDevelopment sud) {
         this(new PlainOldFixture(new NullFixture()));
     }

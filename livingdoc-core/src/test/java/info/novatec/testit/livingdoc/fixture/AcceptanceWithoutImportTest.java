@@ -46,10 +46,10 @@ public class AcceptanceWithoutImportTest {
 
         statistics = recorderMonitor.getStatistics();
         System.out.println(outputDir);
-        assertEquals(23, outputDir.listFiles().length);
+        assertEquals(25, outputDir.listFiles().length);
         assertEquals(0, statistics.exceptionCount());
-        assertEquals(13, statistics.ignoredCount());
-        assertEquals(367, statistics.rightCount());
+        assertEquals(21, statistics.ignoredCount());
+        assertEquals(458, statistics.rightCount());
         assertEquals(0, statistics.wrongCount());
         assertEquals(0, statistics.exceptionCount());
     }

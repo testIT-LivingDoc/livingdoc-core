@@ -1,7 +1,6 @@
 package info.novatec.testit.livingdoc.document;
 
-import static info.novatec.testit.livingdoc.util.CollectionUtil.toArray;
-import static info.novatec.testit.livingdoc.util.CollectionUtil.toList;
+import static info.novatec.testit.livingdoc.util.CollectionUtil.*;
 import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
 
 import java.util.List;
@@ -45,7 +44,7 @@ public class LivingDocInterpreterSelector implements InterpreterSelector {
         String interpreterName = cells.at(0).getContent();
         String[] fixtureAndParameters = fixtureAndParams(cells.at(1));
         try {
-            Object[] args = CollectionUtil.isEmpty(fixtureAndParameters) ? toArray(systemUnderDevelopment) : toArray(
+            Object[] args = isEmpty(fixtureAndParameters) ? toArray(systemUnderDevelopment) : toArray(
                 selectFixture(fixtureAndParameters));
             return LivingDoc.getInterpreter(interpreterName, args);
         } catch (Throwable t) {

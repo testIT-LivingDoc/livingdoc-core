@@ -29,7 +29,7 @@ public final class CollectionUtil {
     }
 
     public static <T> boolean isEmpty(T... objects) {
-        return objects.length == 0;
+        return objects == null || objects.length == 0;
     }
 
     public static <T> T[] toArray(T... objects) {

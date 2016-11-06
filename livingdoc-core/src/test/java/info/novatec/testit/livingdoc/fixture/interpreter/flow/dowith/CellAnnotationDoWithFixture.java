@@ -15,24 +15,24 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
  * http://www.fsf.org. */
 
-package info.novatec.testit.livingdoc.fixture.interpreter.flow.action;
+package info.novatec.testit.livingdoc.fixture.interpreter.flow.dowith;
 
 import info.novatec.testit.livingdoc.fixture.interpreter.MockFixture;
 import info.novatec.testit.livingdoc.fixture.util.AnnotationUtil;
+import info.novatec.testit.livingdoc.interpreter.flow.AbstractRow;
+import info.novatec.testit.livingdoc.interpreter.flow.Action;
 import info.novatec.testit.livingdoc.interpreter.flow.RowSelector;
 import info.novatec.testit.livingdoc.interpreter.flow.Table;
-import info.novatec.testit.livingdoc.interpreter.flow.action.Action;
-import info.novatec.testit.livingdoc.interpreter.flow.action.ActionRow;
-import info.novatec.testit.livingdoc.interpreter.flow.action.ActionRowSelector;
+import info.novatec.testit.livingdoc.interpreter.flow.dowith.DoWithRowSelector;
 import info.novatec.testit.livingdoc.reflect.annotation.FixtureClass;
 import info.novatec.testit.livingdoc.util.Tables;
 
 
 @Deprecated
-@FixtureClass("Cell Annotation Action")
-public class CellAnnotationFixture {
+@FixtureClass("Cell Annotation DoWith")
+public class CellAnnotationDoWithFixture {
     private Tables tables;
-    private ActionRow command;
+    private AbstractRow command;
     private MockFixture fixture;
 
     public void row(Tables row) {
@@ -45,14 +45,10 @@ public class CellAnnotationFixture {
         command.interpret(new Table(tables.at(0, 0)));
     }
 
-    public void actionThrowsAnException(String ignored) {
-        command.interpret(new Table(tables.at(0, 0)));
-    }
-
-    private ActionRow parseCommand() {
+    private AbstractRow parseCommand() {
         fixture = new MockFixture();
-        RowSelector selector = new ActionRowSelector(fixture);
-        return ( ActionRow ) selector.select(tables.at(0, 0));
+        RowSelector selector = new DoWithRowSelector(fixture);
+        return ( AbstractRow ) selector.select(tables.at(0, 0));
     }
 
     private String actionName() {
@@ -70,5 +66,9 @@ public class CellAnnotationFixture {
 
     public Integer[] cellsMarkedException() {
         return AnnotationUtil.cellsMarkedException(tables.at(0, 0));
+    }
+
+    public Integer[] cellsMarkedIgnored() {
+        return AnnotationUtil.cellsMarkedIgnored(tables.at(0, 0));
     }
 }
