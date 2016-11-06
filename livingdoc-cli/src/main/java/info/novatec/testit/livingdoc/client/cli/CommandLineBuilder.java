@@ -10,7 +10,7 @@ public class CommandLineBuilder {
     private String[] cmdLine;
 
     public CommandLineBuilder(String cmdLineTemplate) {
-        this.cmdLine = cmdLineTemplate.split(" ");
+        this.cmdLine = StringUtils.splitByWholeSeparator(cmdLineTemplate , null);
     }
 
     public String[] getCmdLine() {
