@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import info.novatec.testit.livingdoc.Example;
+import info.novatec.testit.livingdoc.Interpreter;
 import info.novatec.testit.livingdoc.LivingDoc;
 import info.novatec.testit.livingdoc.Specification;
 import info.novatec.testit.livingdoc.Statistics;
@@ -33,7 +34,7 @@ import info.novatec.testit.livingdoc.systemunderdevelopment.SystemUnderDevelopme
  * <code>Interpreter</code> implementation that pushes imports into the context
  * import stack.
  */
-public class ImportInterpreter extends AbstractInterpreter {
+public class ImportInterpreter implements Interpreter  {
     private static final Logger LOG = LoggerFactory.getLogger(ImportInterpreter.class);
 
     private final SystemUnderDevelopment systemUnderDevelopment;

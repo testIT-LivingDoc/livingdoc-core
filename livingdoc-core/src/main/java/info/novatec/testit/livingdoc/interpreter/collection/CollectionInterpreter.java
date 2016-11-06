@@ -43,13 +43,13 @@ import org.slf4j.LoggerFactory;
 
 import info.novatec.testit.livingdoc.Call;
 import info.novatec.testit.livingdoc.Example;
+import info.novatec.testit.livingdoc.Interpreter;
 import info.novatec.testit.livingdoc.Specification;
 import info.novatec.testit.livingdoc.Statistics;
 import info.novatec.testit.livingdoc.TypeConversion;
 import info.novatec.testit.livingdoc.annotation.Annotations;
 import info.novatec.testit.livingdoc.call.Annotate;
 import info.novatec.testit.livingdoc.call.Compile;
-import info.novatec.testit.livingdoc.interpreter.AbstractInterpreter;
 import info.novatec.testit.livingdoc.interpreter.HeaderForm;
 import info.novatec.testit.livingdoc.reflect.CollectionProvider;
 import info.novatec.testit.livingdoc.reflect.Fixture;
@@ -57,7 +57,7 @@ import info.novatec.testit.livingdoc.reflect.NoSuchMessageException;
 
 
 // TODO: STATS compile stats here and in derived classes (no test for that yet)
-public abstract class CollectionInterpreter extends AbstractInterpreter {
+public abstract class CollectionInterpreter implements Interpreter  {
     private static final Logger LOG = LoggerFactory.getLogger(CollectionInterpreter.class);
 
     private final Fixture fixture;
