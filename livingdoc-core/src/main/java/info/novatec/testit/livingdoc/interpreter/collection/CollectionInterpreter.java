@@ -208,7 +208,7 @@ public abstract class CollectionInterpreter implements Interpreter  {
         return result;
     }
 
-    public List<Fixture> getFixtureList() throws IllegalArgumentException, InvocationTargetException,
+   protected List<Fixture> getFixtureList() throws IllegalArgumentException, InvocationTargetException,
         IllegalAccessException {
         LOG.debug(ENTRY);
         List< ? > results = getCollectionProvider();

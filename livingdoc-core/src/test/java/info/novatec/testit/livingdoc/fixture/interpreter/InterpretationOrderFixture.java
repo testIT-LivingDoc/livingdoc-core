@@ -5,7 +5,7 @@ import java.util.List;
 
 import info.novatec.testit.livingdoc.Interpreter;
 import info.novatec.testit.livingdoc.document.FakeSpecification;
-import info.novatec.testit.livingdoc.interpreter.RuleForInterpreter;
+import info.novatec.testit.livingdoc.interpreter.DecisionTableInterpreter;
 import info.novatec.testit.livingdoc.interpreter.SetupInterpreter;
 import info.novatec.testit.livingdoc.reflect.Fixture;
 import info.novatec.testit.livingdoc.reflect.PlainOldFixture;
@@ -31,7 +31,9 @@ public class InterpretationOrderFixture {
         if ("setup".equals(interpreterCalled)) {
             return new SetupInterpreter(fixture);
         } else if ("rule for".equals(interpreterCalled)) {
-            return new RuleForInterpreter(fixture);
+            return new DecisionTableInterpreter(fixture);
+        } else if ("decision table".equals(interpreterCalled)) {
+            return new DecisionTableInterpreter(fixture);
         }
         // TODO find Exception
         throw new Exception("No interpreter found");

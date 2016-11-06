@@ -1,19 +1,3 @@
-/* Copyright (c) 2006 Pyxis Technologies inc.
- * 
- * This is free software; you can redistribute it and/or modify it under the
- * terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- * 
- * This software is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- * 
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
- * http://www.fsf.org. */
 package info.novatec.testit.livingdoc.interpreter;
 
 import static info.novatec.testit.livingdoc.Assertions.assertAnnotatedException;
@@ -43,10 +27,9 @@ import info.novatec.testit.livingdoc.util.FixtureWithRowAndFirstExpectationAnnot
 import info.novatec.testit.livingdoc.util.FixtureWithRuleForAnnotatedMethods;
 import info.novatec.testit.livingdoc.util.Tables;
 
-@Deprecated
-public class RuleForInterpreterTest {
+public class DecisionTableInterpreterTest {
     private AlternateCalculator calculator;
-    private RuleForInterpreter interpreter;
+    private DecisionTableInterpreter interpreter;
     private Tables tables;
     private static boolean stopOnFirstFailure;
 
@@ -58,7 +41,7 @@ public class RuleForInterpreterTest {
     @Before
     public void setUp() throws Exception {
         calculator = new AlternateCalculator();
-        interpreter = new RuleForInterpreter(new PlainOldFixture(calculator));
+        interpreter = new DecisionTableInterpreter(new PlainOldFixture(calculator));
         LivingDoc.setStopOnFirstFailure(false);
     }
 
@@ -69,7 +52,7 @@ public class RuleForInterpreterTest {
 
     @Test
     public void testColumnHeaderSpecifiesAnInputValue() throws Exception {
-        tables = parse("[rule for][calculator]\n" + "[a][b]\n" + "[5][3]");
+        tables = parse("[decision table][calculator]\n" + "[a][b]\n" + "[5][3]");
 
         interpreter.interpret(spec());
         assertEquals(5, calculator.a);
@@ -78,7 +61,7 @@ public class RuleForInterpreterTest {
 
     @Test
     public void testShouldTestColumnWhenHeaderEndsWithQuestionMark() throws Exception {
-        tables = parse("[rule for][calculator]\n" + "[sum?][product?]\n" + "[5]   [7]");
+        tables = parse("[decision table][calculator]\n" + "[sum?][product?]\n" + "[5]   [7]");
         calculator.a = 3;
         calculator.b = 2;
         interpreter.interpret(spec());
@@ -88,7 +71,7 @@ public class RuleForInterpreterTest {
 
     @Test
     public void testWillMarkCellInErrorWhenExceptionOccursInTest() throws Exception {
-        tables = parse("[rule for][calculator]\n" + "[division?]\n" + "[3]");
+        tables = parse("[decision table][calculator]\n" + "[division?]\n" + "[3]");
 
         calculator.a = 3;
         calculator.b = 0;
@@ -98,7 +81,7 @@ public class RuleForInterpreterTest {
 
     @Test
     public void testSkipsColumnWhenHeadingIsInvalid() throws Exception {
-        tables = parse("[rule for][calculator]\n" + "[no such input]\n" + "[3]");
+        tables = parse("[decision table][calculator]\n" + "[no such input]\n" + "[3]");
         interpreter.interpret(spec());
         assertAnnotatedException(tables.at(0, 1, 0));
         assertNotAnnotated(tables.at(0, 2, 0));
@@ -106,20 +89,20 @@ public class RuleForInterpreterTest {
 
     @Test
     public void testShouldIgnoreCellIfEmpty() throws Exception {
-        tables = parse("[rule for][calculator]\n" + "[sum?]\n" + "[]");
+        tables = parse("[decision table][calculator]\n" + "[sum?]\n" + "[]");
         interpreter.interpret(spec());
         assertAnnotatedIgnored(tables.at(0, 2, 0));
     }
 
     @Test
     public void testExtraColumnsAreSilentlyIgnored() throws Exception {
-        tables = parse("[rule for][calculator]\n" + "[a][b][sum?]\n" + "[2][3][5][7]");
+        tables = parse("[decision table][calculator]\n" + "[a][b][sum?]\n" + "[2][3][5][7]");
         interpreter.interpret(spec());
     }
 
     @Test
     public void testShouldProcessAllRows() throws Exception {
-        tables = parse("[rule for][calculator]\n" + "[a][b][sum?][division?]\n" + "[6][2][8][3]\n" + "[10][5][15][2]");
+        tables = parse("[decision table][calculator]\n" + "[a][b][sum?][division?]\n" + "[6][2][8][3]\n" + "[10][5][15][2]");
         interpreter.interpret(spec());
 
         assertAnnotatedRight(tables.at(0, 2, 2));
@@ -130,7 +113,7 @@ public class RuleForInterpreterTest {
 
     @Test
     public void testShouldCompileStatistics() throws Exception {
-        tables = parse("[rule for][calculator]\n" + "[a][b][sum?][division?]\n" + "[9][3][12][2]\n" + "[6][2][8][2]\n"
+        tables = parse("[decision table][calculator]\n" + "[a][b][sum?][division?]\n" + "[9][3][12][2]\n" + "[6][2][8][2]\n"
             + "[10][0][][0]");
         FakeSpecification spec = spec();
         interpreter.interpret(spec);
@@ -143,7 +126,7 @@ public class RuleForInterpreterTest {
 
     @Test
     public void testCanProcessATableWithNoRowsAfterHeader() {
-        tables = parse("[rule for][calculator]\n" + "[a][b][sum?][division?]");
+        tables = parse("[decision table][calculator]\n" + "[a][b][sum?][division?]");
 
         FakeSpecification document = spec();
         interpreter.interpret(document);
@@ -156,7 +139,7 @@ public class RuleForInterpreterTest {
 
     @Test
     public void testWillSaveResultInVariableAndDisplayItWhenColumnHeaderEndsWithEqualSign() {
-        tables = parse("[rule for][calculator]\n" + "[a][b][sum?][division?=]\n" + "[9][3][12][quotient]");
+        tables = parse("[decision table][calculator]\n" + "[a][b][sum?][division?=]\n" + "[9][3][12][quotient]");
 
         FakeSpecification document = spec();
         interpreter.interpret(document);
@@ -169,7 +152,7 @@ public class RuleForInterpreterTest {
 
     @Test
     public void testWillRecallVariableAndUseItAsInputWhenColumnHeaderStartsWithEqualSign() {
-        tables = parse("[rule for][calculator]\n" + "[=a][b][product?]\n" + "[quotient][3][18]");
+        tables = parse("[decision table][calculator]\n" + "[=a][b][product?]\n" + "[quotient][3][18]");
 
         FakeSpecification document = spec();
         document.setVariable("quotient", 6);
@@ -183,7 +166,7 @@ public class RuleForInterpreterTest {
     public void testThatHeaderContainingUnresolvableMethodIsAnnotatedStoppedWhenOptionsIsStopOnFirstFailure() {
         LivingDoc.setStopOnFirstFailure(true);
 
-        tables = parse("[rule for][calculator]\n" + "[a][z]\n" + "[5][3]");
+        tables = parse("[decision table][calculator]\n" + "[a][z]\n" + "[5][3]");
 
         FakeSpecification document = spec();
         interpreter.interpret(document);
@@ -196,7 +179,7 @@ public class RuleForInterpreterTest {
     public void testThatCellContainingBadValueIsAnnotatedStoppedWhenOptionsIsStopOnFirstFailure() {
         LivingDoc.setStopOnFirstFailure(true);
 
-        tables = parse("[rule for][calculator]\n" + "[a][b]\n" + "[fail][3]");
+        tables = parse("[decision table][calculator]\n" + "[a][b]\n" + "[fail][3]");
 
         FakeSpecification document = spec();
         interpreter.interpret(document);
@@ -210,11 +193,11 @@ public class RuleForInterpreterTest {
         LivingDoc.setStopOnFirstFailure(true);
 
         FixtureWithRuleForAnnotatedMethods fixture = new FixtureWithRuleForAnnotatedMethods();
-        interpreter = new RuleForInterpreter(new PlainOldFixture(fixture));
+        interpreter = new DecisionTableInterpreter(new PlainOldFixture(fixture));
 
         // TODO refactor tests to compare strings instead of numbers (maybe
         // mockito)
-        tables = parse("[rule for][myOwnFixture]\n" + "[a][bt?][br?][bfe?][ar?][at?]\n" + "[1][0][0][1][0][0]\n"
+        tables = parse("[decision table][myOwnFixture]\n" + "[a][bt?][br?][bfe?][ar?][at?]\n" + "[1][0][0][1][0][0]\n"
             + "[2][0][1][3][2][0]");
 
         FakeSpecification document = spec();
@@ -229,9 +212,9 @@ public class RuleForInterpreterTest {
         LivingDoc.setStopOnFirstFailure(true);
 
         FixtureWithRowAndFirstExpectationAnnotation fixture = new FixtureWithRowAndFirstExpectationAnnotation();
-        interpreter = new RuleForInterpreter(new PlainOldFixture(fixture));
+        interpreter = new DecisionTableInterpreter(new PlainOldFixture(fixture));
 
-        tables = parse("[rule for][myOwnFixture]\n" + "[a][b?]\n" + "[3][3]\n" + "[2][2]");
+        tables = parse("[decision table][myOwnFixture]\n" + "[a][b?]\n" + "[3][3]\n" + "[2][2]");
 
         FakeSpecification document = spec();
         interpreter.interpret(document);
@@ -244,9 +227,9 @@ public class RuleForInterpreterTest {
         LivingDoc.setStopOnFirstFailure(true);
 
         FixtureWithRowAndFirstExpectationAnnotation fixture = new FixtureWithRowAndFirstExpectationAnnotation();
-        interpreter = new RuleForInterpreter(new PlainOldFixture(fixture));
+        interpreter = new DecisionTableInterpreter(new PlainOldFixture(fixture));
 
-        tables = parse("[rule for][myOwnFixture]\n" + "[c?]\n" + "[1]\n" + "[2]");
+        tables = parse("[decision table][myOwnFixture]\n" + "[c?]\n" + "[1]\n" + "[2]");
 
         FakeSpecification document = spec();
         interpreter.interpret(document);
@@ -259,9 +242,9 @@ public class RuleForInterpreterTest {
         LivingDoc.setStopOnFirstFailure(true);
 
         FixtureWithRowAndFirstExpectationAnnotation fixture = new FixtureWithRowAndFirstExpectationAnnotation();
-        interpreter = new RuleForInterpreter(new PlainOldFixture(fixture));
+        interpreter = new DecisionTableInterpreter(new PlainOldFixture(fixture));
 
-        tables = parse("[rule for][myOwnFixture]\n" + "[c?][d?]\n" + "[1][1]\n" + "[2][1]");
+        tables = parse("[decision table][myOwnFixture]\n" + "[c?][d?]\n" + "[1][1]\n" + "[2][1]");
 
         FakeSpecification document = spec();
         interpreter.interpret(document);

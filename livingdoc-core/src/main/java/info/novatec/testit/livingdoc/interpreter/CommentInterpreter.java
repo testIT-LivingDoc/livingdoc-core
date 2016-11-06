@@ -5,7 +5,6 @@ import info.novatec.testit.livingdoc.systemunderdevelopment.SystemUnderDevelopme
 
 
 public class CommentInterpreter extends SkipInterpreter {
-    @SuppressWarnings("unused")
     public CommentInterpreter(SystemUnderDevelopment sud) {
         this();
     }

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import info.novatec.testit.livingdoc.Example;
+import info.novatec.testit.livingdoc.Interpreter;
 import info.novatec.testit.livingdoc.Specification;
 import info.novatec.testit.livingdoc.Statistics;
 import info.novatec.testit.livingdoc.annotation.IgnoredAnnotation;
@@ -15,10 +16,9 @@ import info.novatec.testit.livingdoc.annotation.WrongAnnotation;
 import info.novatec.testit.livingdoc.systemunderdevelopment.SystemUnderDevelopment;
 
 
-public class MyOwnInterpreter extends AbstractInterpreter {
+public class MyOwnInterpreter implements Interpreter  {
     private static final Logger LOG = LoggerFactory.getLogger(MyOwnInterpreter.class);
 
-    @SuppressWarnings("unused")
     public MyOwnInterpreter(SystemUnderDevelopment sud) {
         // No implementation needed.
     }

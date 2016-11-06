@@ -1,33 +1,33 @@
 <html>
 <head>
-<title>Do With Interpreter</title>
-<meta name="title" content="Do With Interpreter" />
+<title>Workflow Interpreter</title>
+<meta name="title" content="Workflow Interpreter" />
 <meta name="external-link"
 	content="http://testit.novatec.info/confluence/display/LIVINGDOC/Do+With+Interpreter" />
 </head>
 <body>
-	<h2 id="DoWithInterpreter-DoWithInterpreter">Do With Interpreter</h2>
+	<h2 id="WorkflowInterpreter-WorkflowInterpreter">Workflow Interpreter</h2>
 
 
 	<p>
 		The
-		<tt>DoWithInterpreter</tt>
+		<tt>WorkflowInterpreter</tt>
 		verifies business flows expressed as a sequence of actions. This
 		interpreter executes a workflow on the system under test and asserts
 		returned values against expected values. By contrast with other
 		interpreters, the
-		<tt>DoWithInterpreter</tt>
+		<tt>WorkflowInterpreter</tt>
 		can interpret more than one table in a specification document. In
 		fact, unless specified otherwise, it will interpret all of the tables
 		it encounters.
 	</p>
 
-	<h3 id="DoWithInterpreter-Specifyingthefixture">Specifying the
+	<h3 id="WorkflowInterpreter-Specifyingthefixture">Specifying the
 		fixture</h3>
 
 	<p>
 		The
-		<tt>DoWithInterpreter</tt>
+		<tt>WorkflowInterpreter</tt>
 		follows the general rules for <a
 			href="/confluence/display/LIVINGDOC/Interpreter+and+Fixture+Selection+%28JAVA%29"
 			title="Interpreter and Fixture Selection (JAVA)">interpreter and
@@ -38,7 +38,7 @@
 
 	<p>
 		Once a
-		<tt>DoWithInterpreter</tt>
+		<tt>WorkflowInterpreter</tt>
 		starts interpreting a specification document, it carries out the
 		actions in all of the following tables with the selected fixture.
 		Consequently, each subsequent table doesn't need to explicitly declare
@@ -50,11 +50,11 @@
 		will be used with the rest of the current table and will be abandoned
 		at the next table.</p>
 
-	<h3 id="DoWithInterpreter-Interpretationflow">Interpretation flow</h3>
+	<h3 id="WorkflowInterpreter-Interpretationflow">Interpretation flow</h3>
 
 	<p>
 		As already stated, a business workflow may span several tables. The
-		<tt>DoWithInterpreter</tt>
+		<tt>WorkflowInterpreter</tt>
 		goes through all tables one by one, down to the end of the
 		specification document. For each table, it executes the workflow one
 		row at a time, reading cells from left to right.
@@ -63,14 +63,14 @@
 		<tbody>
 			<tr>
 				<th class='confluenceTh'>rule for</th>
-				<th class='confluenceTh'>interpretation order dowith</th>
+				<th class='confluenceTh'>interpretation order workflow</th>
 			</tr>
 			<tr>
 				<td class='confluenceTd'>tables</td>
 				<td class='confluenceTd'>order of interpretation?</td>
 			</tr>
 			<tr>
-				<td class='confluenceTd'><tt>[ do with ][ some fixture ]</tt><br
+				<td class='confluenceTd'><tt>[ workflow ][ some fixture ]</tt><br
 					clear="all" /> <tt>[ row ][ 1 ][ of table ][ 1 ]</tt><br
 					clear="all" /> <tt>[ row ][ 2 ][ of table ][ 1 ]</tt><br
 					clear="all" /> <tt>[ row ][ 3 ][ of table ][ 1 ]</tt><br
@@ -85,14 +85,14 @@
 		</tbody>
 	</table>
 
-	<h3 id="DoWithInterpreter-Actions">Actions</h3>
+	<h3 id="WorkflowInterpreter-Actions">Actions</h3>
 
 	<p>Each row in a workflow represents an action to perform on the
 		system under test.</p>
 
 	<p>
 		The
-		<tt>DoWithInterpreter</tt>
+		<tt>WorkflowInterpreter</tt>
 		expects default actions to be composed of keywords and data. An action
 		starts with a keyword cell, then alternates between data cells and
 		more keyword cells. In other words, keywords appear in every other
@@ -107,7 +107,7 @@
 
 	<p>
 		To execute the action on the system under test, the
-		<tt>DoWithIntepreter</tt>
+		<tt>WorkflowIntepreter</tt>
 		follows the rules of <a
 			href="/confluence/display/LIVINGDOC/Action+Access+Resolution"
 			title="Action Access Resolution">action access resolution</a> rules.
@@ -116,7 +116,7 @@
 		<tbody>
 			<tr>
 				<th class='confluenceTh'>rule for</th>
-				<th class='confluenceTh'>row form do with</th>
+				<th class='confluenceTh'>row form workflow</th>
 			</tr>
 			<tr>
 				<td class='confluenceTd'>row</td>
@@ -136,7 +136,7 @@
 		<tbody>
 			<tr>
 				<th class='confluenceTh'>rule for</th>
-				<th class='confluenceTh'>row form do with</th>
+				<th class='confluenceTh'>row form workflow</th>
 			</tr>
 			<tr>
 				<td class='confluenceTd'>row</td>
@@ -163,7 +163,7 @@
 		<tbody>
 			<tr>
 				<th class='confluenceTh'>rule for</th>
-				<th class='confluenceTh'>row form do with</th>
+				<th class='confluenceTh'>row form workflow</th>
 			</tr>
 			<tr>
 				<td class='confluenceTd'>row</td>
@@ -180,11 +180,11 @@
 		</tbody>
 	</table>
 
-	<h3 id="DoWithInterpreter-SpecialActions">Special Actions</h3>
+	<h3 id="WorkflowInterpreter-SpecialActions">Special Actions</h3>
 
 	<p>
 		The
-		<tt>DoWithInterpreter</tt>
+		<tt>WorkflowInterpreter</tt>
 		knows about the special actions. Special actions are identified by a
 		special keyword at the beginning of the row and apply to the rest of
 		their row:
@@ -198,14 +198,14 @@
 
 		<p>
 			-
-			<tt>check</tt>
+			<tt>check (that)</tt> 
 			checks whether the result of the action described in the rest of the
 			row matches the value in the last cell of the row.<br /> -
-			<tt>reject</tt>
+			<tt>and not that</tt>
 			checks - as expected - that the action described in the rest of the
 			row fails.<br /> -
-			<tt>accept</tt>
-			checks that the action described in the rest of the row succeeds.<br />
+			<tt>then , and </tt>
+			check that the action described in the rest of the row succeeds.<br />
 			-
 			<tt>display</tt>
 			prints the result in a new cell at the end of the row without
@@ -222,7 +222,7 @@
 		<tbody>
 			<tr>
 				<th class='confluenceTh'>rule for</th>
-				<th class='confluenceTh'>row form do with</th>
+				<th class='confluenceTh'>row form workflow</th>
 			</tr>
 			<tr>
 				<td class='confluenceTd'>row</td>
@@ -239,14 +239,24 @@
 				<td class='confluenceTd'>Check</td>
 			</tr>
 			<tr>
-				<td class='confluenceTd'><tt>[ Accept ] [ code written ] [
-						test-first ]</tt></td>
-				<td class='confluenceTd'>Accept</td>
+				<td class='confluenceTd'><tt>[ Check that] [ code is
+						written ] [ test-first ]</tt></td>
+				<td class='confluenceTd'>CheckThat</td>
 			</tr>
 			<tr>
-				<td class='confluenceTd'><tt>[ Reject ] [ code written ] [
+				<td class='confluenceTd'><tt>[ Then ] [ code written ] [
+						test-first ]</tt></td>
+				<td class='confluenceTd'>Then</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ And ] [ code written ] [
+						test-first ]</tt></td>
+				<td class='confluenceTd'>And</td>
+			</tr>
+			<tr>
+				<td class='confluenceTd'><tt>[ And not that ] [ code written ] [
 						test-last ]</tt></td>
-				<td class='confluenceTd'>Reject</td>
+				<td class='confluenceTd'>AndNotThat</td>
 			</tr>
 			<tr>
 				<td class='confluenceTd'><tt>[ Display ] [ code written ]</tt>
@@ -256,7 +266,7 @@
 		</tbody>
 	</table>
 
-	<h3 id="DoWithInterpreter-Rulesforannotations">Rules for
+	<h3 id="WorkflowInterpreter-Rulesforannotations">Rules for
 		annotations</h3>
 
 	<p>
@@ -267,7 +277,7 @@
 		<tbody>
 			<tr>
 				<th class='confluenceTh'>rule for</th>
-				<th class='confluenceTh'>cell annotation dowith</th>
+				<th class='confluenceTh'>cell annotation workflow</th>
 			</tr>
 			<tr>
 				<td class='confluenceTd'>row</td>
@@ -301,7 +311,7 @@
 		<tbody>
 			<tr>
 				<th class='confluenceTh'>rule for</th>
-				<th class='confluenceTh'>cell annotation dowith</th>
+				<th class='confluenceTh'>cell annotation workflow</th>
 			</tr>
 			<tr>
 				<td class='confluenceTd'>row</td>
@@ -335,7 +345,7 @@
 		<tbody>
 			<tr>
 				<th class='confluenceTh'>rule for</th>
-				<th class='confluenceTh'>cell annotation dowith</th>
+				<th class='confluenceTh'>cell annotation workflow</th>
 			</tr>
 			<tr>
 				<td class='confluenceTd'>row</td>
@@ -364,7 +374,7 @@
 		<tbody>
 			<tr>
 				<th class='confluenceTh'>rule for</th>
-				<th class='confluenceTh'>cell annotation dowith</th>
+				<th class='confluenceTh'>cell annotation workflow</th>
 			</tr>
 			<tr>
 				<td class='confluenceTd'>row</td>
@@ -401,7 +411,7 @@
 		<tbody>
 			<tr>
 				<th class='confluenceTh'>rule for</th>
-				<th class='confluenceTh'>cell annotation dowith</th>
+				<th class='confluenceTh'>cell annotation workflow</th>
 			</tr>
 			<tr>
 				<td class='confluenceTd'>row</td>
@@ -411,7 +421,7 @@
 				<td class='confluenceTd'>cells marked exception?</td>
 			</tr>
 			<tr>
-				<td class='confluenceTd'><tt>[ accept ][ using debugging ]</tt>
+				<td class='confluenceTd'><tt>[ then ][ using debugging ]</tt>
 				</td>
 				<td class='confluenceTd'>true</td>
 				<td class='confluenceTd'>1</td>
@@ -419,14 +429,14 @@
 				<td class='confluenceTd'>[]</td>
 			</tr>
 			<tr>
-				<td class='confluenceTd'><tt>[ accept ][ failing build ]</tt></td>
+				<td class='confluenceTd'><tt>[ then][ failing build ]</tt></td>
 				<td class='confluenceTd'>false</td>
 				<td class='confluenceTd'>[]</td>
 				<td class='confluenceTd'>1</td>
 				<td class='confluenceTd'>[]</td>
 			</tr>
 			<tr>
-				<td class='confluenceTd'><tt>[ accept ][ fail ][ maven ][
+				<td class='confluenceTd'><tt>[ then ][ fail ][ maven ][
 						][ build ]</tt></td>
 				<td class='confluenceTd'>error</td>
 				<td class='confluenceTd'>[]</td>
@@ -445,7 +455,7 @@
 		<tbody>
 			<tr>
 				<th class='confluenceTh'>rule for</th>
-				<th class='confluenceTh'>cell annotation dowith</th>
+				<th class='confluenceTh'>cell annotation workflow</th>
 			</tr>
 			<tr>
 				<td class='confluenceTd'>row</td>
@@ -455,7 +465,7 @@
 				<td class='confluenceTd'>cells marked exception?</td>
 			</tr>
 			<tr>
-				<td class='confluenceTd'><tt>[ reject ][ using debugging ]</tt>
+				<td class='confluenceTd'><tt>[ and not that ][ using debugging ]</tt>
 				</td>
 				<td class='confluenceTd'>true</td>
 				<td class='confluenceTd'>[]</td>
@@ -463,14 +473,14 @@
 				<td class='confluenceTd'>[]</td>
 			</tr>
 			<tr>
-				<td class='confluenceTd'><tt>[ reject ][ failing build ]</tt></td>
+				<td class='confluenceTd'><tt>[ and not that ][ failing build ]</tt></td>
 				<td class='confluenceTd'>false</td>
 				<td class='confluenceTd'>1</td>
 				<td class='confluenceTd'>[]</td>
 				<td class='confluenceTd'>[]</td>
 			</tr>
 			<tr>
-				<td class='confluenceTd'><tt>[ reject ][ fail ][ maven ][
+				<td class='confluenceTd'><tt>[ and not that ][ fail ][ maven ][
 						][ build ]</tt></td>
 				<td class='confluenceTd'>error</td>
 				<td class='confluenceTd'>1</td>
@@ -489,7 +499,7 @@
 		<tbody>
 			<tr>
 				<th class='confluenceTh'>rule for</th>
-				<th class='confluenceTh'>cell annotation dowith</th>
+				<th class='confluenceTh'>cell annotation workflow</th>
 			</tr>
 			<tr>
 				<td class='confluenceTd'>row</td>
@@ -530,7 +540,7 @@
 	</table>
 
 	<h3
-		id="DoWithInterpreter-Processingtableremainderwithanotherinterpreter">Processing
+		id="WorkflowInterpreter-Processingtableremainderwithanotherinterpreter">Processing
 		table remainder with another interpreter</h3>
 
 	<p>The action can explicitly return an interpreter, which is will

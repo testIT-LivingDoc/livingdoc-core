@@ -1,20 +1,3 @@
-/* Copyright (c) 2006 Pyxis Technologies inc.
- * 
- * This is free software; you can redistribute it and/or modify it under the
- * terms of the GNU General Public License as published by the Free Software
- * Foundation; either version 2 of the License, or (at your option) any later
- * version.
- * 
- * This software is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- * 
- * You should have received a copy of the GNU General Public License along with
- * this program; if not, write to the Free Software Foundation, Inc., 51
- * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
- * http://www.fsf.org. */
-
 package info.novatec.testit.livingdoc.interpreter;
 
 import static info.novatec.testit.livingdoc.Assertions.assertAnnotatedException;
@@ -56,12 +39,11 @@ import info.novatec.testit.livingdoc.reflect.PlainOldFixture;
 import info.novatec.testit.livingdoc.util.ExampleUtil;
 import info.novatec.testit.livingdoc.util.Tables;
 
-@Deprecated
 @RunWith(MockitoJUnitRunner.class)
-public class DoWithInterpreterTest {
+public class WorkflowInterpreterTest {
 
     private Tables tables;
-    private DoWithInterpreter interpreter;
+    private WorkflowInterpreter interpreter;
     @Mock
     private Target fixture;
     private static boolean stopOnFirstFailure;
@@ -73,7 +55,7 @@ public class DoWithInterpreterTest {
 
     @Before
     public void setUp() throws Exception {
-        interpreter = new DoWithInterpreter(code());
+        interpreter = new WorkflowInterpreter(code());
         LivingDoc.setStopOnFirstFailure(false);
     }
 
@@ -86,7 +68,7 @@ public class DoWithInterpreterTest {
     public void testATableDefinesASequenceOfActions() throws Exception {
         doReturn(true).when(fixture).commandTakingNoParameter();
 
-        tables = Tables.parse("[do with][mock]\n" + "[commandTakingNoParameter]\n" + "[commandTakingNoParameter]");
+        tables = Tables.parse("[workflow][mock]\n" + "[commandTakingNoParameter]\n" + "[commandTakingNoParameter]");
         interpreter.interpret(document());
 
         verify(fixture, times(2)).commandTakingNoParameter();
@@ -94,7 +76,7 @@ public class DoWithInterpreterTest {
 
     @Test
     public void testActionsAcceptParametersInEveryOtherCell() throws Exception {
-        tables = Tables.parse("[do with][mock]\n"
+        tables = Tables.parse("[workflow][mock]\n"
             + "[command] [a parameter] [expecting] [a second parameter] [parameters] [a third parameter]");
         interpreter.interpret(document());
 
@@ -103,7 +85,7 @@ public class DoWithInterpreterTest {
 
     @Test
     public void testKeywordsContainingSpacesAreCamelized() throws Exception {
-        tables = Tables.parse("[do with][mock]\n" + "[command expecting a single parameter][parameter]");
+        tables = Tables.parse("[workflow][mock]\n" + "[command expecting a single parameter][parameter]");
         interpreter.interpret(document());
 
         verify(fixture).commandExpectingASingleParameter("parameter");
@@ -113,7 +95,7 @@ public class DoWithInterpreterTest {
     public void testDefaultActionsAreAnnotatedRightIfTheyReturnTrue() throws Exception {
         doReturn(true).when(fixture).commandExpectingParameters("a parameter", "a second parameter", "a third parameter");
 
-        tables = Tables.parse("[do with][mock]\n"
+        tables = Tables.parse("[workflow][mock]\n"
             + "[command][a parameter][expecting][a second parameter][parameters][a third parameter]");
         interpreter.interpret(document());
 
@@ -130,7 +112,7 @@ public class DoWithInterpreterTest {
     public void testDefaultActionsAreAnnotatedWrongIfTheyReturnFalse() throws Exception {
         doReturn(false).when(fixture).commandTakingNoParameter();
 
-        tables = Tables.parse("[do with][mock]\n" + "[commandTakingNoParameter]");
+        tables = Tables.parse("[workflow][mock]\n" + "[commandTakingNoParameter]");
         interpreter.interpret(document());
 
         verify(fixture).commandTakingNoParameter();
@@ -142,7 +124,7 @@ public class DoWithInterpreterTest {
         doThrow(new RuntimeException("Command failed")).when(fixture).commandExpectingParameters("a parameter",
             "a second parameter", "a third parameter");
 
-        tables = Tables.parse("[do with][mock]\n"
+        tables = Tables.parse("[workflow][mock]\n"
             + "[command][a parameter][expecting][a second parameter][parameters][a third parameter]");
         interpreter.interpret(document());
 
@@ -160,7 +142,7 @@ public class DoWithInterpreterTest {
         doReturn(Object.class).when(fixture).commandExpectingParameters("a parameter", "a second parameter",
             "a third parameter");
 
-        tables = Tables.parse("[do with][mock]\n"
+        tables = Tables.parse("[workflow][mock]\n"
             + "[command][a parameter][expecting][a second parameter][parameters][a third parameter]\n"
             + "[commandReturningNothing]");
         interpreter.interpret(document());
@@ -180,7 +162,7 @@ public class DoWithInterpreterTest {
     public void testActionsCanReturnAFixtureToInterpretRestOfTable() throws Exception {
         doReturn(Object.class).when(fixture).commandTakingNoParameter();
 
-        tables = Tables.parse("[do with][mock]\n" + "[" + RightInterpreter.class.getName() + "][commandTakingNoParameter]\n"
+        tables = Tables.parse("[workflow][mock]\n" + "[" + RightInterpreter.class.getName() + "][commandTakingNoParameter]\n"
             + "[actionOnReturnedFixture]\n" + "[actionOnReturnedFixture]");
         interpreter.interpret(document());
 
@@ -194,7 +176,7 @@ public class DoWithInterpreterTest {
     public void testCheckSpecialActionExpectsValueOfLastCellAndColorsLastCell() throws Exception {
         when(fixture.thatValueOfIs("balance")).thenReturn("100", "150");
 
-        tables = Tables.parse("[do with][mock]\n" + "[check][that value of][balance][is][100]\n"
+        tables = Tables.parse("[workflow][mock]\n" + "[check][that value of][balance][is][100]\n"
             + "[check][that value of][balance][is][120]");
         interpreter.interpret(document());
 
@@ -207,7 +189,7 @@ public class DoWithInterpreterTest {
     public void testCheckSpecialActionColorsFirstKeywordCellOnException() throws Exception {
         doThrow(new Exception("Command failed")).when(fixture).commandThrowingException();
 
-        tables = Tables.parse("[do with][mock]\n" + "[check][commandThrowingException][value]");
+        tables = Tables.parse("[workflow][mock]\n" + "[check][commandThrowingException][value]");
         interpreter.interpret(document());
 
         verify(fixture).commandThrowingException();
@@ -219,9 +201,9 @@ public class DoWithInterpreterTest {
     public void testRejectSpecialActionExpectsFailureAndColorTheKeyword() throws Exception {
         when(fixture.commandExpectingASingleParameter("parameter")).thenReturn(true, false, new RuntimeException());
 
-        tables = Tables.parse("[do with][mock]\n" + "[reject][commandExpectingASingleParameter][parameter]\n"
-            + "[reject][commandExpectingASingleParameter][parameter]\n"
-            + "[reject][commandExpectingASingleParameter][parameter]");
+        tables = Tables.parse("[workflow][mock]\n" + "[and not that][commandExpectingASingleParameter][parameter]\n"
+            + "[and not that][commandExpectingASingleParameter][parameter]\n"
+            + "[and not that][commandExpectingASingleParameter][parameter]");
         interpreter.interpret(document());
 
         verify(fixture, times(3)).commandExpectingASingleParameter("parameter");
@@ -238,9 +220,9 @@ public class DoWithInterpreterTest {
         when(fixture.thatValueOfIs("balance")).thenReturn("1", "2");
         when(fixture.commandExpectingASingleParameter("parameter")).thenReturn(true, false);
 
-        tables = Tables.parse("[do with][mock]\n" + "[CHECK][that value of][balance][is][1]\n"
-            + "[Check][that value of][balance][is][3]\n" + "[REjeCT][commandExpectingASingleParameter][parameter]\n"
-            + "[Reject][commandExpectingASingleParameter][parameter]");
+        tables = Tables.parse("[workflow][mock]\n" + "[CHECK][that value of][balance][is][1]\n"
+            + "[Check][that value of][balance][is][3]\n" + "[aNd nOt That][commandExpectingASingleParameter][parameter]\n"
+            + "[And not that][commandExpectingASingleParameter][parameter]");
         interpreter.interpret(document());
 
         verify(fixture, times(2)).thatValueOfIs("balance");
@@ -257,7 +239,7 @@ public class DoWithInterpreterTest {
         when(fixture.thatBalanceOfAccountIs("123456")).thenReturn("0.00", "100.00");
         doReturn(true).when(fixture).depositInAccount("100.00", "123456");
 
-        tables = Tables.parse("[do with][mock]\n" + "****\n" + "[open account][123456]\n" + "****\n"
+        tables = Tables.parse("[workflow][mock]\n" + "****\n" + "[open account][123456]\n" + "****\n"
             + "[check][that balance of account][123456][is][0.00]\n" + "****\n" + "[deposit][100.00][in account][123456]\n"
             + "****\n" + "[check][that balance of account][123456][is][100.00]");
         FakeSpecification specification = document();
@@ -279,7 +261,7 @@ public class DoWithInterpreterTest {
         doReturn(true).when(fixture).openAccount("123456");
         doReturn("0.00").when(fixture).thatBalanceOfAccountIs("123456");
 
-        tables = Tables.parse("[do with][mock]\n" + "****\n" + "[open account][123456]\n" + "****\n"
+        tables = Tables.parse("[workflow][mock]\n" + "****\n" + "[open account][123456]\n" + "****\n"
             + "[check][that balance of account][123456][is][0.00]\n" + "****\n" + "[end]\n" + "*****"
             + "[deposit][100.00][in account][654321]\n" + "****\n" + "[check][that balance of account][654321][is][100.00]");
         Specification specification = document();
@@ -300,7 +282,7 @@ public class DoWithInterpreterTest {
         doReturn("0.00").when(fixture).theBalanceOfAccount("123456");
         doReturn("5.45").when(fixture).actualMortgageRate();
 
-        tables = Tables.parse("[do with][mock]\n" + "****\n" + "[display][the balance of account][123456]\n" + "****\n"
+        tables = Tables.parse("[workflow][mock]\n" + "****\n" + "[display][the balance of account][123456]\n" + "****\n"
             + "[display][actual mortgage rate]");
         Specification specification = document();
         interpreter.interpret(specification);
@@ -317,7 +299,7 @@ public class DoWithInterpreterTest {
 
         doThrow(RuntimeException.class).when(fixture).commandExpectingASingleParameter("parameter");
 
-        tables = Tables.parse("[do with][mock]\n" + "[command expecting a single parameter][parameter]\n"
+        tables = Tables.parse("[workflow][mock]\n" + "[command expecting a single parameter][parameter]\n"
             + "[command expecting a single parameter][parameter]");
         FakeSpecification specification = document();
         interpreter.interpret(specification);

@@ -18,7 +18,7 @@ import info.novatec.testit.livingdoc.interpreter.flow.workflow.DefaultRow;
 import info.novatec.testit.livingdoc.reflect.PlainOldFixture;
 import info.novatec.testit.livingdoc.util.Rows;
 
-
+@Deprecated
 public class DoWithRowSelectorTest {
     private DoWithRowSelector selector;
 

@@ -27,7 +27,7 @@ import info.novatec.testit.livingdoc.Assertions;
 import info.novatec.testit.livingdoc.Example;
 import info.novatec.testit.livingdoc.Interpreter;
 import info.novatec.testit.livingdoc.Specification;
-import info.novatec.testit.livingdoc.interpreter.RuleForInterpreter;
+import info.novatec.testit.livingdoc.interpreter.DecisionTableInterpreter;
 import info.novatec.testit.livingdoc.interpreter.SetOfInterpreter;
 import info.novatec.testit.livingdoc.interpreter.collection.RowFixtureTarget;
 import info.novatec.testit.livingdoc.reflect.Fixture;
@@ -41,7 +41,7 @@ public class DocumentTest {
 
     @Test
     public void testInterpretsASequenceOfTables() {
-        tables = parse("[" + RuleForInterpreter.class.getName() + "][" + AlternateCalculator.class.getName() + "]\n"
+        tables = parse("[" + DecisionTableInterpreter.class.getName() + "][" + AlternateCalculator.class.getName() + "]\n"
             + "[a][b][sum?]\n" + "[6][2][8]\n" + "[5][2][8]\n" + "****\n" + "[" + SetOfInterpreter.class.getName() + "]["
             + RowFixtureTarget.class.getName() + "]\n" + "[a][b][c]\n" + "[1][2][3]");
 
@@ -60,14 +60,14 @@ public class DocumentTest {
 
     @Test
     public void testDocumentCanBeFiltered() {
-        tables = parse("[" + RuleForInterpreter.class.getName() + "][" + AlternateCalculator.class.getName() + "]\n"
+        tables = parse("[" + DecisionTableInterpreter.class.getName() + "][" + AlternateCalculator.class.getName() + "]\n"
             + "[a][b][sum()]\n" + "[6][2][8]\n" + "****\n" + "[Begin Info]\n" + "****\n" + "[should not be interpreted]"
-            + "****\n" + "[End Info]\n" + "****\n" + "[" + RuleForInterpreter.class.getName() + "]["
+            + "****\n" + "[End Info]\n" + "****\n" + "[" + DecisionTableInterpreter.class.getName() + "]["
             + AlternateCalculator.class.getName() + "]\n" + "[a][b][sum()]\n" + "[6][2][8]\n" + "****\n" + "[Begin Info]\n"
             + "****\n" + "[should not be interpreted]" + "****\n" + "[End Info]\n" + "****\n" + "[section]\n" + "[unix]\n"
             + "****\n" + "****\n" + "[should not be interpreted]" + "****\n" + "[section]\n" + "****\n" + "[Begin Info]\n"
             + "****\n" + "[should not be interpreted]" + "****\n" + "[End Info]\n" + "****\n" + "["
-            + RuleForInterpreter.class.getName() + "][" + AlternateCalculator.class.getName() + "]\n" + "[a][b][sum()]\n"
+            + DecisionTableInterpreter.class.getName() + "][" + AlternateCalculator.class.getName() + "]\n" + "[a][b][sum()]\n"
             + "[6][2][8]\n");
 
         Document document = document();
@@ -79,14 +79,14 @@ public class DocumentTest {
 
     @Test
     public void testInLazyModeDocumentWithNoLivingDocTestTagIsNotInterpreted() {
-        tables = parse("[" + RuleForInterpreter.class.getName() + "][" + AlternateCalculator.class.getName() + "]\n"
+        tables = parse("[" + DecisionTableInterpreter.class.getName() + "][" + AlternateCalculator.class.getName() + "]\n"
             + "[a][b][sum()]\n" + "[6][2][8]\n" + "****\n" + "[Begin Info]\n" + "****\n" + "[should not be interpreted]"
-            + "****\n" + "[End Info]\n" + "****\n" + "[" + RuleForInterpreter.class.getName() + "]["
+            + "****\n" + "[End Info]\n" + "****\n" + "[" + DecisionTableInterpreter.class.getName() + "]["
             + AlternateCalculator.class.getName() + "]\n" + "[a][b][sum()]\n" + "[6][2][8]\n" + "****\n" + "[Begin Info]\n"
             + "****\n" + "[should not be interpreted]" + "****\n" + "[End Info]\n" + "****\n" + "[section]\n" + "[unix]\n"
             + "****\n" + "****\n" + "[should not be interpreted]" + "****\n" + "[section]\n" + "****\n" + "[Begin Info]\n"
             + "****\n" + "[should not be interpreted]" + "****\n" + "[End Info]\n" + "****\n" + "["
-            + RuleForInterpreter.class.getName() + "][" + AlternateCalculator.class.getName() + "]\n" + "[a][b][sum()]\n"
+            + DecisionTableInterpreter.class.getName() + "][" + AlternateCalculator.class.getName() + "]\n" + "[a][b][sum()]\n"
             + "[6][2][8]\n");
 
         Document document = document();
@@ -99,15 +99,15 @@ public class DocumentTest {
 
     @Test
     public void testInLazyModeDocumentWithLivingDocTestTagIsInterpretedWhereTagsAre() {
-        tables = parse("[" + LivingDocTableFilter.BEGIN_TEST + "]\n" + "****\n" + "[" + RuleForInterpreter.class.getName()
+        tables = parse("[" + LivingDocTableFilter.BEGIN_TEST + "]\n" + "****\n" + "[" + DecisionTableInterpreter.class.getName()
             + "][" + AlternateCalculator.class.getName() + "]\n" + "[a][b][sum()]\n" + "[6][2][8]\n" + "****\n"
             + "[Begin Info]\n" + "****\n" + "[should not be interpreted]" + "****\n" + "[End Info]\n" + "****\n" + "["
-            + RuleForInterpreter.class.getName() + "][" + AlternateCalculator.class.getName() + "]\n" + "[a][b][sum()]\n"
+            + DecisionTableInterpreter.class.getName() + "][" + AlternateCalculator.class.getName() + "]\n" + "[a][b][sum()]\n"
             + "[6][2][8]\n" + "****\n" + "[Begin Info]\n" + "****\n" + "[should not be interpreted]" + "****\n"
             + "[End Info]\n" + "****\n" + "[section]\n" + "[unix]\n" + "****\n" + "****\n" + "[should not be interpreted]"
             + "****\n" + "[section]\n" + "****\n" + "[Begin Info]\n" + "****\n" + "[should not be interpreted]" + "****\n"
             + "[End Info]\n" + "****\n" + "[" + LivingDocTableFilter.END_TEST + "]\n" + "****\n" + "["
-            + RuleForInterpreter.class.getName() + "][" + AlternateCalculator.class.getName() + "]\n" + "[a][b][sum()]\n"
+            + DecisionTableInterpreter.class.getName() + "][" + AlternateCalculator.class.getName() + "]\n" + "[a][b][sum()]\n"
             + "[6][2][8]\n");
 
         Document document = document();
@@ -152,7 +152,6 @@ public class DocumentTest {
         document.execute(new LivingDocInterpreterSelector(systemUnderDevelopment));
     }
 
-    @SuppressWarnings("unused")
     public static class InterpreterExpectingASystemUnderDevelopment implements Interpreter {
         public InterpreterExpectingASystemUnderDevelopment(SystemUnderDevelopment sud) {
             // No implementation needed.
@@ -168,7 +167,6 @@ public class DocumentTest {
         }
     }
 
-    @SuppressWarnings("unused")
     public static class InterpreterExpectingAFixture implements Interpreter {
         public InterpreterExpectingAFixture(Fixture fixture) {
             // No implementation needed.
