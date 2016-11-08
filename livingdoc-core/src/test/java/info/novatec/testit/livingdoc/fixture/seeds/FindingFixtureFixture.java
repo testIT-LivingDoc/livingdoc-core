@@ -36,7 +36,7 @@ public class FindingFixtureFixture {
 
     public FindingFixtureFixture() {
         typeLoader = new FixtureTypeLoaderChain(this.getClass().getClassLoader());
-        typeLoader.searchPackage("info.novatec.testit.livingdoc.fixture.seeds");
+        typeLoader.searchPackage(getClass().getPackage().getName());
     }
 
     public String found() {

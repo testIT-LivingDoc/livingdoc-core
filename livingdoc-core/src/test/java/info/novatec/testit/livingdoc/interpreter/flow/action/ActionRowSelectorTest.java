@@ -12,7 +12,7 @@ import info.novatec.testit.livingdoc.interpreter.flow.RowSelector;
 import info.novatec.testit.livingdoc.reflect.PlainOldFixture;
 import info.novatec.testit.livingdoc.util.Rows;
 
-
+@Deprecated
 public class ActionRowSelectorTest {
 
     RowSelector rowSelector;

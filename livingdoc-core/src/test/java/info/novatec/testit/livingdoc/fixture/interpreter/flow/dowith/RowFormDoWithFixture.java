@@ -15,24 +15,21 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
  * http://www.fsf.org. */
 
-package info.novatec.testit.livingdoc.fixture.interpreter.flow.action;
+package info.novatec.testit.livingdoc.fixture.interpreter.flow.dowith;
 
+import info.novatec.testit.livingdoc.interpreter.flow.AbstractRow;
 import info.novatec.testit.livingdoc.interpreter.flow.RowSelector;
-import info.novatec.testit.livingdoc.interpreter.flow.action.Action;
-import info.novatec.testit.livingdoc.interpreter.flow.action.ActionRow;
-import info.novatec.testit.livingdoc.interpreter.flow.action.ActionRowSelector;
+import info.novatec.testit.livingdoc.interpreter.flow.Action;
+import info.novatec.testit.livingdoc.interpreter.flow.dowith.DoWithRowSelector;
 import info.novatec.testit.livingdoc.reflect.PlainOldFixture;
 import info.novatec.testit.livingdoc.reflect.annotation.FixtureClass;
-import info.novatec.testit.livingdoc.util.NameUtils;
 import info.novatec.testit.livingdoc.util.Tables;
 
-
-// TODO refactor this to extract common code with RowFormFixture??
 @Deprecated
 @FixtureClass
-public class RowStructureFixture {
+public class RowFormDoWithFixture {
     private Tables tables;
-    private ActionRow row;
+    private AbstractRow row;
 
     public void setRow(Tables row) {
         this.tables = row;
@@ -43,17 +40,15 @@ public class RowStructureFixture {
         return row.getClass().getSimpleName().replaceAll("Row", "");
     }
 
-    // Changed this behavior
-    private ActionRow parseCommand() {
-        RowSelector selector = new ActionRowSelector(new PlainOldFixture(new Object()));
+    private AbstractRow parseCommand() {
+        RowSelector selector = new DoWithRowSelector(new PlainOldFixture(new Object()));
 
-        return ( ActionRow ) selector.select(tables.at(0, 0));
+        return ( AbstractRow ) selector.select(tables.at(0, 0));
     }
 
-    // Changed this behavior
     public String actionName() {
         Action action = Action.parse(row.actionCells(tables.at(0, 0)));
-        return NameUtils.toLowerCamelCase(action.name());
+        return action.name();
 
     }
 

@@ -35,7 +35,6 @@ public class SavingAndRecallingValuesFixture {
         return TypeConversion.toString(variables.getVariable(cellText));
     }
 
-    @SuppressWarnings("unused")
     public void setCellDisplaysAs(String symbol) {
         // No implementation needed.
     }

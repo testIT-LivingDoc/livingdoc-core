@@ -15,19 +15,20 @@
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
  * http://www.fsf.org. */
 
-package info.novatec.testit.livingdoc.fixture.interpreter.flow.dowith;
+package info.novatec.testit.livingdoc.fixture.interpreter.flow.workflow;
+
 
 import info.novatec.testit.livingdoc.interpreter.flow.AbstractRow;
 import info.novatec.testit.livingdoc.interpreter.flow.RowSelector;
+import info.novatec.testit.livingdoc.interpreter.flow.workflow.WorkflowRowSelector;
 import info.novatec.testit.livingdoc.interpreter.flow.Action;
-import info.novatec.testit.livingdoc.interpreter.flow.dowith.DoWithRowSelector;
 import info.novatec.testit.livingdoc.reflect.PlainOldFixture;
 import info.novatec.testit.livingdoc.reflect.annotation.FixtureClass;
 import info.novatec.testit.livingdoc.util.Tables;
 
 
 @FixtureClass
-public class RowFormFixture {
+public class RowFormWorkflowFixture {
     private Tables tables;
     private AbstractRow row;
 
@@ -41,7 +42,7 @@ public class RowFormFixture {
     }
 
     private AbstractRow parseCommand() {
-        RowSelector selector = new DoWithRowSelector(new PlainOldFixture(new Object()));
+        RowSelector selector = new WorkflowRowSelector(new PlainOldFixture(new Object()));
 
         return ( AbstractRow ) selector.select(tables.at(0, 0));
     }

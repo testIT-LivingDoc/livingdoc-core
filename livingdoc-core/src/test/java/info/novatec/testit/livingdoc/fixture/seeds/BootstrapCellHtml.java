@@ -22,7 +22,7 @@ import info.novatec.testit.livingdoc.Interpreter;
 import info.novatec.testit.livingdoc.annotation.Annotations;
 import info.novatec.testit.livingdoc.document.FakeSpecification;
 import info.novatec.testit.livingdoc.html.HtmlDocumentBuilder;
-import info.novatec.testit.livingdoc.interpreter.RuleForInterpreter;
+import info.novatec.testit.livingdoc.interpreter.DecisionTableInterpreter;
 import info.novatec.testit.livingdoc.reflect.PlainOldFixture;
 
 
@@ -46,7 +46,7 @@ public class BootstrapCellHtml extends PlainOldFixture {
         try {
             example = parse();
             FakeSpecification spec = new FakeSpecification(example);
-            Interpreter columnInterpreter = new RuleForInterpreter(this);
+            Interpreter columnInterpreter = new DecisionTableInterpreter(this);
             columnInterpreter.interpret(spec);
         } catch (Exception e) {
             printErrorInCell(example, e);
