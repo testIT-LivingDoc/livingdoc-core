@@ -53,6 +53,10 @@ public class AbstractFlowInterpreter implements Interpreter {
 
         skipFirstRowOfNextTable();
         callBeforeTable();
+        if(stats.exceptionCount() > 0){
+            specification.exampleDone(new Statistics());
+            return;
+        }
         while (specification.hasMoreExamples() && canContinue(stats)) {
             Example next = specification.nextExample();
             if (indicatesEndOfFlow(next)) {
