@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>info.novatec.testit</groupId>
 		<artifactId>livingdoc</artifactId>
-		<version>1.2-SNAPSHOT</version>
+		<version>1.2.2</version>
 	</parent>
 
 	<artifactId>livingdoc-core</artifactId>
