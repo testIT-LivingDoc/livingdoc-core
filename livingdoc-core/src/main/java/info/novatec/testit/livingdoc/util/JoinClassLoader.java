@@ -56,6 +56,10 @@ public class JoinClassLoader extends ClassLoader {
         this.enclosingClassLoader = enclosingClassLoader;
     }
 
+    public ClassLoader getEnclosingClassLoader() {
+        return this.enclosingClassLoader;
+    }
+
     @Override
     protected Class< ? > findClass(String name) throws ClassNotFoundException {
         Class< ? > cls = this.classCache.get(name);
@@ -101,5 +105,4 @@ public class JoinClassLoader extends ClassLoader {
             throw new ClassNotFoundException("Cannot load resource for class [" + name + "]", ex);
         }
     }
-
 }
