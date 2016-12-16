@@ -149,7 +149,6 @@ public class LivingDocInterpreterSelectorTest {
     public static class MyInterpreter implements Interpreter {
         private Fixture fixture;
 
-        @SuppressWarnings("unused")
         public MyInterpreter(SystemUnderDevelopment sud) {
             // No implementation needed.
         }
@@ -174,7 +173,6 @@ public class LivingDocInterpreterSelectorTest {
      */
     public static class AliasInterpreter implements Interpreter {
 
-        @SuppressWarnings("unused")
         public AliasInterpreter(SystemUnderDevelopment sud) {
             // No implementation needed.
         }

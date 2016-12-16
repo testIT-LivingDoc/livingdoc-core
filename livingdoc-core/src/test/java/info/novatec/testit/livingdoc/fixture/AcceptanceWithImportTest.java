@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import info.novatec.testit.livingdoc.document.LivingDocInterpreterSelector;
-import info.novatec.testit.livingdoc.fixture.systemunderdevelopment.LivingDocSystemUnderDevelopment;
+import info.novatec.testit.livingdoc.fixture.systemunderdevelopment.LivingDocTestSystemUnderDevelopment;
 import info.novatec.testit.livingdoc.report.FileReportGenerator;
 import info.novatec.testit.livingdoc.report.PlainReport;
 import info.novatec.testit.livingdoc.repository.FileSystemRepository;
@@ -62,7 +62,7 @@ public class AcceptanceWithImportTest {
     @Test
     public void shouldRunAcceptanceTestsForCore() {
         runner.setRepository(repo);
-        runner.setSystemUnderDevelopment(new LivingDocSystemUnderDevelopment());
+        runner.setSystemUnderDevelopment(new LivingDocTestSystemUnderDevelopment());
         runner.setReportGenerator(generator);
         runner.setInterpreterSelector(LivingDocInterpreterSelector.class);
         runner.setSections();
@@ -71,11 +71,11 @@ public class AcceptanceWithImportTest {
         runner.run(input, suiteoutput.getAbsolutePath());
         System.out.println(outputDir);
         assertTrue(suiteoutput.isDirectory());
-        assertEquals(3, suiteoutput.listFiles().length);
-        assertEquals(51, recorder.getStatistics().totalCount());
-        assertEquals(42, recorder.getStatistics().rightCount());
+        assertEquals(4, suiteoutput.listFiles().length);
+        assertEquals(83, recorder.getStatistics().totalCount());
+        assertEquals(66, recorder.getStatistics().rightCount());
         assertEquals(0, recorder.getStatistics().wrongCount());
-        assertEquals(9, recorder.getStatistics().ignoredCount());
+        assertEquals(17, recorder.getStatistics().ignoredCount());
         assertEquals(0, recorder.getStatistics().exceptionCount());
     }
 

@@ -6,11 +6,12 @@ import static info.novatec.testit.livingdoc.util.LoggerConstants.EXIT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import info.novatec.testit.livingdoc.Interpreter;
 import info.novatec.testit.livingdoc.Specification;
 import info.novatec.testit.livingdoc.Statistics;
 
 
-public class SkipInterpreter extends AbstractInterpreter {
+public class SkipInterpreter implements Interpreter  {
     private static final Logger LOG = LoggerFactory.getLogger(SkipInterpreter.class);
 
     private final Statistics stats;

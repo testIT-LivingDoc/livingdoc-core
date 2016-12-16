@@ -12,12 +12,12 @@ import org.slf4j.LoggerFactory;
 
 import info.novatec.testit.livingdoc.Call;
 import info.novatec.testit.livingdoc.Example;
+import info.novatec.testit.livingdoc.Interpreter;
 import info.novatec.testit.livingdoc.Specification;
 import info.novatec.testit.livingdoc.Statistics;
 import info.novatec.testit.livingdoc.annotation.Annotations;
 import info.novatec.testit.livingdoc.call.Compile;
 import info.novatec.testit.livingdoc.call.ResultIs;
-import info.novatec.testit.livingdoc.interpreter.AbstractInterpreter;
 import info.novatec.testit.livingdoc.reflect.AfterTable;
 import info.novatec.testit.livingdoc.reflect.BeforeTable;
 import info.novatec.testit.livingdoc.reflect.Fixture;
@@ -32,7 +32,7 @@ import info.novatec.testit.livingdoc.util.ExampleUtil;
  * Process a table containing a series of command. Each line of table correspond
  * to a command and its parameters.
  */
-public class AbstractFlowInterpreter extends AbstractInterpreter {
+public class AbstractFlowInterpreter implements Interpreter {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractFlowInterpreter.class);
 
     private int startRow;
@@ -53,6 +53,10 @@ public class AbstractFlowInterpreter extends AbstractInterpreter {
 
         skipFirstRowOfNextTable();
         callBeforeTable();
+        if(stats.exceptionCount() > 0){
+            specification.exampleDone(new Statistics());
+            return;
+        }
         while (specification.hasMoreExamples() && canContinue(stats)) {
             Example next = specification.nextExample();
             if (indicatesEndOfFlow(next)) {

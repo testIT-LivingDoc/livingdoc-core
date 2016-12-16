@@ -6,7 +6,6 @@ import info.novatec.testit.livingdoc.reflect.Fixture;
 
 
 public class TestingInterpreter implements Interpreter {
-    @SuppressWarnings("unused")
     public TestingInterpreter(Fixture fixture) {
         // No implementation needed.
     }

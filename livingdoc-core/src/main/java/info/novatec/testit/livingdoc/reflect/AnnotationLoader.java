@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import info.novatec.testit.livingdoc.util.JoinClassLoader;
 import org.apache.commons.lang3.StringUtils;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
@@ -102,6 +103,14 @@ public class AnnotationLoader<T> {
         }
         builder.addClassLoader(loader);
         builder.addUrls(ClasspathHelper.forClassLoader(loader));
+
+        if(loader instanceof JoinClassLoader) {
+            // When the object "reflections" is created in the method scanClassPath(), are scanned the URLs so
+            // it is necessary to add the URLs from the enclosing class loader in the JoinClassLoader that it
+            // contains the fixture classpath (see org.reflections.Reflections.scan()).
+            builder.addUrls(ClasspathHelper.forClassLoader(((JoinClassLoader) loader).getEnclosingClassLoader()));
+        }
+
         scanClassPath(builder);
     }
 

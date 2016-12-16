@@ -23,7 +23,7 @@ import info.novatec.testit.livingdoc.reflect.annotation.FixtureClass;
 
 @FixtureClass("DoSetup Interpretation Order")
 public class InterpretationOrderFixture extends
-    info.novatec.testit.livingdoc.fixture.interpreter.flow.dowith.InterpretationOrderFixture {
+    info.novatec.testit.livingdoc.fixture.interpreter.flow.dowith.InterpretationOrderDoWithFixture {
     /**
      * This fixture is working as the DoWith Interpretation Order Fixture but
      * need to have it under is own package (conflicting with Setup and DoWith

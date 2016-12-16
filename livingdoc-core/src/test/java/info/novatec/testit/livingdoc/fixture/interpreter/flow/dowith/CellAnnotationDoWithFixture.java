@@ -28,8 +28,9 @@ import info.novatec.testit.livingdoc.reflect.annotation.FixtureClass;
 import info.novatec.testit.livingdoc.util.Tables;
 
 
+@Deprecated
 @FixtureClass("Cell Annotation DoWith")
-public class CellAnnotationFixture {
+public class CellAnnotationDoWithFixture {
     private Tables tables;
     private AbstractRow command;
     private MockFixture fixture;

@@ -111,12 +111,10 @@ public class OgnlFixtureTest {
             // No implementation needed.
         }
 
-        @SuppressWarnings("unused")
         public void methodWithArityOverloaded(String s1) {
             // No implementation needed.
         }
 
-        @SuppressWarnings("unused")
         public void methodWithArityOverloaded(String s1, String s2) {
             // No implementation needed.
         }
@@ -125,12 +123,10 @@ public class OgnlFixtureTest {
             return true;
         }
 
-        @SuppressWarnings("unused")
         public boolean methodReturningValueWithArityOverloaded(String s1) {
             return true;
         }
 
-        @SuppressWarnings("unused")
         public boolean methodReturningValueWithArityOverloaded(String s1, String s2) {
             return true;
         }

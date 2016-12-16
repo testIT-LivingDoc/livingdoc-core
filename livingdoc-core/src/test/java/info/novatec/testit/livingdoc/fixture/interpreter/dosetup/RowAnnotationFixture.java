@@ -51,7 +51,6 @@ public class RowAnnotationFixture {
             this.enterRow = enterRow;
         }
 
-        @SuppressWarnings("unused")
         public boolean rowOfTable(int index1, int index2) throws Exception {
             if ("exception".equals(enterRow)) {
                 throw new Exception();
@@ -59,7 +58,6 @@ public class RowAnnotationFixture {
             return ! "failed".equals(enterRow);
         }
 
-        @SuppressWarnings("unused")
         public boolean rowOfTableWith(int index1, int index2, int index3) throws Exception {
             if ("exception".equals(enterRow)) {
                 throw new Exception();
@@ -67,7 +65,6 @@ public class RowAnnotationFixture {
             return ! "failed".equals(enterRow);
         }
 
-        @SuppressWarnings("unused")
         public void existingMethodWithMissingParameter(int p1) {
             // No implementation needed.
         }

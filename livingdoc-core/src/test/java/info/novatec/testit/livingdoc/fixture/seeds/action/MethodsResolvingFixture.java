@@ -36,7 +36,6 @@ public class MethodsResolvingFixture {
             lastArityOfCalledMethod = 0;
         }
 
-        @SuppressWarnings("unused")
         public void MyMethodThatIsOverrideWithNoParametersAndTwoParameters(int arg1, int arg2) {
             lastArityOfCalledMethod = 2;
         }

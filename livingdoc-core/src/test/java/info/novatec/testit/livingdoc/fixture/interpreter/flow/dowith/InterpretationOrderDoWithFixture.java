@@ -27,9 +27,9 @@ import info.novatec.testit.livingdoc.reflect.PlainOldFixture;
 import info.novatec.testit.livingdoc.reflect.annotation.FixtureClass;
 import info.novatec.testit.livingdoc.util.Tables;
 
-
+@Deprecated
 @FixtureClass("Interpretation Order DoWith")
-public class InterpretationOrderFixture {
+public class InterpretationOrderDoWithFixture {
     public Tables tables;
 
     public String[] orderOfInterpretation() {

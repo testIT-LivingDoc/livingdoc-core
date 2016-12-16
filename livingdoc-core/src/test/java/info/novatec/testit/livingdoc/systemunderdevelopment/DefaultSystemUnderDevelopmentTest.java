@@ -81,12 +81,10 @@ public class DefaultSystemUnderDevelopmentTest {
             this.name = name;
         }
 
-        @SuppressWarnings("unused")
         public Target(String name, String param) {
             // No implementation needed.
         }
 
-        @SuppressWarnings("unused")
         public Target(String name, Integer numb) {
             // No implementation needed.
         }
