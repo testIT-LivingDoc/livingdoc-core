@@ -34,10 +34,10 @@ import info.novatec.testit.livingdoc.maven.AbstractCompilerMojo;
 
 
 /**
- * &#64;goal compile
- * &#64;phase pre-integration-test
- * &#64;requiresDependencyResolution compile
- * &#64;description Compiles fixture test sources
+ * @goal compile
+ * @phase pre-integration-test
+ * @requiresDependencyResolution compile
+ * @description Compiles fixture test sources
  */
 public class FixtureCompilerMojo extends AbstractCompilerMojo {
     /**
