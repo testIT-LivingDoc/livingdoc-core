@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 
 /**
  * Util class for internalisation. JIRA dependend.
- * <p/>
+ * <p>
  * Copyright (c) 2005 Pyxis technologies inc. All Rights Reserved.
  * 
  * @author jchuet
