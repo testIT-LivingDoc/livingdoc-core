@@ -20,7 +20,7 @@ import info.novatec.testit.livingdoc.util.URIUtil;
 
 /**
  * RepositoryType Class. Known types: CONFLUENCE / FILE ...
- * <p/>
+ * <p>
  * Copyright (c) 2006 Pyxis technologies inc. All Rights Reserved.
  *
  * @author JCHUET

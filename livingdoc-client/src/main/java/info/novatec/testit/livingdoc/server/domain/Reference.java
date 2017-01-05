@@ -25,7 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * TestCase Class. Main association class between a requirement, a test
  * docuement and a system under test.
- * <p/>
+ * <p>
  * Copyright (c) 2006 Pyxis technologies inc. All Rights Reserved.
  *
  * @author JCHUET

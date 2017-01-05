@@ -44,12 +44,12 @@ public interface Example extends Annotatable, Iterable<Example> {
 
     /**
      * returns the i(th) sibling.
-     * <p/>
-     * Note: at(0) returns this.<br/>
-     * at(1) returns nextSibling().<br/>
-     * at(2) returns nextSibling().nextSibling().<br/>
-     * at(n) returns nextSibling()...nextSibling()...nextSibling().<br/>
-     * <p/>
+     * <p>
+     * Note: at(0) returns this.<br>
+     * at(1) returns nextSibling().<br>
+     * at(2) returns nextSibling().nextSibling().<br>
+     * at(n) returns nextSibling()...nextSibling()...nextSibling().<br>
+     * <p>
      * 
      * @param i the position
      * @return the i(th) sibling
@@ -58,27 +58,27 @@ public interface Example extends Annotatable, Iterable<Example> {
 
     /**
      * Retrieves a descendant.
-     * <p/>
-     * Note: at(0, 0) returns firstChild().<br/>
-     * at(0, 1) returns firstChild().nextSibling().<br/>
-     * at(0, 2) returns firstChild().nextSibling().nextSibling().<br/>
+     * <p>
+     * Note: at(0, 0) returns firstChild().<br>
+     * at(0, 1) returns firstChild().nextSibling().<br>
+     * at(0, 2) returns firstChild().nextSibling().nextSibling().<br>
      * at(0, n) returns
-     * firstChild().nextSibling()...nextSibling()...nextSibling().<br/>
-     * at(1, 0) returns nextSibling().firstChild().<br/>
-     * at(2, 0) returns nextSibling().nextSibling().firstChild().<br/>
+     * firstChild().nextSibling()...nextSibling()...nextSibling().<br>
+     * at(1, 0) returns nextSibling().firstChild().<br>
+     * at(2, 0) returns nextSibling().nextSibling().firstChild().<br>
      * at(n, 0) returns
-     * nextSibling()...nextSibling()...nextSibling().firstChild().<br/>
+     * nextSibling()...nextSibling()...nextSibling().firstChild().<br>
      * at(n, n) returns
      * nextSibling()...nextSibling()...nextSibling().firstChild(
-     * ).nextSibling()...nextSibling()...nextSibling().<br/>
+     * ).nextSibling()...nextSibling()...nextSibling().<br>
      * at(1, 1, 1) returns
-     * nextSibling().firstChild().nextSibling().firstChild().nextSibling().<br/>
+     * nextSibling().firstChild().nextSibling().firstChild().nextSibling().<br>
      * at(2, 1, 1, 2) returns
      * nextSibling().nextSibling().firstChild().nextSibling
      * ().firstChild().nextSibling().firstChild().nextSibling().nextSibling().
-     * <br/>
-     * ...<br/>
-     * <p/>
+     * <br>
+     * ...<br>
+     * <p>
      * 
      * @param i the position
      * @param positions additional positions
@@ -101,7 +101,7 @@ public interface Example extends Annotatable, Iterable<Example> {
 
     /**
      * Adds a new sibling at the end of the siblings.
-     * <p/>
+     * <p>
      * 
      * @return the newly added sibling
      */
@@ -109,7 +109,7 @@ public interface Example extends Annotatable, Iterable<Example> {
 
     /**
      * Adds a new child at the end of the childs.
-     * <p/>
+     * <p>
      * 
      * @return the newly added child
      */

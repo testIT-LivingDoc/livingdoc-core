@@ -10,7 +10,7 @@ import java.lang.reflect.Proxy;
  * quacks like a duck, it..."). Essentially allows programs to treat objects
  * from separate hierarchies as if they were designed with common interfaces as
  * long as they adhere to common naming conventions.
- * <p/>
+ * <p>
  * This version is the strict DuckType. All methods present in the type to
  * implement must be present on the target object.
  * 
@@ -23,7 +23,7 @@ public class DuckType implements InvocationHandler {
      * instance of the object implementing interfaceToImplement even if
      * interfaceToImplement was not declared in object.getClass()'s implements
      * declaration.
-     * <p/>
+     * <p>
      * This works as long as all methods declared in interfaceToImplement are
      * present on object.
      * 

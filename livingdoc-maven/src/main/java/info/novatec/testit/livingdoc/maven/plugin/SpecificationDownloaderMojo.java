@@ -17,27 +17,27 @@ import info.novatec.testit.livingdoc.report.Report;
 
 
 /**
- * @goal freeze
- * @requiresDependencyResolution test
- * @description Downloads LivingDoc specifications
+ * &#64;goal freeze
+ * &#64;requiresDependencyResolution test
+ * &#64;description Downloads LivingDoc specifications
  */
 public class SpecificationDownloaderMojo extends AbstractMojo {
     /**
-     * @parameter expression="${basedir}/src/specs"
-     * @required
+     * &#64;parameter expression="${basedir}/src/specs"
+     * &#64;required
      */
     protected File specsDirectory;
 
     /**
-     * @parameter expression="${livingdoc.repositories}"
-     * @required
+     * &#64;parameter expression="${livingdoc.repositories}"
+     * &#64;required
      */
     protected List<Repository> repositories;
 
     /**
-     * @parameter expression="${plugin.artifacts}"
-     * @required
-     * @readonly
+     * &#64;parameter expression="${plugin.artifacts}"
+     * &#64;required
+     * &#64;readonly
      */
     protected List<Artifact> pluginDependencies;
 

@@ -4,7 +4,7 @@ import org.hibernate.Session;
 
 
 /**
- * <p/>
+ * <p>
  * Copyright (c) 2005 Pyxis technologies inc. All Rights Reserved.
  * 
  * @author gcarey

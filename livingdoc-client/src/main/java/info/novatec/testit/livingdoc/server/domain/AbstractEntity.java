@@ -10,7 +10,7 @@ import javax.persistence.MappedSuperclass;
 /**
  * Abstract Entity Class. All POJOS have to exntend it. Provides the versioning
  * and the Primary key.
- * <p/>
+ * <p>
  * Copyright (c) 2006 Pyxis technologies inc. All Rights Reserved.
  * 
  * @author JCHUET

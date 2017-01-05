@@ -32,7 +32,7 @@ import info.novatec.testit.livingdoc.systemunderdevelopment.DefaultSystemUnderDe
 
 /**
  * SystemUnderTest Class.
- * <p/>
+ * <p>
  * Copyright (c) 2006 Pyxis technologies inc. All Rights Reserved.
  *
  * @author JCHUET
