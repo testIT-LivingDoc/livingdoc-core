@@ -45,14 +45,14 @@ import info.novatec.testit.livingdoc.util.cli.Converter;
  * </pre>
  * 
  * (way to keep semi-colon as parameter)
- * <p/>
+ * <p>
  * The target class must abide to the following rules:
  * <ul>
  * <li>When no parameter is expected, it must provide a default constructor</li>
  * <li>Otherwise, if parameters are expected, it must provide a constructor
  * accepting an array of string.
  * </ul>
- * <p/>
+ * <p>
  * Note: it could be interesting to see if we can make
  * {@link info.novatec.testit.livingdoc.util.ClassUtils#findBestTypedConstructor(Class,java.lang.Object...)}
  * smarter and use it.

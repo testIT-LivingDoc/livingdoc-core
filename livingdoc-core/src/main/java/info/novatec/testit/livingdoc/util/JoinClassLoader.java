@@ -26,7 +26,7 @@ import info.novatec.testit.livingdoc.runner.SpecificationRunnerExecutor;
  * build extremely extensible). This component is also mainly used by the
  * {@link SpecificationRunnerBuilder#classLoader(ClassLoader)
  * SpecificationRunnerBuilder} and the
- * {@link SpecificationRunnerExecutor#classLoader(ClassLoader)
+ * {@link SpecificationRunnerExecutor
  * SpecificationRunnerExecutor} to inject classes from external jars into the
  * executing class loader.
  * </p>
@@ -35,7 +35,7 @@ import info.novatec.testit.livingdoc.runner.SpecificationRunnerExecutor;
  * Original code author: Christian d'Heureuse, Inventec Informatik AG, Zurich,
  * Switzerland, www.source-code.biz<br>
  * http://www.source-code.biz/snippets/java/12.htm<br>
- * Modified version: Frantisek Mantlik <frantisek at mantlik.cz><br>
+ * Modified version: Frantisek Mantlik &lt;frantisek at mantlik.cz&gt;<br>
  * https://code.google.com/p/swingbox-javahelp-viewer/source/browse/src/main/
  * java/org/mantlik/swingboxjh/JoinClassLoader.java
  * </p>

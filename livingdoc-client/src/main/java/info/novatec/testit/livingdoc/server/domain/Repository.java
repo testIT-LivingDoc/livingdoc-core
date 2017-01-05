@@ -39,7 +39,7 @@ import info.novatec.testit.livingdoc.util.ClassUtils;
 
 /**
  * Repository Class. Definition of the repository.
- * <p/>
+ * <p>
  * Copyright (c) 2006 Pyxis technologies inc. All Rights Reserved.
  *
  * @author JCHUET
@@ -52,8 +52,8 @@ public class Repository extends AbstractVersionedEntity implements Comparable<Re
     private String name;
     private String uid;
     private String baseUrl;
-    private String repositoryBaseUrl;
-    private String testBaseUrl;
+    private String baseRepositoryUrl;
+    private String baseTestUrl;
     private ContentType contentType = ContentType.UNKNOWN;
     private String username;
     private String password;
@@ -91,13 +91,13 @@ public class Repository extends AbstractVersionedEntity implements Comparable<Re
     @Basic
     @Column(name = "BASE_REPOSITORY_URL", nullable = false, length = 255)
     public String getBaseRepositoryUrl() {
-        return this.repositoryBaseUrl;
+        return this.baseRepositoryUrl;
     }
 
     @Basic
     @Column(name = "BASE_TEST_URL", nullable = false, length = 255)
     public String getBaseTestUrl() {
-        return this.testBaseUrl;
+        return this.baseTestUrl;
     }
 
     @Basic
@@ -151,11 +151,11 @@ public class Repository extends AbstractVersionedEntity implements Comparable<Re
     }
 
     public void setBaseRepositoryUrl(String repositoryBaseUrl) {
-        this.repositoryBaseUrl = repositoryBaseUrl;
+        this.baseRepositoryUrl = repositoryBaseUrl;
     }
 
     public void setBaseTestUrl(String testBaseUrl) {
-        this.testBaseUrl = testBaseUrl;
+        this.baseTestUrl = testBaseUrl;
     }
 
     public void setUsername(String username) {

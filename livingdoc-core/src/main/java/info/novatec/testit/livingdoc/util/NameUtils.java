@@ -32,8 +32,8 @@ public final class NameUtils {
     /**
      * Tries to convert <code>string</code> to a Java class name by following a
      * few simple steps:
-     * <p/>
-     * <p/>
+     * <p>
+     * <p>
      * <ul>
      * <li>First of all, <code>string</code> gets <i>camel cased</i>, the usual
      * Java class naming convention.
@@ -41,10 +41,10 @@ public final class NameUtils {
      * <code>Character.isWhitespace()</code> is removed from the camel cased
      * <code>string</code>.
      * <li>Third, all accented characters (diacritis) are replaced by their
-     * non-accented equivalent (ex: \u00e9 -> e)</li>
+     * non-accented equivalent (ex: \u00e9 -&gt; e)</li>
      * <li>Fourth, all non java identifier characters are removed</li>
      * </ul>
-     * <p/>
+     * <p>
      * The only exception to executing these two steps is when
      * <code>string</code> represents a fully-qualified class name. To check if
      * <code>string</code> represents a fully-qualified class name, a simple

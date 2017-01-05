@@ -16,7 +16,7 @@ import info.novatec.testit.livingdoc.server.LivingDocServerException;
 
 /**
  * Requirement Class.
- * <p/>
+ * <p>
  * Copyright (c) 2006 Pyxis technologies inc. All Rights Reserved.
  * 
  * @author JCHUET

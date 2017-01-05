@@ -20,7 +20,7 @@ import info.novatec.testit.livingdoc.server.LivingDocServerException;
 
 /**
  * Project Class. Definition of a project.
- * <p/>
+ * <p>
  * Copyright (c) 2006 Pyxis technologies inc. All Rights Reserved.
  * 
  * @author JCHUET
