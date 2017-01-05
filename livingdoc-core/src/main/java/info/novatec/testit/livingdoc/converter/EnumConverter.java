@@ -22,8 +22,8 @@ import java.util.EnumSet;
 /**
  * {@link Enum} converter. The <code>toString</code> result of an enum type will
  * be matched against the name value.
- * </p>
- * Ex. : <code><pre>
+ * <p>
+ * Ex. : <pre><code>
   	public enum WithdrawType
 	{
 		ATM("ATM"),
@@ -37,7 +37,7 @@ import java.util.EnumSet;
 			this.id = id;
 		}
  * 
- * @Override public String toString() { return id; } } </pre></code>
+ * &#64;Override public String toString() { return id; } } </code></pre>
  */
 public class EnumConverter extends AbstractTypeConverter {
     @Override

@@ -68,7 +68,7 @@ public class SpecificationRunnerBuilder {
      * 
      * <p>
      * To make sure that a directory exists, you can call
-     * {@link org.apache.commons.io.IOUtils#createDirectoryTree(File) IOUtils}
+     * {@link File#exists()}
      * before passing it to the builder.
      */
     public SpecificationRunnerBuilder outputDirectory(File directory) {
@@ -96,9 +96,9 @@ public class SpecificationRunnerBuilder {
      * </p>
      * 
      * <ul>
-     * <li><code>my.company.sud.MyOwnSudImpl;arg1;arg2</li>
+     * <li><code>my.company.sud.MyOwnSudImpl;arg1;arg2</code></li>
      * <li><code>info.novatec.testit.livingdoc.systemunderdevelopment.
-     * DefaultSystemUnderDevelopment</li>
+     * DefaultSystemUnderDevelopment</code></li>
      * </ul>
      */
     public SpecificationRunnerBuilder systemUnderDevelopment(String clazz) {

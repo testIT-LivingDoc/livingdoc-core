@@ -48,8 +48,8 @@ import org.codehaus.plexus.util.InterpolationFilterReader;
 /**
  * Copy application resources.
  * 
- * @goal resources
- * @phase pre-integration-test
+ * &#64;goal resources
+ * &#64;phase pre-integration-test
  */
 public class FixtureResourcesMojo extends AbstractMojo {
 

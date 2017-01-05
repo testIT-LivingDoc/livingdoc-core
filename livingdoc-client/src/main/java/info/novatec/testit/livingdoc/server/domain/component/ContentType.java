@@ -2,13 +2,13 @@ package info.novatec.testit.livingdoc.server.domain.component;
 
 import javax.persistence.Embeddable;
 
-
 @Embeddable
 public class ContentType {
-    public final static ContentType TEST = new ContentType("TEST");
-    public final static ContentType REQUIREMENT = new ContentType("REQUIREMENT");
-    public final static ContentType BOTH = new ContentType("BOTH");
-    public final static ContentType UNKNOWN = new ContentType("UNKNOWN");
+
+    public static final ContentType TEST = new ContentType("TEST");
+    public static final ContentType REQUIREMENT = new ContentType("REQUIREMENT");
+    public static final ContentType BOTH = new ContentType("BOTH");
+    public static final ContentType UNKNOWN = new ContentType("UNKNOWN");
 
     private String contentType;
 
@@ -31,9 +31,17 @@ public class ContentType {
         return UNKNOWN;
     }
 
+    public static boolean containsSpecifications(ContentType type) {
+        return containsSpecifications(type.getContentType());
+    }
+
+    public static boolean containsSpecifications(String type) {
+        return type.equals(TEST.toString()) || type.equals(BOTH.toString());
+    }
+
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof ContentType && getContentType().equals( ( ( ContentType ) obj ).getContentType());
+        return obj instanceof ContentType && getContentType().equals(((ContentType) obj).getContentType());
     }
 
     @Override
@@ -53,13 +61,5 @@ public class ContentType {
     @SuppressWarnings("unused")
     private void setContentType(String contentType) {
         this.contentType = contentType;
-    }
-
-    public static boolean containsSpecifications(ContentType type) {
-        return containsSpecifications(type.getContentType());
-    }
-
-    public static boolean containsSpecifications(String type) {
-        return ( type.equals(TEST.toString()) || type.equals(BOTH.toString()) );
     }
 }

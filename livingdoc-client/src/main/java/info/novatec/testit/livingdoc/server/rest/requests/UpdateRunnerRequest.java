@@ -5,12 +5,15 @@ import info.novatec.testit.livingdoc.server.domain.Runner;
 
 public class UpdateRunnerRequest {
 
+    public String oldRunnerName;
     public Runner runner;
 
     public UpdateRunnerRequest() {
     }
 
-    public UpdateRunnerRequest(Runner runner) {
+    public UpdateRunnerRequest(final String oldRunnerName, Runner runner) {
+
+        this.oldRunnerName = oldRunnerName;
         this.runner = runner;
     }
 }

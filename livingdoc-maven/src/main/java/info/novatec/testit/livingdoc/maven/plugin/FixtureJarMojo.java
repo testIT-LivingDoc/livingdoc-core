@@ -24,9 +24,9 @@ import info.novatec.testit.livingdoc.maven.AbstractJarMojo;
  * Build a JAR of the test classes for the current project.
  * 
  * @version $Id$
- * @goal fixture-jar
- * @phase post-integration-test
- * @requiresProject
+ * &#64;goal fixture-jar
+ * &#64;phase post-integration-test
+ * &#64;requiresProject
  */
 public class FixtureJarMojo extends AbstractJarMojo {
 

@@ -22,7 +22,7 @@ import info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller;
 
 /**
  * Specification Class.
- * <p/>
+ * <p>
  * Copyright (c) 2006 Pyxis technologies inc. All Rights Reserved.
  * 
  * @author JCHUET
