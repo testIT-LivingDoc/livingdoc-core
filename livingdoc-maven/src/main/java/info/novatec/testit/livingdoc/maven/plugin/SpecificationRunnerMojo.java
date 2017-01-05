@@ -39,17 +39,17 @@ import info.novatec.testit.livingdoc.runner.RecorderMonitor;
 
 
 /**
- * &#64;goal run
- * &#64;phase integration-test
- * &#64;requiresDependencyResolution test
- * &#64;description Runs LivingDoc specifications
+ * @goal run
+ * @phase integration-test
+ * @requiresDependencyResolution test
+ * @description Runs LivingDoc specifications
  */
 public class SpecificationRunnerMojo extends AbstractMojo {
     /**
      * Set this to 'true' to bypass livingdoc tests entirely. Its use is NOT
      * RECOMMENDED, but quite convenient on occasion.
      * 
-     * &#64;parameter expression="${maven.livingdoc.test.skip}"
+     * @parameter expression="${maven.livingdoc.test.skip}"
      * default-value="false"
      */
     private boolean skip;
@@ -57,58 +57,58 @@ public class SpecificationRunnerMojo extends AbstractMojo {
     /**
      * Project fixture classpath.
      * 
-     * &#64;parameter expression="${project.testClasspathElements}"
-     * &#64;required
-     * &#64;readonly
+     * @parameter expression="${project.testClasspathElements}"
+     * @required
+     * @readonly
      */
     protected List<String> classpathElements;
 
     /**
      * The directory where compiled fixture classes go.
      * 
-     * &#64;parameter expression="${project.build.directory}/fixture-test-classes"
-     * &#64;required
+     * @parameter expression="${project.build.directory}/fixture-test-classes"
+     * @required
      */
     protected File fixtureOutputDirectory;
 
     /**
      * The SystemUnderDevelopment class to use
      * 
-     * &#64;parameter default-value=
+     * @parameter default-value=
      * "info.novatec.testit.livingdoc.systemunderdevelopment.DefaultSystemUnderDevelopment"
-     * &#64;required
+     * @required
      */
     protected String systemUnderDevelopment;
 
     /**
-     * &#64;parameter expression="${project.build.directory}/livingdoc-reports"
-     * &#64;required
+     * @parameter expression="${project.build.directory}/livingdoc-reports"
+     * @required
      */
     protected File reportsDirectory;
 
     /**
-     * &#64;parameter expression="${maven.livingdoc.reports.type}"
+     * @parameter expression="${maven.livingdoc.reports.type}"
      * default-value="html"
      */
     protected String reportsType;
 
     /**
-     * &#64;parameter expression="${livingdoc.repositories}"
-     * &#64;required
+     * @parameter expression="${livingdoc.repositories}"
+     * @required
      */
     protected List<Repository> repositories;
 
     /**
-     * &#64;parameter expression="${plugin.artifacts}"
-     * &#64;required
-     * &#64;readonly
+     * @parameter expression="${plugin.artifacts}"
+     * @required
+     * @readonly
      */
     protected List<Artifact> pluginDependencies;
 
     /**
      * Set this to 'true' to stop the execution on a failure.
      * 
-     * &#64;parameter expression="${maven.livingdoc.test.stop}"
+     * @parameter expression="${maven.livingdoc.test.stop}"
      * default-value="false"
      */
     protected boolean stopOnFirstFailure;
@@ -116,14 +116,14 @@ public class SpecificationRunnerMojo extends AbstractMojo {
     /**
      * Set the locale for the execution.
      * 
-     * &#64;parameter expression="${maven.livingdoc.locale}"
+     * @parameter expression="${maven.livingdoc.locale}"
      */
     protected String locale;
 
     /**
      * Set the Selector class.
      * 
-     * &#64;parameter expression="${maven.livingdoc.selector}" default-value=
+     * @parameter expression="${maven.livingdoc.selector}" default-value=
      * "info.novatec.testit.livingdoc.document.LivingDocInterpreterSelector"
      */
     protected String selector;
@@ -131,7 +131,7 @@ public class SpecificationRunnerMojo extends AbstractMojo {
     /**
      * Set the Debug mode.
      * 
-     * &#64;parameter expression="${maven.livingdoc.debug}" default-value="false"
+     * @parameter expression="${maven.livingdoc.debug}" default-value="false"
      */
     protected boolean debug;
 
@@ -139,7 +139,7 @@ public class SpecificationRunnerMojo extends AbstractMojo {
      * Set this to true to ignore a failure during testing. Its use is NOT
      * RECOMMENDED, but quite convenient on occasion.
      * 
-     * &#64;parameter expression="${maven.livingdoc.test.failure.ignore}"
+     * @parameter expression="${maven.livingdoc.test.failure.ignore}"
      * default-value="false"
      */
     protected boolean testFailureIgnore;
