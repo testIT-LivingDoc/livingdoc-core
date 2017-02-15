@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2008 Pyxis Technologies inc.
  *
  * This is free software; you can redistribute it and/or modify it under the
@@ -31,7 +31,7 @@ import info.novatec.testit.livingdoc.server.rpc.runner.report.ReportGenerator;
 
 public class RemoteDocumentRunner implements SpecificationRunner {
 
-    private XmlRpcRemoteRunner xmlRpcRemoteRunner;
+    private RestRemoteRunner restRemoteRunner;
     private SpecificationRunnerMonitor monitor;
     private String project;
     private String systemUnderTest;
@@ -39,8 +39,8 @@ public class RemoteDocumentRunner implements SpecificationRunner {
     private ReportGenerator reportGenerator;
     private Locale locale;
 
-    public void setXmlRpcRemoteRunner(XmlRpcRemoteRunner xmlRpcRemoteRunner) {
-        this.xmlRpcRemoteRunner = xmlRpcRemoteRunner;
+    public void setRestRemoteRunner(RestRemoteRunner restRemoteRunner) {
+        this.restRemoteRunner = restRemoteRunner;
     }
 
     public void setMonitor(SpecificationRunnerMonitor monitor) {
@@ -74,7 +74,7 @@ public class RemoteDocumentRunner implements SpecificationRunner {
         try {
             monitor.testRunning(getLocation(source, '/'));
 
-            Execution execution = xmlRpcRemoteRunner.runSpecification(project, systemUnderTest, repositoryId, source, false,
+            Execution execution = restRemoteRunner.runSpecification(project, systemUnderTest, repositoryId, source, false,
                 locale.getLanguage());
 
             report = reportGenerator.openReport(getLocation(source, '-'));

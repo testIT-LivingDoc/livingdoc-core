@@ -45,7 +45,12 @@ import info.novatec.testit.livingdoc.util.FormattedDate;
  * Copyright (c) 2006 Pyxis technologies inc. All Rights Reserved.
  *
  * @author JCHUET
+ *
+ * @deprecated The XML-RPC and SOAP APIs are deprecated since Confluence 5.5.
+ * More info <a href="https://developer.atlassian.com/confdev/deprecated-apis/confluence-xml-rpc-and-soap-apis">here</a>
+ * <br> Use {@link info.novatec.testit.livingdoc.server.rest.LivingDocRestClient} instead.
  */
+@Deprecated
 public class XmlRpcDataMarshaller {
     private static final Logger log = LoggerFactory.getLogger(XmlRpcDataMarshaller.class);
     public static final String MARSHALLING_VERSION = "Marshall v. 1.0";

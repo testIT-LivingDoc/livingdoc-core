@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2008 Pyxis Technologies inc.
  * 
  * This is free software; you can redistribute it and/or modify it under the
@@ -30,12 +30,12 @@ import info.novatec.testit.livingdoc.server.domain.SystemUnderTest;
 import info.novatec.testit.livingdoc.server.rest.LivingDocRestClient;
 
 
-public class XmlRpcRemoteRunner {
+public class RestRemoteRunner {
 
     private final LivingDocRestClient client;
 
-    public XmlRpcRemoteRunner(final String url, final String handler) {
-        client = new LivingDocRestClient(url);
+    public RestRemoteRunner(final String url, final String user, final String password) {
+        client = new LivingDocRestClient(url, user, password);
     }
 
     public DocumentNode getSpecificationHierarchy(Repository repository, SystemUnderTest systemUnderTest)

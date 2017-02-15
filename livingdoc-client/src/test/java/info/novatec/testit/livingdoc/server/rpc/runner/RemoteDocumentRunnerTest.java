@@ -43,7 +43,7 @@ public class RemoteDocumentRunnerTest {
     @Mock
     protected SpecificationRunnerMonitor monitor;
     @Mock
-    protected XmlRpcRemoteRunner xmlRpcRemoteRunner;
+    protected RestRemoteRunner restRemoteRunner;
     @Mock
     protected ReportGenerator reportGenerator;
     @Mock
@@ -63,7 +63,7 @@ public class RemoteDocumentRunnerTest {
         runner.setReportGenerator(reportGenerator);
         runner.setRepositoryId("repositoryId");
         runner.setSystemUnderTest("sut");
-        runner.setXmlRpcRemoteRunner(xmlRpcRemoteRunner);
+        runner.setRestRemoteRunner(restRemoteRunner);
 
         execution = new Execution();
         execution.setSuccess(4);
@@ -74,26 +74,26 @@ public class RemoteDocumentRunnerTest {
 
     @Test
     public void testRunningSpecificationWithFailure() throws Exception {
-        doThrow(serverException).when(xmlRpcRemoteRunner).runSpecification("project", "sut", "repositoryId", "a", false,
+        doThrow(serverException).when(restRemoteRunner).runSpecification("project", "sut", "repositoryId", "a", false,
             "en");
 
         runner.run("a", "b");
 
         verify(monitor).testRunning("repositoryId/a");
-        verify(xmlRpcRemoteRunner).runSpecification("project", "sut", "repositoryId", "a", false, "en");
+        verify(restRemoteRunner).runSpecification("project", "sut", "repositoryId", "a", false, "en");
         verify(monitor).exceptionOccurred(serverException);
     }
 
     @Test
     public void testWithReportGenerationFailure() throws Exception {
-        doReturn(execution).when(xmlRpcRemoteRunner).runSpecification("project", "sut", "repositoryId", "a", false, "en");
+        doReturn(execution).when(restRemoteRunner).runSpecification("project", "sut", "repositoryId", "a", false, "en");
         doReturn(report).when(reportGenerator).openReport("repositoryId-a");
         doThrow(serverException).when(report).generate(execution);
 
         runner.run("a", "b");
 
         verify(monitor).testRunning("repositoryId/a");
-        verify(xmlRpcRemoteRunner).runSpecification("project", "sut", "repositoryId", "a", false, "en");
+        verify(restRemoteRunner).runSpecification("project", "sut", "repositoryId", "a", false, "en");
         verify(reportGenerator).openReport("repositoryId-a");
         verify(report).generate(execution);
         verify(report).renderException(serverException);
@@ -103,14 +103,14 @@ public class RemoteDocumentRunnerTest {
 
     @Test
     public void testWithClosingReportFailure() throws Exception {
-        doReturn(execution).when(xmlRpcRemoteRunner).runSpecification("project", "sut", "repositoryId", "a", false, "en");
+        doReturn(execution).when(restRemoteRunner).runSpecification("project", "sut", "repositoryId", "a", false, "en");
         doReturn(report).when(reportGenerator).openReport("repositoryId-a");
         doThrow(serverException).when(reportGenerator).closeReport(report);
 
         runner.run("a", "b");
 
         verify(monitor).testRunning("repositoryId/a");
-        verify(xmlRpcRemoteRunner).runSpecification("project", "sut", "repositoryId", "a", false, "en");
+        verify(restRemoteRunner).runSpecification("project", "sut", "repositoryId", "a", false, "en");
         verify(reportGenerator).openReport("repositoryId-a");
         verify(report).generate(execution);
         verify(monitor).testDone(4, 3, 2, 1);
@@ -120,13 +120,13 @@ public class RemoteDocumentRunnerTest {
 
     @Test
     public void testASuccessfullExecution() throws Exception {
-        doReturn(execution).when(xmlRpcRemoteRunner).runSpecification("project", "sut", "repositoryId", "a", false, "en");
+        doReturn(execution).when(restRemoteRunner).runSpecification("project", "sut", "repositoryId", "a", false, "en");
         doReturn(report).when(reportGenerator).openReport("repositoryId-a");
 
         runner.run("a", "b");
 
         verify(monitor).testRunning("repositoryId/a");
-        verify(xmlRpcRemoteRunner).runSpecification("project", "sut", "repositoryId", "a", false, "en");
+        verify(restRemoteRunner).runSpecification("project", "sut", "repositoryId", "a", false, "en");
         verify(reportGenerator).openReport("repositoryId-a");
         verify(report).generate(execution);
         verify(monitor).testDone(4, 3, 2, 1);

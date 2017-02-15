@@ -47,7 +47,7 @@ public class RemoteSuiteRunnerTest {
     @Mock
     protected SpecificationRunnerMonitor monitor;
     @Mock
-    protected XmlRpcRemoteRunner xmlRpcRemoteRunner;
+    protected RestRemoteRunner restRemoteRunner;
     @Mock
     protected ReportGenerator reportGenerator;
     @Mock
@@ -67,29 +67,29 @@ public class RemoteSuiteRunnerTest {
         runner.setReportGenerator(reportGenerator);
         runner.setRepositoryId("repositoryId");
         runner.setSystemUnderTest("sut");
-        runner.setXmlRpcRemoteRunner(xmlRpcRemoteRunner);
+        runner.setRestRemoteRunner(restRemoteRunner);
     }
 
     @Test
     public void testWithEmptySpecificationResultList() throws Exception {
-        doReturn(documentNode).when(xmlRpcRemoteRunner).getSpecificationHierarchy(any(Repository.class), any(
+        doReturn(documentNode).when(restRemoteRunner).getSpecificationHierarchy(any(Repository.class), any(
             SystemUnderTest.class));
 
         runner.run("a", "b");
 
-        verify(xmlRpcRemoteRunner).getSpecificationHierarchy(any(Repository.class), any(SystemUnderTest.class));
+        verify(restRemoteRunner).getSpecificationHierarchy(any(Repository.class), any(SystemUnderTest.class));
         verify(monitor).testRunning("repositoryId/a");
         verify(monitor).testDone(0, 0, 0, 0);
     }
 
     @Test
     public void testWithSpecificationHierarchyFailure() throws Exception {
-        doThrow(serverException).when(xmlRpcRemoteRunner).getSpecificationHierarchy(any(Repository.class), any(
+        doThrow(serverException).when(restRemoteRunner).getSpecificationHierarchy(any(Repository.class), any(
             SystemUnderTest.class));
 
         runner.run("a", "b");
 
-        verify(xmlRpcRemoteRunner).getSpecificationHierarchy(any(Repository.class), any(SystemUnderTest.class));
+        verify(restRemoteRunner).getSpecificationHierarchy(any(Repository.class), any(SystemUnderTest.class));
         verify(monitor).exceptionOccurred(serverException);
     }
 
@@ -97,16 +97,16 @@ public class RemoteSuiteRunnerTest {
     public void testASuccessfullExecution() throws Exception {
         final DocumentNode createdDocumentNode = createDocumentNode();
         final Execution execution = createExecution();
-        doReturn(createdDocumentNode).when(xmlRpcRemoteRunner).getSpecificationHierarchy(any(Repository.class), any(
+        doReturn(createdDocumentNode).when(restRemoteRunner).getSpecificationHierarchy(any(Repository.class), any(
             SystemUnderTest.class));
-        doReturn(execution).when(xmlRpcRemoteRunner).runSpecification("project", "sut", "repositoryId", "A", false, "en");
+        doReturn(execution).when(restRemoteRunner).runSpecification("project", "sut", "repositoryId", "A", false, "en");
         doReturn(report).when(reportGenerator).openReport("repositoryId-A");
 
         runner.run("a", "b");
 
-        verify(xmlRpcRemoteRunner).getSpecificationHierarchy(any(Repository.class), any(SystemUnderTest.class));
+        verify(restRemoteRunner).getSpecificationHierarchy(any(Repository.class), any(SystemUnderTest.class));
         verify(monitor).testRunning("repositoryId/A");
-        verify(xmlRpcRemoteRunner).runSpecification("project", "sut", "repositoryId", "A", false, "en");
+        verify(restRemoteRunner).runSpecification("project", "sut", "repositoryId", "A", false, "en");
         verify(reportGenerator).openReport("repositoryId-A");
         verify(report).generate(execution);
         verify(monitor).testDone(4, 3, 2, 1);

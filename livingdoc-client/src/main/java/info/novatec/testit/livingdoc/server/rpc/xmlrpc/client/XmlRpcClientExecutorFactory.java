@@ -28,7 +28,12 @@ import info.novatec.testit.livingdoc.util.ClassUtils;
 /**
  * This factory provides a proper XmlRpc client implementation since Confluence
  * only supports the Apache XmlRpc v2.
+ *
+ * @deprecated The XML-RPC and SOAP APIs are deprecated since Confluence 5.5.
+ * More info <a href="https://developer.atlassian.com/confdev/deprecated-apis/confluence-xml-rpc-and-soap-apis">here</a>
+ * <br> Use {@link info.novatec.testit.livingdoc.server.rest.LivingDocRestClient} instead.
  */
+@Deprecated
 public class XmlRpcClientExecutorFactory {
 
     private static Class< ? > xmlRpcClientImplClass;

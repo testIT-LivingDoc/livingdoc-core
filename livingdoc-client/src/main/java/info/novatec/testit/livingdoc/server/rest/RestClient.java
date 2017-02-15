@@ -1,4 +1,4 @@
-package info.novatec.testit.livingdoc.server.rpc;
+package info.novatec.testit.livingdoc.server.rest;
 
 import java.util.Set;
 
@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
  *
  * @author JCHUET
  */
-public interface RpcClientService {
+public interface RestClient {
 
     /**
      * Tests the connection at the url and handler.

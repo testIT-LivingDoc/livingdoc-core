@@ -2,7 +2,7 @@ package info.novatec.testit.livingdoc.server.rpc;
 
 import java.util.Vector;
 
-
+@Deprecated
 public interface LivingDocRpcHelper {
     String getRenderedSpecification(String username, String password, Vector< ? > args);
 

@@ -35,6 +35,7 @@ import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
 import info.novatec.testit.livingdoc.server.domain.component.ContentType;
 import info.novatec.testit.livingdoc.util.ClassUtils;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 
 /**
@@ -124,11 +125,13 @@ public class Repository extends AbstractVersionedEntity implements Comparable<Re
         return this.type;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "repository", cascade = CascadeType.ALL)
     public Set<Requirement> getRequirements() {
         return this.requirements;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "repository", cascade = CascadeType.ALL)
     public Set<Specification> getSpecifications() {
         return specifications;

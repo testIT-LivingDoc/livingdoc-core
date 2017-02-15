@@ -46,7 +46,7 @@ public class ReferenceNodeTest {
 
         assertEquals(childrenNode.getTitle(), "TITLE");
         assertEquals(childrenNode.isExecutable(), true);
-        assertEquals(childrenNode.canBeImplemented(), false);
+        assertEquals(childrenNode.isCanBeImplemented(), false);
         assertEquals(childrenNode.getChildren().size(), 0);
         assertEquals(childrenNode.getRepositoryUID(), "REPO-UID");
         assertEquals(childrenNode.getSutName(), "SUT-NAME");

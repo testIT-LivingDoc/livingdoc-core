@@ -9,6 +9,13 @@
 **.iml
 **.ipr
 **.iws
+livingdoc-samples/target/
+\.idea/
+livingdoc-samples/livingdoc-samples\.iml
+livingdoc-cli/livingdoc-cli\.iml
+livingdoc-client/livingdoc-client\.iml
+livingdoc-core/livingdoc-core\.iml
+livingdoc-plugin/livingdoc-plugin\.iml
 
 # Eclipse
 **.settings/

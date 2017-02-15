@@ -12,13 +12,14 @@ import java.util.Vector;
 
 
 public class DocumentNode implements Comparable<DocumentNode>, Marshalizable {
-    private String title;
+
+    private final String title;
     private boolean executable;
     private boolean canBeImplemented;
 
-    private List<DocumentNode> children = new ArrayList<DocumentNode>();
+    private final List<DocumentNode> children = new ArrayList<DocumentNode>();
 
-    public DocumentNode(String title) {
+    public DocumentNode(final String title) {
         this.title = title;
     }
 
@@ -38,7 +39,7 @@ public class DocumentNode implements Comparable<DocumentNode>, Marshalizable {
         this.executable = executable;
     }
 
-    public boolean canBeImplemented() {
+    public boolean isCanBeImplemented() {
         return canBeImplemented;
     }
 
@@ -51,7 +52,7 @@ public class DocumentNode implements Comparable<DocumentNode>, Marshalizable {
     }
 
     public boolean hasChildren() {
-        return children.size() > 0;
+        return !children.isEmpty() ;
     }
 
     @Override

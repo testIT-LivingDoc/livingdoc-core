@@ -23,7 +23,7 @@ import java.io.InputStream;
 import java.io.Writer;
 
 import info.novatec.testit.livingdoc.server.domain.Execution;
-import info.novatec.testit.livingdoc.server.rpc.runner.XmlRpcRemoteRunner;
+import info.novatec.testit.livingdoc.server.rpc.runner.RestRemoteRunner;
 import info.novatec.testit.livingdoc.util.ExceptionImposter;
 import info.novatec.testit.livingdoc.util.ExceptionUtils;
 
@@ -92,7 +92,7 @@ public class HtmlReport implements Report {
 
     private String getStyleContent() {
         try {
-            InputStream is = XmlRpcRemoteRunner.class.getResource("style.css").openStream();
+            InputStream is = RestRemoteRunner.class.getResource("style.css").openStream();
             byte[] bytes = new byte[is.available()];
             if (is.read(bytes) > 0) {
                 return new String(bytes);
