@@ -31,7 +31,12 @@ import org.apache.xmlrpc.XmlRpcClient;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.secure.SecureXmlRpcClient;
 
-
+/**
+ * @deprecated The XML-RPC and SOAP APIs are deprecated since Confluence 5.5.
+ * More info <a href="https://developer.atlassian.com/confdev/deprecated-apis/confluence-xml-rpc-and-soap-apis">here</a>
+ * <br> Use {@link info.novatec.testit.livingdoc.server.rest.LivingDocRestClient} instead.
+ */
+@Deprecated
 public class XmlRpcV2ClientImpl implements XmlRpcClientExecutor {
 
     private final XmlRpcClient client;

@@ -1,6 +1,6 @@
-package info.novatec.testit.livingdoc.server.rpc.xmlrpc;
+package info.novatec.testit.livingdoc.server.rest;
 
-public enum XmlRpcMethodName {
+public enum RestMethodName {
     testConnection,
 
     ping,

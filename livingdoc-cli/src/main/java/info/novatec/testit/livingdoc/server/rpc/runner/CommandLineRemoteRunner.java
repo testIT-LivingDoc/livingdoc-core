@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2008 Pyxis Technologies inc.
  * 
  * This is free software; you can redistribute it and/or modify it under the
@@ -92,8 +92,8 @@ public class CommandLineRemoteRunner {
         return generator;
     }
 
-    private XmlRpcRemoteRunner xmlRpcRemoteRunner() {
-        return new XmlRpcRemoteRunner(url(), handler());
+    private RestRemoteRunner xmlRpcRemoteRunner() {
+        return new RestRemoteRunner(url(), user(), password());
     }
 
     @SuppressWarnings("null")
@@ -110,8 +110,14 @@ public class CommandLineRemoteRunner {
         return ( String ) cli.getOptionValue("url");
     }
 
-    private String handler() {
-        return ( String ) cli.getOptionValue("handler");
+    private String user() {
+        // TODO
+        return "";
+    }
+
+    private String password() {
+        // TODO
+        return "";
     }
 
     private String input() {

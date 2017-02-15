@@ -22,6 +22,7 @@ import info.novatec.testit.livingdoc.server.LivingDocServerException;
 
 
 @SuppressWarnings("serial")
+@Deprecated
 public class XmlRpcClientExecutorException extends LivingDocServerException {
 
     public XmlRpcClientExecutorException(String id, String msg) {

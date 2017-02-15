@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2008 Pyxis Technologies inc.
  * 
  * This is free software; you can redistribute it and/or modify it under the
@@ -32,7 +32,7 @@ import info.novatec.testit.livingdoc.server.rpc.runner.report.ReportGenerator;
 
 
 public class RemoteSuiteRunner implements SpecificationRunner {
-    private XmlRpcRemoteRunner xmlRpcRemoteRunner;
+    private RestRemoteRunner restRemoteRunner;
     private SpecificationRunnerMonitor monitor;
     private String project;
     private String systemUnderTest;
@@ -44,9 +44,9 @@ public class RemoteSuiteRunner implements SpecificationRunner {
         this.documentRunner = new RemoteDocumentRunner();
     }
 
-    public void setXmlRpcRemoteRunner(XmlRpcRemoteRunner xmlRpcRemoteRunner) {
-        this.xmlRpcRemoteRunner = xmlRpcRemoteRunner;
-        documentRunner.setXmlRpcRemoteRunner(xmlRpcRemoteRunner);
+    public void setRestRemoteRunner(RestRemoteRunner restRemoteRunner) {
+        this.restRemoteRunner = restRemoteRunner;
+        documentRunner.setRestRemoteRunner(restRemoteRunner);
     }
 
     public void setMonitor(SpecificationRunnerMonitor monitor) {
@@ -85,7 +85,7 @@ public class RemoteSuiteRunner implements SpecificationRunner {
 
             Repository repository = Repository.newInstance(repositoryId);
 
-            DocumentNode documentNode = xmlRpcRemoteRunner.getSpecificationHierarchy(repository, sut);
+            DocumentNode documentNode = restRemoteRunner.getSpecificationHierarchy(repository, sut);
             List<DocumentNode> executableSpecs = extractExecutableSpecifications(documentNode);
 
             if (executableSpecs.isEmpty()) {

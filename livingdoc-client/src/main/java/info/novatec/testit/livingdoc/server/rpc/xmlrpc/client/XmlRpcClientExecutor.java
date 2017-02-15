@@ -20,7 +20,7 @@ package info.novatec.testit.livingdoc.server.rpc.xmlrpc.client;
 
 import java.util.List;
 
-
+@Deprecated
 public interface XmlRpcClientExecutor {
 
     Object execute(String method, List< ? > params) throws XmlRpcClientExecutorException;

@@ -16,6 +16,7 @@ import javax.persistence.Transient;
 
 import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 
 /**
@@ -46,11 +47,13 @@ public class Project extends AbstractVersionedEntity implements Comparable<Proje
         return name;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     public Set<Repository> getRepositories() {
         return repositories;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     public Set<SystemUnderTest> getSystemUnderTests() {
         return systemUnderTests;
@@ -112,6 +115,7 @@ public class Project extends AbstractVersionedEntity implements Comparable<Proje
         sut.setProject(null);
     }
 
+    @JsonIgnore
     @Transient
     public SystemUnderTest getDefaultSystemUnderTest() {
         for (SystemUnderTest sut : systemUnderTests) {

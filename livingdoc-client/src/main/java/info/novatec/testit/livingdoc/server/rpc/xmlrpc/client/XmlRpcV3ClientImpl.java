@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2009 Pyxis Technologies inc.
  * 
  * This is free software; you can redistribute it and/or modify it under the
@@ -34,7 +34,13 @@ import java.util.Vector;
 import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.CALL_FAILED;
 import static info.novatec.testit.livingdoc.server.LivingDocServerErrorKey.XML_RPC_URL_NOTFOUND;
 
-
+/**
+ *
+ * @deprecated The XML-RPC and SOAP APIs are deprecated since Confluence 5.5.
+ * More info <a href="https://developer.atlassian.com/confdev/deprecated-apis/confluence-xml-rpc-and-soap-apis">here</a>
+ * <br> Use {@link info.novatec.testit.livingdoc.server.rest.LivingDocRestClient} instead.
+ */
+@Deprecated
 public class XmlRpcV3ClientImpl implements XmlRpcClientExecutor {
 
     private final XmlRpcClient client;

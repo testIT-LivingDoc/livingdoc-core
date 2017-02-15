@@ -19,6 +19,7 @@ import info.novatec.testit.livingdoc.html.HtmlDocumentBuilder;
 import info.novatec.testit.livingdoc.util.CollectionUtil;
 import info.novatec.testit.livingdoc.util.URIUtil;
 
+// TODO Change RPC call to REST
 
 public class AtlassianRepository implements DocumentRepository {
     private final URI root;
