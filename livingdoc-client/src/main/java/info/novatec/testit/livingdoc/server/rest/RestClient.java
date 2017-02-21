@@ -1,21 +1,12 @@
 package info.novatec.testit.livingdoc.server.rest;
 
-import java.util.Set;
-
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
 import info.novatec.testit.livingdoc.server.ServerPropertiesManager;
-import info.novatec.testit.livingdoc.server.domain.DocumentNode;
-import info.novatec.testit.livingdoc.server.domain.Execution;
-import info.novatec.testit.livingdoc.server.domain.Project;
-import info.novatec.testit.livingdoc.server.domain.Reference;
-import info.novatec.testit.livingdoc.server.domain.Repository;
-import info.novatec.testit.livingdoc.server.domain.Requirement;
-import info.novatec.testit.livingdoc.server.domain.RequirementSummary;
-import info.novatec.testit.livingdoc.server.domain.Runner;
-import info.novatec.testit.livingdoc.server.domain.Specification;
-import info.novatec.testit.livingdoc.server.domain.SystemUnderTest;
+import info.novatec.testit.livingdoc.server.domain.*;
 
 import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -28,10 +19,17 @@ import javax.annotation.Nullable;
 public interface RestClient {
 
     /**
+     * @param args
+     * @return
+     * @throws LivingDocServerException
+     */
+    String setSpecificationAsImplemented(List<?> args) throws LivingDocServerException;
+
+    /**
      * Tests the connection at the url and handler.
      * <p>
      *
-     * @param url Could be null.
+     * @param url     Could be null.
      * @param handler Could be null.
      * @return true if server successfully pinged.
      * @throws LivingDocServerException
@@ -168,7 +166,7 @@ public interface RestClient {
      * @throws LivingDocServerException
      */
     Set<Repository> getSpecificationRepositoriesOfAssociatedProject(Repository repository, String identifier)
-        throws LivingDocServerException;
+            throws LivingDocServerException;
 
     /**
      * Retrieves the Specification repository list for the project associated
@@ -184,7 +182,7 @@ public interface RestClient {
      * @throws LivingDocServerException
      */
     Set<Repository> getSpecificationRepositoriesOfAssociatedProject(SystemUnderTest systemUnderTest, String identifier)
-        throws LivingDocServerException;
+            throws LivingDocServerException;
 
     /**
      * Retrieves all the Specification repositories list by project or an error
@@ -211,7 +209,7 @@ public interface RestClient {
      * @throws LivingDocServerException
      */
     Set<Repository> getAllRepositoriesForSystemUnderTest(SystemUnderTest systemUnderTest, String identifier)
-        throws LivingDocServerException;
+            throws LivingDocServerException;
 
     /**
      * Retrieves the Requirement repository list for the project associated with
@@ -227,7 +225,7 @@ public interface RestClient {
      * @throws LivingDocServerException
      */
     Set<Repository> getRequirementRepositoriesOfAssociatedProject(Repository repository, String identifier)
-        throws LivingDocServerException;
+            throws LivingDocServerException;
 
     /**
      * Retrieves the SystemUnderTest list for the project associated with the
@@ -241,7 +239,7 @@ public interface RestClient {
      * @throws LivingDocServerException
      */
     Set<SystemUnderTest> getSystemUnderTestsOfAssociatedProject(Repository repository, String identifier)
-        throws LivingDocServerException;
+            throws LivingDocServerException;
 
     /**
      * Retrieves the SystemUnderTest list for the project associated.
@@ -265,7 +263,7 @@ public interface RestClient {
      * @throws LivingDocServerException
      */
     void addSystemUnderTest(SystemUnderTest systemUnderTest, Specification specification, String identifier)
-        throws LivingDocServerException;
+            throws LivingDocServerException;
 
     /**
      * Removes the SystemUnderTest to the SystemUnderTest list of the
@@ -278,7 +276,7 @@ public interface RestClient {
      * @throws LivingDocServerException
      */
     void removeSystemUnderTest(SystemUnderTest systemUnderTest, Specification specification, String identifier)
-        throws LivingDocServerException;
+            throws LivingDocServerException;
 
     /**
      * Checks if the Specification is in at least one Reference.
@@ -345,7 +343,7 @@ public interface RestClient {
      * @throws LivingDocServerException
      */
     void createSystemUnderTest(SystemUnderTest systemUnderTest, Repository repository, String identifier)
-        throws LivingDocServerException;
+            throws LivingDocServerException;
 
     /**
      * Retrieves the SystemUnderTest.
@@ -358,7 +356,7 @@ public interface RestClient {
      * @throws LivingDocServerException
      */
     SystemUnderTest getSystemUnderTest(SystemUnderTest systemUnderTest, Repository repository, String identifier)
-        throws LivingDocServerException;
+            throws LivingDocServerException;
 
     /**
      * Updates the SystemUnderTest.
@@ -371,7 +369,7 @@ public interface RestClient {
      * @throws LivingDocServerException
      */
     void updateSystemUnderTest(String oldSystemUnderTestName, SystemUnderTest newSystemUnderTest, Repository repository,
-        String identifier) throws LivingDocServerException;
+                               String identifier) throws LivingDocServerException;
 
     /**
      * Removes the SystemUnderTest.
@@ -383,7 +381,7 @@ public interface RestClient {
      * @throws LivingDocServerException
      */
     void removeSystemUnderTest(SystemUnderTest systemUnderTest, Repository repository, String identifier)
-        throws LivingDocServerException;
+            throws LivingDocServerException;
 
     /**
      * Sets the systemUnderTest as the project default SystemUnderTest
@@ -395,7 +393,7 @@ public interface RestClient {
      * @throws LivingDocServerException
      */
     void setSystemUnderTestAsDefault(SystemUnderTest systemUnderTest, Repository repository, String identifier)
-        throws LivingDocServerException;
+            throws LivingDocServerException;
 
     /**
      * Removes the Requirement
@@ -439,7 +437,7 @@ public interface RestClient {
      * @throws LivingDocServerException
      */
     void updateSpecification(Specification oldSpecification, Specification newSpecification, String identifier)
-        throws LivingDocServerException;
+            throws LivingDocServerException;
 
     /**
      * Removes the Specification
@@ -474,7 +472,7 @@ public interface RestClient {
      * @throws LivingDocServerException
      */
     Reference updateReference(Reference oldReference, Reference newReference, String identifier)
-        throws LivingDocServerException;
+            throws LivingDocServerException;
 
     /**
      * Deletes the specified Reference.
@@ -500,7 +498,7 @@ public interface RestClient {
      * @throws LivingDocServerException
      */
     Execution runSpecification(SystemUnderTest systemUnderTest, Specification specification, boolean implementedVersion,
-        String locale, String identifier) throws LivingDocServerException;
+                               String locale, String identifier) throws LivingDocServerException;
 
     /**
      * Executes the Reference.
@@ -524,7 +522,7 @@ public interface RestClient {
      * @return
      */
     DocumentNode getSpecificationHierarchy(Repository repository, SystemUnderTest systemUnderTest, String identifier)
-        throws LivingDocServerException;
+            throws LivingDocServerException;
 
     /**
      * Retrieves the requirement summary.
@@ -541,7 +539,6 @@ public interface RestClient {
      * <p>
      *
      * @return the server properties manager.
-     *
      * @deprecated This method is not necessary anymore since the service implementation with REST.<br>
      * Could be removed in the next version.
      */

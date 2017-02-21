@@ -1,32 +1,34 @@
 package info.novatec.testit.livingdoc.repository;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
-
+import info.novatec.testit.livingdoc.document.Document;
+import info.novatec.testit.livingdoc.html.HtmlDocumentBuilder;
+import info.novatec.testit.livingdoc.server.LivingDocServerException;
+import info.novatec.testit.livingdoc.server.rest.LivingDocRestClient;
+import info.novatec.testit.livingdoc.server.rest.RestClient;
+import info.novatec.testit.livingdoc.util.CollectionUtil;
+import info.novatec.testit.livingdoc.util.URIUtil;
 import org.apache.commons.io.IOUtils;
 import org.apache.xmlrpc.XmlRpcClient;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.XmlRpcRequest;
 
-import info.novatec.testit.livingdoc.document.Document;
-import info.novatec.testit.livingdoc.html.HtmlDocumentBuilder;
-import info.novatec.testit.livingdoc.util.CollectionUtil;
-import info.novatec.testit.livingdoc.util.URIUtil;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
-// TODO Change RPC call to REST
 
 public class AtlassianRepository implements DocumentRepository {
     private final URI root;
+    @Deprecated
     private String handler;
     private boolean includeStyle;
     private String username = "";
     private String password = "";
+    private RestClient restClient = null;
 
     public AtlassianRepository(String... args) throws IllegalArgumentException {
         this.root = URI.create(URIUtil.raw(args[0]));
@@ -46,48 +48,55 @@ public class AtlassianRepository implements DocumentRepository {
     }
 
     @Override
-    public Document loadDocument(String location) throws XmlRpcException, IOException {
+    public Document loadDocument(final String location) throws XmlRpcException, IOException {
         String spec = retrieveSpecification(URI.create(URIUtil.raw(location)));
         return loadHtmlDocument(spec);
     }
 
     @Override
-    // TODO exc: find fitting Exception for method
-    // 'setDocumentAsImplemented(String location)'
-    public void setDocumentAsImplemented(String location) throws MalformedURLException, XmlRpcException, IOException,
-        Exception {
-        List< ? > args = CollectionUtil.toVector(username, password, args(URI.create(URIUtil.raw(location))));
-        XmlRpcClient xmlrpc = new XmlRpcClient(root.getScheme() + "://" + root.getAuthority() + root.getPath());
-        String msg = ( String ) xmlrpc.execute(new XmlRpcRequest(handler + ".setSpecificationAsImplemented",
-            ( Vector< ? > ) args));
+    public void setDocumentAsImplemented(final String location) throws LivingDocServerException, XmlRpcException, IOException {
 
-        if ( ! ( "<success>".equals(msg) )) {
-            throw new Exception(msg);
+        String msg = getRestClient().setSpecificationAsImplemented(args(URI.create(URIUtil.raw(location))));
+
+        if (!("<success>".equals(msg))) {
+            throw new LivingDocServerException(null, msg);
         }
-
     }
 
     @Override
-    public List<String> listDocuments(String uri) {
+    public List<String> listDocuments(final String uri) {
         return new ArrayList<String>();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<Object> listDocumentsInHierarchy() throws XmlRpcException, IOException {
-        List< ? > args = CollectionUtil.toVector(username, password, CollectionUtil.toVector(root.getFragment()));
+        List<?> args = CollectionUtil.toVector(username, password, CollectionUtil.toVector(root.getFragment()));
         XmlRpcClient xmlrpc = new XmlRpcClient(root.getScheme() + "://" + root.getAuthority() + root.getPath());
-        XmlRpcRequest request = new XmlRpcRequest(handler + ".getSpecificationHierarchy", ( Vector< ? > ) args);
-        Vector<Object> response = ( Vector<Object> ) xmlrpc.execute(request);
-        return response;
+        XmlRpcRequest request = new XmlRpcRequest(handler + ".getSpecificationHierarchy", (Vector<?>) args);
+        return (Vector<Object>) xmlrpc.execute(request);
+    }
+
+    protected RestClient getRestClient() {
+        if (this.restClient == null) {
+
+            StringBuilder url = new StringBuilder();
+            url.append(root.getScheme())
+                    .append("://")
+                    .append(root.getAuthority())
+                    // + root.path()         // TODO confluence/rpc/xmlrpc (view Repository.getBaseTestUrl)
+                    .append("/confluence");  // TODO It's a patch while we are migrating to REST
+
+            this.restClient = new LivingDocRestClient(url.toString(), username, password);
+        }
+        return restClient;
     }
 
     private String retrieveSpecification(URI location) throws XmlRpcException, IOException {
-        List< ? > args = CollectionUtil.toVector(username, password, args(location));
+        List<?> args = CollectionUtil.toVector(username, password, args(location));
         XmlRpcClient xmlrpc = new XmlRpcClient(root.getScheme() + "://" + root.getAuthority() + root.getPath());
-        XmlRpcRequest request = new XmlRpcRequest(handler + ".getRenderedSpecification", ( Vector< ? > ) args);
-        String response = ( String ) xmlrpc.execute(request);
-        return response;
+        XmlRpcRequest request = new XmlRpcRequest(handler + ".getRenderedSpecification", (Vector<?>) args);
+        return (String) xmlrpc.execute(request);
     }
 
     private Document loadHtmlDocument(String content) throws IOException {
@@ -104,7 +113,7 @@ public class AtlassianRepository implements DocumentRepository {
         Vector<Object> args = new Vector<Object>();
         args.add(root.getFragment());
 
-        for (int i = 0; i < locationArgs.length; i ++ ) {
+        for (int i = 0; i < locationArgs.length; i++) {
             args.add(locationArgs[i]);
         }
 
