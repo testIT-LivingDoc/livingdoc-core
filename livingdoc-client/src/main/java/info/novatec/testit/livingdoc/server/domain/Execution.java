@@ -17,6 +17,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -126,12 +127,13 @@ public class Execution extends AbstractUniqueEntity implements Comparable<Execut
         return sections;
     }
 
+    @Lob
     @Column(name = "RESULTS", nullable = true, length = 2147483647)
     public String getResults() {
         return results;
     }
 
-    
+    @Lob
     @Column(name = "ERRORID", nullable = true, length = 2147483647)
     public String getExecutionErrorId() {
         return executionErrorId;
