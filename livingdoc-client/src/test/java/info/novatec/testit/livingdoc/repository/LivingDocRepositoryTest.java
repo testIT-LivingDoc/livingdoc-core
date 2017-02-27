@@ -1,32 +1,23 @@
 package info.novatec.testit.livingdoc.repository;
 
-import static info.novatec.testit.livingdoc.util.CollectionUtil.toVector;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
+import info.novatec.testit.livingdoc.document.Document;
+import org.apache.xmlrpc.WebServer;
+import org.apache.xmlrpc.XmlRpcException;
+import org.junit.*;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
 import java.util.Vector;
 
-import org.apache.xmlrpc.WebServer;
-import org.apache.xmlrpc.XmlRpcException;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import static info.novatec.testit.livingdoc.util.CollectionUtil.toVector;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
-import info.novatec.testit.livingdoc.document.Document;
-
-
+@Ignore
 @RunWith(MockitoJUnitRunner.class)
 public class LivingDocRepositoryTest {
     private static WebServer ws;
@@ -40,17 +31,17 @@ public class LivingDocRepositoryTest {
         ws.start();
     }
 
+    @AfterClass
+    public static void afterClass() throws Exception {
+        ws.shutdown();
+    }
+
     @Before
     public void setUp() {
         ws.removeHandler("livingdoc1");
         ws.addHandler("livingdoc1", handler);
 
         dummySpec = TestStringSpecifications.SimpleAlternateCalculatorTest;
-    }
-
-    @AfterClass
-    public static void afterClass() throws Exception {
-        ws.shutdown();
     }
 
     @Test
@@ -73,7 +64,7 @@ public class LivingDocRepositoryTest {
     @SuppressWarnings("unchecked")
     public void testCanDownloadPageContentFromConfluence() throws Exception {
         final Vector<String> page1 = confPageDefinition();
-        final Vector< ? > expected = ( Vector< ? > ) toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.TRUE);
+        final Vector<?> expected = (Vector<?>) toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.TRUE);
         doReturn(toVector(page1)).when(handler).getListOfSpecificationLocations("REPO", "SUT");
         doReturn(dummySpec).when(handler).getRenderedSpecification("user", "pwd", expected);
 
@@ -90,12 +81,12 @@ public class LivingDocRepositoryTest {
     @SuppressWarnings("unchecked")
     public void testhandlesImplementedVersionAttribute() throws Exception {
         final Vector<String> page1 = confPageDefinition();
-        final Vector< ? > expected = ( Vector< ? > ) toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.FALSE);
+        final Vector<?> expected = (Vector<?>) toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.FALSE);
         doReturn(toVector(page1)).when(handler).getListOfSpecificationLocations("REPO", "SUT");
         doReturn(dummySpec).when(handler).getRenderedSpecification("user", "pwd", expected);
 
         DocumentRepository repo = new LivingDocRepository(
-            "http://localhost:9005/rpc/xmlrpc?implemented=false&handler=livingdoc1&sut=SUT");
+                "http://localhost:9005/rpc/xmlrpc?implemented=false&handler=livingdoc1&sut=SUT");
         Document document = repo.loadDocument("REPO/PAGE TITLE");
 
         verify(handler).getListOfSpecificationLocations("REPO", "SUT");
@@ -108,15 +99,15 @@ public class LivingDocRepositoryTest {
     @SuppressWarnings("unchecked")
     public void testHandlesPostBackExecutionResult() throws Exception {
         final Vector<String> page1 = confPageDefinition();
-        final Vector< ? > expected1 = ( Vector< ? > ) toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.TRUE);
-        final Vector< ? > expected2 = ( Vector< ? > ) toVector("SPACE%20KEY", "PAGE TITLE", "SUT",
-            TestStringSpecifications.SimpleAlternateCalculatorXmlReport);
+        final Vector<?> expected1 = (Vector<?>) toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.TRUE);
+        final Vector<?> expected2 = (Vector<?>) toVector("SPACE%20KEY", "PAGE TITLE", "SUT",
+                TestStringSpecifications.SimpleAlternateCalculatorXmlReport);
         doReturn(toVector(page1)).when(handler).getListOfSpecificationLocations("REPO", "SUT");
         doReturn(dummySpec).when(handler).getRenderedSpecification("user", "pwd", expected1);
         doReturn("<success>").when(handler).saveExecutionResult("user", "pwd", expected2);
 
         DocumentRepository repo = new LivingDocRepository(
-            "http://localhost:9005/rpc/xmlrpc?handler=livingdoc1&sut=SUT&postExecutionResult=true");
+                "http://localhost:9005/rpc/xmlrpc?handler=livingdoc1&sut=SUT&postExecutionResult=true");
         Document document = repo.loadDocument("REPO/PAGE TITLE");
         document.done();
 
@@ -131,16 +122,16 @@ public class LivingDocRepositoryTest {
     @SuppressWarnings("unchecked")
     public void testHandlesNoSuchMethodPostBackExecutionResultQuietly() throws Exception {
         final Vector<String> page1 = confPageDefinition();
-        final Vector< ? > expected1 = ( Vector< ? > ) toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.TRUE);
-        final Vector< ? > expected2 = ( Vector< ? > ) toVector("SPACE%20KEY", "PAGE TITLE", "SUT",
-            TestStringSpecifications.SimpleAlternateCalculatorXmlReport);
+        final Vector<?> expected1 = (Vector<?>) toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.TRUE);
+        final Vector<?> expected2 = (Vector<?>) toVector("SPACE%20KEY", "PAGE TITLE", "SUT",
+                TestStringSpecifications.SimpleAlternateCalculatorXmlReport);
         final RuntimeException noSuchMethodException = new RuntimeException(new NoSuchMethodException());
         doReturn(toVector(page1)).when(handler).getListOfSpecificationLocations("REPO", "SUT");
         doReturn(dummySpec).when(handler).getRenderedSpecification("user", "pwd", expected1);
         doThrow(noSuchMethodException).when(handler).saveExecutionResult("user", "pwd", expected2);
 
         DocumentRepository repo = new LivingDocRepository(
-            "http://localhost:9005/rpc/xmlrpc?handler=livingdoc1&sut=SUT&postExecutionResult=true");
+                "http://localhost:9005/rpc/xmlrpc?handler=livingdoc1&sut=SUT&postExecutionResult=true");
         Document document = repo.loadDocument("REPO/PAGE TITLE");
         document.done();
 
@@ -155,16 +146,16 @@ public class LivingDocRepositoryTest {
     @SuppressWarnings("unchecked")
     public void testHandlesOtherXmlRpcExceptionPostBackExecutionResult() throws Exception {
         final Vector<String> page1 = confPageDefinition();
-        final Vector< ? > expected1 = ( Vector< ? > ) toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.TRUE);
-        final Vector< ? > expected2 = ( Vector< ? > ) toVector("SPACE%20KEY", "PAGE TITLE", "SUT",
-            TestStringSpecifications.SimpleAlternateCalculatorXmlReport);
+        final Vector<?> expected1 = (Vector<?>) toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.TRUE);
+        final Vector<?> expected2 = (Vector<?>) toVector("SPACE%20KEY", "PAGE TITLE", "SUT",
+                TestStringSpecifications.SimpleAlternateCalculatorXmlReport);
         final XmlRpcException noSuchMethodException = new XmlRpcException(0, "junit");
         doReturn(toVector(page1)).when(handler).getListOfSpecificationLocations("REPO", "SUT");
         doReturn(dummySpec).when(handler).getRenderedSpecification("user", "pwd", expected1);
         doThrow(noSuchMethodException).when(handler).saveExecutionResult("user", "pwd", expected2);
 
         DocumentRepository repo = new LivingDocRepository(
-            "http://localhost:9005/rpc/xmlrpc?handler=livingdoc1&sut=SUT&postExecutionResult=true");
+                "http://localhost:9005/rpc/xmlrpc?handler=livingdoc1&sut=SUT&postExecutionResult=true");
         Document document = repo.loadDocument("REPO/PAGE TITLE");
 
         try {
@@ -182,15 +173,15 @@ public class LivingDocRepositoryTest {
     @SuppressWarnings("unchecked")
     public void testHandlesUnsuccessfulPostBackExecutionResult() throws Exception {
         final Vector<String> page1 = confPageDefinition();
-        final Vector< ? > expected1 = ( Vector< ? > ) toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.TRUE);
-        final Vector< ? > expected2 = ( Vector< ? > ) toVector("SPACE%20KEY", "PAGE TITLE", "SUT",
-            TestStringSpecifications.SimpleAlternateCalculatorXmlReport);
+        final Vector<?> expected1 = (Vector<?>) toVector("SPACE%20KEY", "PAGE TITLE", Boolean.TRUE, Boolean.TRUE);
+        final Vector<?> expected2 = (Vector<?>) toVector("SPACE%20KEY", "PAGE TITLE", "SUT",
+                TestStringSpecifications.SimpleAlternateCalculatorXmlReport);
         doReturn(toVector(page1)).when(handler).getListOfSpecificationLocations("REPO", "SUT");
         doReturn(dummySpec).when(handler).getRenderedSpecification("user", "pwd", expected1);
         doReturn("<failure>").when(handler).saveExecutionResult("user", "pwd", expected2);
 
         DocumentRepository repo = new LivingDocRepository(
-            "http://localhost:9005/rpc/xmlrpc?handler=livingdoc1&sut=SUT&postExecutionResult=true");
+                "http://localhost:9005/rpc/xmlrpc?handler=livingdoc1&sut=SUT&postExecutionResult=true");
         Document document = repo.loadDocument("REPO/PAGE TITLE");
 
         try {
@@ -255,8 +246,8 @@ public class LivingDocRepositoryTest {
     public static interface Handler {
         Vector<Vector<String>> getListOfSpecificationLocations(String repoUID, String sutName);
 
-        String getRenderedSpecification(String username, String password, Vector< ? > args);
+        String getRenderedSpecification(String username, String password, Vector<?> args);
 
-        String saveExecutionResult(String username, String password, Vector< ? > args);
+        String saveExecutionResult(String username, String password, Vector<?> args);
     }
 }

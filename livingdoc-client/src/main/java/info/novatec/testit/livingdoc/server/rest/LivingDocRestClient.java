@@ -2,12 +2,10 @@ package info.novatec.testit.livingdoc.server.rest;
 
 import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
-import info.novatec.testit.livingdoc.server.ServerPropertiesManager;
 import info.novatec.testit.livingdoc.server.domain.*;
 import info.novatec.testit.livingdoc.server.rest.requests.*;
 import info.novatec.testit.livingdoc.server.rest.responses.*;
 import info.novatec.testit.livingdoc.util.ClientUtils;
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +30,7 @@ public class LivingDocRestClient implements RestClient {
     private final String username;
     private final String password;
 
-    private RestTemplate template = new RestTemplate();
+    private final RestTemplate template = new RestTemplate();
 
     /**
      * Constructor
@@ -47,20 +45,26 @@ public class LivingDocRestClient implements RestClient {
         this.password = password;
     }
 
-    /**
-     * @return
-     * @deprecated view {@link RestClient#getServerPropertiesManager}
-     */
-    @Deprecated
     @Override
-    public ServerPropertiesManager getServerPropertiesManager() {
-        throw new NotImplementedException("not implemented: getServerPropertiesManager");
+    public String getRenderedSpecification(List<?> args) throws LivingDocServerException {
+        log.debug("Getting rendered specification...");
+        GetRenderedSpecificationRequest request = new GetRenderedSpecificationRequest(args);
+        GetRenderedSpecificationResponse response = exchangeRest(RestMethodName.getRenderedSpecification, request, GetRenderedSpecificationResponse.class);
+        return response.getSpecification();
+    }
+
+    @Override
+    public List<?> listDocumentsInHierarchy(List<?> args) throws LivingDocServerException {
+        log.debug("Listing documents in hierarchy...");
+        ListDocumentsInHierarchyRequest request = new ListDocumentsInHierarchyRequest(args);
+        ListDocumentsInHierarchyResponse response = exchangeRest(RestMethodName.listDocumentsInHierarchy, request, ListDocumentsInHierarchyResponse.class);
+        return response.getSpecifications();
     }
 
     @Override
     public String setSpecificationAsImplemented(List<?> args) throws LivingDocServerException {
 
-        log.debug("Setting specification as implemented: %", "");
+        log.debug("Setting specification as implemented...");
         SetSpecificationAsImplementedRequest request = new SetSpecificationAsImplementedRequest(args);
         SetSpecificationAsImplementedResponse response = exchangeRest(RestMethodName.setSpecificationAsImplemented, request, SetSpecificationAsImplementedResponse.class);
         return response.getMessage();
@@ -78,7 +82,7 @@ public class LivingDocRestClient implements RestClient {
     @Override
     public boolean ping(Repository repository, String identifier) throws LivingDocServerException {
 
-        log.debug("Pinging : [identifier=" + identifier + "]");
+        log.debug("Pinging : [identifier= % ]", identifier);
         PingRequest request = new PingRequest(repository);
         PingResponse response = exchangeRest(RestMethodName.ping, request, PingResponse.class);
         return response.success;
@@ -113,15 +117,15 @@ public class LivingDocRestClient implements RestClient {
     @Override
     public void updateRunner(final String oldRunnerName, Runner runner, String identifier) throws LivingDocServerException {
 
-        log.debug("Updating runner: " + oldRunnerName);
+        log.debug("Updating runner: %", oldRunnerName);
         UpdateRunnerRequest request = new UpdateRunnerRequest(oldRunnerName, runner);
         exchangeRest(RestMethodName.updateRunner, request, null);
     }
 
     @Override
-    public void removeRunner(String name, String identifier) throws LivingDocServerException {
+    public void removeRunner(final String name, final String identifier) throws LivingDocServerException {
 
-        log.debug("Removing runner: " + name);
+        log.debug("Removing runner: %", name);
         RemoveRunnerRequest request = new RemoveRunnerRequest(name);
         exchangeRest(RestMethodName.removeRunner, request, null);
     }
@@ -155,9 +159,9 @@ public class LivingDocRestClient implements RestClient {
     }
 
     @Override
-    public void removeRepository(String repositoryUid, String identifier) throws LivingDocServerException {
+    public void removeRepository(final String repositoryUid, final String identifier) throws LivingDocServerException {
 
-        log.debug("Removing Repository " + repositoryUid);
+        log.debug("Removing Repository %", repositoryUid);
         RemoveRepositoryRequest request = new RemoveRepositoryRequest(repositoryUid);
         exchangeRest(RestMethodName.removeRepository, request, Void.class);
     }
@@ -250,7 +254,7 @@ public class LivingDocRestClient implements RestClient {
     public Set<SystemUnderTest> getSystemUnderTestsOfProject(String projectName, String identifier)
             throws LivingDocServerException {
 
-        log.debug("Retrieving SUT list for Project: " + projectName);
+        log.debug("Retrieving SUT list for Project: %", projectName);
         GetSystemUnderTestsOfProjectRequest request = new GetSystemUnderTestsOfProjectRequest(projectName);
         GetSystemUnderTestsOfProjectResponse response =
                 exchangeRest(RestMethodName.getSystemUnderTestsOfProject, request, GetSystemUnderTestsOfProjectResponse.class);
@@ -350,7 +354,7 @@ public class LivingDocRestClient implements RestClient {
     public void updateSystemUnderTest(String oldSystemUnderTestName, SystemUnderTest newSystemUnderTest,
                                       Repository repository, String identifier) throws LivingDocServerException {
 
-        log.debug("Updating SystemUnderTest: " + oldSystemUnderTestName);
+        log.debug("Updating SystemUnderTest: %", oldSystemUnderTestName);
         UpdateSystemUnderTestRequest request =
                 new UpdateSystemUnderTestRequest(oldSystemUnderTestName, newSystemUnderTest, repository);
         exchangeRest(RestMethodName.updateSystemUnderTest, request, Void.class);
@@ -470,7 +474,7 @@ public class LivingDocRestClient implements RestClient {
 
         log.debug("Getting Requirement " + requirement.getName() + " summary");
         GetSummaryRequest request = new GetSummaryRequest(requirement);
-        GetSummaryResponse response = exchangeRest( RestMethodName.getRequirementSummary, request, GetSummaryResponse.class);
+        GetSummaryResponse response = exchangeRest(RestMethodName.getRequirementSummary, request, GetSummaryResponse.class);
         return response.requirementSummary;
     }
 

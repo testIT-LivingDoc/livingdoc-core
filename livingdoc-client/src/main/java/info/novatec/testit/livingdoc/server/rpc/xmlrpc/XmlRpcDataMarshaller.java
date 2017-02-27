@@ -1,40 +1,19 @@
 package info.novatec.testit.livingdoc.server.rpc.xmlrpc;
 
-import java.util.Collection;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.Vector;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
-import info.novatec.testit.livingdoc.server.domain.ClasspathSet;
-import info.novatec.testit.livingdoc.server.domain.DocumentNode;
-import info.novatec.testit.livingdoc.server.domain.Execution;
-import info.novatec.testit.livingdoc.server.domain.Project;
-import info.novatec.testit.livingdoc.server.domain.Reference;
-import info.novatec.testit.livingdoc.server.domain.ReferenceNode;
-import info.novatec.testit.livingdoc.server.domain.Repository;
-import info.novatec.testit.livingdoc.server.domain.RepositoryType;
-import info.novatec.testit.livingdoc.server.domain.Requirement;
-import info.novatec.testit.livingdoc.server.domain.RequirementSummary;
-import info.novatec.testit.livingdoc.server.domain.Runner;
-import info.novatec.testit.livingdoc.server.domain.Specification;
-import info.novatec.testit.livingdoc.server.domain.SystemUnderTest;
-import info.novatec.testit.livingdoc.server.domain.SystemUnderTestByNameComparator;
+import info.novatec.testit.livingdoc.server.domain.*;
 import info.novatec.testit.livingdoc.server.domain.component.ContentType;
 import info.novatec.testit.livingdoc.server.transfer.ExecutionResult;
 import info.novatec.testit.livingdoc.server.transfer.SpecificationLocation;
 import info.novatec.testit.livingdoc.util.ClientUtils;
 import info.novatec.testit.livingdoc.util.FormattedDate;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 
 /**
@@ -45,23 +24,18 @@ import info.novatec.testit.livingdoc.util.FormattedDate;
  * Copyright (c) 2006 Pyxis technologies inc. All Rights Reserved.
  *
  * @author JCHUET
- *
  * @deprecated The XML-RPC and SOAP APIs are deprecated since Confluence 5.5.
  * More info <a href="https://developer.atlassian.com/confdev/deprecated-apis/confluence-xml-rpc-and-soap-apis">here</a>
  * <br> Use {@link info.novatec.testit.livingdoc.server.rest.LivingDocRestClient} instead.
  */
 @Deprecated
 public class XmlRpcDataMarshaller {
-    private static final Logger log = LoggerFactory.getLogger(XmlRpcDataMarshaller.class);
     public static final String MARSHALLING_VERSION = "Marshall v. 1.0";
-
     public static final int PROJECT_NAME_IDX = 0;
-
     public static final int REPOSITORY_TYPE_NAME_IDX = 0;
     public static final int REPOSITORY_TYPE_REPOCLASS_IDX = 1;
     public static final int REPOSITORY_TYPE_NAME_FORMAT_IDX = 2;
     public static final int REPOSITORY_TYPE_URI_FORMAT_IDX = 3;
-
     public static final int REPOSITORY_NAME_IDX = 0;
     public static final int REPOSITORY_UID_IDX = 1;
     public static final int REPOSITORY_PROJECT_IDX = 2;
@@ -73,19 +47,15 @@ public class XmlRpcDataMarshaller {
     public static final int REPOSITORY_USERNAME_IDX = 8;
     public static final int REPOSITORY_PASSWORD_IDX = 9;
     public static final int REPOSITORY_MAX_USERS_IDX = 10;
-
     public static final int DOCUMENT_NAME_IDX = 0;
     public static final int DOCUMENT_REPOSITORY_IDX = 1;
     public static final int SPECIFICATION_SUTS_IDX = 2;
-
     public static final int RUNNER_NAME_IDX = 0;
     public static final int RUNNER_SERVER_NAME_IDX = 1;
     public static final int RUNNER_SERVER_PORT_IDX = 2;
     public static final int RUNNER_CLASSPATH_IDX = 3;
     public static final int RUNNER_SECURED_IDX = 4;
-
     public static final int ENVTYPE_NAME_IDX = 0;
-
     public static final int SUT_NAME_IDX = 0;
     public static final int SUT_PROJECT_IDX = 1;
     public static final int SUT_CLASSPATH_IDX = 2;
@@ -95,13 +65,11 @@ public class XmlRpcDataMarshaller {
     public static final int SUT_IS_DEFAULT_IDX = 6;
     public static final int SUT_RUNNER_IDX = 7;
     public static final int SUT_PROJECT_DEPENDENCY_DESCRIPTOR_IDX = 8;
-
     public static final int REFERENCE_REQUIREMENT_IDX = 0;
     public static final int REFERENCE_SPECIFICATION_IDX = 1;
     public static final int REFERENCE_SUT_IDX = 2;
     public static final int REFERENCE_SECTIONS_IDX = 3;
     public static final int REFERENCE_LAST_EXECUTION_IDX = 4;
-
     public static final int EXECUTION_RESULTS_IDX = 0;
     public static final int EXECUTION_ERRORID_IDX = 1;
     public static final int EXECUTION_FAILIURES_IDX = 2;
@@ -109,22 +77,20 @@ public class XmlRpcDataMarshaller {
     public static final int EXECUTION_SUCCESS_IDX = 4;
     public static final int EXECUTION_IGNORED_IDX = 5;
     public static final int EXECUTION_EXECUTION_DATE_IDX = 6;
-
     public static final int SUMMARY_REFERENCES_IDX = 0;
     public static final int SUMMARY_FAILIURES_IDX = 1;
     public static final int SUMMARY_ERRORS_IDX = 2;
     public static final int SUMMARY_SUCCESS_IDX = 3;
     public static final int SUMMARY_EXCEPTION_IDX = 4;
-
-    public final static int NODE_TITLE_INDEX = 0;
-    public final static int NODE_EXECUTABLE_INDEX = 1;
-    public final static int NODE_CAN_BE_IMPLEMENTED_INDEX = 2;
-    public final static int NODE_CHILDREN_INDEX = 3;
-    public final static int NODE_REPOSITORY_UID_INDEX = 4;
-    public final static int NODE_SUT_NAME_INDEX = 5;
-    public final static int NODE_SECTION_INDEX = 6;
-
+    public static final int NODE_TITLE_INDEX = 0;
+    public static final int NODE_EXECUTABLE_INDEX = 1;
+    public static final int NODE_CAN_BE_IMPLEMENTED_INDEX = 2;
+    public static final int NODE_CHILDREN_INDEX = 3;
+    public static final int NODE_REPOSITORY_UID_INDEX = 4;
+    public static final int NODE_SUT_NAME_INDEX = 5;
+    public static final int NODE_SECTION_INDEX = 6;
     public static final String SUPPRESS_UNCHECKED = "unchecked";
+    private static final Logger log = LoggerFactory.getLogger(XmlRpcDataMarshaller.class);
 
     /**
      * Transforms the Collection of projects into a Vector of project
@@ -223,7 +189,7 @@ public class XmlRpcDataMarshaller {
      * location parameters
      */
     public static Vector<Object> toXmlRpcSpecificationLocationsParameters(
-        Collection<SpecificationLocation> specificationLocations) {
+            Collection<SpecificationLocation> specificationLocations) {
         Vector<Object> specificationLocationsParams = new Vector<Object>();
         for (SpecificationLocation specificationLoc : specificationLocations) {
             specificationLocationsParams.add(specificationLoc.marshallize());
@@ -259,12 +225,12 @@ public class XmlRpcDataMarshaller {
      */
     public static ExecutionResult toExecutionResult(Vector<Object> xmlRpcParameters) {
         ExecutionResult executionResult = null;
-        if ( ! xmlRpcParameters.isEmpty()) {
+        if (!xmlRpcParameters.isEmpty()) {
             executionResult = new ExecutionResult();
-            executionResult.setSpaceKey(( String ) xmlRpcParameters.get(ExecutionResult.SPACEKEY_IDX));
-            executionResult.setPageTitle(( String ) xmlRpcParameters.get(ExecutionResult.PAGETITLE_IDX));
-            executionResult.setSut(( String ) xmlRpcParameters.get(ExecutionResult.SUT_IDX));
-            executionResult.setXmlReport(( String ) xmlRpcParameters.get(ExecutionResult.XMLREPORT_IDX));
+            executionResult.setSpaceKey((String) xmlRpcParameters.get(ExecutionResult.SPACEKEY_IDX));
+            executionResult.setPageTitle((String) xmlRpcParameters.get(ExecutionResult.PAGETITLE_IDX));
+            executionResult.setSut((String) xmlRpcParameters.get(ExecutionResult.SUT_IDX));
+            executionResult.setXmlReport((String) xmlRpcParameters.get(ExecutionResult.XMLREPORT_IDX));
         }
         return executionResult;
     }
@@ -278,7 +244,7 @@ public class XmlRpcDataMarshaller {
      */
     public static SpecificationLocation toSpecificationLocation(Vector<String> xmlRpcParameters) {
         SpecificationLocation specLoc = null;
-        if ( ! xmlRpcParameters.isEmpty()) {
+        if (!xmlRpcParameters.isEmpty()) {
             specLoc = new SpecificationLocation();
             specLoc.setRepositoryTypeClassName(xmlRpcParameters.get(SpecificationLocation.REPOSITORY_TYPE_CLASSNAME_IDX));
             specLoc.setBaseTestUrl(xmlRpcParameters.get(SpecificationLocation.BASE_TEST_URL_IDX));
@@ -301,8 +267,8 @@ public class XmlRpcDataMarshaller {
      */
     public static Project toProject(Vector<Object> xmlRpcParameters) {
         Project project = null;
-        if ( ! xmlRpcParameters.isEmpty()) {
-            project = Project.newInstance(( String ) xmlRpcParameters.get(PROJECT_NAME_IDX));
+        if (!xmlRpcParameters.isEmpty()) {
+            project = Project.newInstance((String) xmlRpcParameters.get(PROJECT_NAME_IDX));
         }
 
         return project;
@@ -320,15 +286,15 @@ public class XmlRpcDataMarshaller {
      */
     public static RepositoryType toRepositoryType(Vector<Object> xmlRpcParameters) {
         RepositoryType repositoryType = null;
-        if ( ! xmlRpcParameters.isEmpty()) {
+        if (!xmlRpcParameters.isEmpty()) {
             log.debug("Extracting repository type from XML-RPC parameters %s", xmlRpcParameters);
-            repositoryType = RepositoryType.newInstance(( String ) xmlRpcParameters.get(REPOSITORY_TYPE_NAME_IDX));
-            String repositoryClass = ( String ) xmlRpcParameters.get(REPOSITORY_TYPE_REPOCLASS_IDX);
+            repositoryType = RepositoryType.newInstance((String) xmlRpcParameters.get(REPOSITORY_TYPE_NAME_IDX));
+            String repositoryClass = (String) xmlRpcParameters.get(REPOSITORY_TYPE_REPOCLASS_IDX);
             repositoryType.setClassName(repositoryClass);
-            repositoryType.setDocumentUrlFormat(StringUtils.stripToNull(( String ) xmlRpcParameters.get(
-                REPOSITORY_TYPE_NAME_FORMAT_IDX)));
-            repositoryType.setTestUrlFormat(StringUtils.stripToNull(( String ) xmlRpcParameters.get(
-                REPOSITORY_TYPE_URI_FORMAT_IDX)));
+            repositoryType.setDocumentUrlFormat(StringUtils.stripToNull((String) xmlRpcParameters.get(
+                    REPOSITORY_TYPE_NAME_FORMAT_IDX)));
+            repositoryType.setTestUrlFormat(StringUtils.stripToNull((String) xmlRpcParameters.get(
+                    REPOSITORY_TYPE_URI_FORMAT_IDX)));
         }
 
         return repositoryType;
@@ -347,20 +313,20 @@ public class XmlRpcDataMarshaller {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static Repository toRepository(Vector<Object> xmlRpcParameters) {
         Repository repository = null;
-        if ( ! xmlRpcParameters.isEmpty()) {
+        if (!xmlRpcParameters.isEmpty()) {
             log.debug("Extracting repository from XML-RPC parameters %s", xmlRpcParameters);
 
-            repository = Repository.newInstance(( String ) xmlRpcParameters.get(REPOSITORY_UID_IDX));
-            repository.setProject(toProject(( Vector<Object> ) xmlRpcParameters.get(REPOSITORY_PROJECT_IDX)));
-            repository.setType(toRepositoryType(( Vector<Object> ) xmlRpcParameters.get(REPOSITORY_TYPE_IDX)));
-            repository.setName(( String ) xmlRpcParameters.get(REPOSITORY_NAME_IDX));
-            repository.setContentType(ContentType.getInstance(( String ) xmlRpcParameters.get(REPOSITORY_CONTENTTYPE_IDX)));
-            repository.setBaseUrl(( String ) xmlRpcParameters.get(REPOSITORY_BASE_URL_IDX));
-            repository.setBaseRepositoryUrl(( String ) xmlRpcParameters.get(REPOSITORY_BASEREPO_URL_IDX));
-            repository.setBaseTestUrl(( String ) xmlRpcParameters.get(REPOSITORY_BASETEST_URL_IDX));
-            repository.setUsername(StringUtils.stripToNull(( String ) xmlRpcParameters.get(REPOSITORY_USERNAME_IDX)));
-            repository.setPassword(StringUtils.stripToNull(( String ) xmlRpcParameters.get(REPOSITORY_PASSWORD_IDX)));
-            repository.setMaxUsers(( Integer ) xmlRpcParameters.get(REPOSITORY_MAX_USERS_IDX));
+            repository = Repository.newInstance((String) xmlRpcParameters.get(REPOSITORY_UID_IDX));
+            repository.setProject(toProject((Vector<Object>) xmlRpcParameters.get(REPOSITORY_PROJECT_IDX)));
+            repository.setType(toRepositoryType((Vector<Object>) xmlRpcParameters.get(REPOSITORY_TYPE_IDX)));
+            repository.setName((String) xmlRpcParameters.get(REPOSITORY_NAME_IDX));
+            repository.setContentType(ContentType.getInstance((String) xmlRpcParameters.get(REPOSITORY_CONTENTTYPE_IDX)));
+            repository.setBaseUrl((String) xmlRpcParameters.get(REPOSITORY_BASE_URL_IDX));
+            repository.setBaseRepositoryUrl((String) xmlRpcParameters.get(REPOSITORY_BASEREPO_URL_IDX));
+            repository.setBaseTestUrl((String) xmlRpcParameters.get(REPOSITORY_BASETEST_URL_IDX));
+            repository.setUsername(StringUtils.stripToNull((String) xmlRpcParameters.get(REPOSITORY_USERNAME_IDX)));
+            repository.setPassword(StringUtils.stripToNull((String) xmlRpcParameters.get(REPOSITORY_PASSWORD_IDX)));
+            repository.setMaxUsers((Integer) xmlRpcParameters.get(REPOSITORY_MAX_USERS_IDX));
         }
 
         return repository;
@@ -379,11 +345,11 @@ public class XmlRpcDataMarshaller {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static Requirement toRequirement(Vector<Object> xmlRpcParameters) {
         Requirement requirement = null;
-        if ( ! xmlRpcParameters.isEmpty()) {
+        if (!xmlRpcParameters.isEmpty()) {
             log.debug("Extracting requirement from XML-RPC parameters %s", xmlRpcParameters);
-            String name = ( String ) xmlRpcParameters.get(DOCUMENT_NAME_IDX);
+            String name = (String) xmlRpcParameters.get(DOCUMENT_NAME_IDX);
             requirement = Requirement.newInstance(name);
-            requirement.setRepository(toRepository(( Vector<Object> ) xmlRpcParameters.get(DOCUMENT_REPOSITORY_IDX)));
+            requirement.setRepository(toRepository((Vector<Object>) xmlRpcParameters.get(DOCUMENT_REPOSITORY_IDX)));
         }
 
         return requirement;
@@ -402,12 +368,12 @@ public class XmlRpcDataMarshaller {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static Specification toSpecification(Vector<Object> xmlRpcParameters) {
         Specification specification = null;
-        if ( ! xmlRpcParameters.isEmpty()) {
+        if (!xmlRpcParameters.isEmpty()) {
             log.debug("Extracting specification from XML-RPC parameters %s", xmlRpcParameters);
-            specification = Specification.newInstance(( String ) xmlRpcParameters.get(DOCUMENT_NAME_IDX));
-            specification.setRepository(toRepository(( Vector<Object> ) xmlRpcParameters.get(DOCUMENT_REPOSITORY_IDX)));
-            specification.setTargetedSystemUnderTests(toSystemUnderTestList(( Vector<Object> ) xmlRpcParameters.get(
-                SPECIFICATION_SUTS_IDX)));
+            specification = Specification.newInstance((String) xmlRpcParameters.get(DOCUMENT_NAME_IDX));
+            specification.setRepository(toRepository((Vector<Object>) xmlRpcParameters.get(DOCUMENT_REPOSITORY_IDX)));
+            specification.setTargetedSystemUnderTests(toSystemUnderTestList((Vector<Object>) xmlRpcParameters.get(
+                    SPECIFICATION_SUTS_IDX)));
         }
 
         return specification;
@@ -423,14 +389,14 @@ public class XmlRpcDataMarshaller {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static Runner toRunner(Vector<Object> xmlRpcParameters) {
         Runner runner = null;
-        if ( ! xmlRpcParameters.isEmpty()) {
+        if (!xmlRpcParameters.isEmpty()) {
             log.debug("Extracting runner from XML-RPC parameters %s", xmlRpcParameters);
-            runner = Runner.newInstance(( String ) getParameter(RUNNER_NAME_IDX, xmlRpcParameters));
-            runner.setServerName(StringUtils.stripToNull(( String ) getParameter(RUNNER_SERVER_NAME_IDX, xmlRpcParameters)));
-            runner.setServerPort(StringUtils.stripToNull(( String ) getParameter(RUNNER_SERVER_PORT_IDX, xmlRpcParameters)));
-            runner.setSecured(( Boolean ) getParameter(RUNNER_SECURED_IDX, xmlRpcParameters));
-            ClasspathSet classpaths = new ClasspathSet(( Vector<String> ) getParameter(RUNNER_CLASSPATH_IDX,
-                xmlRpcParameters));
+            runner = Runner.newInstance((String) getParameter(RUNNER_NAME_IDX, xmlRpcParameters));
+            runner.setServerName(StringUtils.stripToNull((String) getParameter(RUNNER_SERVER_NAME_IDX, xmlRpcParameters)));
+            runner.setServerPort(StringUtils.stripToNull((String) getParameter(RUNNER_SERVER_PORT_IDX, xmlRpcParameters)));
+            runner.setSecured((Boolean) getParameter(RUNNER_SECURED_IDX, xmlRpcParameters));
+            ClasspathSet classpaths = new ClasspathSet((Vector<String>) getParameter(RUNNER_CLASSPATH_IDX,
+                    xmlRpcParameters));
             runner.setClasspaths(classpaths);
         }
 
@@ -458,24 +424,24 @@ public class XmlRpcDataMarshaller {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static SystemUnderTest toSystemUnderTest(Vector<Object> xmlRpcParameters) {
         SystemUnderTest sut = null;
-        if ( ! xmlRpcParameters.isEmpty()) {
+        if (!xmlRpcParameters.isEmpty()) {
             log.debug("Extracting SUT from XML-RPC parameters %s", xmlRpcParameters);
 
-            ClasspathSet sutClasspaths = new ClasspathSet(( Vector<String> ) xmlRpcParameters.get(SUT_CLASSPATH_IDX));
-            ClasspathSet fixtureClasspaths = new ClasspathSet(( Vector<String> ) xmlRpcParameters.get(
-                SUT_FIXTURE_CLASSPATH_IDX));
+            ClasspathSet sutClasspaths = new ClasspathSet((Vector<String>) xmlRpcParameters.get(SUT_CLASSPATH_IDX));
+            ClasspathSet fixtureClasspaths = new ClasspathSet((Vector<String>) xmlRpcParameters.get(
+                    SUT_FIXTURE_CLASSPATH_IDX));
 
-            sut = SystemUnderTest.newInstance(( String ) xmlRpcParameters.get(SUT_NAME_IDX));
-            sut.setProject(toProject(( Vector<Object> ) xmlRpcParameters.get(SUT_PROJECT_IDX)));
+            sut = SystemUnderTest.newInstance((String) xmlRpcParameters.get(SUT_NAME_IDX));
+            sut.setProject(toProject((Vector<Object>) xmlRpcParameters.get(SUT_PROJECT_IDX)));
             sut.setSutClasspaths(sutClasspaths);
             sut.setFixtureClasspaths(fixtureClasspaths);
-            sut.setFixtureFactory(StringUtils.stripToNull(( String ) xmlRpcParameters.get(SUT_FIXTURE_FACTORY_IDX)));
-            sut.setFixtureFactoryArgs(StringUtils.stripToNull(( String ) xmlRpcParameters.get(
-                SUT_FIXTURE_FACTORY_ARGS_IDX)));
-            sut.setRunner(toRunner(( Vector<Object> ) xmlRpcParameters.get(SUT_RUNNER_IDX)));
-            sut.setIsDefault(( Boolean ) xmlRpcParameters.get(SUT_IS_DEFAULT_IDX));
-            sut.setProjectDependencyDescriptor(StringUtils.stripToNull(( String ) xmlRpcParameters.get(
-                SUT_PROJECT_DEPENDENCY_DESCRIPTOR_IDX)));
+            sut.setFixtureFactory(StringUtils.stripToNull((String) xmlRpcParameters.get(SUT_FIXTURE_FACTORY_IDX)));
+            sut.setFixtureFactoryArgs(StringUtils.stripToNull((String) xmlRpcParameters.get(
+                    SUT_FIXTURE_FACTORY_ARGS_IDX)));
+            sut.setRunner(toRunner((Vector<Object>) xmlRpcParameters.get(SUT_RUNNER_IDX)));
+            sut.setIsDefault((Boolean) xmlRpcParameters.get(SUT_IS_DEFAULT_IDX));
+            sut.setProjectDependencyDescriptor(StringUtils.stripToNull((String) xmlRpcParameters.get(
+                    SUT_PROJECT_DEPENDENCY_DESCRIPTOR_IDX)));
         }
 
         return sut;
@@ -491,14 +457,14 @@ public class XmlRpcDataMarshaller {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static Reference toReference(Vector<Object> xmlRpcParameters) {
         Reference reference = null;
-        if ( ! xmlRpcParameters.isEmpty()) {
-            Requirement requirement = toRequirement(( Vector<Object> ) xmlRpcParameters.get(REFERENCE_REQUIREMENT_IDX));
-            Specification specification = toSpecification(( Vector<Object> ) xmlRpcParameters.get(
-                REFERENCE_SPECIFICATION_IDX));
-            SystemUnderTest sut = toSystemUnderTest(( Vector<Object> ) xmlRpcParameters.get(REFERENCE_SUT_IDX));
-            String sections = StringUtils.stripToNull(( String ) xmlRpcParameters.get(REFERENCE_SECTIONS_IDX));
+        if (!xmlRpcParameters.isEmpty()) {
+            Requirement requirement = toRequirement((Vector<Object>) xmlRpcParameters.get(REFERENCE_REQUIREMENT_IDX));
+            Specification specification = toSpecification((Vector<Object>) xmlRpcParameters.get(
+                    REFERENCE_SPECIFICATION_IDX));
+            SystemUnderTest sut = toSystemUnderTest((Vector<Object>) xmlRpcParameters.get(REFERENCE_SUT_IDX));
+            String sections = StringUtils.stripToNull((String) xmlRpcParameters.get(REFERENCE_SECTIONS_IDX));
             reference = Reference.newInstance(requirement, specification, sut, sections);
-            Execution exe = toExecution(( Vector<Object> ) xmlRpcParameters.get(REFERENCE_LAST_EXECUTION_IDX));
+            Execution exe = toExecution((Vector<Object>) xmlRpcParameters.get(REFERENCE_LAST_EXECUTION_IDX));
             reference.setLastExecution(exe);
         }
 
@@ -507,13 +473,13 @@ public class XmlRpcDataMarshaller {
 
     public static Execution toExecution(Vector<Object> xmlRpcParameters) {
         Execution execution = new Execution();
-        execution.setResults(StringUtils.stripToNull(( String ) xmlRpcParameters.get(EXECUTION_RESULTS_IDX)));
-        execution.setExecutionErrorId(StringUtils.stripToNull(( String ) xmlRpcParameters.get(EXECUTION_ERRORID_IDX)));
-        execution.setFailures(( Integer ) xmlRpcParameters.get(EXECUTION_FAILIURES_IDX));
-        execution.setErrors(( Integer ) xmlRpcParameters.get(EXECUTION_ERRORS_IDX));
-        execution.setSuccess(( Integer ) xmlRpcParameters.get(EXECUTION_SUCCESS_IDX));
-        execution.setIgnored(( Integer ) xmlRpcParameters.get(EXECUTION_IGNORED_IDX));
-        FormattedDate date = new FormattedDate(( String ) xmlRpcParameters.get(EXECUTION_EXECUTION_DATE_IDX));
+        execution.setResults(StringUtils.stripToNull((String) xmlRpcParameters.get(EXECUTION_RESULTS_IDX)));
+        execution.setExecutionErrorId(StringUtils.stripToNull((String) xmlRpcParameters.get(EXECUTION_ERRORID_IDX)));
+        execution.setFailures((Integer) xmlRpcParameters.get(EXECUTION_FAILIURES_IDX));
+        execution.setErrors((Integer) xmlRpcParameters.get(EXECUTION_ERRORS_IDX));
+        execution.setSuccess((Integer) xmlRpcParameters.get(EXECUTION_SUCCESS_IDX));
+        execution.setIgnored((Integer) xmlRpcParameters.get(EXECUTION_IGNORED_IDX));
+        FormattedDate date = new FormattedDate((String) xmlRpcParameters.get(EXECUTION_EXECUTION_DATE_IDX));
         execution.setExecutionDate(date.asTimestamp());
 
         return execution;
@@ -521,11 +487,11 @@ public class XmlRpcDataMarshaller {
 
     public static RequirementSummary toRequirementSummary(Vector<Object> xmlRpcParameters) {
         RequirementSummary summary = new RequirementSummary();
-        summary.setReferencesSize(( Integer ) xmlRpcParameters.get(SUMMARY_REFERENCES_IDX));
-        summary.setFailures(( Integer ) xmlRpcParameters.get(SUMMARY_FAILIURES_IDX));
-        summary.setErrors(( Integer ) xmlRpcParameters.get(SUMMARY_ERRORS_IDX));
-        summary.setSuccess(( Integer ) xmlRpcParameters.get(SUMMARY_SUCCESS_IDX));
-        summary.setExceptions(( Integer ) xmlRpcParameters.get(SUMMARY_EXCEPTION_IDX));
+        summary.setReferencesSize((Integer) xmlRpcParameters.get(SUMMARY_REFERENCES_IDX));
+        summary.setFailures((Integer) xmlRpcParameters.get(SUMMARY_FAILIURES_IDX));
+        summary.setErrors((Integer) xmlRpcParameters.get(SUMMARY_ERRORS_IDX));
+        summary.setSuccess((Integer) xmlRpcParameters.get(SUMMARY_SUCCESS_IDX));
+        summary.setExceptions((Integer) xmlRpcParameters.get(SUMMARY_EXCEPTION_IDX));
 
         return summary;
     }
@@ -542,7 +508,7 @@ public class XmlRpcDataMarshaller {
     public static Set<Project> toProjectList(Vector<Object> projectsParams) {
         Set<Project> projects = new TreeSet<Project>();
         for (Object projectParams : projectsParams) {
-            projects.add(toProject(( Vector<Object> ) projectParams));
+            projects.add(toProject((Vector<Object>) projectParams));
         }
 
         return projects;
@@ -562,7 +528,7 @@ public class XmlRpcDataMarshaller {
     public static Set<Repository> toRepositoryList(Vector<Object> repositoriesParams) {
         Set<Repository> repositories = new TreeSet<Repository>();
         for (Object repositoryParams : repositoriesParams) {
-            repositories.add(toRepository(( Vector<Object> ) repositoryParams));
+            repositories.add(toRepository((Vector<Object>) repositoryParams));
         }
 
         return repositories;
@@ -580,7 +546,7 @@ public class XmlRpcDataMarshaller {
     public static Set<Runner> toRunnerList(Vector<Object> runnersParams) {
         Set<Runner> runners = new TreeSet<Runner>();
         for (Object runnerParams : runnersParams) {
-            runners.add(toRunner(( Vector<Object> ) runnerParams));
+            runners.add(toRunner((Vector<Object>) runnerParams));
         }
 
         return runners;
@@ -600,7 +566,7 @@ public class XmlRpcDataMarshaller {
     public static SortedSet<SystemUnderTest> toSystemUnderTestList(Vector<Object> sutsParams) {
         SortedSet<SystemUnderTest> suts = new TreeSet<SystemUnderTest>(new SystemUnderTestByNameComparator());
         for (Object sutParams : sutsParams) {
-            suts.add(toSystemUnderTest(( Vector<Object> ) sutParams));
+            suts.add(toSystemUnderTest((Vector<Object>) sutParams));
         }
 
         return suts;
@@ -620,7 +586,7 @@ public class XmlRpcDataMarshaller {
     public static Set<Specification> toSpecificationList(Vector<Object> specificationsParams) {
         Set<Specification> specifications = new TreeSet<Specification>();
         for (Object specificationParams : specificationsParams) {
-            specifications.add(toSpecification(( Vector<Object> ) specificationParams));
+            specifications.add(toSpecification((Vector<Object>) specificationParams));
         }
 
         return specifications;
@@ -634,14 +600,13 @@ public class XmlRpcDataMarshaller {
      * @param referencesParams
      * @return a List of References based on the vector of References
      * parameters.
-     * @throws LivingDocServerException
      * @see #toReference(Vector)
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
-    public static Set<Reference> toReferencesList(Vector<Object> referencesParams) throws LivingDocServerException {
+    public static Set<Reference> toReferencesList(Vector<Object> referencesParams) {
         Set<Reference> references = new TreeSet<Reference>();
         for (Object referenceParams : referencesParams) {
-            references.add(toReference(( Vector<Object> ) referenceParams));
+            references.add(toReference((Vector<Object>) referenceParams));
         }
 
         return references;
@@ -655,20 +620,20 @@ public class XmlRpcDataMarshaller {
      * @return a DocumentNode based on the given vector.
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
-    public static DocumentNode toDocumentNode(Vector< ? > documentNodeParams) {
-        DocumentNode node = new DocumentNode(( String ) documentNodeParams.get(NODE_TITLE_INDEX));
-        node.setIsExecutable(( Boolean ) documentNodeParams.get(NODE_EXECUTABLE_INDEX));
-        node.setCanBeImplemented(( Boolean ) documentNodeParams.get(NODE_CAN_BE_IMPLEMENTED_INDEX));
+    public static DocumentNode toDocumentNode(Vector<?> documentNodeParams) {
+        DocumentNode node = new DocumentNode((String) documentNodeParams.get(NODE_TITLE_INDEX));
+        node.setIsExecutable((Boolean) documentNodeParams.get(NODE_EXECUTABLE_INDEX));
+        node.setCanBeImplemented((Boolean) documentNodeParams.get(NODE_CAN_BE_IMPLEMENTED_INDEX));
 
-        Map< ? , ? > children = ( Map< ? , ? > ) documentNodeParams.get(NODE_CHILDREN_INDEX);
-        Iterator< ? > it = children.values().iterator();
-        while (it.hasNext()) {
-            Object next = it.next();
-            Vector<Object> nodeParams = null;
+        Map<?, ?> children = (Map<?, ?>) documentNodeParams.get(NODE_CHILDREN_INDEX);
+        for (Object next : children.values()) {
+            Vector<Object> nodeParams;
             if (next.getClass().isArray()) {
-                nodeParams = ClientUtils.vectorizeDeep(( Object[] ) next);
+                nodeParams = ClientUtils.vectorizeDeep((Object[]) next);
+            } else if (next instanceof ArrayList) {
+                nodeParams = new Vector<Object>((ArrayList) next);
             } else {
-                nodeParams = ( Vector<Object> ) next;
+                nodeParams = (Vector<Object>) next;
             }
 
             if (nodeParams.size() > 4) {
@@ -682,12 +647,12 @@ public class XmlRpcDataMarshaller {
     }
 
     private static ReferenceNode toReferenceNode(Vector<Object> referenceNodeParams) {
-        ReferenceNode node = new ReferenceNode(( String ) referenceNodeParams.get(NODE_TITLE_INDEX),
-            ( String ) referenceNodeParams.get(NODE_REPOSITORY_UID_INDEX), ( String ) referenceNodeParams.get(
-                NODE_SUT_NAME_INDEX), ( String ) referenceNodeParams.get(NODE_SECTION_INDEX));
+        ReferenceNode node = new ReferenceNode((String) referenceNodeParams.get(NODE_TITLE_INDEX),
+                (String) referenceNodeParams.get(NODE_REPOSITORY_UID_INDEX), (String) referenceNodeParams.get(
+                NODE_SUT_NAME_INDEX), (String) referenceNodeParams.get(NODE_SECTION_INDEX));
 
-        node.setIsExecutable(( Boolean ) referenceNodeParams.get(NODE_EXECUTABLE_INDEX));
-        node.setCanBeImplemented(( Boolean ) referenceNodeParams.get(NODE_CAN_BE_IMPLEMENTED_INDEX));
+        node.setIsExecutable((Boolean) referenceNodeParams.get(NODE_EXECUTABLE_INDEX));
+        node.setCanBeImplemented((Boolean) referenceNodeParams.get(NODE_CAN_BE_IMPLEMENTED_INDEX));
 
         return node;
     }
@@ -747,13 +712,13 @@ public class XmlRpcDataMarshaller {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static void checkForErrors(Object xmlRpcResponse) throws LivingDocServerException {
         if (xmlRpcResponse instanceof Vector) {
-            Vector< ? > temp = ( Vector< ? > ) xmlRpcResponse;
-            if ( ! temp.isEmpty()) {
+            Vector<?> temp = (Vector<?>) xmlRpcResponse;
+            if (!temp.isEmpty()) {
                 checkErrors(temp.elementAt(0));
             }
         } else if (xmlRpcResponse instanceof Hashtable) {
-            Hashtable<String, ? > table = ( Hashtable<String, ? > ) xmlRpcResponse;
-            if ( ! table.isEmpty()) {
+            Hashtable<String, ?> table = (Hashtable<String, ?>) xmlRpcResponse;
+            if (!table.isEmpty()) {
                 checkForErrors(table.get(LivingDocServerErrorKey.ERROR));
             }
         } else {
@@ -771,12 +736,12 @@ public class XmlRpcDataMarshaller {
      */
     private static void checkErrors(Object object) throws LivingDocServerException {
         if (object instanceof Exception) {
-            throw new LivingDocServerException(LivingDocServerErrorKey.CALL_FAILED, ( ( Exception ) object ).getMessage());
+            throw new LivingDocServerException(LivingDocServerErrorKey.CALL_FAILED, ((Exception) object).getMessage());
         }
 
         if (object instanceof String) {
-            String msg = ( String ) object;
-            if ( ! StringUtils.isEmpty(msg) && msg.indexOf(LivingDocServerErrorKey.ERROR) > - 1) {
+            String msg = (String) object;
+            if (!StringUtils.isEmpty(msg) && msg.contains(LivingDocServerErrorKey.ERROR)) {
                 String errorId = msg.replace(LivingDocServerErrorKey.ERROR, "");
                 log.error(errorId);
                 throw new LivingDocServerException(errorId, errorId);

@@ -52,5 +52,7 @@ public enum RestMethodName {
     removeSpecification,
     getListOfSpecificationLocations,
     getSpecificationHierarchy,
-    setSpecificationAsImplemented;
+    setSpecificationAsImplemented,
+    listDocumentsInHierarchy,
+    getRenderedSpecification;
 }

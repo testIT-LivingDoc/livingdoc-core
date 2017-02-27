@@ -1,13 +1,11 @@
 package info.novatec.testit.livingdoc.agent.server;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.doReturn;
-
-import java.io.File;
-import java.io.Serializable;
-import java.util.Vector;
-
+import info.novatec.testit.livingdoc.repository.AtlassianRepository;
+import info.novatec.testit.livingdoc.server.LivingDocServerException;
+import info.novatec.testit.livingdoc.server.domain.*;
+import info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller;
+import info.novatec.testit.livingdoc.util.CollectionUtil;
+import info.novatec.testit.livingdoc.util.URIUtil;
 import org.apache.xmlrpc.WebServer;
 import org.apache.xmlrpc.XmlRpcClient;
 import org.junit.After;
@@ -15,35 +13,49 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-import info.novatec.testit.livingdoc.repository.AtlassianRepository;
-import info.novatec.testit.livingdoc.server.LivingDocServerException;
-import info.novatec.testit.livingdoc.server.domain.ClasspathSet;
-import info.novatec.testit.livingdoc.server.domain.Execution;
-import info.novatec.testit.livingdoc.server.domain.Project;
-import info.novatec.testit.livingdoc.server.domain.Repository;
-import info.novatec.testit.livingdoc.server.domain.RepositoryType;
-import info.novatec.testit.livingdoc.server.domain.Runner;
-import info.novatec.testit.livingdoc.server.domain.Specification;
-import info.novatec.testit.livingdoc.server.domain.SystemUnderTest;
-import info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller;
-import info.novatec.testit.livingdoc.util.CollectionUtil;
-import info.novatec.testit.livingdoc.util.URIUtil;
+import java.io.File;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Vector;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.when;
 
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(PowerMockRunner.class)
+@PowerMockIgnore({"javax.management.*"})
+@PrepareForTest({Agent.class, ServiceImpl.class})
 public class AgentTest {
+
     private int CURRENT_PORT = 18887;
 
     @Mock
     private Handler handler;
     private WebServer fakeServer;
 
+    @Mock
+    private ServiceImpl service;
+
+
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
+
+        Execution execution = new Execution();
+        execution.setSuccess(2);
+        execution.setFailures(1);
+        List<Object> execParams = execution.marshallize();
+        PowerMockito.whenNew(ServiceImpl.class).withAnyArguments().thenReturn(service);
+        when(service.execute((Vector<Object>) anyVararg(), (Vector<Object>) anyVararg(), (Vector<Object>) anyVararg(), anyBoolean(), anyString(), anyString())).thenReturn(execParams);
+
         // XmlRpc.setDebug(true);
-        CURRENT_PORT ++ ;
+        CURRENT_PORT++;
         fakeServer = new WebServer(CURRENT_PORT);
         fakeServer.addHandler("livingdoc1", handler);
         fakeServer.start();
@@ -60,15 +72,11 @@ public class AgentTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testCanExecuteASpecification() throws Exception {
-        Vector< ? > expected = CollectionUtil.toVector("SPACE", "MyTest", Boolean.FALSE, Boolean.TRUE);
-        String testSpecification = testContent();
-
-        doReturn(testSpecification).when(handler).getRenderedSpecification("", "", expected);
 
         XmlRpcClient xmlrpc = new XmlRpcClient("http://localhost:7777");
         Vector<Serializable> params = CollectionUtil.toVector(getRunner().marshallize(), getSystemUnderTest().marshallize(),
-            getSpecification().marshallize(), true, "", "en");
-        Vector<Object> execParams = ( Vector<Object> ) xmlrpc.execute("livingdoc-agent1.execute", params);
+                getSpecification().marshallize(), true, "", "en");
+        Vector<Object> execParams = (Vector<Object>) xmlrpc.execute("livingdoc-agent1.execute", params);
         Execution execution = XmlRpcDataMarshaller.toExecution(execParams);
         assertEquals(2, execution.getSuccess());
         assertEquals(0, execution.getErrors());
@@ -112,31 +120,10 @@ public class AgentTest {
 
     private String getPath(String fileName) {
         return URIUtil.decoded(new File(AgentTest.class.getResource("/runners/java/" + fileName).getPath())
-            .getAbsolutePath());
+                .getAbsolutePath());
     }
 
-    private String testContent() {
-        return "<html><table border='1' cellspacing='0'>"
-            + "<tr><td>Rule for</td><td colspan='3'>info.novatec.testit.livingdoc.fixture.interpreter.CellAnnotationFixture</td></tr>"
-            + "<tr><td>comparisonValue</td><td>returnedValue</td><td>annotation?</td></tr>"
-            + "<tr><td>1</td><td>2</td><td>wrong</td></tr>" + "<tr><td>2</td><td>2</td><td>right</td></tr>"
-            + "<tr><td>2</td><td>3</td><td>right</td></tr>" + "</table></html>";
+    public interface Handler {
     }
 
-    public static class MyFixture {
-        public int a;
-        public int b;
-
-        public MyFixture() {
-        }
-
-        public int sum() {
-            return a + b;
-        }
-
-    }
-
-    public static interface Handler {
-        String getRenderedSpecification(String username, String password, Vector< ? > args);
-    }
 }
