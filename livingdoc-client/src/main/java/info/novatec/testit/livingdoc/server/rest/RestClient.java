@@ -1,7 +1,6 @@
 package info.novatec.testit.livingdoc.server.rest;
 
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
-import info.novatec.testit.livingdoc.server.ServerPropertiesManager;
 import info.novatec.testit.livingdoc.server.domain.*;
 
 import javax.annotation.Nullable;
@@ -17,6 +16,19 @@ import java.util.Set;
  * @author JCHUET
  */
 public interface RestClient {
+
+    /**
+     * @param args
+     * @return
+     */
+    String getRenderedSpecification(List<?> args) throws LivingDocServerException;
+
+    /**
+     * @param args
+     * @return
+     * @throws LivingDocServerException
+     */
+    List<?> listDocumentsInHierarchy(List<?> args) throws LivingDocServerException;
 
     /**
      * @param args
@@ -534,14 +546,4 @@ public interface RestClient {
      */
     RequirementSummary getSummary(Requirement requirement, String identifier) throws LivingDocServerException;
 
-    /**
-     * Retrieves the server properties manager.
-     * <p>
-     *
-     * @return the server properties manager.
-     * @deprecated This method is not necessary anymore since the service implementation with REST.<br>
-     * Could be removed in the next version.
-     */
-    @Deprecated
-    ServerPropertiesManager getServerPropertiesManager();
 }
