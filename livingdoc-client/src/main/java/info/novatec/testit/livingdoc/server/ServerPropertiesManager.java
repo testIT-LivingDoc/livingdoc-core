@@ -5,7 +5,11 @@ package info.novatec.testit.livingdoc.server;
  * 2006 Pyxis technologies inc. All Rights Reserved.
  * 
  * @author JCHUET
+ *
+ * @deprecated This interface is not necessary anymore since the service implementation with REST. <br>
+ * Could be removed in the next version.
  */
+@Deprecated
 public interface ServerPropertiesManager {
     String URL = "LIVINGDOC_URL";
     String HANDLER = "LIVINGDOC_HANDLER";
@@ -14,7 +18,7 @@ public interface ServerPropertiesManager {
 
     /**
      * Retrieves the property for the specified key and identifier.
-     * </p>
+     * <p>
      * 
      * @param key The key of the property to retrieve
      * @param identifier The identifier of the property to retrieve
@@ -24,7 +28,7 @@ public interface ServerPropertiesManager {
 
     /**
      * Saves the property value for the specified key and identifier.
-     * </p>
+     * <p>
      * 
      * @param key The key of the property to set
      * @param value The value of the property to set

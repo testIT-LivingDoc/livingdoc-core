@@ -50,7 +50,7 @@ import info.novatec.testit.livingdoc.util.URIUtil;
 
 /**
  * Runner Class. Definition of a Runner.
- * <p/>
+ * <p>
  * Copyright (c) 2006-2007 Pyxis technologies inc. All Rights Reserved.
  *
  * @author JCHUET

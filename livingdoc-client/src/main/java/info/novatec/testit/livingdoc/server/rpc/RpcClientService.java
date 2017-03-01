@@ -15,10 +15,12 @@ import info.novatec.testit.livingdoc.server.domain.Runner;
 import info.novatec.testit.livingdoc.server.domain.Specification;
 import info.novatec.testit.livingdoc.server.domain.SystemUnderTest;
 
+import javax.annotation.Nullable;
+
 
 /**
  * The Client interface. All available methods are documented here.
- * <p/>
+ * <p>
  * Copyright (c) 2006 Pyxis technologies inc. All Rights Reserved.
  *
  * @author JCHUET
@@ -27,18 +29,18 @@ public interface RpcClientService {
 
     /**
      * Tests the connection at the url and handler.
-     * </p>
+     * <p>
      *
-     * @param url
-     * @param handler
+     * @param url Could be null.
+     * @param handler Could be null.
      * @return true if server successfully pinged.
      * @throws LivingDocServerException
      */
-    boolean testConnection(String url, String handler) throws LivingDocServerException;
+    boolean testConnection(@Nullable String url, @Nullable String handler) throws LivingDocServerException;
 
     /**
      * Pings the server.
-     * </p>
+     * <p>
      *
      * @param repository
      * @param identifier
@@ -49,7 +51,7 @@ public interface RpcClientService {
 
     /**
      * Retrieves the Runner for a given name.
-     * <p/>
+     * <p>
      *
      * @param name
      * @param identifier
@@ -60,7 +62,7 @@ public interface RpcClientService {
 
     /**
      * Retrieves the Runners available.
-     * <p/>
+     * <p>
      *
      * @param identifier
      * @return the all Runners available.
@@ -70,7 +72,7 @@ public interface RpcClientService {
 
     /**
      * Creates a new Runner
-     * <p/>
+     * <p>
      *
      * @param runner
      * @param identifier
@@ -80,7 +82,7 @@ public interface RpcClientService {
 
     /**
      * Updates the Runner
-     * <p/>
+     * <p>
      *
      * @param oldRunnerName
      * @param runner
@@ -91,7 +93,7 @@ public interface RpcClientService {
 
     /**
      * Removes the Runner of the given name
-     * <p/>
+     * <p>
      *
      * @param name
      * @param identifier
@@ -101,7 +103,7 @@ public interface RpcClientService {
 
     /**
      * Checks if registered and retrieves the Repository.
-     * <p/>
+     * <p>
      *
      * @param repository
      * @param identifier
@@ -124,7 +126,7 @@ public interface RpcClientService {
     /**
      * Updates the Repository Registration. If project not found it will be
      * created.
-     * <p/>
+     * <p>
      *
      * @param repository
      * @param identifier
@@ -134,7 +136,7 @@ public interface RpcClientService {
 
     /**
      * Removes the Repository if this one does not hold any specifications.
-     * <p/>
+     * <p>
      *
      * @param repositoryUid
      * @param identifier
@@ -144,7 +146,7 @@ public interface RpcClientService {
 
     /**
      * Retrieves the complete project list.
-     * <p/>
+     * <p>
      *
      * @param identifier
      * @return the complete project list.
@@ -156,7 +158,7 @@ public interface RpcClientService {
      * Retrieves the Specification repository list for the project associated
      * with the specified repository or an error id in a HashTable if an error
      * occurred.
-     * <p/>
+     * <p>
      *
      * @param repository
      * @param identifier
@@ -172,7 +174,7 @@ public interface RpcClientService {
      * Retrieves the Specification repository list for the project associated
      * with the specified system under test or an error id in a HashTable if an
      * error occurred.
-     * <p/>
+     * <p>
      *
      * @param systemUnderTest
      * @param identifier
@@ -187,7 +189,7 @@ public interface RpcClientService {
     /**
      * Retrieves all the Specification repositories list by project or an error
      * id in a HashTable if an error occurred.
-     * <p/>
+     * <p>
      *
      * @param identifier
      * @return the Specification repository list for the project or an error id
@@ -200,7 +202,7 @@ public interface RpcClientService {
      * Retrieves the Repository list for the project associated with the
      * specified system under test or an error id in a HashTable if an error
      * occurred.
-     * <p/>
+     * <p>
      *
      * @param systemUnderTest
      * @param identifier
@@ -215,7 +217,7 @@ public interface RpcClientService {
      * Retrieves the Requirement repository list for the project associated with
      * the specified repository or an error id in a HashTable if an error
      * occurred.
-     * <p/>
+     * <p>
      *
      * @param repository
      * @param identifier
@@ -230,7 +232,7 @@ public interface RpcClientService {
     /**
      * Retrieves the SystemUnderTest list for the project associated with the
      * specified repository or an error id in a HashTable if an error occurred.
-     * <p/>
+     * <p>
      *
      * @param repository
      * @param identifier
@@ -243,7 +245,7 @@ public interface RpcClientService {
 
     /**
      * Retrieves the SystemUnderTest list for the project associated.
-     * <p/>
+     * <p>
      *
      * @param projectName
      * @param identifier
@@ -255,7 +257,7 @@ public interface RpcClientService {
     /**
      * Adds the SystemUnderTest to the SystemUnderTest list of the
      * Specification.
-     * <p/>
+     * <p>
      *
      * @param systemUnderTest
      * @param specification
@@ -268,7 +270,7 @@ public interface RpcClientService {
     /**
      * Removes the SystemUnderTest to the SystemUnderTest list of the
      * Specification.
-     * <p/>
+     * <p>
      *
      * @param systemUnderTest
      * @param specification
@@ -280,7 +282,7 @@ public interface RpcClientService {
 
     /**
      * Checks if the Specification is in at least one Reference.
-     * <p/>
+     * <p>
      *
      * @param specification
      * @param identifier
@@ -291,7 +293,7 @@ public interface RpcClientService {
 
     /**
      * Retrieves the References list of the specified Specification
-     * <p/>
+     * <p>
      *
      * @param specification
      * @param identifier
@@ -302,7 +304,7 @@ public interface RpcClientService {
 
     /**
      * Checks if the Requirement is in at least one Reference.
-     * <p/>
+     * <p>
      *
      * @param requirement
      * @param identifier
@@ -313,7 +315,7 @@ public interface RpcClientService {
 
     /**
      * Retrieves the References list of the specified requirement
-     * <p/>
+     * <p>
      *
      * @param requirement
      * @param identifier
@@ -324,7 +326,7 @@ public interface RpcClientService {
 
     /**
      * Retrieves the Reference.
-     * </p>
+     * <p>
      *
      * @param reference
      * @param identifier
@@ -335,7 +337,7 @@ public interface RpcClientService {
 
     /**
      * Creates a new SystemUnderTest.
-     * </p>
+     * <p>
      *
      * @param systemUnderTest
      * @param repository
@@ -347,7 +349,7 @@ public interface RpcClientService {
 
     /**
      * Retrieves the SystemUnderTest.
-     * </p>
+     * <p>
      *
      * @param systemUnderTest
      * @param repository
@@ -360,7 +362,7 @@ public interface RpcClientService {
 
     /**
      * Updates the SystemUnderTest.
-     * </p>
+     * <p>
      *
      * @param oldSystemUnderTestName
      * @param newSystemUnderTest
@@ -373,7 +375,7 @@ public interface RpcClientService {
 
     /**
      * Removes the SystemUnderTest.
-     * </p>
+     * <p>
      *
      * @param systemUnderTest
      * @param repository
@@ -385,7 +387,7 @@ public interface RpcClientService {
 
     /**
      * Sets the systemUnderTest as the project default SystemUnderTest
-     * <p/>
+     * <p>
      *
      * @param systemUnderTest
      * @param repository
@@ -397,7 +399,7 @@ public interface RpcClientService {
 
     /**
      * Removes the Requirement
-     * <p/>
+     * <p>
      *
      * @param requirement
      * @param identifier
@@ -407,7 +409,7 @@ public interface RpcClientService {
 
     /**
      * Retrieves the specification
-     * <p/>
+     * <p>
      *
      * @param specification
      * @param identifier
@@ -418,7 +420,7 @@ public interface RpcClientService {
 
     /**
      * Creates the Specification
-     * <p/>
+     * <p>
      *
      * @param specification
      * @param identifier
@@ -429,7 +431,7 @@ public interface RpcClientService {
 
     /**
      * Updates the Specification
-     * <p/>
+     * <p>
      *
      * @param oldSpecification
      * @param newSpecification
@@ -441,7 +443,7 @@ public interface RpcClientService {
 
     /**
      * Removes the Specification
-     * <p/>
+     * <p>
      *
      * @param specification
      * @param identifier
@@ -451,7 +453,7 @@ public interface RpcClientService {
 
     /**
      * Creates a Reference
-     * <p/>
+     * <p>
      *
      * @param reference
      * @param identifier
@@ -463,7 +465,7 @@ public interface RpcClientService {
      * Update the Reference. The Old one will be deleted based on the
      * oldReferenceParams and a new One will be created based on the
      * newReferenceParams.
-     * <p/>
+     * <p>
      *
      * @param oldReference
      * @param newReference
@@ -476,7 +478,7 @@ public interface RpcClientService {
 
     /**
      * Deletes the specified Reference.
-     * <p/>
+     * <p>
      *
      * @param reference
      * @param identifier
@@ -486,7 +488,7 @@ public interface RpcClientService {
 
     /**
      * Executes the Specification over the selected SystemUnderTest.
-     * <p/>
+     * <p>
      *
      * @param systemUnderTest
      * @param specification
@@ -502,7 +504,7 @@ public interface RpcClientService {
 
     /**
      * Executes the Reference.
-     * <p/>
+     * <p>
      *
      * @param reference
      * @param locale
@@ -514,7 +516,7 @@ public interface RpcClientService {
 
     /**
      * Retrieves the list of specification
-     * <p/>
+     * <p>
      *
      * @param repository
      * @param systemUnderTest
@@ -526,7 +528,7 @@ public interface RpcClientService {
 
     /**
      * Retrieves the requirement summary.
-     * <p/>
+     * <p>
      *
      * @param requirement
      * @param identifier
@@ -536,9 +538,13 @@ public interface RpcClientService {
 
     /**
      * Retrieves the server properties manager.
-     * <p/>
+     * <p>
      *
      * @return the server properties manager.
+     *
+     * @deprecated This method is not necessary anymore since the service implementation with REST.<br>
+     * Could be removed in the next version.
      */
+    @Deprecated
     ServerPropertiesManager getServerPropertiesManager();
 }
