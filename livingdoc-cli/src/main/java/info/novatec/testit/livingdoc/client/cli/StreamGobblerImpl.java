@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * Basic stream manager for a process.
- * <p/>
+ * <p>
  * 
  * @author JCHUET
  */

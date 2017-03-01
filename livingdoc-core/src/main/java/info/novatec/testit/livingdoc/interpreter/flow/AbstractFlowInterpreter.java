@@ -28,7 +28,7 @@ import info.novatec.testit.livingdoc.util.ExampleUtil;
 
 /**
  * Interprets a Command table specifications.
- * <p/>
+ * <p>
  * Process a table containing a series of command. Each line of table correspond
  * to a command and its parameters.
  */
