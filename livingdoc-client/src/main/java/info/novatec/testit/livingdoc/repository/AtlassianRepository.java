@@ -21,6 +21,7 @@ import java.util.Vector;
 
 public class AtlassianRepository implements DocumentRepository {
 
+    @Deprecated
     private static final String XML_RPC = "/rpc/xmlrpc";
 
     private final URI root;
