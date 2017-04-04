@@ -7,6 +7,7 @@ import info.novatec.testit.livingdoc.server.rest.LivingDocRestClient;
 import info.novatec.testit.livingdoc.server.rest.RestClient;
 import info.novatec.testit.livingdoc.util.URIUtil;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -19,6 +20,8 @@ import java.util.Vector;
 
 
 public class AtlassianRepository implements DocumentRepository {
+
+    private static final String XML_RPC = "/rpc/xmlrpc";
 
     private final URI root;
     private final boolean includeStyle;
@@ -69,13 +72,12 @@ public class AtlassianRepository implements DocumentRepository {
     protected RestClient getRestClient() {
         if (this.restClient == null) {
 
-            String url = root.getScheme() +
+            String serverBaseURL = root.getScheme() +
                     "://" +
-                    root.getAuthority() +
-                    // + root.path()    // TODO confluence/rpc/xmlrpc (view Repository.getBaseTestUrl)
-                    "/confluence";      // TODO It's a patch while we are migrating to REST
+                    root.getAuthority() +                               // TODO confluence/rpc/xmlrpc (view Repository.getBaseTestUrl)
+                    root.getPath().replace(XML_RPC, StringUtils.EMPTY); // TODO It's a patch while we are migrating to REST
 
-            this.restClient = new LivingDocRestClient(url, username, password);
+            this.restClient = new LivingDocRestClient(serverBaseURL, username, password);
         }
         return restClient;
     }
