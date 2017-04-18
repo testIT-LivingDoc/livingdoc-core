@@ -498,4 +498,13 @@
 		</developer>
 	</developers>
 	
+	
+	<contributors>
+		<contributor>
+			<name>Matthias Müller</name>
+			<email>m.mueller@novatec-gmbh.de</email>
+			<organization>NovaTec Consulting GmbH</organization>
+			<organizationUrl>http://www.novatec-gmbh.de</organizationUrl>
+		</contributor>
+	</contributors>
 </project>
