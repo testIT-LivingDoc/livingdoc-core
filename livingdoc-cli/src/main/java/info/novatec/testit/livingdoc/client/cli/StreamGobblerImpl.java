@@ -32,8 +32,8 @@ public class StreamGobblerImpl implements StreamGobbler {
 
     @Override
     public void run() {
-        new Thread(new OuputReadingRunnable(stdout, outBuffer), "Process standard out").start();
-        new Thread(new OuputReadingRunnable(stderr, errBuffer), "Process error").start();
+        new Thread(new OutputReadingRunnable(stdout, outBuffer), "Process standard out").start();
+        new Thread(new OutputReadingRunnable(stderr, errBuffer), "Process error").start();
         sendInput();
     }
 
@@ -100,11 +100,11 @@ public class StreamGobblerImpl implements StreamGobbler {
         }
     }
 
-    private class OuputReadingRunnable implements Runnable {
+    private class OutputReadingRunnable implements Runnable {
         public InputStream runnableInput;
         public StringBuffer buffer;
 
-        public OuputReadingRunnable(InputStream input, StringBuffer buffer) {
+        public OutputReadingRunnable(InputStream input, StringBuffer buffer) {
             this.runnableInput = input;
             this.buffer = buffer;
         }
