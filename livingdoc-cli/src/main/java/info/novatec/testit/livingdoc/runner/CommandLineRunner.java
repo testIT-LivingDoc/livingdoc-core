@@ -91,13 +91,13 @@ public class CommandLineRunner {
     }
 
     private ReportGenerator reportGenerator() throws IOException {
-        FileReportGenerator generator = new FileReportGenerator(createOuputDirectory());
+        FileReportGenerator generator = new FileReportGenerator(createOutputDirectory());
         generator.adjustReportFilesExtensions(isOptionSpecified(RUNNER_SUITE_OPTION) || ! isOutputSpecified());
         generator.setReportClass(isOptionSpecified("xml") ? XmlReport.class : PlainReport.class);
         return generator;
     }
 
-    private File createOuputDirectory() throws IOException {
+    private File createOutputDirectory() throws IOException {
         File outputDirectory = outputDirectory();
         if (outputDirectory.exists()) {
             if (outputDirectory.isDirectory()) {
@@ -173,7 +173,7 @@ public class CommandLineRunner {
     private void defineCommandLine() {
         File workingDirectory = new File(System.getProperty("user.dir"));
 
-        String banner = "livingdoc [options] input [ouput]\n"
+        String banner = "livingdoc [options] input [output]\n"
             + "Run the input specification and produce a report in output file or in directory specified by -o";
         cli.setBanner(banner);
 

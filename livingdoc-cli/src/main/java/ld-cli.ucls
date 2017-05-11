@@ -23,7 +23,7 @@
       <operations public="false" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="info.novatec.testit.livingdoc.client.cli.StreamGobblerImpl.OuputReadingRunnable" 
+  <class id="3" language="java" name="info.novatec.testit.livingdoc.client.cli.StreamGobblerImpl.OutputReadingRunnable"
     project="livingdoc-cli" 
     file="/livingdoc-cli/src/main/java/info/novatec/testit/livingdoc/client/cli/StreamGobblerImpl.java" binary="false" 
     corner="BOTTOM_RIGHT">    
