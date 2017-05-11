@@ -19,14 +19,7 @@
 package info.novatec.testit.livingdoc.server.rpc.runner;
 
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
-import info.novatec.testit.livingdoc.server.domain.DocumentNode;
-import info.novatec.testit.livingdoc.server.domain.Execution;
-import info.novatec.testit.livingdoc.server.domain.Project;
-import info.novatec.testit.livingdoc.server.domain.Reference;
-import info.novatec.testit.livingdoc.server.domain.Repository;
-import info.novatec.testit.livingdoc.server.domain.Requirement;
-import info.novatec.testit.livingdoc.server.domain.Specification;
-import info.novatec.testit.livingdoc.server.domain.SystemUnderTest;
+import info.novatec.testit.livingdoc.server.domain.*;
 import info.novatec.testit.livingdoc.server.rest.LivingDocRestClient;
 
 
@@ -47,6 +40,7 @@ public class RestRemoteRunner {
         boolean implementedVersion, String locale) throws LivingDocServerException {
         SystemUnderTest sut = SystemUnderTest.newInstance(sutName);
         sut.setProject(Project.newInstance(projectName));
+        sut.setRunner(Runner.newInstance(""));
 
         Specification specification = Specification.newInstance(specificationName);
         specification.setRepository(Repository.newInstance(repositoryId));
