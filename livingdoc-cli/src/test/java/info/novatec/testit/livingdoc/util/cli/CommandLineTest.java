@@ -104,12 +104,12 @@ public class CommandLineTest {
     @Test
     public void testHelpMessageIncludesBannerAndDescriptionsOfOptions() {
         cli.setBanner("My cool program v1.0");
-        cli.defineOption(create("raw").withLongForm("--raw").withDescription("Specifies raw ouput format"));
+        cli.defineOption(create("raw").withLongForm("--raw").withDescription("Specifies raw output format"));
         cli.defineOption(create("block size").withShortForm("-b").withLongForm("--block-size").wantsArgument("SIZE")
             .withDescription("Specifies block size"));
         cli.defineOption(create("debug").withShortForm("-x").withDescription("Turn debugging on|off"));
         assertEquals("Usage: My cool program v1.0\n" + "\n" + "Options:\n"
-            + "    --raw                     Specifies raw ouput format\n"
+            + "    --raw                     Specifies raw output format\n"
             + "-b, --block-size SIZE         Specifies block size\n" + "-x                            Turn debugging on|off",
             cli.usage());
     }

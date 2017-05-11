@@ -48,7 +48,7 @@ public class CallTest {
     }
 
     @Test
-    public void testReportsASuccessIfOuputMatchesExpectation() throws Exception {
+    public void testReportsASuccessIfOutputMatchesExpectation() throws Exception {
         Call call = new Call(new StaticInvocation(calculator, Calculator.SUM));
         call.addInput("5", "2");
         call.expect(ShouldBe.equal(7));
@@ -59,7 +59,7 @@ public class CallTest {
     }
 
     @Test
-    public void testReportsAFailureIfOuputIsUnexpected() throws Exception {
+    public void testReportsAFailureIfOutputIsUnexpected() throws Exception {
         Call call = new Call(new StaticInvocation(calculator, Calculator.ADD));
         call.addInput("3");
         call.expect(ShouldBe.equal(3));

@@ -21,12 +21,8 @@ package info.novatec.testit.livingdoc.server.rpc.runner;
 import static info.novatec.testit.livingdoc.util.URIUtil.decoded;
 import static info.novatec.testit.livingdoc.util.URIUtil.flatten;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 import info.novatec.testit.livingdoc.LivingDoc;
 import info.novatec.testit.livingdoc.LivingDocCore;
@@ -34,6 +30,8 @@ import info.novatec.testit.livingdoc.runner.NullSpecificationRunnerMonitor;
 import info.novatec.testit.livingdoc.runner.SpecificationRunner;
 import info.novatec.testit.livingdoc.runner.SpecificationRunnerMonitor;
 import info.novatec.testit.livingdoc.runner.SpecificationRunnerMonitorProxy;
+import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
+import info.novatec.testit.livingdoc.server.LivingDocServerException;
 import info.novatec.testit.livingdoc.server.rpc.runner.report.FileReportGenerator;
 import info.novatec.testit.livingdoc.server.rpc.runner.report.HtmlReport;
 import info.novatec.testit.livingdoc.server.rpc.runner.report.ReportGenerator;
@@ -43,6 +41,7 @@ import info.novatec.testit.livingdoc.util.cli.Bean;
 import info.novatec.testit.livingdoc.util.cli.CommandLine;
 import info.novatec.testit.livingdoc.util.cli.Option;
 import info.novatec.testit.livingdoc.util.cli.ParseException;
+import org.apache.commons.lang3.StringUtils;
 
 
 public class CommandLineRemoteRunner {
@@ -52,6 +51,8 @@ public class CommandLineRemoteRunner {
     private SpecificationRunner runner;
     private SpecificationRunnerMonitor monitor;
     private PrintStream out;
+    private String user;
+    private String password;
 
     public CommandLineRemoteRunner() {
         this(System.out);
@@ -68,7 +69,7 @@ public class CommandLineRemoteRunner {
         this.monitor = new SpecificationRunnerMonitorProxy(monitor);
     }
 
-    public void run(String... args) throws ParseException, IOException {
+    public void run(String... args) throws ParseException, IOException, LivingDocServerException {
         defineCommandLine();
         if ( ! parseCommandLine(args)) {
             return;
@@ -76,28 +77,34 @@ public class CommandLineRemoteRunner {
         runSpec();
     }
 
-    private void runSpec() throws IOException {
+    private void runSpec() throws IOException, LivingDocServerException {
         options.putAll(cli.getOptionValues());
         options.put("reportGenerator", reportGenerator());
         options.put("monitor", monitor);
-        options.put("xmlRpcRemoteRunner", xmlRpcRemoteRunner());
+        options.put("restRemoteRunner", restRemoteRunner());
         new Bean(runner).setProperties(options);
         runner.run(source(), destination());
     }
 
     private ReportGenerator reportGenerator() throws IOException {
-        FileReportGenerator generator = new FileReportGenerator(createOuputDirectory());
+        File outputDirectory = existsOutputDirectory() ? outputDirectory() : createOutputDirectory();
+        FileReportGenerator generator = new FileReportGenerator(outputDirectory);
         generator.adjustReportFilesExtensions(optionSpecified(RUNNER_SUITE_OPTION) || output() == null);
         generator.setReportClass(optionSpecified("xml") ? XmlReport.class : HtmlReport.class);
         return generator;
     }
 
-    private RestRemoteRunner xmlRpcRemoteRunner() {
-        return new RestRemoteRunner(url(), user(), password());
+    private RestRemoteRunner restRemoteRunner() throws IOException {
+        return new RestRemoteRunner(url(), getUser(), getPassword());
+    }
+
+    private boolean existsOutputDirectory() throws IOException {
+        File outputDirectory = outputDirectory();
+        return outputDirectory != null && outputDirectory.exists() && outputDirectory.isDirectory();
     }
 
     @SuppressWarnings("null")
-    private File createOuputDirectory() throws IOException {
+    private File createOutputDirectory() throws IOException {
         File outputDirectory = outputDirectory();
         if (outputDirectory != null && outputDirectory.mkdirs()) {
             return outputDirectory;
@@ -110,14 +117,48 @@ public class CommandLineRemoteRunner {
         return ( String ) cli.getOptionValue("url");
     }
 
-    private String user() {
-        // TODO
-        return "";
+    public String getUser() {
+        return user;
     }
 
-    private String password() {
-        // TODO
-        return "";
+    public String getPassword() {
+        return password;
+    }
+
+    private static String scanCredentials(){
+        return String.valueOf(System.console().readPassword("Enter password: "));
+
+    }
+
+    public void setCredentialsFromArguments(String user, String pass) {
+        this.user = user;
+        if (pass != null) {
+            this.password = pass;
+        }else {
+            this.password = scanCredentials();
+        }
+    }
+
+    public void setCredentialsFromFile(String path) throws LivingDocServerException, IOException {
+
+        File f = new File(path);
+        FileInputStream fis = null;
+        if (f.isFile()) {
+            fis = new FileInputStream(f);
+            try {
+                Properties prop = new Properties();
+                prop.load(fis);
+                this.user = prop.getProperty("livingdoc.confluence.user");
+                this.password = prop.getProperty("livingdoc.confluence.password");
+
+            } catch (IOException exc) {
+                throw new LivingDocServerException(LivingDocServerErrorKey.RETRIEVE_FILE_FAILED,
+                        "File not accepted, please check the documentation");
+            } finally{
+                fis.close();
+            }
+
+        }
     }
 
     private String input() {
@@ -154,13 +195,25 @@ public class CommandLineRemoteRunner {
         return output() != null ? fileName(output()) : optionSpecified("repository") ? flatten(input()) : fileName(input());
     }
 
-    private boolean parseCommandLine(String[] args) throws ParseException {
+    private boolean parseCommandLine(String[] args) throws ParseException, LivingDocServerException, IOException {
         cli.parse(args);
         if (optionSpecified("help")) {
             return displayUsage();
         }
         if (optionSpecified("version")) {
             return displayVersion();
+        }
+        if (optionSpecified("user")) {
+            if (optionSpecified("password")) {
+                setCredentialsFromArguments((String) cli.getOptionValue("user"), (String) cli.getOptionValue("password"));
+            }else{
+                setCredentialsFromArguments((String) cli.getOptionValue("user"), null);
+            }
+        } else if(optionSpecified("config")) {
+            setCredentialsFromFile(( String ) cli.getOptionValue("config"));
+        }
+        if (StringUtils.isEmpty(getUser())) {
+            throw new ArgumentMissingException("user");
         }
         if (input() == null) {
             throw new ArgumentMissingException("input");
@@ -199,15 +252,12 @@ public class CommandLineRemoteRunner {
     private void defineCommandLine() {
         File workingDirectory = new File(System.getProperty("user.dir"));
 
-        String banner = "livingdoc [options] input [ouput]\n"
+        String banner = "livingdoc [options] input [output]\n"
             + "Run the input specification and produce a report in output file or in directory specified by -o";
         cli.setBanner(banner);
-
         cli.defineOption(cli.buildOption("locale", "-l", "--locale LANG", "Set application language (en, fr, ...)").asType(
             Locale.class).whenPresent(new SetLocale()));
         cli.defineOption(cli.buildOption("url", "-u", "--url URL", "LivingDoc Server Context Path"));
-        cli.defineOption(cli.buildOption("handler", "-h", "--handle HANDLE", "LivingDoc Server XML-RPC handler")
-            .defaultingTo("livingdoc1"));
         cli.defineOption(cli.buildOption("project", "-p", "--project PROJECT", "Project Name"));
         cli.defineOption(cli.buildOption("systemUnderTest", "-t", "--sut SUT", "System Under Test Name"));
         cli.defineOption(cli.buildOption("repositoryId", "--rep ID", "Repository Id"));
@@ -220,6 +270,9 @@ public class CommandLineRemoteRunner {
         cli.defineOption(cli.buildOption("help", "--help", "Display this help and exit"));
         cli.defineOption(cli.buildOption("version", "--version", "Output version information and exit"));
         cli.defineOption(cli.buildOption("debug", "--debug", "Enable debug mode").whenPresent(new SetDebugMode()));
+        cli.defineOption(cli.buildOption("user", "--user USER", "Confluence username"));
+        cli.defineOption(cli.buildOption("password", "--password PASSWORD", "Confluence password"));
+        cli.defineOption(cli.buildOption("config", "--config PATH", "Confluence credentials file path"));
     }
 
     public static class SetDebugMode implements Option.Stub {
@@ -229,6 +282,7 @@ public class CommandLineRemoteRunner {
             LivingDoc.setDebugEnabled(true);
         }
     }
+
 
     public static class SetLocale implements Option.Stub {
 
