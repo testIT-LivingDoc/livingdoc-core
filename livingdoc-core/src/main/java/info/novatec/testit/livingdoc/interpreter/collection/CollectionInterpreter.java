@@ -72,7 +72,7 @@ public abstract class CollectionInterpreter implements Interpreter  {
     }
 
     protected List< ? > toList(Object results) {
-        LOG.debug(ENTRY_WITH, results.toString());
+        LOG.debug(ENTRY_WITH, results);
         if (results instanceof Object[]) {
             List< ? > resultsAsList = Arrays.asList(( Object[] ) results);
             LOG.debug(EXIT_WITH, resultsAsList.toString());
@@ -83,6 +83,7 @@ public abstract class CollectionInterpreter implements Interpreter  {
             LOG.debug(EXIT_WITH, newArrayList.toString());
             return newArrayList;
         }
+        LOG.debug(EXIT_WITH, "null");
         return null;
     }
 
