@@ -3,26 +3,16 @@
 /*.log
 /target
 /release.properties
-
-# IntelliJ
-**.idea/
-**.iml
-**.ipr
-**.iws
-livingdoc-samples/target/
-\.idea/
-livingdoc-samples/livingdoc-samples\.iml
-livingdoc-cli/livingdoc-cli\.iml
-livingdoc-client/livingdoc-client\.iml
-livingdoc-core/livingdoc-core\.iml
-livingdoc-plugin/livingdoc-plugin\.iml
-
-# Eclipse
-**.settings/
-**target/
-**.project
-**.classpath
-**.eclipse-pmd
+!.gitignore
+.project
+.classpath
+.eclipse-pmd
+.idea/
+*.iml
+**/.settings/
+**/.metadata/
+**/target/
+target
 
 # /client/
 /client/deploy.bat
@@ -81,3 +71,5 @@ livingdoc-plugin/livingdoc-plugin\.iml
 # /server/src/test/resources/setupdbdatas/
 /server/src/test/resources/setupdbdatas/server.data.localhost.xml
 /server/src/test/resources/setupdbdatas/server.data.user.xml
+
+*.iml
