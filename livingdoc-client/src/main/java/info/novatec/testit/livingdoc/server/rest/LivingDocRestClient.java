@@ -1,11 +1,11 @@
 package info.novatec.testit.livingdoc.server.rest;
 
-import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
-import info.novatec.testit.livingdoc.server.LivingDocServerException;
-import info.novatec.testit.livingdoc.server.domain.*;
-import info.novatec.testit.livingdoc.server.rest.requests.*;
-import info.novatec.testit.livingdoc.server.rest.responses.*;
-import info.novatec.testit.livingdoc.util.ClientUtils;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +15,95 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Set;
+import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
+import info.novatec.testit.livingdoc.server.LivingDocServerException;
+import info.novatec.testit.livingdoc.server.domain.DocumentNode;
+import info.novatec.testit.livingdoc.server.domain.Execution;
+import info.novatec.testit.livingdoc.server.domain.Project;
+import info.novatec.testit.livingdoc.server.domain.Reference;
+import info.novatec.testit.livingdoc.server.domain.Repository;
+import info.novatec.testit.livingdoc.server.domain.Requirement;
+import info.novatec.testit.livingdoc.server.domain.RequirementSummary;
+import info.novatec.testit.livingdoc.server.domain.Runner;
+import info.novatec.testit.livingdoc.server.domain.Specification;
+import info.novatec.testit.livingdoc.server.domain.SystemUnderTest;
+import info.novatec.testit.livingdoc.server.rest.requests.AddSpecificationSystemUnderTestRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.CreateReferenceRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.CreateRunnerRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.CreateSpecificationRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.CreateSystemUnderTestRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.DoesSpecificationHasReferencesRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.GetAllProjectsRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.GetAllRepositoriesForSystemUnderTestRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.GetAllRunnersRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.GetAllSpecificationRepositoriesRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.GetReferenceRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.GetRegisteredRepositoryRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.GetRenderedSpecificationRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.GetRequirementReferencesRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.GetRequirementRepositoriesOfAssociatedProjectRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.GetRunnerRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.GetSpecificationHierarchyRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.GetSpecificationReferencesRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.GetSpecificationRepositoriesForSystemUnderTestRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.GetSpecificationRepositoriesOfAssociatedProjectRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.GetSpecificationRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.GetSummaryRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.GetSystemUnderTestRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.GetSystemUnderTestsOfAssociatedProjectRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.GetSystemUnderTestsOfProjectRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.HasRequirementReferencesRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.ListDocumentsInHierarchyRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.PingRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.RegisterRepositoryRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.RemoveReferenceRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.RemoveRepositoryRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.RemoveRequirementRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.RemoveRunnerRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.RemoveSpecificationRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.RemoveSpecificationSystemUnderTestRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.RemoveSystemUnderTestRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.RunReferenceRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.RunSpecificationRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.SetSpecificationAsImplementedRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.SetSystemUnderTestAsDefaultRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.TestConnectionRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.UpdateReferenceRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.UpdateRepositoryRegistrationRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.UpdateRunnerRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.UpdateSpecificationRequest;
+import info.novatec.testit.livingdoc.server.rest.requests.UpdateSystemUnderTestRequest;
+import info.novatec.testit.livingdoc.server.rest.responses.CreateSpecificationResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.DoesSpecificationHasReferencesResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.GetAllProjectsResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.GetAllRepositoriesForSystemUnderTestResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.GetAllRunnersResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.GetAllSpecificationRepositoriesResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.GetReferenceResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.GetRegisteredRepositoryResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.GetRenderedSpecificationResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.GetRequirementReferencesResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.GetRequirementRepositoriesOfAssociatedProjectResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.GetRunnerResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.GetSpecificationHierarchyResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.GetSpecificationReferencesResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.GetSpecificationRepositoriesForSystemUnderTestResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.GetSpecificationRepositoriesOfAssociatedProjectResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.GetSpecificationResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.GetSummaryResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.GetSystemUnderTestResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.GetSystemUnderTestsOfAssociatedProjectResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.GetSystemUnderTestsOfProjectResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.HasRequirementReferencesResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.ListDocumentsInHierarchyResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.PingResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.RegisterRepositoryResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.RunReferenceResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.RunSpecificationResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.SetSpecificationAsImplementedResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.TestConnectionResponse;
+import info.novatec.testit.livingdoc.server.rest.responses.UpdateReferenceResponse;
+import info.novatec.testit.livingdoc.util.ClientUtils;
 
 
 public class LivingDocRestClient implements RestClient {
@@ -30,7 +114,7 @@ public class LivingDocRestClient implements RestClient {
     private final String username;
     private final String password;
 
-    private final RestTemplate template = new RestTemplate();
+    private final RestTemplate template;
 
     /**
      * Constructor
@@ -40,9 +124,26 @@ public class LivingDocRestClient implements RestClient {
      * @param password
      */
     public LivingDocRestClient(final String baseUrl, final String username, final String password) {
+        this(baseUrl, username, password, new RestTemplate());
+    }
+
+    /**
+     * Constructor
+     *
+     * @param baseUrl
+     * @param username User to authenticate in Confluence. Null for anonymous access.
+     * @param password
+     * @param template the {@link RestTemplate} to use
+     */
+    public LivingDocRestClient(String baseUrl, String username, String password, RestTemplate template) {
         this.baseUrl = baseUrl;
         this.username = username;
         this.password = password;
+        this.template = template;
+    }
+
+    public RestTemplate getTemplate() {
+        return template;
     }
 
     @Override
