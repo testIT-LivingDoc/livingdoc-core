@@ -105,5 +105,4 @@ public class JoinClassLoader extends ClassLoader {
             throw new ClassNotFoundException("Cannot load resource for class [" + name + "]", ex);
         }
     }
-
 }
