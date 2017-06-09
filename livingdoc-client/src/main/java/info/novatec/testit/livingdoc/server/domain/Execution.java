@@ -127,13 +127,13 @@ public class Execution extends AbstractUniqueEntity implements Comparable<Execut
         return sections;
     }
 
-    @Lob
+
     @Column(name = "RESULTS", nullable = true, length = 2147483647)
     public String getResults() {
         return results;
     }
 
-    @Lob
+
     @Column(name = "ERRORID", nullable = true, length = 2147483647)
     public String getExecutionErrorId() {
         return executionErrorId;

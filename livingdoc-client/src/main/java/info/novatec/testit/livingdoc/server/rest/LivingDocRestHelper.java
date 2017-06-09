@@ -1,5 +1,6 @@
 package info.novatec.testit.livingdoc.server.rest;
 
+import java.util.List;
 import java.util.Vector;
 
 public interface LivingDocRestHelper {
