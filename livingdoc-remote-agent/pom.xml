@@ -21,11 +21,21 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>1.5.4.RELEASE</version>
+		</dependency>
+
+		<dependency>
 			<groupId>info.novatec.testit</groupId>
 			<artifactId>livingdoc-client</artifactId>
 			<version>${project.version}</version>
 			<!-- Make sure we are only using xmlrpc v2 (compatible with confluence) -->
 			<exclusions>
+				<exclusion>
+					<groupId>xmlrpc</groupId>
+					<artifactId>xmlrpc</artifactId>
+				</exclusion>
 				<exclusion>
 					<groupId>org.apache.xmlrpc</groupId>
 					<artifactId>xmlrpc-client</artifactId>
@@ -69,81 +79,17 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.3</version>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>1.5.4.RELEASE</version>
 				<executions>
 					<execution>
-						<phase>package</phase>
 						<goals>
-							<goal>shade</goal>
+							<goal>repackage</goal>
 						</goals>
-						<configuration>
-							<shadedArtifactAttached>true</shadedArtifactAttached>
-							<shadedClassifierName>complete</shadedClassifierName>
-							<transformers>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>info.novatec.testit.livingdoc.agent.server.Agent</mainClass>
-								</transformer>
-							</transformers>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy</id>
-						<phase>generate-test-resources</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>info.novatec.testit</groupId>
-									<artifactId>livingdoc-core</artifactId>
-									<version>${project.version}</version>
-									<type>jar</type>
-									<outputDirectory>${project.basedir}/src/test/resources/runners/java</outputDirectory>
-									<destFileName>livingdoc-core.jar</destFileName>
-								</artifactItem>
-								<artifactItem>
-									<groupId>info.novatec.testit</groupId>
-									<artifactId>livingdoc-core</artifactId>
-									<version>${project.version}</version>
-									<type>jar</type>
-									<classifier> tests </classifier>
-									<outputDirectory>${project.basedir}/src/test/resources/runners/java</outputDirectory>
-									<destFileName>livingdoc-core-tests.jar</destFileName>
-								</artifactItem>
-								<artifactItem>
-									<groupId>commons-codec</groupId>
-									<artifactId>commons-codec</artifactId>
-									<version>1.10</version>
-									<type>jar</type>
-									<outputDirectory>${project.basedir}/src/test/resources/runners/java</outputDirectory>
-									<destFileName>commons-codec.jar</destFileName>
-								</artifactItem>
-								<artifactItem>
-									<groupId>xmlrpc</groupId>
-									<artifactId>xmlrpc</artifactId>
-									<version>2.0.1</version>
-									<type>jar</type>
-									<outputDirectory>${project.basedir}/src/test/resources/runners/java</outputDirectory>
-									<destFileName>xmlrpc.jar</destFileName>
-								</artifactItem>
-							</artifactItems>
-							<overWriteReleases>false</overWriteReleases>
-							<overWriteSnapshots>true</overWriteSnapshots>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

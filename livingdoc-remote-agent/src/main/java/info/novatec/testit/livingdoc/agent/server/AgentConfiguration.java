@@ -28,11 +28,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
 public class AgentConfiguration {
 
     private final static int DEFAULT_PORT = 56000;
-
     private final static String DEFAULT_CONFIG_FILE = "remoteagent.properties";
 
     private final static String AGENT_KEY_NAME = "livingdoc.remoteagent.";

@@ -5,17 +5,14 @@ import java.nio.charset.Charset;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.xmlrpc.WebServer;
-import org.apache.xmlrpc.secure.SecureWebServer;
-import org.apache.xmlrpc.secure.SecurityTool;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
+@SpringBootApplication
 public class Agent {
     public static final String REMOTE_AGENT_HANDLER_NAME = "livingdoc-agent1";
 
     private static final Logger log = LogManager.getLogger(Agent.class);
-
-    private static WebServer webServer;
 
     public static void main(String[] args) {
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -29,19 +26,17 @@ public class Agent {
         try {
             AgentConfiguration configuration = new AgentConfiguration(args);
 
-            if (configuration.isSecured()) {
-                SecurityTool.setKeyStore(configuration.getKeyStore());
+            /*if (configuration.isSecured()) {
+                *//*SecurityTool.setKeyStore(configuration.getKeyStore());
                 SecurityTool.setKeyStorePassword(configuration.getKeyStorePassword() == null ? askPassword() : configuration
-                    .getKeyStorePassword());
+                        .getKeyStorePassword());
 
-                webServer = new SecureWebServer(configuration.getPort());
+                webServer = new SecureWebServer(configuration.getPort());*//*
             } else {
-                webServer = new WebServer(configuration.getPort());
-            }
+                //webServer = new WebServer(configuration.getPort());
+            }*/
 
-            Service service = new ServiceImpl();
-            webServer.addHandler(REMOTE_AGENT_HANDLER_NAME, service);
-            webServer.start();
+            SpringApplication.run(Agent.class, args);
 
             log.info("LivingDoc Remote Agent ({}) is listening for {} connections on port {}... ", REMOTE_AGENT_HANDLER_NAME,
                 configuration.isSecured() ? "SSL " : "", configuration.getPort());
@@ -58,9 +53,10 @@ public class Agent {
     }
 
     public static void shutdown() {
-        if (webServer != null) {
+        //TODO parar spring
+        /*if (webServer != null) {
             webServer.shutdown();
             webServer = null;
-        }
+        }*/
     }
 }

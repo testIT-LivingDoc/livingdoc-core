@@ -1,18 +1,11 @@
 package info.novatec.testit.livingdoc.server.domain;
 
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.RUNNER_CLASSPATH_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.RUNNER_NAME_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.RUNNER_SECURED_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.RUNNER_SERVER_NAME_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.RUNNER_SERVER_PORT_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.toExecution;
-
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.Vector;
@@ -25,9 +18,19 @@ import javax.persistence.JoinTable;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
+import info.novatec.testit.livingdoc.server.LivingDocServerException;
+import info.novatec.testit.livingdoc.server.rest.requests.ExecutionRequest;
+import info.novatec.testit.livingdoc.server.rest.responses.ExecutionResponse;
+import info.novatec.testit.livingdoc.util.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 import org.xml.sax.SAXException;
 
 import info.novatec.testit.livingdoc.report.Report;
@@ -38,14 +41,8 @@ import info.novatec.testit.livingdoc.runner.RecorderMonitor;
 import info.novatec.testit.livingdoc.runner.SpecificationRunner;
 import info.novatec.testit.livingdoc.runner.SpecificationRunnerBuilder;
 import info.novatec.testit.livingdoc.runner.SpecificationRunnerExecutor;
-import info.novatec.testit.livingdoc.server.rpc.xmlrpc.client.XmlRpcClientExecutor;
-import info.novatec.testit.livingdoc.server.rpc.xmlrpc.client.XmlRpcClientExecutorException;
-import info.novatec.testit.livingdoc.server.rpc.xmlrpc.client.XmlRpcClientExecutorFactory;
-import info.novatec.testit.livingdoc.util.ClassUtils;
-import info.novatec.testit.livingdoc.util.CollectionUtil;
-import info.novatec.testit.livingdoc.util.ExceptionUtils;
-import info.novatec.testit.livingdoc.util.JoinClassLoader;
-import info.novatec.testit.livingdoc.util.URIUtil;
+
+import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.*;
 
 
 /**
@@ -130,13 +127,14 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
     public Execution execute(Specification specification, SystemUnderTest systemUnderTest, boolean implementedVersion,
         String sections, String locale) {
         if (isRemote()) {
-            return executeRemotely(specification, systemUnderTest, implementedVersion, sections, locale);
+            ExecutionResponse executionResponse = executeRemotely(specification, systemUnderTest, implementedVersion, sections, locale);
+            return executionResponse.getExecution();
         }
         return executeLocally(specification, systemUnderTest, implementedVersion, sections, locale);
     }
 
     @SuppressWarnings("unchecked")
-    private Execution executeRemotely(Specification specification, SystemUnderTest systemUnderTest,
+    /*private Execution executeRemotely(Specification specification, SystemUnderTest systemUnderTest,
         boolean implementedVersion, String paramSections, String paramLocale) {
         try {
             String sections = StringUtils.stripToEmpty(paramSections);
@@ -145,7 +143,7 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
             XmlRpcClientExecutor xmlrpc = XmlRpcClientExecutorFactory.newExecutor(agentUrl());
 
             List< ? > params = CollectionUtil.toVector(marshallize(), systemUnderTest.marshallize(), specification
-                .marshallize(), implementedVersion, sections, locale);
+                    .marshallize(), implementedVersion, sections, locale);
             Vector<Object> execParams = ( Vector<Object> ) xmlrpc.execute(AGENT_HANDLER + ".execute", params);
 
             Execution execution = toExecution(execParams);
@@ -156,7 +154,40 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
         } catch (XmlRpcClientExecutorException e) {
             return Execution.error(specification, systemUnderTest, paramSections, ExceptionUtils.stackTrace(e, "<br>", 15));
         }
+    }*/
+
+    private ExecutionResponse executeRemotely(Specification specification, SystemUnderTest systemUnderTest,
+                                      boolean implementedVersion, String paramSections, String paramLocale)
+            {
+
+        try {
+            ExecutionRequest executionRequest = new ExecutionRequest(this, specification, systemUnderTest,
+                    implementedVersion, paramSections, paramLocale);
+
+            RestTemplate client = new RestTemplate();
+
+            RequestEntity<Object> requestEntity;
+            RequestEntity.BodyBuilder bodyBuilder = RequestEntity.post(new URI(agentUrl()));
+            bodyBuilder.contentType(MediaType.APPLICATION_JSON)
+                    .header("method-name", "/execute");
+
+            requestEntity = bodyBuilder.body((Object) executionRequest);
+
+            ResponseEntity<ExecutionResponse> responseEntity = client.exchange(requestEntity, ExecutionResponse.class);
+
+            HttpStatus statusCode = responseEntity.getStatusCode();
+            if (!HttpStatus.OK.equals(statusCode)) {
+                throw new LivingDocServerException(LivingDocServerErrorKey.CALL_FAILED,
+                        "call was not successful, status: " + statusCode);
+            }
+            return responseEntity.getBody();
+        }
+        catch (Exception exc) {
+            exc.printStackTrace();
+            return null;
+        }
     }
+
 
     private Execution executeLocally(Specification specification, SystemUnderTest systemUnderTest,
         boolean implementedVersion, String sections, String locale) {
