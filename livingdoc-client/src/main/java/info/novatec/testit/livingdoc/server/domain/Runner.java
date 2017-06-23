@@ -58,6 +58,7 @@ import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshall
 @SuppressWarnings("serial")
 public class Runner extends AbstractVersionedEntity implements Comparable<Runner> {
     private static final String AGENT_HANDLER = "livingdoc-agent1";
+    private static final String AGENT_METHOD  = "/execute";
     private String name;
 
     private String serverName;
@@ -128,50 +129,28 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
         String sections, String locale) {
         if (isRemote()) {
             ExecutionResponse executionResponse = executeRemotely(specification, systemUnderTest, implementedVersion, sections, locale);
-            return executionResponse.getExecution();
+            System.out.println ("Mi Ejecucion**********************: " + executionResponse.getExecution());
+            return null;
         }
         return executeLocally(specification, systemUnderTest, implementedVersion, sections, locale);
     }
 
     @SuppressWarnings("unchecked")
-    /*private Execution executeRemotely(Specification specification, SystemUnderTest systemUnderTest,
-        boolean implementedVersion, String paramSections, String paramLocale) {
-        try {
-            String sections = StringUtils.stripToEmpty(paramSections);
-            String locale = StringUtils.stripToEmpty(paramLocale);
-
-            XmlRpcClientExecutor xmlrpc = XmlRpcClientExecutorFactory.newExecutor(agentUrl());
-
-            List< ? > params = CollectionUtil.toVector(marshallize(), systemUnderTest.marshallize(), specification
-                    .marshallize(), implementedVersion, sections, locale);
-            Vector<Object> execParams = ( Vector<Object> ) xmlrpc.execute(AGENT_HANDLER + ".execute", params);
-
-            Execution execution = toExecution(execParams);
-            execution.setSystemUnderTest(systemUnderTest);
-            execution.setSpecification(specification);
-            execution.setRemotelyExecuted();
-            return execution;
-        } catch (XmlRpcClientExecutorException e) {
-            return Execution.error(specification, systemUnderTest, paramSections, ExceptionUtils.stackTrace(e, "<br>", 15));
-        }
-    }*/
-
     private ExecutionResponse executeRemotely(Specification specification, SystemUnderTest systemUnderTest,
                                       boolean implementedVersion, String paramSections, String paramLocale)
             {
 
         try {
-            ExecutionRequest executionRequest = new ExecutionRequest(this, specification, systemUnderTest,
-                    implementedVersion, paramSections, paramLocale);
+
+            ExecutionRequest executionRequest = new ExecutionRequest();
 
             RestTemplate client = new RestTemplate();
 
-            RequestEntity<Object> requestEntity;
-            RequestEntity.BodyBuilder bodyBuilder = RequestEntity.post(new URI(agentUrl()));
-            bodyBuilder.contentType(MediaType.APPLICATION_JSON)
-                    .header("method-name", "/execute");
+            RequestEntity<ExecutionRequest> requestEntity;
+            RequestEntity.BodyBuilder bodyBuilder = RequestEntity.post(new URI(agentUrl()+AGENT_METHOD));
+            bodyBuilder.contentType(MediaType.APPLICATION_JSON);
 
-            requestEntity = bodyBuilder.body((Object) executionRequest);
+            requestEntity = bodyBuilder.body(executionRequest);
 
             ResponseEntity<ExecutionResponse> responseEntity = client.exchange(requestEntity, ExecutionResponse.class);
 

@@ -17,20 +17,28 @@ public class ServiceController {
 
     @PostMapping("/execute")
     public ResponseEntity<ExecutionResponse> execute(@RequestBody ExecutionRequest executionRequest) {
-        Runner runner = executionRequest.getRunner();
+      //  Runner runner = executionRequest.getRunner();
 
         // To prevent call forwarding
-        runner.setServerName(null);
-        runner.setServerPort(null);
+      //  runner.setServerName(null);
+      //  runner.setServerPort(null);
 
-        SystemUnderTest systemUnderTest = executionRequest.getSystemUnderTest();
-        Specification specification = executionRequest.getSpecification();
+      // SystemUnderTest systemUnderTest = executionRequest.getSystemUnderTest();
+      //  Specification specification = executionRequest.getSpecification();
 
-        Execution execution = runner.execute(specification, systemUnderTest, executionRequest.isImplemented(),
-                executionRequest.getSection(), executionRequest.getLocale());
-
-        ExecutionResponse executionResponse = new ExecutionResponse(execution);
+      //  Execution execution = runner.execute(specification, systemUnderTest, executionRequest.isImplemented(),
+         //       executionRequest.getSection(), executionRequest.getLocale());
+        System.out.println ("Lleeeeeeeeeeego");
+        ExecutionResponse executionResponse = new ExecutionResponse("++++++++Resultado: " + executionRequest.page);
 
         return new ResponseEntity<ExecutionResponse>(executionResponse, HttpStatus.OK);
     }
+
+
+    @PostMapping("/test")
+    public ResponseEntity<String> execute(@RequestBody String param) {
+        return new ResponseEntity<String>("Mi ejecucion", HttpStatus.OK);
+    }
+
+
 }
