@@ -129,8 +129,7 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
         String sections, String locale) {
         if (isRemote()) {
             ExecutionResponse executionResponse = executeRemotely(specification, systemUnderTest, implementedVersion, sections, locale);
-            System.out.println ("Mi Ejecucion**********************: " + executionResponse.getExecution());
-            return null;
+            return  executionResponse.execution;
         }
         return executeLocally(specification, systemUnderTest, implementedVersion, sections, locale);
     }
@@ -142,7 +141,23 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
 
         try {
 
-            ExecutionRequest executionRequest = new ExecutionRequest();
+
+            SystemUnderTest mySystemUnderTest = SystemUnderTest.newInstance (systemUnderTest.getName());
+
+            Project project = systemUnderTest.getProject();
+            mySystemUnderTest.setProject(Project.newInstance(project.getName()));
+            mySystemUnderTest.setFixtureFactory(systemUnderTest.getFixtureFactory());
+
+            Specification mySpecification = Specification.newInstance(specification.getName());
+
+            Repository repo = Repository.newInstance(specification.getRepository().getUid());
+            repo.setType(specification.getRepository().getType());
+            repo.setBaseTestUrl(specification.getRepository().getBaseTestUrl());
+            repo.setUsername(specification.getRepository().getUsername());
+            repo.setPassword(specification.getRepository().getPassword());
+            mySpecification.setRepository(repo);
+
+            ExecutionRequest executionRequest = new ExecutionRequest(this, mySpecification, mySystemUnderTest, implementedVersion, paramSections, paramLocale);
 
             RestTemplate client = new RestTemplate();
 
@@ -155,6 +170,7 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
             ResponseEntity<ExecutionResponse> responseEntity = client.exchange(requestEntity, ExecutionResponse.class);
 
             HttpStatus statusCode = responseEntity.getStatusCode();
+            System.out.println (responseEntity.getBody().execution);
             if (!HttpStatus.OK.equals(statusCode)) {
                 throw new LivingDocServerException(LivingDocServerErrorKey.CALL_FAILED,
                         "call was not successful, status: " + statusCode);
