@@ -29,17 +29,18 @@ public class ServiceController {
        Execution execution = runner.execute(specification, systemUnderTest, executionRequest.implemented,
               executionRequest.section, executionRequest.locale);
 
-
+       execution.setSpecification(specification);
+       systemUnderTest.setRunner(runner);
+       execution.setSystemUnderTest(systemUnderTest);
+       execution.setExecutionDate(null);
        ExecutionResponse executionResponse = new ExecutionResponse(execution);
 
        return new ResponseEntity<ExecutionResponse>(executionResponse, HttpStatus.OK);
-    }
-
+}
 
     @PostMapping("/test")
-    public ResponseEntity<String> execute(@RequestBody String param) {
-        return new ResponseEntity<String>("Mi ejecucion", HttpStatus.OK);
+    public ResponseEntity<String> test(@RequestBody String param) {
+        return new ResponseEntity<String>("Test Connection. Params: " + param, HttpStatus.OK);
     }
-
 
 }

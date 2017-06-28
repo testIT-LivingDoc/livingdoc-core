@@ -143,18 +143,31 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
 
 
             SystemUnderTest mySystemUnderTest = SystemUnderTest.newInstance (systemUnderTest.getName());
+            mySystemUnderTest.setId(systemUnderTest.getId());
+            mySystemUnderTest.setUUID(systemUnderTest.getUUID());
+            mySystemUnderTest.setVersion(systemUnderTest.getVersion());
 
             Project project = systemUnderTest.getProject();
-            mySystemUnderTest.setProject(Project.newInstance(project.getName()));
+            Project myProject = Project.newInstance(project.getName());
+            myProject.setId(project.getId());
+            myProject.setVersion(project.getVersion());
+
+            mySystemUnderTest.setProject(myProject);
             mySystemUnderTest.setFixtureFactory(systemUnderTest.getFixtureFactory());
 
             Specification mySpecification = Specification.newInstance(specification.getName());
+            mySpecification.setId(specification.getId());
+            mySpecification.setUUID(specification.getUUID());
+            mySpecification.setVersion(specification.getVersion());
+
 
             Repository repo = Repository.newInstance(specification.getRepository().getUid());
+            repo.setId(specification.getRepository().getId());
             repo.setType(specification.getRepository().getType());
             repo.setBaseTestUrl(specification.getRepository().getBaseTestUrl());
             repo.setUsername(specification.getRepository().getUsername());
             repo.setPassword(specification.getRepository().getPassword());
+            repo.setVersion(specification.getRepository().getVersion());
             mySpecification.setRepository(repo);
 
             ExecutionRequest executionRequest = new ExecutionRequest(this, mySpecification, mySystemUnderTest, implementedVersion, paramSections, paramLocale);
@@ -168,6 +181,10 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
             requestEntity = bodyBuilder.body(executionRequest);
 
             ResponseEntity<ExecutionResponse> responseEntity = client.exchange(requestEntity, ExecutionResponse.class);
+
+            responseEntity.getBody().execution.getSystemUnderTest().getProject().setRepositories(systemUnderTest.getProject().getRepositories());
+            responseEntity.getBody().execution.getSystemUnderTest().getProject().setSystemUnderTests(systemUnderTest.getProject().getSystemUnderTests());
+
 
             HttpStatus statusCode = responseEntity.getStatusCode();
             System.out.println (responseEntity.getBody().execution);
