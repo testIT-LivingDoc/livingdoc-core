@@ -134,6 +134,13 @@ public class Project extends AbstractVersionedEntity implements Comparable<Proje
         return parameters;
     }
 
+    public Project marshallizeRest() {
+        Project returnValue = Project.newInstance(this.getName());
+        returnValue.setId(this.getId());
+        returnValue.setVersion(this.getVersion());
+        return returnValue;
+    }
+
     @Override
     public int compareTo(Project o) {
         return getName().compareTo(o.getName());

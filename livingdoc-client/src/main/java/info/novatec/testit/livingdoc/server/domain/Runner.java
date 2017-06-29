@@ -136,39 +136,11 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
 
     @SuppressWarnings("unchecked")
     private ExecutionResponse executeRemotely(Specification specification, SystemUnderTest systemUnderTest,
-                                      boolean implementedVersion, String paramSections, String paramLocale)
-            {
-
+                                      boolean implementedVersion, String paramSections, String paramLocale) {
         try {
 
-
-            SystemUnderTest mySystemUnderTest = SystemUnderTest.newInstance (systemUnderTest.getName());
-            mySystemUnderTest.setId(systemUnderTest.getId());
-            mySystemUnderTest.setUUID(systemUnderTest.getUUID());
-            mySystemUnderTest.setVersion(systemUnderTest.getVersion());
-
-            Project project = systemUnderTest.getProject();
-            Project myProject = Project.newInstance(project.getName());
-            myProject.setId(project.getId());
-            myProject.setVersion(project.getVersion());
-
-            mySystemUnderTest.setProject(myProject);
-            mySystemUnderTest.setFixtureFactory(systemUnderTest.getFixtureFactory());
-
-            Specification mySpecification = Specification.newInstance(specification.getName());
-            mySpecification.setId(specification.getId());
-            mySpecification.setUUID(specification.getUUID());
-            mySpecification.setVersion(specification.getVersion());
-
-
-            Repository repo = Repository.newInstance(specification.getRepository().getUid());
-            repo.setId(specification.getRepository().getId());
-            repo.setType(specification.getRepository().getType());
-            repo.setBaseTestUrl(specification.getRepository().getBaseTestUrl());
-            repo.setUsername(specification.getRepository().getUsername());
-            repo.setPassword(specification.getRepository().getPassword());
-            repo.setVersion(specification.getRepository().getVersion());
-            mySpecification.setRepository(repo);
+            SystemUnderTest mySystemUnderTest = systemUnderTest.marshallizeRest();
+            Specification mySpecification = specification.marshallizeRest();
 
             ExecutionRequest executionRequest = new ExecutionRequest(this, mySpecification, mySystemUnderTest, implementedVersion, paramSections, paramLocale);
 
@@ -185,9 +157,7 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
             responseEntity.getBody().execution.getSystemUnderTest().getProject().setRepositories(systemUnderTest.getProject().getRepositories());
             responseEntity.getBody().execution.getSystemUnderTest().getProject().setSystemUnderTests(systemUnderTest.getProject().getSystemUnderTests());
 
-
             HttpStatus statusCode = responseEntity.getStatusCode();
-            System.out.println (responseEntity.getBody().execution);
             if (!HttpStatus.OK.equals(statusCode)) {
                 throw new LivingDocServerException(LivingDocServerErrorKey.CALL_FAILED,
                         "call was not successful, status: " + statusCode);
