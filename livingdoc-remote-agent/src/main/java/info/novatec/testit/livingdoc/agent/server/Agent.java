@@ -26,15 +26,9 @@ public class Agent {
         try {
             AgentConfiguration configuration = new AgentConfiguration(args);
 
-            /*if (configuration.isSecured()) {
-                *//*SecurityTool.setKeyStore(configuration.getKeyStore());
-                SecurityTool.setKeyStorePassword(configuration.getKeyStorePassword() == null ? askPassword() : configuration
-                        .getKeyStorePassword());
-
-                webServer = new SecureWebServer(configuration.getPort());*//*
-            } else {
-                //webServer = new WebServer(configuration.getPort());
-            }*/
+            if (configuration.isSecured() && configuration.getKeyStorePassword()==null) {
+                configuration.setKeyStorePassword(askPassword());
+            }
 
             SpringApplication.run(Agent.class, args);
 
@@ -53,7 +47,7 @@ public class Agent {
     }
 
     public static void shutdown() {
-        //TODO parar spring
+        //TODO Stop Spring gracefully
         /*if (webServer != null) {
             webServer.shutdown();
             webServer = null;

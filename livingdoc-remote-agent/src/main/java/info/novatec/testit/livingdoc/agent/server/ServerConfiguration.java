@@ -6,6 +6,8 @@ import org.springframework.boot.context.embedded.Ssl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.IOException;
+
 @Configuration
 public class ServerConfiguration {
 
@@ -17,22 +19,23 @@ public class ServerConfiguration {
             public void customize(ConfigurableEmbeddedServletContainer container) {
                 container.setPort(getPort());
                 if (isSecured()) {
-                    Ssl ssl = new Ssl();
-                    ssl.setEnabled(true);
-                    ssl.setKeyStore("keystore.jks");
-                    ssl.setKeyPassword("admin123");
-                    container.setSsl(ssl);
-
+                    try {
+                        Ssl ssl = new Ssl();
+                        ssl.setEnabled(true);
+                        ssl.setKeyStore(AgentConfiguration.getKeyStore());
+                        ssl.setKeyPassword(AgentConfiguration.getKeyStorePassword());
+                        container.setSsl(ssl);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };
     }
 
-    protected int getPort() {
-        return 56000;
-    }
+    protected int getPort(){return AgentConfiguration.getPort();}
 
     protected boolean isSecured() {
-        return false;
+        return AgentConfiguration.isSecured();
     }
 }
