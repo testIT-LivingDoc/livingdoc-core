@@ -15,14 +15,6 @@ public class Agent {
     private static final Logger log = LogManager.getLogger(Agent.class);
 
     public static void main(String[] args) {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                log.info("Shutting down LivingDoc Remote Agent...");
-                shutdown();
-            }
-        });
-
         try {
             AgentConfiguration configuration = new AgentConfiguration(args);
 
@@ -44,13 +36,5 @@ public class Agent {
 
     private static String askPassword() {
         return String.valueOf(System.console().readPassword("Enter keystore password : "));
-    }
-
-    public static void shutdown() {
-        //TODO Stop Spring gracefully
-        /*if (webServer != null) {
-            webServer.shutdown();
-            webServer = null;
-        }*/
     }
 }
