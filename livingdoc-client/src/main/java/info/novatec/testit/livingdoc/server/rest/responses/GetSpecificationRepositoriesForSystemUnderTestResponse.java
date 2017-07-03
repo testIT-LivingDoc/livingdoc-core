@@ -6,6 +6,7 @@ import info.novatec.testit.livingdoc.server.domain.Repository;
 
 
 public class GetSpecificationRepositoriesForSystemUnderTestResponse {
+
     public Set<Repository> specificationRepositoriesOfAssociatedProject;
 
     public GetSpecificationRepositoriesForSystemUnderTestResponse() {

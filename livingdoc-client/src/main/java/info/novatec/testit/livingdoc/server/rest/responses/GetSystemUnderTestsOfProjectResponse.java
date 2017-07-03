@@ -6,6 +6,7 @@ import info.novatec.testit.livingdoc.server.domain.SystemUnderTest;
 
 
 public class GetSystemUnderTestsOfProjectResponse {
+
     public Set<SystemUnderTest> systemUnderTestsOfProject;
 
     public GetSystemUnderTestsOfProjectResponse() {

@@ -4,6 +4,7 @@ import info.novatec.testit.livingdoc.server.domain.Specification;
 
 
 public class DoesSpecificationHasReferencesRequest {
+
     public Specification specification;
 
     public DoesSpecificationHasReferencesRequest() {

@@ -4,6 +4,7 @@ import info.novatec.testit.livingdoc.server.domain.Repository;
 
 
 public class UpdateRepositoryRegistrationRequest {
+
     public Repository repository;
 
     public UpdateRepositoryRegistrationRequest() {

@@ -13,11 +13,13 @@ import java.util.Vector;
 
 public class DocumentNode implements Comparable<DocumentNode>, Marshalizable {
 
-    private final String title;
+    private String title;
     private boolean executable;
     private boolean canBeImplemented;
 
     private final List<DocumentNode> children = new ArrayList<DocumentNode>();
+
+    public DocumentNode() {}
 
     public DocumentNode(final String title) {
         this.title = title;

@@ -7,7 +7,6 @@ public class SetSpecificationAsImplementedRequest {
     public List<?> arguments;
 
     public SetSpecificationAsImplementedRequest() {
-
     }
 
     public SetSpecificationAsImplementedRequest(List<?> args) {

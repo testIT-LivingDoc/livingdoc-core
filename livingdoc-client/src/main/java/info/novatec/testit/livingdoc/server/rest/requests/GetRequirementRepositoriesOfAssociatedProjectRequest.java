@@ -4,6 +4,7 @@ import info.novatec.testit.livingdoc.server.domain.Repository;
 
 
 public class GetRequirementRepositoriesOfAssociatedProjectRequest {
+
     public Repository repository;
 
     public GetRequirementRepositoriesOfAssociatedProjectRequest() {

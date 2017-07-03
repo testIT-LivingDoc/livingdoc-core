@@ -14,7 +14,7 @@ public class UpdateSystemUnderTestRequest {
     }
 
     public UpdateSystemUnderTestRequest(String oldSystemUnderTestName, SystemUnderTest newSystemUnderTest,
-        Repository repository) {
+                                        Repository repository) {
         this.oldSystemUnderTestName = oldSystemUnderTestName;
         this.newSystemUnderTest = newSystemUnderTest;
         this.repository = repository;

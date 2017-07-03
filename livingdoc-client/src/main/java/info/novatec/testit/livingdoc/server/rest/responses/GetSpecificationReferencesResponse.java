@@ -6,6 +6,7 @@ import info.novatec.testit.livingdoc.server.domain.Reference;
 
 
 public class GetSpecificationReferencesResponse {
+
     public Set<Reference> references;
 
     public GetSpecificationReferencesResponse() {
