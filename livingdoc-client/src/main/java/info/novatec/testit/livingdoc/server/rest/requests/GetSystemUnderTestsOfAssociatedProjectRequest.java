@@ -4,6 +4,7 @@ import info.novatec.testit.livingdoc.server.domain.Repository;
 
 
 public class GetSystemUnderTestsOfAssociatedProjectRequest {
+
     public Repository repository;
 
     public GetSystemUnderTestsOfAssociatedProjectRequest() {

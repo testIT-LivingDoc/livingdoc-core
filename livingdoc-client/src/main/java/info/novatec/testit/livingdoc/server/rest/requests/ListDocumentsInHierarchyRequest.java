@@ -6,7 +6,8 @@ public class ListDocumentsInHierarchyRequest {
 
     public List<?> arguments;
 
-    public ListDocumentsInHierarchyRequest() {}
+    public ListDocumentsInHierarchyRequest() {
+    }
 
     public ListDocumentsInHierarchyRequest(List<?> args) {
         this.arguments = args;

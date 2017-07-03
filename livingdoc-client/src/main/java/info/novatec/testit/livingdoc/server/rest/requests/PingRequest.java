@@ -6,7 +6,8 @@ public class PingRequest {
 
     public Repository repository;
 
-    public PingRequest() {}
+    public PingRequest() {
+    }
 
     public PingRequest(Repository repository) {
         this.repository = repository;

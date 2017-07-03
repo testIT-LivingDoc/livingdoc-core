@@ -7,7 +7,8 @@ public class GetRenderedSpecificationRequest {
 
     public List<?> arguments;
 
-    public GetRenderedSpecificationRequest() {}
+    public GetRenderedSpecificationRequest() {
+    }
 
     public GetRenderedSpecificationRequest(List<?> args) {
         this.arguments = args;

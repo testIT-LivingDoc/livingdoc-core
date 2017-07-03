@@ -5,6 +5,7 @@ import info.novatec.testit.livingdoc.server.domain.SystemUnderTest;
 
 
 public class AddSpecificationSystemUnderTestRequest {
+
     public SystemUnderTest systemUnderTest;
     public Specification specification;
 

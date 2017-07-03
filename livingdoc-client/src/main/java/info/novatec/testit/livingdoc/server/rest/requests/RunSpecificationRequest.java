@@ -15,7 +15,7 @@ public class RunSpecificationRequest {
     }
 
     public RunSpecificationRequest(SystemUnderTest systemUnderTest, Specification specification, boolean implementedVersion,
-        String locale) {
+                                   String locale) {
         this.systemUnderTest = systemUnderTest;
         this.specification = specification;
         this.implementedVersion = implementedVersion;
