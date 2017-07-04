@@ -15,7 +15,7 @@
 
 	<properties>
 		<project.root>..</project.root>
-		<jackson.version>2.7.0</jackson.version>
+		<jackson.version>2.6.7</jackson.version>
 	</properties>
 
 	<dependencies>
