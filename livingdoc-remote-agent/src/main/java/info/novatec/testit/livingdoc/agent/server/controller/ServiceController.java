@@ -29,7 +29,6 @@ public class ServiceController {
        Execution execution = runner.execute(specification, systemUnderTest, executionRequest.implemented,
               executionRequest.section, executionRequest.locale);
 
-       execution.setExecutionDate(null); //TODO Gson parser
        ExecutionResponse executionResponse = new ExecutionResponse(execution);
 
        return new ResponseEntity<ExecutionResponse>(executionResponse, HttpStatus.OK);

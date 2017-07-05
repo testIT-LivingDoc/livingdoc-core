@@ -15,6 +15,7 @@
 
 	<properties>
 		<project.root>..</project.root>
+		<jackson.version>2.6.7</jackson.version>
 	</properties>
 
 	<dependencies>
@@ -54,6 +55,11 @@
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-core-asl</artifactId>
 			<version>1.9.13</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
