@@ -1,8 +1,6 @@
 package info.novatec.testit.livingdoc.repository;
 
 import info.novatec.testit.livingdoc.document.Document;
-import org.apache.xmlrpc.WebServer;
-import org.apache.xmlrpc.XmlRpcException;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -20,7 +18,7 @@ import static org.mockito.Mockito.*;
 @Ignore
 @RunWith(MockitoJUnitRunner.class)
 public class LivingDocRepositoryTest {
-    private static WebServer ws;
+   /* private static WebServer ws;
     @Mock
     private Handler handler;
     private String dummySpec;
@@ -249,5 +247,5 @@ public class LivingDocRepositoryTest {
         String getRenderedSpecification(String username, String password, Vector<?> args);
 
         String saveExecutionResult(String username, String password, Vector<?> args);
-    }
+    }*/
 }

@@ -23,12 +23,7 @@
 			<groupId>info.novatec.testit</groupId>
 			<artifactId>livingdoc-client</artifactId>
 			<version>${project.version}</version>
-			<!-- Use xmlrpc v2 (exclude v3) -->
 			<exclusions>
-				<exclusion>
-					<artifactId>xmlrpc-client</artifactId>
-					<groupId>org.apache.xmlrpc</groupId>
-				</exclusion>
 				<exclusion>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-annotations</artifactId>

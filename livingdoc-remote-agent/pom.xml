@@ -30,21 +30,6 @@
 			<groupId>info.novatec.testit</groupId>
 			<artifactId>livingdoc-client</artifactId>
 			<version>${project.version}</version>
-			<!-- Make sure we are only using xmlrpc v2 (compatible with confluence) -->
-			<exclusions>
-				<exclusion>
-					<groupId>xmlrpc</groupId>
-					<artifactId>xmlrpc</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.xmlrpc</groupId>
-					<artifactId>xmlrpc-client</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.xmlrpc</groupId>
-					<artifactId>xmlrpc-common</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<!-- Logging -->
