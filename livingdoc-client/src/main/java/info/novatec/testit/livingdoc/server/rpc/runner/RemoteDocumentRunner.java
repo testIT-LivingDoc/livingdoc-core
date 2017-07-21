@@ -25,6 +25,7 @@ import info.novatec.testit.livingdoc.runner.SpecificationRunner;
 import info.novatec.testit.livingdoc.runner.SpecificationRunnerMonitor;
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
 import info.novatec.testit.livingdoc.server.domain.Execution;
+import info.novatec.testit.livingdoc.server.rpc.runner.report.FileReportGenerator;
 import info.novatec.testit.livingdoc.server.rpc.runner.report.Report;
 import info.novatec.testit.livingdoc.server.rpc.runner.report.ReportGenerator;
 
@@ -61,6 +62,10 @@ public class RemoteDocumentRunner implements SpecificationRunner {
 
     public void setReportGenerator(ReportGenerator reportGenerator) {
         this.reportGenerator = reportGenerator;
+    }
+
+    public void setFileReportGenerator(FileReportGenerator fileReportGenerator) {
+        this.reportGenerator = fileReportGenerator;
     }
 
     public void setLocale(Locale locale) {

@@ -34,7 +34,6 @@ import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
 import info.novatec.testit.livingdoc.server.rpc.runner.report.FileReportGenerator;
 import info.novatec.testit.livingdoc.server.rpc.runner.report.HtmlReport;
-import info.novatec.testit.livingdoc.server.rpc.runner.report.ReportGenerator;
 import info.novatec.testit.livingdoc.server.rpc.runner.report.XmlReport;
 import info.novatec.testit.livingdoc.util.cli.ArgumentMissingException;
 import info.novatec.testit.livingdoc.util.cli.Bean;
@@ -79,14 +78,14 @@ public class CommandLineRemoteRunner {
 
     private void runSpec() throws IOException, LivingDocServerException {
         options.putAll(cli.getOptionValues());
-        options.put("reportGenerator", reportGenerator());
+        options.put("fileReportGenerator", fileReportGenerator());
         options.put("monitor", monitor);
         options.put("restRemoteRunner", restRemoteRunner());
         new Bean(runner).setProperties(options);
         runner.run(source(), destination());
     }
 
-    private ReportGenerator reportGenerator() throws IOException {
+    private FileReportGenerator fileReportGenerator() throws IOException {
         File outputDirectory = existsOutputDirectory() ? outputDirectory() : createOutputDirectory();
         FileReportGenerator generator = new FileReportGenerator(outputDirectory);
         generator.adjustReportFilesExtensions(optionSpecified(RUNNER_SUITE_OPTION) || output() == null);

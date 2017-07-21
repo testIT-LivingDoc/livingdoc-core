@@ -193,6 +193,23 @@ public class SystemUnderTest extends AbstractUniqueEntity implements Comparable<
         return parameters;
     }
 
+    public SystemUnderTest marshallizeRest(){
+        SystemUnderTest sut = SystemUnderTest.newInstance(this.getName());
+        sut.setSutClasspaths(this.getSutClasspaths());
+        sut.setFixtureClasspaths(this.getFixtureClasspaths());
+        sut.setFixtureFactory(this.getFixtureFactory());
+        sut.setFixtureFactoryArgs(this.getFixtureFactoryArgs());
+        sut.setIsDefault(this.isDefault());
+        sut.setRunner(this.getRunner());
+        sut.setProject(this.getProject()!=null ? this.getProject().marshallizeRest() : Project.newInstance(""));
+        sut.setProjectDependencyDescriptor(this.getProjectDependencyDescriptor());
+        sut.setVersion(this.getVersion());
+        sut.setUUID(this.getUUID());
+        sut.setId(this.getId());
+        return sut;
+    }
+
+
     @Override
     public int compareTo(SystemUnderTest o) {
         if (isDefault()) {

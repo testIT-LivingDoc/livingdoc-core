@@ -275,6 +275,24 @@ public class Execution extends AbstractUniqueEntity implements Comparable<Execut
         return parameters;
     }
 
+    public Execution marshallizeRest() {
+
+        Execution returnValue = Execution.none();
+        returnValue.setSystemUnderTest(this.getSystemUnderTest().marshallizeRest());
+        returnValue.setId(this.getId());
+        returnValue.setVersion(this.getVersion());
+        returnValue.setExecutionDate(null); //TODO Implement Gson parser
+        returnValue.setFailures(this.getFailures());
+        returnValue.setErrors(this.getErrors());
+        returnValue.setExecutionErrorId(getExecutionErrorId());
+        returnValue.setIgnored(this.getIgnored());
+        returnValue.setResults(this.getResults());
+        returnValue.setSuccess(this.getSuccess());
+        returnValue.setSections(this.getSections());
+        return returnValue;
+    }
+
+
     @Override
     public int compareTo(Execution o) {
         return executionDate.compareTo(o.executionDate);

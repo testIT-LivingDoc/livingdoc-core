@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
 import info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller;
@@ -55,6 +56,7 @@ public class Specification extends Document {
         return this.executions;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "specification", cascade = CascadeType.ALL)
     public Set<Reference> getReferences() {
         return references;

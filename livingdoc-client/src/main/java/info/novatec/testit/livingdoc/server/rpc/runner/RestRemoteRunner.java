@@ -18,6 +18,7 @@
  */
 package info.novatec.testit.livingdoc.server.rpc.runner;
 
+import info.novatec.testit.livingdoc.repository.AtlassianRepository;
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
 import info.novatec.testit.livingdoc.server.domain.*;
 import info.novatec.testit.livingdoc.server.rest.LivingDocRestClient;
@@ -43,7 +44,11 @@ public class RestRemoteRunner {
         sut.setRunner(Runner.newInstance(""));
 
         Specification specification = Specification.newInstance(specificationName);
-        specification.setRepository(Repository.newInstance(repositoryId));
+        Repository repository = Repository.newInstance(repositoryId);
+        RepositoryType type = new RepositoryType();
+        type.setClassName(AtlassianRepository.class.getName());
+        repository.setType(type);
+        specification.setRepository(repository);
 
         return runSpecification(sut, specification, implementedVersion, locale);
     }
