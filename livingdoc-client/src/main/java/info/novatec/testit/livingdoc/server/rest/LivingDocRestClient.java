@@ -495,6 +495,24 @@ public class LivingDocRestClient implements RestClient {
     }
 
     @Override
+    public List<List<String>> getListOfSpecificationLocations(String repoUID, String sut) throws LivingDocServerException {
+        log.debug("Get List of Specification Location: repoUID : " + repoUID + "Sut : " + sut);
+        GetListOfSpecificaitionLocationRequest request = new GetListOfSpecificaitionLocationRequest(repoUID, sut);
+        GetListOfSpecificationLocationResponse response =
+                exchangeRest(RestMethodName.getListOfSpecificationLocations, request, GetListOfSpecificationLocationResponse.class);
+        return response.definitions;
+    }
+
+    @Override
+    public String saveExecutionResult (List<?> args) throws LivingDocServerException {
+        log.debug("Saving Execution Results");
+        SaveExecutionResultRequest request = new SaveExecutionResultRequest(args);
+        SaveExecutionResultResponse response =
+                exchangeRest(RestMethodName.saveExecutionResult, request, SaveExecutionResultResponse.class);
+        return response.message;
+    }
+
+    @Override
     public DocumentNode getSpecificationHierarchy(Repository repository, SystemUnderTest systemUnderTest, String identifier)
             throws LivingDocServerException {
 

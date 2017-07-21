@@ -6,6 +6,7 @@ import info.novatec.testit.livingdoc.server.domain.*;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 
 /**
@@ -546,4 +547,7 @@ public interface RestClient {
      */
     RequirementSummary getSummary(Requirement requirement, String identifier) throws LivingDocServerException;
 
+    List<List<String>> getListOfSpecificationLocations(String repoUID, String sut) throws LivingDocServerException;
+
+    String saveExecutionResult(List<?> args) throws LivingDocServerException;
 }

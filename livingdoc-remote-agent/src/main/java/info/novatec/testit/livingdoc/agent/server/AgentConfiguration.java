@@ -18,21 +18,17 @@
  */
 package info.novatec.testit.livingdoc.agent.server;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+import org.springframework.core.io.ClassPathResource;
 
 public class AgentConfiguration {
 
     private final static int DEFAULT_PORT = 56000;
-
     private final static String DEFAULT_CONFIG_FILE = "remoteagent.properties";
 
     private final static String AGENT_KEY_NAME = "livingdoc.remoteagent.";
@@ -43,31 +39,31 @@ public class AgentConfiguration {
 
     private static final Logger log = LogManager.getLogger(AgentConfiguration.class);
 
-    private final int port;
-    private final boolean secured;
-    private final String keyStore;
-    private final String keyStorePassword;
+    private static int port = 56000;
+    private static boolean secured = false;
+    private static String keyStore = null;
+    private static String keyStorePassword = null;
 
     public AgentConfiguration(String... args) throws IOException {
         ComandLineHelper commandLineHelper = new ComandLineHelper(args);
 
         Properties properties = loadProperties(commandLineHelper.getConfig());
 
-        this.port = getPort(properties, commandLineHelper.getPort(DEFAULT_PORT));
-        this.secured = isSecured(properties, commandLineHelper.isSecured());
-        this.keyStore = getKeyStore(properties, commandLineHelper.getKeyStore());
-        this.keyStorePassword = getKeyStorePassword(properties);
+        port = getPort(properties, commandLineHelper.getPort(DEFAULT_PORT));
+        secured = isSecured(properties, commandLineHelper.isSecured());
+        keyStore = getKeyStore(properties, commandLineHelper.getKeyStore());
+        keyStorePassword = getKeyStorePassword(properties);
     }
 
-    public int getPort() {
+    public static int getPort() {
         return port;
     }
 
-    public boolean isSecured() {
+    public static boolean isSecured() {
         return secured;
     }
 
-    public String getKeyStore() throws IOException {
+    public static String getKeyStore() throws IOException {
         if ( ! isSecured()) {
             return null;
         }
@@ -86,7 +82,7 @@ public class AgentConfiguration {
         return keyStore;
     }
 
-    public String getKeyStorePassword() {
+    public static String getKeyStorePassword() {
         if ( ! isSecured()) {
             return null;
         }
@@ -98,11 +94,12 @@ public class AgentConfiguration {
         Properties properties = new Properties();
 
         if (config == null) {
-            File configFile = new File(DEFAULT_CONFIG_FILE);
-
-            if (configFile.exists()) {
-                loadProperties(properties, configFile);
-            } else {
+            log.info(String.format("Reading default configuration file '%s'...", DEFAULT_CONFIG_FILE));
+            InputStream inputStream;
+            inputStream = getClass().getClassLoader().getResourceAsStream(DEFAULT_CONFIG_FILE);
+            if (inputStream != null) {
+                properties.load(inputStream);
+            }else{
                 log.info("Default configuration file not found.  Skip.");
             }
         } else {
@@ -141,5 +138,9 @@ public class AgentConfiguration {
 
     private String getKeyStorePassword(Properties properties) {
         return StringUtils.stripToNull(properties.getProperty(KEYSTORE_PASSWORD_PROPERTY_NAME, null));
+    }
+
+    public void setKeyStorePassword(String pass) {
+        keyStorePassword = pass;
     }
 }

@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -38,6 +39,7 @@ public class AgentConfigurationTest {
     }
 
     @Test
+    @Ignore
     public void testReadingDefaultConfigurationFile() throws Exception {
         AgentConfiguration configuration = new AgentConfiguration();
 

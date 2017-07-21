@@ -17,11 +17,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.StringUtils;
 
 import info.novatec.testit.livingdoc.report.XmlReport;
@@ -32,6 +32,7 @@ import info.novatec.testit.livingdoc.util.HtmlUtil;
 @Entity
 @Table(name = "EXECUTION", indexes = {@Index(columnList = "EXECUTION_DATE", name ="executionDateIndex")})
 @SuppressWarnings("serial")
+
 public class Execution extends AbstractUniqueEntity implements Comparable<Execution> {
     public static final String NOT_RUNNED = "notrunned";
     public static final String IGNORED = "ignored";
@@ -127,13 +128,13 @@ public class Execution extends AbstractUniqueEntity implements Comparable<Execut
         return sections;
     }
 
-    @Lob
+
     @Column(name = "RESULTS", nullable = true, length = 2147483647)
     public String getResults() {
         return results;
     }
 
-    @Lob
+
     @Column(name = "ERRORID", nullable = true, length = 2147483647)
     public String getExecutionErrorId() {
         return executionErrorId;
@@ -165,6 +166,7 @@ public class Execution extends AbstractUniqueEntity implements Comparable<Execut
 
     @Basic
     @Column(name = "EXECUTION_DATE")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     public Timestamp getExecutionDate() {
         return executionDate;
     }
@@ -275,13 +277,14 @@ public class Execution extends AbstractUniqueEntity implements Comparable<Execut
         return parameters;
     }
 
+
     public Execution marshallizeRest() {
 
         Execution returnValue = Execution.none();
         returnValue.setSystemUnderTest(this.getSystemUnderTest().marshallizeRest());
         returnValue.setId(this.getId());
         returnValue.setVersion(this.getVersion());
-        returnValue.setExecutionDate(null); //TODO Implement Gson parser
+        returnValue.setExecutionDate(this.getExecutionDate());
         returnValue.setFailures(this.getFailures());
         returnValue.setErrors(this.getErrors());
         returnValue.setExecutionErrorId(getExecutionErrorId());

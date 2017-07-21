@@ -30,7 +30,6 @@ import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
-import org.apache.xmlrpc.WebServer;
 import org.jmock.Mock;
 import org.jmock.core.Constraint;
 import org.jmock.core.constraint.IsEqual;
@@ -46,7 +45,7 @@ import org.junit.Ignore;
 @Ignore
 public class SpecificationRunnerMojoTest extends AbstractMojoTestCase {
     private SpecificationRunnerMojo mojo;
-    private WebServer ws;
+  //  private WebServer ws;
     private Mock handler;
 
     @Override
@@ -203,16 +202,16 @@ public class SpecificationRunnerMojoTest extends AbstractMojoTestCase {
     }
 
     private void startWebServer() {
-        ws = new WebServer(9005);
+       /* ws = new WebServer(9005);
         handler = new Mock(Handler.class);
         ws.addHandler("livingdoc1", handler.proxy());
-        ws.start();
+        ws.start();*/
     }
 
     private void stopWebServer() {
-        if (ws != null) {
+/*        if (ws != null) {
             ws.shutdown();
-        }
+        }*/
     }
 
     public static interface Handler {

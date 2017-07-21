@@ -141,7 +141,6 @@ public class Project extends AbstractVersionedEntity implements Comparable<Proje
         return returnValue;
     }
 
-
     @Override
     public int compareTo(Project o) {
         return getName().compareTo(o.getName());

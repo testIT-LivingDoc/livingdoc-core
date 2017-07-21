@@ -273,6 +273,20 @@ public class Repository extends AbstractVersionedEntity implements Comparable<Re
         return parameters;
     }
 
+    public Repository marshallizeRest() {
+        Repository repo = Repository.newInstance(this.getUid());
+        repo.setId(this.getId());
+        repo.setName(this.getName());
+        repo.setType(this.getType());
+        repo.setBaseTestUrl(this.getBaseTestUrl());
+        repo.setBaseRepositoryUrl(this.baseRepositoryUrl);
+        repo.setBaseUrl(this.getBaseUrl());
+        repo.setUsername(this.getUsername());
+        repo.setPassword(this.getPassword());
+        repo.setVersion(this.getVersion());
+        return repo;
+    }
+
     @Override
     public int compareTo(Repository other) {
         return getName().compareTo( ( other ).getName());

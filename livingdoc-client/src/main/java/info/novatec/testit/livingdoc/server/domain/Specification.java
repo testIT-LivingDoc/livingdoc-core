@@ -107,6 +107,16 @@ public class Specification extends Document {
         return parameters;
     }
 
+    public Specification marshallizeRest() {
+
+        Specification returnValue = Specification.newInstance(this.getName());
+        returnValue.setId(this.getId());
+        returnValue.setUUID(this.getUUID());
+        returnValue.setVersion(this.getVersion());
+        returnValue.setRepository(this.getRepository() != null ? this.getRepository().marshallizeRest() : Repository.newInstance(""));
+        return returnValue;
+    }
+
     @Override
     public boolean equals(Object o) {
         return super.equals(o) && o instanceof Specification;
