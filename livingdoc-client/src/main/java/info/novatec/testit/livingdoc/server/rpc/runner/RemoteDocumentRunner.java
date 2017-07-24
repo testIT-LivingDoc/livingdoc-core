@@ -18,15 +18,13 @@
  */
 package info.novatec.testit.livingdoc.server.rpc.runner;
 
-import java.io.IOException;
-import java.util.Locale;
+import info.novatec.testit.livingdoc.runner.*;
+import info.novatec.testit.livingdoc.server.*;
+import info.novatec.testit.livingdoc.server.domain.*;
+import info.novatec.testit.livingdoc.server.rpc.runner.report.*;
 
-import info.novatec.testit.livingdoc.runner.SpecificationRunner;
-import info.novatec.testit.livingdoc.runner.SpecificationRunnerMonitor;
-import info.novatec.testit.livingdoc.server.LivingDocServerException;
-import info.novatec.testit.livingdoc.server.domain.Execution;
-import info.novatec.testit.livingdoc.server.rpc.runner.report.Report;
-import info.novatec.testit.livingdoc.server.rpc.runner.report.ReportGenerator;
+import java.io.*;
+import java.util.*;
 
 
 public class RemoteDocumentRunner implements SpecificationRunner {
@@ -63,6 +61,10 @@ public class RemoteDocumentRunner implements SpecificationRunner {
         this.reportGenerator = reportGenerator;
     }
 
+    public void setFileReportGenerator(FileReportGenerator fileReportGenerator) {
+        this.reportGenerator = fileReportGenerator;
+    }
+
     public void setLocale(Locale locale) {
         this.locale = locale;
     }
@@ -75,7 +77,7 @@ public class RemoteDocumentRunner implements SpecificationRunner {
             monitor.testRunning(getLocation(source, '/'));
 
             Execution execution = restRemoteRunner.runSpecification(project, systemUnderTest, repositoryId, source, false,
-                locale.getLanguage());
+                    locale.getLanguage());
 
             report = reportGenerator.openReport(getLocation(source, '-'));
 

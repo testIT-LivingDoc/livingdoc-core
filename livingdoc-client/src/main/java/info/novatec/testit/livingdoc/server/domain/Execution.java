@@ -1,37 +1,21 @@
 package info.novatec.testit.livingdoc.server.domain;
 
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.EXECUTION_ERRORID_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.EXECUTION_ERRORS_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.EXECUTION_EXECUTION_DATE_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.EXECUTION_FAILIURES_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.EXECUTION_IGNORED_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.EXECUTION_RESULTS_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.EXECUTION_SUCCESS_IDX;
+import com.fasterxml.jackson.annotation.*;
+import info.novatec.testit.livingdoc.report.*;
+import info.novatec.testit.livingdoc.util.*;
+import org.apache.commons.lang3.*;
 
-import java.sql.Timestamp;
-import java.util.Vector;
+import javax.persistence.*;
+import java.sql.*;
+import java.util.*;
 
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import org.apache.commons.lang3.StringUtils;
-
-import info.novatec.testit.livingdoc.report.XmlReport;
-import info.novatec.testit.livingdoc.util.FormattedDate;
-import info.novatec.testit.livingdoc.util.HtmlUtil;
+import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.*;
 
 
 @Entity
-@Table(name = "EXECUTION", indexes = {@Index(columnList = "EXECUTION_DATE", name ="executionDateIndex")})
+@Table(name = "EXECUTION", indexes = {@Index(columnList = "EXECUTION_DATE", name = "executionDateIndex")})
 @SuppressWarnings("serial")
+
 public class Execution extends AbstractUniqueEntity implements Comparable<Execution> {
     public static final String NOT_RUNNED = "notrunned";
     public static final String IGNORED = "ignored";
@@ -56,7 +40,7 @@ public class Execution extends AbstractUniqueEntity implements Comparable<Execut
     }
 
     public static Execution error(Specification specification, SystemUnderTest systemUnderTest, String sections,
-        String errorId) {
+                                  String errorId) {
         Execution execution = new Execution();
         execution.setSystemUnderTest(systemUnderTest);
         execution.setExecutionDate(new Timestamp(System.currentTimeMillis()));
@@ -93,7 +77,7 @@ public class Execution extends AbstractUniqueEntity implements Comparable<Execut
                     sections.append(',');
                 }
                 sections.append(xmlReport.getSections(index));
-                index ++ ;
+                index++;
             }
 
             execution.setSections(sections.toString());
@@ -103,22 +87,30 @@ public class Execution extends AbstractUniqueEntity implements Comparable<Execut
     }
 
     public static Execution newInstance(Specification specification, SystemUnderTest systemUnderTest, XmlReport xmlReport,
-        String sections) {
+                                        String sections) {
         Execution execution = Execution.newInstance(specification, systemUnderTest, xmlReport);
         execution.setSections(sections);
         return execution;
     }
 
-    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "SPECIFICATION_ID", nullable = false)
     public Specification getSpecification() {
         return specification;
     }
 
-    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    public void setSpecification(Specification specification) {
+        this.specification = specification;
+    }
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "SUT_ID", nullable = false)
     public SystemUnderTest getSystemUnderTest() {
         return systemUnderTest;
+    }
+
+    public void setSystemUnderTest(SystemUnderTest systemUnderTest) {
+        this.systemUnderTest = systemUnderTest;
     }
 
     @Basic
@@ -127,16 +119,26 @@ public class Execution extends AbstractUniqueEntity implements Comparable<Execut
         return sections;
     }
 
-    @Lob
+    public void setSections(String sections) {
+        this.sections = sections;
+    }
+
     @Column(name = "RESULTS", nullable = true, length = 2147483647)
     public String getResults() {
         return results;
     }
 
-    @Lob
+    public void setResults(String results) {
+        this.results = results;
+    }
+
     @Column(name = "ERRORID", nullable = true, length = 2147483647)
     public String getExecutionErrorId() {
         return executionErrorId;
+    }
+
+    public void setExecutionErrorId(String executionErrorId) {
+        this.executionErrorId = executionErrorId;
     }
 
     @Basic
@@ -145,10 +147,18 @@ public class Execution extends AbstractUniqueEntity implements Comparable<Execut
         return success;
     }
 
+    public void setSuccess(int success) {
+        this.success = success;
+    }
+
     @Basic
     @Column(name = "IGNORED_COUNT")
     public int getIgnored() {
         return ignored;
+    }
+
+    public void setIgnored(int ignored) {
+        this.ignored = ignored;
     }
 
     @Basic
@@ -157,52 +167,25 @@ public class Execution extends AbstractUniqueEntity implements Comparable<Execut
         return failures;
     }
 
+    public void setFailures(int failures) {
+        this.failures = failures;
+    }
+
     @Basic
     @Column(name = "ERRORS_COUNT")
     public int getErrors() {
         return errors;
     }
 
-    @Basic
-    @Column(name = "EXECUTION_DATE")
-    public Timestamp getExecutionDate() {
-        return executionDate;
-    }
-
-    public void setSpecification(Specification specification) {
-        this.specification = specification;
-    }
-
-    public void setSystemUnderTest(SystemUnderTest systemUnderTest) {
-        this.systemUnderTest = systemUnderTest;
-    }
-
-    public void setSections(String sections) {
-        this.sections = sections;
-    }
-
-    public void setResults(String results) {
-        this.results = results;
-    }
-
-    public void setExecutionErrorId(String executionErrorId) {
-        this.executionErrorId = executionErrorId;
-    }
-
-    public void setSuccess(int success) {
-        this.success = success;
-    }
-
-    public void setIgnored(int ignored) {
-        this.ignored = ignored;
-    }
-
-    public void setFailures(int failures) {
-        this.failures = failures;
-    }
-
     public void setErrors(int errors) {
         this.errors = errors;
+    }
+
+    @Basic
+    @Column(name = "EXECUTION_DATE")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
+    public Timestamp getExecutionDate() {
+        return executionDate;
     }
 
     public void setExecutionDate(Timestamp executionDate) {
@@ -210,7 +193,7 @@ public class Execution extends AbstractUniqueEntity implements Comparable<Execut
     }
 
     public boolean hasException() {
-        return ! StringUtils.isEmpty(executionErrorId);
+        return !StringUtils.isEmpty(executionErrorId);
     }
 
     public boolean hasFailed() {
@@ -218,11 +201,11 @@ public class Execution extends AbstractUniqueEntity implements Comparable<Execut
     }
 
     public boolean hasSucceeded() {
-        return ! hasFailed() && success > 0;
+        return !hasFailed() && success > 0;
     }
 
     public boolean wasIgnored() {
-        return ! hasFailed() && ! hasSucceeded() && ignored != 0;
+        return !hasFailed() && !hasSucceeded() && ignored != 0;
     }
 
     public boolean wasRunned() {
@@ -275,6 +258,25 @@ public class Execution extends AbstractUniqueEntity implements Comparable<Execut
         return parameters;
     }
 
+    public Execution marshallizeRest() {
+
+        Execution returnValue = Execution.none();
+        returnValue.setSystemUnderTest(this.systemUnderTest != null ? this.getSystemUnderTest().marshallizeRest() : null);
+        returnValue.setId(this.getId());
+        returnValue.setVersion(this.getVersion());
+        returnValue.setExecutionDate(this.getExecutionDate());
+        returnValue.setFailures(this.getFailures());
+        returnValue.setErrors(this.getErrors());
+        returnValue.setExecutionErrorId(getExecutionErrorId());
+        returnValue.setIgnored(this.getIgnored());
+        returnValue.setResults(this.getResults());
+        returnValue.setSuccess(this.getSuccess());
+        returnValue.setSections(this.getSections());
+        returnValue.setUUID(this.getUUID());
+        return returnValue;
+    }
+
+
     @Override
     public int compareTo(Execution o) {
         return executionDate.compareTo(o.executionDate);
@@ -282,13 +284,13 @@ public class Execution extends AbstractUniqueEntity implements Comparable<Execut
 
     public boolean isSimilar(Execution execution) {
         return execution != null && errors == execution.getErrors() && failures == execution.getFailures()
-            && success == execution.getSuccess() && ignored == execution.getIgnored() && StringUtils.equals(executionErrorId,
+                && success == execution.getSuccess() && ignored == execution.getIgnored() && StringUtils.equals(executionErrorId,
                 execution.getExecutionErrorId()) && StringUtils.equals(results, execution.getResults());
     }
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || ! ( o instanceof Execution )) {
+        if (o == null || !(o instanceof Execution)) {
             return false;
         }
 

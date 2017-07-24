@@ -1,25 +1,19 @@
 package info.novatec.testit.livingdoc.server.rest;
 
-import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
-import info.novatec.testit.livingdoc.server.LivingDocServerException;
+import info.novatec.testit.livingdoc.server.*;
 import info.novatec.testit.livingdoc.server.domain.*;
 import info.novatec.testit.livingdoc.server.rest.requests.*;
 import info.novatec.testit.livingdoc.server.rest.responses.*;
-import info.novatec.testit.livingdoc.util.ClientUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+import info.novatec.testit.livingdoc.util.*;
+import org.apache.commons.lang3.*;
+import org.slf4j.*;
+import org.springframework.http.*;
+import org.springframework.web.client.*;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Set;
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
 
 public class LivingDocRestClient implements RestClient {
 
@@ -504,6 +498,25 @@ public class LivingDocRestClient implements RestClient {
                 exchangeRest(RestMethodName.getSpecificationHierarchy, request, GetSpecificationHierarchyResponse.class);
         return response.documentNode;
     }
+
+    @Override
+    public List<List<String>> getListOfSpecificationLocations(String repoUID, String sut) throws LivingDocServerException {
+        log.debug("Get List of Specification Location: repoUID : " + repoUID + "Sut : " + sut);
+        GetListOfSpecificaitionLocationRequest request = new GetListOfSpecificaitionLocationRequest(repoUID, sut);
+        GetListOfSpecificationLocationResponse response =
+                exchangeRest(RestMethodName.getListOfSpecificationLocations, request, GetListOfSpecificationLocationResponse.class);
+        return response.definitions;
+    }
+
+    @Override
+    public String saveExecutionResult(List<?> args) throws LivingDocServerException {
+        log.debug("Saving Execution Results");
+        SaveExecutionResultRequest request = new SaveExecutionResultRequest(args);
+        SaveExecutionResultResponse response =
+                exchangeRest(RestMethodName.saveExecutionResult, request, SaveExecutionResultResponse.class);
+        return response.message;
+    }
+
 
     private <T> T exchangeRest(RestMethodName methodName, Object request, Class<T> responseType)
             throws LivingDocServerException {
