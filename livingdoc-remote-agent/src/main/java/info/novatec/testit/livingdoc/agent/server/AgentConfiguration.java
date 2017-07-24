@@ -1,16 +1,16 @@
 /**
  * Copyright (c) 2008 Pyxis Technologies inc.
- *
+ * <p>
  * This is free software; you can redistribute it and/or modify it under the
  * terms of the GNU General Public License as published by the Free Software
  * Foundation; either version 2 of the License, or (at your option) any later
  * version.
- *
+ * <p>
  * This software is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License along with
  * this program; if not, write to the Free Software Foundation, Inc., 51
  * Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF site:
@@ -18,21 +18,15 @@
  */
 package info.novatec.testit.livingdoc.agent.server;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Properties;
+import org.apache.commons.lang3.*;
+import org.apache.logging.log4j.*;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import java.io.*;
+import java.util.*;
 
 public class AgentConfiguration {
 
     private final static int DEFAULT_PORT = 56000;
-
     private final static String DEFAULT_CONFIG_FILE = "remoteagent.properties";
 
     private final static String AGENT_KEY_NAME = "livingdoc.remoteagent.";
@@ -43,32 +37,32 @@ public class AgentConfiguration {
 
     private static final Logger log = LogManager.getLogger(AgentConfiguration.class);
 
-    private final int port;
-    private final boolean secured;
-    private final String keyStore;
-    private final String keyStorePassword;
+    private static int port = 56000;
+    private static boolean secured = false;
+    private static String keyStore = null;
+    private static String keyStorePassword = null;
 
     public AgentConfiguration(String... args) throws IOException {
         ComandLineHelper commandLineHelper = new ComandLineHelper(args);
 
         Properties properties = loadProperties(commandLineHelper.getConfig());
 
-        this.port = getPort(properties, commandLineHelper.getPort(DEFAULT_PORT));
-        this.secured = isSecured(properties, commandLineHelper.isSecured());
-        this.keyStore = getKeyStore(properties, commandLineHelper.getKeyStore());
-        this.keyStorePassword = getKeyStorePassword(properties);
+        port = getPort(properties, commandLineHelper.getPort(DEFAULT_PORT));
+        secured = isSecured(properties, commandLineHelper.isSecured());
+        keyStore = getKeyStore(properties, commandLineHelper.getKeyStore());
+        keyStorePassword = getKeyStorePassword(properties);
     }
 
-    public int getPort() {
+    public static int getPort() {
         return port;
     }
 
-    public boolean isSecured() {
+    public static boolean isSecured() {
         return secured;
     }
 
-    public String getKeyStore() throws IOException {
-        if ( ! isSecured()) {
+    public static String getKeyStore() throws IOException {
+        if (!isSecured()) {
             return null;
         }
 
@@ -78,20 +72,24 @@ public class AgentConfiguration {
 
         final File keyStoreFile = new File(keyStore);
 
-        if ( ! keyStoreFile.exists()) {
+        if (!keyStoreFile.exists()) {
             throw new FileNotFoundException(String.format("KeyStore file '%s' does not exists", keyStoreFile
-                .getAbsolutePath()));
+                    .getAbsolutePath()));
         }
 
         return keyStore;
     }
 
-    public String getKeyStorePassword() {
-        if ( ! isSecured()) {
+    public static String getKeyStorePassword() {
+        if (!isSecured()) {
             return null;
         }
 
         return keyStorePassword;
+    }
+
+    public void setKeyStorePassword(String pass) {
+        keyStorePassword = pass;
     }
 
     private Properties loadProperties(String config) throws IOException {
@@ -108,9 +106,9 @@ public class AgentConfiguration {
         } else {
             File configFile = new File(config);
 
-            if ( ! configFile.exists()) {
+            if (!configFile.exists()) {
                 throw new FileNotFoundException(String.format("Configuration file '%s' does not exist", configFile
-                    .getAbsolutePath()));
+                        .getAbsolutePath()));
             }
 
             loadProperties(properties, configFile);

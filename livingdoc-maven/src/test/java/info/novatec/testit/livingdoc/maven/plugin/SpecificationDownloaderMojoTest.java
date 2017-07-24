@@ -1,37 +1,28 @@
 package info.novatec.testit.livingdoc.maven.plugin;
 
-import static info.novatec.testit.livingdoc.util.CollectionUtil.toVector;
+import info.novatec.testit.livingdoc.repository.*;
+import info.novatec.testit.livingdoc.util.*;
+import org.apache.commons.io.*;
+import org.apache.maven.artifact.*;
+import org.apache.maven.plugin.*;
+import org.apache.maven.plugin.testing.*;
+import org.jmock.core.*;
+import org.jmock.core.constraint.*;
+import org.junit.*;
 
-import java.io.File;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
+import java.io.*;
+import java.net.*;
+import java.util.*;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.maven.artifact.Artifact;
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugin.testing.AbstractMojoTestCase;
-import org.apache.xmlrpc.WebServer;
-import org.jmock.Mock;
-import org.jmock.core.Constraint;
-import org.jmock.core.constraint.IsEqual;
-import org.jmock.core.matcher.InvokeOnceMatcher;
-import org.jmock.core.stub.ReturnStub;
-
-import info.novatec.testit.livingdoc.repository.AtlassianRepository;
-import info.novatec.testit.livingdoc.repository.FileSystemRepository;
-import info.novatec.testit.livingdoc.util.URIUtil;
-import org.junit.Ignore;
+import static info.novatec.testit.livingdoc.util.CollectionUtil.*;
 
 // TODO Pending to fix these tests intercepting the REST client call
 @Ignore
 public class SpecificationDownloaderMojoTest extends AbstractMojoTestCase {
 
     private SpecificationDownloaderMojo mojo;
-    private WebServer ws;
-    private Mock handler;
+
+    //private Mock handler;
 
     @Override
     protected void tearDown() throws Exception {
@@ -42,7 +33,7 @@ public class SpecificationDownloaderMojoTest extends AbstractMojoTestCase {
     public void setUp() throws Exception {
         super.setUp();
         URL pomPath = SpecificationDownloaderMojoTest.class.getResource("pom-downloader.xml");
-        mojo = ( SpecificationDownloaderMojo ) lookupMojo("freeze", URIUtil.decoded(pomPath.getPath()));
+        mojo = (SpecificationDownloaderMojo) lookupMojo("freeze", URIUtil.decoded(pomPath.getPath()));
 
         mojo.pluginDependencies = new ArrayList<Artifact>();
         mojo.pluginDependencies.add(new DependencyArtifact("commons-codec", dependency("commons-codec-1.3.jar")));
@@ -107,17 +98,18 @@ public class SpecificationDownloaderMojoTest extends AbstractMojoTestCase {
     }
 
     @SuppressWarnings("unchecked")
+    @Ignore
     public void testShouldSupportCustomRepositoriesSuchAsAtlassian() throws Exception {
         startWebServer();
-        List< ? > expected = toVector("SPACE", "PAGE", Boolean.TRUE, Boolean.TRUE);
+        List<?> expected = toVector("SPACE", "PAGE", Boolean.TRUE, Boolean.TRUE);
         String right = FileUtils.readFileToString(spec("spec.html"), "UTF-8");
-        handler.expects(new InvokeOnceMatcher()).method("getRenderedSpecification").with(eq(""), eq(""), eq(expected)).will(
-            new ReturnStub(right));
+      /*  handler.expects(new InvokeOnceMatcher()).method("getRenderedSpecification").with(eq(""), eq(""), eq(expected)).will(
+            new ReturnStub(right));*/
 
         createAtlassianRepository("repo").addTest("PAGE");
         mojo.execute();
 
-        handler.verify();
+        //handler.verify();
         assertDownloaded("repo", "PAGE.html");
     }
 
@@ -163,16 +155,16 @@ public class SpecificationDownloaderMojoTest extends AbstractMojoTestCase {
     }
 
     private void startWebServer() {
-        ws = new WebServer(19005);
+        /*ws = new WebServer(19005);
         handler = new Mock(Handler.class);
         ws.addHandler("livingdoc1", handler.proxy());
-        ws.start();
+        ws.start();*/
     }
 
     private void stopWebServer() {
-        if (ws != null) {
+        /*if (ws != null) {
             ws.shutdown();
-        }
+        }*/
     }
 
     public static interface Handler {

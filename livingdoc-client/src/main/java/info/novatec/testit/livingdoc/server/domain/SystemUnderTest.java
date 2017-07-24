@@ -1,33 +1,12 @@
 package info.novatec.testit.livingdoc.server.domain;
 
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.SUT_CLASSPATH_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.SUT_FIXTURE_CLASSPATH_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.SUT_FIXTURE_FACTORY_ARGS_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.SUT_FIXTURE_FACTORY_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.SUT_IS_DEFAULT_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.SUT_NAME_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.SUT_PROJECT_DEPENDENCY_DESCRIPTOR_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.SUT_PROJECT_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.SUT_RUNNER_IDX;
+import info.novatec.testit.livingdoc.systemunderdevelopment.*;
+import org.apache.commons.lang3.*;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Vector;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
+import java.util.*;
 
-import org.apache.commons.lang3.StringUtils;
-
-import info.novatec.testit.livingdoc.systemunderdevelopment.DefaultSystemUnderDevelopment;
+import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.*;
 
 
 /**
@@ -39,7 +18,7 @@ import info.novatec.testit.livingdoc.systemunderdevelopment.DefaultSystemUnderDe
  */
 
 @Entity
-@Table(name = "SUT", uniqueConstraints = { @UniqueConstraint(columnNames = { "NAME", "PROJECT_ID" }) })
+@Table(name = "SUT", uniqueConstraints = {@UniqueConstraint(columnNames = {"NAME", "PROJECT_ID"})})
 @SuppressWarnings("serial")
 public class SystemUnderTest extends AbstractUniqueEntity implements Comparable<SystemUnderTest> {
     private static final transient String DEFAULT_FIXTURE_FACTORY = DefaultSystemUnderDevelopment.class.getName();
@@ -69,27 +48,27 @@ public class SystemUnderTest extends AbstractUniqueEntity implements Comparable<
         return name;
     }
 
-    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "RUNNER_ID")
     public Runner getRunner() {
         return runner;
     }
 
-    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "PROJECT_ID")
     public Project getProject() {
         return project;
     }
 
     @ElementCollection
-    @JoinTable(name = "SUT_FIXTURE_CLASSPATHS", joinColumns = { @JoinColumn(name = "SUT_ID") })
+    @JoinTable(name = "SUT_FIXTURE_CLASSPATHS", joinColumns = {@JoinColumn(name = "SUT_ID")})
     @Column(name = "elt", nullable = true, length = 255)
     public Set<String> getFixtureClasspaths() {
         return fixtureClasspaths;
     }
 
     @ElementCollection
-    @JoinTable(name = "SUT_CLASSPATHS", joinColumns = { @JoinColumn(name = "SUT_ID") })
+    @JoinTable(name = "SUT_CLASSPATHS", joinColumns = {@JoinColumn(name = "SUT_ID")})
     @Column(name = "elt", nullable = true, length = 255)
     public Set<String> getSutClasspaths() {
         return sutClasspaths;
@@ -157,11 +136,11 @@ public class SystemUnderTest extends AbstractUniqueEntity implements Comparable<
 
     @Transient
     public boolean isDefault() {
-        return selected == ( byte ) 1;
+        return selected == (byte) 1;
     }
 
     public void setIsDefault(boolean isSelected) {
-        this.selected = isSelected ? ( byte ) 1 : ( byte ) 0;
+        this.selected = isSelected ? (byte) 1 : (byte) 0;
     }
 
     public Execution execute(Specification specification, boolean implementedVersion, String sections, String locale) {
@@ -193,10 +172,27 @@ public class SystemUnderTest extends AbstractUniqueEntity implements Comparable<
         return parameters;
     }
 
+    public SystemUnderTest marshallizeRest() {
+        SystemUnderTest sut = SystemUnderTest.newInstance(this.getName());
+        sut.setSutClasspaths(this.getSutClasspaths());
+        sut.setFixtureClasspaths(this.getFixtureClasspaths());
+        sut.setFixtureFactory(this.getFixtureFactory());
+        sut.setFixtureFactoryArgs(this.getFixtureFactoryArgs());
+        sut.setIsDefault(this.isDefault());
+        sut.setRunner(this.getRunner());
+        sut.setProject(this.getProject() != null ? this.getProject().marshallizeRest() : Project.newInstance(""));
+        sut.setProjectDependencyDescriptor(this.getProjectDependencyDescriptor());
+        sut.setVersion(this.getVersion());
+        sut.setUUID(this.getUUID());
+        sut.setId(this.getId());
+        return sut;
+    }
+
+
     @Override
     public int compareTo(SystemUnderTest o) {
         if (isDefault()) {
-            return - 1;
+            return -1;
         }
         if (o.isDefault()) {
             return 1;
@@ -213,18 +209,18 @@ public class SystemUnderTest extends AbstractUniqueEntity implements Comparable<
     }
 
     public boolean equalsTo(Object o) {
-        if (o == null || ! ( o instanceof SystemUnderTest )) {
+        if (o == null || !(o instanceof SystemUnderTest)) {
             return false;
         }
 
-        SystemUnderTest sutCompared = ( SystemUnderTest ) o;
+        SystemUnderTest sutCompared = (SystemUnderTest) o;
 
         return isNameEqualsTo(sutCompared.getName()) && isProjectEqualsTo(sutCompared.getProject());
     }
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || ! ( o instanceof SystemUnderTest )) {
+        if (o == null || !(o instanceof SystemUnderTest)) {
             return false;
         }
 

@@ -1,51 +1,25 @@
 package info.novatec.testit.livingdoc.server.domain;
 
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.RUNNER_CLASSPATH_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.RUNNER_NAME_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.RUNNER_SECURED_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.RUNNER_SERVER_NAME_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.RUNNER_SERVER_PORT_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.toExecution;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-import java.util.Vector;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.WildcardFileFilter;
-import org.apache.commons.lang3.StringUtils;
-import org.xml.sax.SAXException;
-
-import info.novatec.testit.livingdoc.report.Report;
-import info.novatec.testit.livingdoc.report.XmlReport;
-import info.novatec.testit.livingdoc.runner.DocumentRunner;
-import info.novatec.testit.livingdoc.runner.LoggingMonitor;
-import info.novatec.testit.livingdoc.runner.RecorderMonitor;
-import info.novatec.testit.livingdoc.runner.SpecificationRunner;
-import info.novatec.testit.livingdoc.runner.SpecificationRunnerBuilder;
-import info.novatec.testit.livingdoc.runner.SpecificationRunnerExecutor;
-import info.novatec.testit.livingdoc.server.rpc.xmlrpc.client.XmlRpcClientExecutor;
-import info.novatec.testit.livingdoc.server.rpc.xmlrpc.client.XmlRpcClientExecutorException;
-import info.novatec.testit.livingdoc.server.rpc.xmlrpc.client.XmlRpcClientExecutorFactory;
+import info.novatec.testit.livingdoc.report.*;
+import info.novatec.testit.livingdoc.runner.*;
+import info.novatec.testit.livingdoc.server.*;
+import info.novatec.testit.livingdoc.server.rest.requests.*;
+import info.novatec.testit.livingdoc.server.rest.responses.*;
 import info.novatec.testit.livingdoc.util.ClassUtils;
-import info.novatec.testit.livingdoc.util.CollectionUtil;
-import info.novatec.testit.livingdoc.util.ExceptionUtils;
-import info.novatec.testit.livingdoc.util.JoinClassLoader;
-import info.novatec.testit.livingdoc.util.URIUtil;
+import info.novatec.testit.livingdoc.util.*;
+import org.apache.commons.io.*;
+import org.apache.commons.io.filefilter.*;
+import org.apache.commons.lang3.*;
+import org.springframework.http.*;
+import org.springframework.web.client.*;
+import org.xml.sax.*;
+
+import javax.persistence.*;
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.*;
 
 
 /**
@@ -61,6 +35,7 @@ import info.novatec.testit.livingdoc.util.URIUtil;
 @SuppressWarnings("serial")
 public class Runner extends AbstractVersionedEntity implements Comparable<Runner> {
     private static final String AGENT_HANDLER = "livingdoc-agent1";
+    private static final String AGENT_METHOD = "/execute";
     private String name;
 
     private String serverName;
@@ -101,7 +76,7 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
     }
 
     @ElementCollection
-    @JoinTable(name = "RUNNER_CLASSPATHS", joinColumns = { @JoinColumn(name = "RUNNER_ID") })
+    @JoinTable(name = "RUNNER_CLASSPATHS", joinColumns = {@JoinColumn(name = "RUNNER_ID")})
     @Column(name = "elt", nullable = true, length = 255)
     public Set<String> getClasspaths() {
         return classpaths;
@@ -128,38 +103,52 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
     }
 
     public Execution execute(Specification specification, SystemUnderTest systemUnderTest, boolean implementedVersion,
-        String sections, String locale) {
+                             String sections, String locale) {
         if (isRemote()) {
-            return executeRemotely(specification, systemUnderTest, implementedVersion, sections, locale);
+            ExecutionResponse executionResponse = executeRemotely(specification, systemUnderTest, implementedVersion, sections, locale);
+            return executionResponse.execution;
         }
         return executeLocally(specification, systemUnderTest, implementedVersion, sections, locale);
     }
 
     @SuppressWarnings("unchecked")
-    private Execution executeRemotely(Specification specification, SystemUnderTest systemUnderTest,
-        boolean implementedVersion, String paramSections, String paramLocale) {
+    private ExecutionResponse executeRemotely(Specification specification, SystemUnderTest systemUnderTest,
+                                              boolean implementedVersion, String paramSections, String paramLocale) {
         try {
-            String sections = StringUtils.stripToEmpty(paramSections);
-            String locale = StringUtils.stripToEmpty(paramLocale);
 
-            XmlRpcClientExecutor xmlrpc = XmlRpcClientExecutorFactory.newExecutor(agentUrl());
+            SystemUnderTest mySystemUnderTest = systemUnderTest.marshallizeRest();
+            Specification mySpecification = specification.marshallizeRest();
 
-            List< ? > params = CollectionUtil.toVector(marshallize(), systemUnderTest.marshallize(), specification
-                .marshallize(), implementedVersion, sections, locale);
-            Vector<Object> execParams = ( Vector<Object> ) xmlrpc.execute(AGENT_HANDLER + ".execute", params);
+            ExecutionRequest executionRequest = new ExecutionRequest(this, mySpecification, mySystemUnderTest, implementedVersion, paramSections, paramLocale);
 
-            Execution execution = toExecution(execParams);
-            execution.setSystemUnderTest(systemUnderTest);
-            execution.setSpecification(specification);
-            execution.setRemotelyExecuted();
-            return execution;
-        } catch (XmlRpcClientExecutorException e) {
-            return Execution.error(specification, systemUnderTest, paramSections, ExceptionUtils.stackTrace(e, "<br>", 15));
+            RestTemplate client = new RestTemplate();
+
+            RequestEntity<ExecutionRequest> requestEntity;
+            RequestEntity.BodyBuilder bodyBuilder = RequestEntity.post(new URI(agentUrl() + AGENT_METHOD));
+            bodyBuilder.contentType(MediaType.APPLICATION_JSON);
+
+            requestEntity = bodyBuilder.body(executionRequest);
+
+            ResponseEntity<ExecutionResponse> responseEntity = client.exchange(requestEntity, ExecutionResponse.class);
+
+            responseEntity.getBody().execution.getSystemUnderTest().getProject().setRepositories(systemUnderTest.getProject().getRepositories());
+            responseEntity.getBody().execution.getSystemUnderTest().getProject().setSystemUnderTests(systemUnderTest.getProject().getSystemUnderTests());
+
+            HttpStatus statusCode = responseEntity.getStatusCode();
+            if (!HttpStatus.OK.equals(statusCode)) {
+                throw new LivingDocServerException(LivingDocServerErrorKey.CALL_FAILED,
+                        "call was not successful, status: " + statusCode);
+            }
+            return responseEntity.getBody();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+            return null;
         }
     }
 
+
     private Execution executeLocally(Specification specification, SystemUnderTest systemUnderTest,
-        boolean implementedVersion, String sections, String locale) {
+                                     boolean implementedVersion, String sections, String locale) {
         String implemented = implementedVersion ? "" : "?implemented=false";
         String source = URIUtil.raw(specification.getName()) + implemented;
         File outputFile = null;
@@ -180,18 +169,18 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
             outputFile = File.createTempFile("LivingDocTest", ".tst");
             outputFile.delete();
 
-            Class< ? extends SpecificationRunner> runnerClass = DocumentRunner.class;
-            Class< ? extends Report> reportClass = XmlReport.class;
+            Class<? extends SpecificationRunner> runnerClass = DocumentRunner.class;
+            Class<? extends Report> reportClass = XmlReport.class;
 
-            String[] sectionsArray = sections == null ? new String[] {} : sections.split(",");
+            String[] sectionsArray = sections == null ? new String[]{} : sections.split(",");
 
             RecorderMonitor recorderMonitor = new RecorderMonitor();
             LoggingMonitor loggingMonitor = new LoggingMonitor();
 
             SpecificationRunnerBuilder builder = new SpecificationRunnerBuilder(specification.getRepository()
-                .asCmdLineOption()).classLoader(joinClassLoader).sections(sectionsArray).report(reportClass.getName())
+                    .asCmdLineOption()).classLoader(joinClassLoader).sections(sectionsArray).report(reportClass.getName())
                     .systemUnderDevelopment(systemUnderTest.fixtureFactoryCmdLineOption()).monitors(recorderMonitor,
-                        loggingMonitor).outputDirectory(outputFile.getParentFile());
+                            loggingMonitor).outputDirectory(outputFile.getParentFile());
 
             SpecificationRunner runner = builder.build(runnerClass);
 
@@ -241,7 +230,7 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
     }
 
     public String agentUrl() {
-        return ( isSecured() ? "https://" : "http://" ) + serverName + ":" + serverPort;
+        return (isSecured() ? "https://" : "http://") + serverName + ":" + serverPort;
     }
 
     @Override
@@ -251,11 +240,11 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || ! ( o instanceof Runner )) {
+        if (o == null || !(o instanceof Runner)) {
             return false;
         }
 
-        Runner runnerCompared = ( Runner ) o;
+        Runner runnerCompared = (Runner) o;
         return getName().equals(runnerCompared.getName());
     }
 
@@ -283,7 +272,7 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
             } else if (filePattern.getParentFile() != null && filePattern.getParentFile().exists()) {
                 File fileDirectory = filePattern.getParentFile();
                 Collection<File> matchedFiles = FileUtils.listFiles(fileDirectory, new WildcardFileFilter(filePattern
-                    .getName()), null);
+                        .getName()), null);
 
                 for (File matchedFile : matchedFiles) {
                     String resolvedClassPath = matchedFile.getAbsolutePath();
@@ -300,7 +289,7 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
 
     @Transient
     private boolean isRemote() {
-        return ! StringUtils.isEmpty(serverName) && ! StringUtils.isEmpty(serverPort);
+        return !StringUtils.isEmpty(serverName) && !StringUtils.isEmpty(serverPort);
     }
 
 }

@@ -18,30 +18,17 @@
  */
 package info.novatec.testit.livingdoc.server.rpc.runner;
 
-import static info.novatec.testit.livingdoc.util.URIUtil.decoded;
-import static info.novatec.testit.livingdoc.util.URIUtil.flatten;
+import info.novatec.testit.livingdoc.*;
+import info.novatec.testit.livingdoc.runner.*;
+import info.novatec.testit.livingdoc.server.*;
+import info.novatec.testit.livingdoc.server.rpc.runner.report.*;
+import info.novatec.testit.livingdoc.util.cli.*;
+import org.apache.commons.lang3.*;
 
 import java.io.*;
 import java.util.*;
 
-import info.novatec.testit.livingdoc.LivingDoc;
-import info.novatec.testit.livingdoc.LivingDocCore;
-import info.novatec.testit.livingdoc.runner.NullSpecificationRunnerMonitor;
-import info.novatec.testit.livingdoc.runner.SpecificationRunner;
-import info.novatec.testit.livingdoc.runner.SpecificationRunnerMonitor;
-import info.novatec.testit.livingdoc.runner.SpecificationRunnerMonitorProxy;
-import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
-import info.novatec.testit.livingdoc.server.LivingDocServerException;
-import info.novatec.testit.livingdoc.server.rpc.runner.report.FileReportGenerator;
-import info.novatec.testit.livingdoc.server.rpc.runner.report.HtmlReport;
-import info.novatec.testit.livingdoc.server.rpc.runner.report.ReportGenerator;
-import info.novatec.testit.livingdoc.server.rpc.runner.report.XmlReport;
-import info.novatec.testit.livingdoc.util.cli.ArgumentMissingException;
-import info.novatec.testit.livingdoc.util.cli.Bean;
-import info.novatec.testit.livingdoc.util.cli.CommandLine;
-import info.novatec.testit.livingdoc.util.cli.Option;
-import info.novatec.testit.livingdoc.util.cli.ParseException;
-import org.apache.commons.lang3.StringUtils;
+import static info.novatec.testit.livingdoc.util.URIUtil.*;
 
 
 public class CommandLineRemoteRunner {
@@ -71,7 +58,7 @@ public class CommandLineRemoteRunner {
 
     public void run(String... args) throws ParseException, IOException, LivingDocServerException {
         defineCommandLine();
-        if ( ! parseCommandLine(args)) {
+        if (!parseCommandLine(args)) {
             return;
         }
         runSpec();
@@ -79,14 +66,14 @@ public class CommandLineRemoteRunner {
 
     private void runSpec() throws IOException, LivingDocServerException {
         options.putAll(cli.getOptionValues());
-        options.put("reportGenerator", reportGenerator());
+        options.put("fileReportGenerator", fileReportGenerator());
         options.put("monitor", monitor);
         options.put("restRemoteRunner", restRemoteRunner());
         new Bean(runner).setProperties(options);
         runner.run(source(), destination());
     }
 
-    private ReportGenerator reportGenerator() throws IOException {
+    private FileReportGenerator fileReportGenerator() throws IOException {
         File outputDirectory = existsOutputDirectory() ? outputDirectory() : createOutputDirectory();
         FileReportGenerator generator = new FileReportGenerator(outputDirectory);
         generator.adjustReportFilesExtensions(optionSpecified(RUNNER_SUITE_OPTION) || output() == null);
@@ -110,11 +97,11 @@ public class CommandLineRemoteRunner {
             return outputDirectory;
         }
         throw new IOException("Output directory could not be created :" + outputDirectory == null ? "NULL" : outputDirectory
-            .getAbsolutePath());
+                .getAbsolutePath());
     }
 
     private String url() {
-        return ( String ) cli.getOptionValue("url");
+        return (String) cli.getOptionValue("url");
     }
 
     public String getUser() {
@@ -125,7 +112,7 @@ public class CommandLineRemoteRunner {
         return password;
     }
 
-    private static String scanCredentials(){
+    private static String scanCredentials() {
         return String.valueOf(System.console().readPassword("Enter password: "));
 
     }
@@ -134,7 +121,7 @@ public class CommandLineRemoteRunner {
         this.user = user;
         if (pass != null) {
             this.password = pass;
-        }else {
+        } else {
             this.password = scanCredentials();
         }
     }
@@ -154,7 +141,7 @@ public class CommandLineRemoteRunner {
             } catch (IOException exc) {
                 throw new LivingDocServerException(LivingDocServerErrorKey.RETRIEVE_FILE_FAILED,
                         "File not accepted, please check the documentation");
-            } finally{
+            } finally {
                 fis.close();
             }
 
@@ -175,9 +162,9 @@ public class CommandLineRemoteRunner {
 
     private File outputDirectory() throws IOException {
         if (optionSpecified(RUNNER_SUITE_OPTION)) {
-            return output() != null ? new File(output()) : ( File ) cli.getOptionValue("output");
+            return output() != null ? new File(output()) : (File) cli.getOptionValue("output");
         }
-        return output() != null ? parentFile(output()) : ( File ) cli.getOptionValue("output");
+        return output() != null ? parentFile(output()) : (File) cli.getOptionValue("output");
     }
 
     private File parentFile(String pathname) throws IOException {
@@ -206,11 +193,11 @@ public class CommandLineRemoteRunner {
         if (optionSpecified("user")) {
             if (optionSpecified("password")) {
                 setCredentialsFromArguments((String) cli.getOptionValue("user"), (String) cli.getOptionValue("password"));
-            }else{
+            } else {
                 setCredentialsFromArguments((String) cli.getOptionValue("user"), null);
             }
-        } else if(optionSpecified("config")) {
-            setCredentialsFromFile(( String ) cli.getOptionValue("config"));
+        } else if (optionSpecified("config")) {
+            setCredentialsFromFile((String) cli.getOptionValue("config"));
         }
         if (StringUtils.isEmpty(getUser())) {
             throw new ArgumentMissingException("user");
@@ -221,13 +208,13 @@ public class CommandLineRemoteRunner {
         if (url() == null) {
             throw new ArgumentMissingException("url");
         }
-        if ( ! optionSpecified("project")) {
+        if (!optionSpecified("project")) {
             throw new ArgumentMissingException("project");
         }
-        if ( ! optionSpecified("systemUnderTest")) {
+        if (!optionSpecified("systemUnderTest")) {
             throw new ArgumentMissingException("system under test");
         }
-        if ( ! optionSpecified("repositoryId")) {
+        if (!optionSpecified("repositoryId")) {
             throw new ArgumentMissingException("repository id");
         }
 
@@ -253,19 +240,19 @@ public class CommandLineRemoteRunner {
         File workingDirectory = new File(System.getProperty("user.dir"));
 
         String banner = "livingdoc [options] input [output]\n"
-            + "Run the input specification and produce a report in output file or in directory specified by -o";
+                + "Run the input specification and produce a report in output file or in directory specified by -o";
         cli.setBanner(banner);
         cli.defineOption(cli.buildOption("locale", "-l", "--locale LANG", "Set application language (en, fr, ...)").asType(
-            Locale.class).whenPresent(new SetLocale()));
+                Locale.class).whenPresent(new SetLocale()));
         cli.defineOption(cli.buildOption("url", "-u", "--url URL", "LivingDoc Server Context Path"));
         cli.defineOption(cli.buildOption("project", "-p", "--project PROJECT", "Project Name"));
         cli.defineOption(cli.buildOption("systemUnderTest", "-t", "--sut SUT", "System Under Test Name"));
         cli.defineOption(cli.buildOption("repositoryId", "--rep ID", "Repository Id"));
         cli.defineOption(cli.buildOption("output", "-o DIRECTORY",
-            "Produce reports in DIRECTORY (defaults to current directory)").defaultingTo(workingDirectory).asType(
+                "Produce reports in DIRECTORY (defaults to current directory)").defaultingTo(workingDirectory).asType(
                 File.class));
         cli.defineOption(cli.buildOption(RUNNER_SUITE_OPTION, "-s", "--suite",
-            "Run a suite rather than a single test (output must refer to a directory)"));
+                "Run a suite rather than a single test (output must refer to a directory)"));
         cli.defineOption(cli.buildOption("xml", "--xml", "Generate XML report (defaults to plain)"));
         cli.defineOption(cli.buildOption("help", "--help", "Display this help and exit"));
         cli.defineOption(cli.buildOption("version", "--version", "Output version information and exit"));
@@ -288,7 +275,7 @@ public class CommandLineRemoteRunner {
 
         @Override
         public void call(Option option) {
-            LivingDoc.setLocale(( Locale ) option.getValue());
+            LivingDoc.setLocale((Locale) option.getValue());
         }
     }
 }

@@ -1,41 +1,17 @@
 package info.novatec.testit.livingdoc.server.domain;
 
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_BASEREPO_URL_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_BASETEST_URL_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_BASE_URL_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_CONTENTTYPE_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_MAX_USERS_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_NAME_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_PASSWORD_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_PROJECT_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_TYPE_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_UID_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_USERNAME_IDX;
-
-import java.lang.reflect.UndeclaredThrowableException;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Vector;
-
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
-
-import org.apache.commons.lang3.StringUtils;
-
-import info.novatec.testit.livingdoc.repository.DocumentRepository;
-import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
-import info.novatec.testit.livingdoc.server.LivingDocServerException;
-import info.novatec.testit.livingdoc.server.domain.component.ContentType;
+import info.novatec.testit.livingdoc.repository.*;
+import info.novatec.testit.livingdoc.server.*;
+import info.novatec.testit.livingdoc.server.domain.component.*;
 import info.novatec.testit.livingdoc.util.ClassUtils;
-import org.codehaus.jackson.annotate.JsonIgnore;
+import org.apache.commons.lang3.*;
+import org.codehaus.jackson.annotate.*;
+
+import javax.persistence.*;
+import java.lang.reflect.*;
+import java.util.*;
+
+import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.*;
 
 
 /**
@@ -47,7 +23,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
  */
 
 @Entity
-@Table(name = "REPOSITORY", uniqueConstraints = { @UniqueConstraint(columnNames = { "NAME", "PROJECT_ID" }) })
+@Table(name = "REPOSITORY", uniqueConstraints = {@UniqueConstraint(columnNames = {"NAME", "PROJECT_ID"})})
 @SuppressWarnings("serial")
 public class Repository extends AbstractVersionedEntity implements Comparable<Repository> {
     private String name;
@@ -113,13 +89,13 @@ public class Repository extends AbstractVersionedEntity implements Comparable<Re
         return password;
     }
 
-    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "PROJECT_ID")
     public Project getProject() {
         return project;
     }
 
-    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "REPOSITORY_TYPE_ID")
     public RepositoryType getType() {
         return this.type;
@@ -192,7 +168,7 @@ public class Repository extends AbstractVersionedEntity implements Comparable<Re
     public void addRequirement(Requirement requirement) throws LivingDocServerException {
         if (requirements.contains(requirement) || requirementNameExists(requirement.getName())) {
             throw new LivingDocServerException(LivingDocServerErrorKey.REQUIREMENT_ALREADY_EXISTS,
-                "Requirement already exists");
+                    "Requirement already exists");
         }
 
         requirement.setRepository(this);
@@ -200,7 +176,7 @@ public class Repository extends AbstractVersionedEntity implements Comparable<Re
     }
 
     public void removeRequirement(Requirement requirement) throws LivingDocServerException {
-        if ( ! requirements.contains(requirement)) {
+        if (!requirements.contains(requirement)) {
             throw new LivingDocServerException(LivingDocServerErrorKey.REQUIREMENT_NOT_FOUND, "Requirement not found");
         }
 
@@ -211,7 +187,7 @@ public class Repository extends AbstractVersionedEntity implements Comparable<Re
     public void addSpecification(Specification specification) throws LivingDocServerException {
         if (specifications.contains(specification) || specificationNameExists(specification.getName())) {
             throw new LivingDocServerException(LivingDocServerErrorKey.SPECIFICATION_ALREADY_EXISTS,
-                "Specification already exists");
+                    "Specification already exists");
         }
 
         specification.setRepository(this);
@@ -219,7 +195,7 @@ public class Repository extends AbstractVersionedEntity implements Comparable<Re
     }
 
     public void removeSpecification(Specification specification) throws LivingDocServerException {
-        if ( ! specifications.contains(specification)) {
+        if (!specifications.contains(specification)) {
             throw new LivingDocServerException(LivingDocServerErrorKey.SPECIFICATION_NOT_FOUND, "Specification not found");
         }
 
@@ -249,9 +225,9 @@ public class Repository extends AbstractVersionedEntity implements Comparable<Re
     }
 
     public DocumentRepository asDocumentRepository(ClassLoader classLoader, String user, String pwd)
-        throws UndeclaredThrowableException {
+            throws UndeclaredThrowableException {
         return ClassUtils.createInstanceFromClassNameWithArguments(classLoader, type.asFactoryArguments(this, true, user,
-            pwd), DocumentRepository.class);
+                pwd), DocumentRepository.class);
     }
 
     @Override
@@ -260,9 +236,9 @@ public class Repository extends AbstractVersionedEntity implements Comparable<Re
         parameters.add(REPOSITORY_NAME_IDX, StringUtils.stripToEmpty(name));
         parameters.add(REPOSITORY_UID_IDX, StringUtils.stripToEmpty(uid));
         parameters.add(REPOSITORY_PROJECT_IDX, project != null ? project.marshallize() : Project.newInstance("")
-            .marshallize());
+                .marshallize());
         parameters.add(REPOSITORY_TYPE_IDX, type != null ? type.marshallize() : RepositoryType.newInstance("")
-            .marshallize());
+                .marshallize());
         parameters.add(REPOSITORY_CONTENTTYPE_IDX, contentType.toString());
         parameters.add(REPOSITORY_BASE_URL_IDX, StringUtils.stripToEmpty(getBaseUrl()));
         parameters.add(REPOSITORY_BASEREPO_URL_IDX, StringUtils.stripToEmpty(getBaseRepositoryUrl()));
@@ -273,18 +249,32 @@ public class Repository extends AbstractVersionedEntity implements Comparable<Re
         return parameters;
     }
 
+    public Repository marshallizeRest() {
+        Repository repo = Repository.newInstance(this.getUid());
+        repo.setId(this.getId());
+        repo.setName(this.getName());
+        repo.setType(this.getType());
+        repo.setBaseTestUrl(this.getBaseTestUrl());
+        repo.setBaseRepositoryUrl(this.baseRepositoryUrl);
+        repo.setBaseUrl(this.getBaseUrl());
+        repo.setUsername(this.getUsername());
+        repo.setPassword(this.getPassword());
+        repo.setVersion(this.getVersion());
+        return repo;
+    }
+
     @Override
     public int compareTo(Repository other) {
-        return getName().compareTo( ( other ).getName());
+        return getName().compareTo((other).getName());
     }
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || ! ( o instanceof Repository )) {
+        if (o == null || !(o instanceof Repository)) {
             return false;
         }
 
-        Repository repoCompared = ( Repository ) o;
+        Repository repoCompared = (Repository) o;
         return getUid().equals(repoCompared.getUid());
     }
 

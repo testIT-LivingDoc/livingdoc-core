@@ -1,149 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>info.novatec.testit</groupId>
-		<artifactId>livingdoc</artifactId>
-		<version>1.4-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>info.novatec.testit</groupId>
+        <artifactId>livingdoc</artifactId>
+        <version>1.4-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>livingdoc-remote-agent</artifactId>
-	<name>testIT | LivingDoc - Remote Agent</name>
+    <artifactId>livingdoc-remote-agent</artifactId>
+    <name>testIT | LivingDoc - Remote Agent</name>
 
-	<properties>
-		<project.root>..</project.root>
-	</properties>
+    <properties>
+        <project.root>..</project.root>
+    </properties>
 
-	<dependencies>
+    <dependencies>
 
-		<dependency>
-			<groupId>info.novatec.testit</groupId>
-			<artifactId>livingdoc-client</artifactId>
-			<version>${project.version}</version>
-			<!-- Make sure we are only using xmlrpc v2 (compatible with confluence) -->
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.xmlrpc</groupId>
-					<artifactId>xmlrpc-client</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.xmlrpc</groupId>
-					<artifactId>xmlrpc-common</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>1.5.4.RELEASE</version>
+        </dependency>
 
-		<!-- Logging -->
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>2.0.2</version>
-		</dependency>
+        <dependency>
+            <groupId>info.novatec.testit</groupId>
+            <artifactId>livingdoc-client</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
-		<!-- Testing -->
-		<dependency>
-			<groupId>info.novatec.testit</groupId>
-			<artifactId>livingdoc-core</artifactId>
-			<version>${project.version}</version>
-			<classifier>tests</classifier>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4</artifactId>
-			<version>1.6.6</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-api-mockito</artifactId>
-			<version>1.6.6</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.11</version>
+        </dependency>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-shade-plugin</artifactId>
-				<version>2.3</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>shade</goal>
-						</goals>
-						<configuration>
-							<shadedArtifactAttached>true</shadedArtifactAttached>
-							<shadedClassifierName>complete</shadedClassifierName>
-							<transformers>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>info.novatec.testit.livingdoc.agent.server.Agent</mainClass>
-								</transformer>
-							</transformers>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy</id>
-						<phase>generate-test-resources</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>info.novatec.testit</groupId>
-									<artifactId>livingdoc-core</artifactId>
-									<version>${project.version}</version>
-									<type>jar</type>
-									<outputDirectory>${project.basedir}/src/test/resources/runners/java</outputDirectory>
-									<destFileName>livingdoc-core.jar</destFileName>
-								</artifactItem>
-								<artifactItem>
-									<groupId>info.novatec.testit</groupId>
-									<artifactId>livingdoc-core</artifactId>
-									<version>${project.version}</version>
-									<type>jar</type>
-									<classifier> tests </classifier>
-									<outputDirectory>${project.basedir}/src/test/resources/runners/java</outputDirectory>
-									<destFileName>livingdoc-core-tests.jar</destFileName>
-								</artifactItem>
-								<artifactItem>
-									<groupId>commons-codec</groupId>
-									<artifactId>commons-codec</artifactId>
-									<version>1.10</version>
-									<type>jar</type>
-									<outputDirectory>${project.basedir}/src/test/resources/runners/java</outputDirectory>
-									<destFileName>commons-codec.jar</destFileName>
-								</artifactItem>
-								<artifactItem>
-									<groupId>xmlrpc</groupId>
-									<artifactId>xmlrpc</artifactId>
-									<version>2.0.1</version>
-									<type>jar</type>
-									<outputDirectory>${project.basedir}/src/test/resources/runners/java</outputDirectory>
-									<destFileName>xmlrpc.jar</destFileName>
-								</artifactItem>
-							</artifactItems>
-							<overWriteReleases>false</overWriteReleases>
-							<overWriteSnapshots>true</overWriteSnapshots>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+        <!-- Testing -->
+        <dependency>
+            <groupId>info.novatec.testit</groupId>
+            <artifactId>livingdoc-core</artifactId>
+            <version>${project.version}</version>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>1.6.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>1.6.6</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>1.5.4.RELEASE</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

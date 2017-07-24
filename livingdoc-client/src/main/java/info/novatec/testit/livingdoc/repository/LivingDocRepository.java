@@ -1,41 +1,29 @@
 package info.novatec.testit.livingdoc.repository;
 
-import static info.novatec.testit.livingdoc.util.LoggerConstants.LOG_ERROR;
-
-import java.io.IOException;
-import java.io.Serializable;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Vector;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.xmlrpc.XmlRpcClient;
-import org.apache.xmlrpc.XmlRpcException;
-import org.apache.xmlrpc.XmlRpcRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import info.novatec.testit.livingdoc.Example;
-import info.novatec.testit.livingdoc.Statistics;
-import info.novatec.testit.livingdoc.document.Document;
-import info.novatec.testit.livingdoc.document.SpecificationListener;
-import info.novatec.testit.livingdoc.report.XmlReport;
-import info.novatec.testit.livingdoc.server.LivingDocServerException;
+import info.novatec.testit.livingdoc.*;
+import info.novatec.testit.livingdoc.document.*;
+import info.novatec.testit.livingdoc.report.*;
+import info.novatec.testit.livingdoc.server.*;
+import info.novatec.testit.livingdoc.server.rest.*;
 import info.novatec.testit.livingdoc.util.ClassUtils;
-import info.novatec.testit.livingdoc.util.CollectionUtil;
-import info.novatec.testit.livingdoc.util.ExceptionImposter;
-import info.novatec.testit.livingdoc.util.URIUtil;
+import info.novatec.testit.livingdoc.util.*;
+import org.apache.commons.lang3.*;
+import org.apache.commons.lang3.builder.*;
+import org.slf4j.*;
 
-// TODO Change RPC call to REST
+import java.io.*;
+import java.lang.reflect.*;
+import java.net.*;
+import java.util.*;
+
+import static info.novatec.testit.livingdoc.util.LoggerConstants.*;
 
 public class LivingDocRepository implements DocumentRepository {
     private static final Logger LOG = LoggerFactory.getLogger(LivingDocRepository.class);
+
+    @Deprecated
+    private static final String XML_RPC = "/rpc/xmlrpc";
+
     private URI root;
     private String handler;
     private String sut;
@@ -44,6 +32,7 @@ public class LivingDocRepository implements DocumentRepository {
     private boolean postExecutionResult;
     private String username = "";
     private String password = "";
+    private RestClient restClient = null;
 
     public LivingDocRepository(String... args) throws IllegalArgumentException {
         if (args.length == 0) {
@@ -110,15 +99,11 @@ public class LivingDocRepository implements DocumentRepository {
     @SuppressWarnings("unchecked")
     private List<List<String>> downloadSpecificationsDefinitions(String repoUID) throws LivingDocServerException {
         try {
-            List<List<String>> definitions = ( List<List<String>> ) getXmlRpcClient().execute(new XmlRpcRequest(handler
-                + ".getListOfSpecificationLocations", ( Vector<String> ) CollectionUtil.toVector(repoUID, sut)));
+            List<List<String>> definitions = getRestClient().getListOfSpecificationLocations(repoUID, sut);
             LOG.debug(ToStringBuilder.reflectionToString(definitions));
             checkForErrors(definitions);
             return definitions;
-        } catch (XmlRpcException e) {
-            LOG.error(LOG_ERROR, e);
-            throw new LivingDocServerException(e);
-        } catch (IOException e) {
+        } catch (LivingDocServerException e) {
             LOG.error(LOG_ERROR, e);
             throw new LivingDocServerException(e);
         }
@@ -136,7 +121,7 @@ public class LivingDocRepository implements DocumentRepository {
 
             DocumentRepository repository = getRepository(definition);
 
-            String specLocation = definition.get(4) + ( implemented != null ? "?implemented=" + implemented : "" );
+            String specLocation = definition.get(4) + (implemented != null ? "?implemented=" + implemented : "");
 
             Document document = repository.loadDocument(specLocation);
 
@@ -151,11 +136,11 @@ public class LivingDocRepository implements DocumentRepository {
     }
 
     private DocumentRepository getRepository(List<String> definition) throws SecurityException, IllegalArgumentException,
-        ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException,
-        InvocationTargetException {
-        Class< ? > klass = ClassUtils.loadClass(definition.get(0));
-        Constructor< ? > constructor = klass.getConstructor(String[].class);
-        return ( DocumentRepository ) constructor.newInstance(new Object[] { args(definition) });
+            ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException,
+            InvocationTargetException {
+        Class<?> klass = ClassUtils.loadClass(definition.get(0));
+        Constructor<?> constructor = klass.getConstructor(String[].class);
+        return (DocumentRepository) constructor.newInstance(new Object[]{args(definition)});
     }
 
     private List<String> getDefinitionFor(List<List<String>> definitions, String location) throws DocumentNotFoundException {
@@ -181,9 +166,19 @@ public class LivingDocRepository implements DocumentRepository {
         return getDefinitionFor(definitions, parts[1]);
     }
 
-    private XmlRpcClient getXmlRpcClient() throws MalformedURLException {
-        return new XmlRpcClient(root.getScheme() + "://" + root.getAuthority() + root.getPath());
+    protected RestClient getRestClient() {
+        if (this.restClient == null) {
+
+            String serverBaseURL = root.getScheme() +
+                    "://" +
+                    root.getAuthority() +                               // TODO confluence/rpc/xmlrpc (view Repository.getBaseTestUrl)
+                    root.getPath().replace(XML_RPC, StringUtils.EMPTY); // TODO It's a patch while we are migrating to REST
+
+            this.restClient = new LivingDocRestClient(serverBaseURL, username, password);
+        }
+        return restClient;
     }
+
 
     private String[] args(List<String> definition) {
         String[] args = new String[3];
@@ -223,13 +218,13 @@ public class LivingDocRepository implements DocumentRepository {
     @SuppressWarnings("unchecked")
     private void checkForErrors(Object xmlRpcResponse) throws LivingDocServerException {
         if (xmlRpcResponse instanceof Vector) {
-            List< ? > temp = ( List< ? > ) xmlRpcResponse;
-            if ( ! temp.isEmpty()) {
+            List<?> temp = (List<?>) xmlRpcResponse;
+            if (!temp.isEmpty()) {
                 checkErrors(temp.get(0));
             }
         } else if (xmlRpcResponse instanceof Hashtable) {
-            Hashtable<String, ? > table = ( Hashtable<String, ? > ) xmlRpcResponse;
-            if ( ! table.isEmpty()) {
+            Hashtable<String, ?> table = (Hashtable<String, ?>) xmlRpcResponse;
+            if (!table.isEmpty()) {
                 checkForErrors(table.get("<exception>"));
             }
         } else {
@@ -239,12 +234,12 @@ public class LivingDocRepository implements DocumentRepository {
 
     private void checkErrors(Object object) throws LivingDocServerException {
         if (object instanceof Exception) {
-            throw new LivingDocServerException(( Exception ) object);
+            throw new LivingDocServerException((Exception) object);
         }
 
         if (object instanceof String) {
-            String msg = ( String ) object;
-            if ( ! StringUtils.isEmpty(msg) && msg.indexOf("<exception>") > - 1) {
+            String msg = (String) object;
+            if (!StringUtils.isEmpty(msg) && msg.indexOf("<exception>") > -1) {
                 throw new LivingDocServerException("XmlRpcResponse contains error ", msg.replace("<exception>", ""));
             }
         }
@@ -269,18 +264,17 @@ public class LivingDocRepository implements DocumentRepository {
             try {
                 String[] args1 = args(definitionRef);
                 URI location = URI.create(URIUtil.raw(definitionRef.get(1)));
-                List<Serializable> args = CollectionUtil.toVector(args1[1], args1[2], ( Vector<String> ) CollectionUtil
-                    .toVector(location.getFragment(), definitionRef.get(4), sut, XmlReport.toXml(documentRef)));
+                List<Serializable> args = CollectionUtil.toVector(args1[1], args1[2], (Vector<String>) CollectionUtil
+                        .toVector(location.getFragment(), definitionRef.get(4), sut, XmlReport.toXml(documentRef)));
 
-                String msg = ( String ) getXmlRpcClient().execute(new XmlRpcRequest(handler + ".saveExecutionResult",
-                    ( Vector<Serializable> ) args));
+                String msg = getRestClient().saveExecutionResult(args);
 
-                if ( ! ( "<success>".equals(msg) )) {
+                if (!("<success>".equals(msg))) {
                     throw new IllegalStateException(msg);
                 }
-            } catch (XmlRpcException e) {
+            } catch (LivingDocServerException e) {
                 // Old server / incompatible method ?
-                if (e.getMessage().indexOf(NoSuchMethodException.class.getName()) == - 1) {
+                if (e.getMessage().indexOf(NoSuchMethodException.class.getName()) == -1) {
                     // @todo : Log ? Critical ? Do we want the test execution to
                     // fail if we can't post the result back ?
                     throw ExceptionImposter.imposterize(e);

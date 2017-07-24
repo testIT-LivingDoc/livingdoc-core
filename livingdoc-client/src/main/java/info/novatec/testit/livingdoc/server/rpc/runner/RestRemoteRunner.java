@@ -18,9 +18,10 @@
  */
 package info.novatec.testit.livingdoc.server.rpc.runner;
 
-import info.novatec.testit.livingdoc.server.LivingDocServerException;
+import info.novatec.testit.livingdoc.repository.*;
+import info.novatec.testit.livingdoc.server.*;
 import info.novatec.testit.livingdoc.server.domain.*;
-import info.novatec.testit.livingdoc.server.rest.LivingDocRestClient;
+import info.novatec.testit.livingdoc.server.rest.*;
 
 
 public class RestRemoteRunner {
@@ -32,24 +33,28 @@ public class RestRemoteRunner {
     }
 
     public DocumentNode getSpecificationHierarchy(Repository repository, SystemUnderTest systemUnderTest)
-        throws LivingDocServerException {
+            throws LivingDocServerException {
         return client.getSpecificationHierarchy(repository, systemUnderTest, getIdentifier());
     }
 
     public Execution runSpecification(String projectName, String sutName, String repositoryId, String specificationName,
-        boolean implementedVersion, String locale) throws LivingDocServerException {
+                                      boolean implementedVersion, String locale) throws LivingDocServerException {
         SystemUnderTest sut = SystemUnderTest.newInstance(sutName);
         sut.setProject(Project.newInstance(projectName));
         sut.setRunner(Runner.newInstance(""));
 
         Specification specification = Specification.newInstance(specificationName);
-        specification.setRepository(Repository.newInstance(repositoryId));
+        Repository repository = Repository.newInstance(repositoryId);
+        RepositoryType type = new RepositoryType();
+        type.setClassName(AtlassianRepository.class.getName());
+        repository.setType(type);
+        specification.setRepository(repository);
 
         return runSpecification(sut, specification, implementedVersion, locale);
     }
 
     public Execution runSpecification(SystemUnderTest sut, Specification specification, boolean implementedVersion,
-        String locale) throws LivingDocServerException {
+                                      String locale) throws LivingDocServerException {
         if (sut.getProject() == null) {
             throw new IllegalArgumentException("Missing Project in SystemUnderTest");
         }
@@ -62,17 +67,17 @@ public class RestRemoteRunner {
     }
 
     public Reference runReference(String projectName, String sutName, String requirementRepositoryId, String requirementName,
-        String locale) throws LivingDocServerException {
+                                  String locale) throws LivingDocServerException {
         return runReference(projectName, sutName, requirementRepositoryId, requirementName, null, null, locale);
     }
 
     public Reference runReference(String projectName, String sutName, String requirementRepositoryId, String requirementName,
-        String repositoryId, String specificationName, String locale) throws LivingDocServerException {
+                                  String repositoryId, String specificationName, String locale) throws LivingDocServerException {
         SystemUnderTest sut = SystemUnderTest.newInstance(sutName);
         sut.setProject(Project.newInstance(projectName));
 
         Specification specification = Specification.newInstance(specificationName == null ? requirementName
-            : specificationName);
+                : specificationName);
         specification.setRepository(Repository.newInstance(repositoryId == null ? requirementRepositoryId : repositoryId));
 
         Requirement requirement = Requirement.newInstance(requirementName);
@@ -84,7 +89,7 @@ public class RestRemoteRunner {
     }
 
     public Reference runReference(SystemUnderTest sut, Specification specification, Requirement requirement, String locale)
-        throws LivingDocServerException {
+            throws LivingDocServerException {
         if (sut.getProject() == null) {
             throw new IllegalArgumentException("Missing Project in SystemUnderTest");
         }

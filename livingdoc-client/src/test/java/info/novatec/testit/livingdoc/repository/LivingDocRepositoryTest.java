@@ -1,26 +1,13 @@
 package info.novatec.testit.livingdoc.repository;
 
-import info.novatec.testit.livingdoc.document.Document;
-import org.apache.xmlrpc.WebServer;
-import org.apache.xmlrpc.XmlRpcException;
 import org.junit.*;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.List;
-import java.util.Vector;
-
-import static info.novatec.testit.livingdoc.util.CollectionUtil.toVector;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import org.junit.runner.*;
+import org.mockito.runners.*;
 
 @Ignore
 @RunWith(MockitoJUnitRunner.class)
 public class LivingDocRepositoryTest {
-    private static WebServer ws;
+   /* private static WebServer ws;
     @Mock
     private Handler handler;
     private String dummySpec;
@@ -249,5 +236,5 @@ public class LivingDocRepositoryTest {
         String getRenderedSpecification(String username, String password, Vector<?> args);
 
         String saveExecutionResult(String username, String password, Vector<?> args);
-    }
+    }*/
 }

@@ -1,11 +1,10 @@
 package info.novatec.testit.livingdoc.server.rest;
 
-import info.novatec.testit.livingdoc.server.LivingDocServerException;
+import info.novatec.testit.livingdoc.server.*;
 import info.novatec.testit.livingdoc.server.domain.*;
 
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Set;
+import javax.annotation.*;
+import java.util.*;
 
 
 /**
@@ -546,4 +545,7 @@ public interface RestClient {
      */
     RequirementSummary getSummary(Requirement requirement, String identifier) throws LivingDocServerException;
 
+    List<List<String>> getListOfSpecificationLocations(String repoUID, String sut) throws LivingDocServerException;
+
+    String saveExecutionResult(List<?> args) throws LivingDocServerException;
 }

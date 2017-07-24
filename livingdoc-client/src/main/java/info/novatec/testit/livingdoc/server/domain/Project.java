@@ -1,29 +1,19 @@
 package info.novatec.testit.livingdoc.server.domain;
 
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.PROJECT_NAME_IDX;
+import info.novatec.testit.livingdoc.server.*;
+import org.codehaus.jackson.annotate.*;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Vector;
+import javax.persistence.*;
+import java.util.*;
 
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
-import info.novatec.testit.livingdoc.server.LivingDocServerException;
-import org.codehaus.jackson.annotate.JsonIgnore;
+import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.*;
 
 
 /**
  * Project Class. Definition of a project.
  * <p>
  * Copyright (c) 2006 Pyxis technologies inc. All Rights Reserved.
- * 
+ *
  * @author JCHUET
  */
 
@@ -74,7 +64,7 @@ public class Project extends AbstractVersionedEntity implements Comparable<Proje
     public void addRepository(Repository repo) throws LivingDocServerException {
         if (findRepositoryByName(repo.getName()) != null) {
             throw new LivingDocServerException(LivingDocServerErrorKey.REPOSITORY_ALREADY_EXISTS,
-                "Repository already exists");
+                    "Repository already exists");
         }
 
         repo.setProject(this);
@@ -82,7 +72,7 @@ public class Project extends AbstractVersionedEntity implements Comparable<Proje
     }
 
     public void removeRepository(Repository repo) throws LivingDocServerException {
-        if ( ! repositories.contains(repo)) {
+        if (!repositories.contains(repo)) {
             throw new LivingDocServerException(LivingDocServerErrorKey.REPOSITORY_NOT_FOUND, "Repository not found");
         }
 
@@ -103,12 +93,12 @@ public class Project extends AbstractVersionedEntity implements Comparable<Proje
     }
 
     public void removeSystemUnderTest(SystemUnderTest sut) throws LivingDocServerException {
-        if ( ! systemUnderTests.contains(sut)) {
+        if (!systemUnderTests.contains(sut)) {
             throw new LivingDocServerException(LivingDocServerErrorKey.SUT_NOT_FOUND, "Sut not found");
         }
 
         systemUnderTests.remove(sut);
-        if (sut.isDefault() && ! systemUnderTests.isEmpty()) {
+        if (sut.isDefault() && !systemUnderTests.isEmpty()) {
             systemUnderTests.iterator().next().setIsDefault(true);
         }
 
@@ -134,6 +124,13 @@ public class Project extends AbstractVersionedEntity implements Comparable<Proje
         return parameters;
     }
 
+    public Project marshallizeRest() {
+        Project returnValue = Project.newInstance(this.getName());
+        returnValue.setId(this.getId());
+        returnValue.setVersion(this.getVersion());
+        return returnValue;
+    }
+
     @Override
     public int compareTo(Project o) {
         return getName().compareTo(o.getName());
@@ -141,11 +138,11 @@ public class Project extends AbstractVersionedEntity implements Comparable<Proje
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || ! ( o instanceof Project )) {
+        if (o == null || !(o instanceof Project)) {
             return false;
         }
 
-        Project projectCompared = ( Project ) o;
+        Project projectCompared = (Project) o;
 
         return getName().equals(projectCompared.getName());
     }
