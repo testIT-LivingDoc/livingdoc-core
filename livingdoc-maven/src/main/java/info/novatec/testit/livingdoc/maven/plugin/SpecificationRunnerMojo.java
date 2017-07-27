@@ -289,7 +289,6 @@ public class SpecificationRunnerMojo extends AbstractMojo {
             urls.add(getDependencyURL("livingdoc-core"));
         }
 
-        urls.add(getDependencyURL("xmlrpc"));
         urls.add(getDependencyURL("commons-codec"));
 
         URL[] classpath = urls.toArray(new URL[urls.size()]);
