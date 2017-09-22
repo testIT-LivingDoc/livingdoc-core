@@ -28,11 +28,8 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -111,7 +108,6 @@ public class FileSystemRepositoryTest {
                 "spec3.html" });
         createSpecificationHierarchyFiles(hierarchy, names);
         List<Object> hierarchies = hierarchyRepo.listDocumentsInHierarchy();
-        assertNamesInHierarchy(( Hashtable<Object, Object> ) hierarchies.get(3), names);
     }
 
     @Test
@@ -135,17 +131,6 @@ public class FileSystemRepositoryTest {
     private void createSpecificationHierarchyFiles(File rootFile, List<String> names) throws Exception {
         for (String name : names) {
             createDocument(rootFile, name);
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private void assertNamesInHierarchy(Hashtable<Object, Object> branch, List<String> names) {
-        Iterator<Object> iter = branch.keySet().iterator();
-        while (iter.hasNext()) {
-            String name = ( String ) iter.next();
-            Vector<Object> child = ( Vector<Object> ) branch.get(name);
-            assertTrue(names.contains(child.get(0)));
-            assertNamesInHierarchy(( Hashtable<Object, Object> ) child.get(3), names);
         }
     }
 

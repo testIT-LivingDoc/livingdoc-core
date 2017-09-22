@@ -9,14 +9,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.Locale;
-import java.util.Vector;
+
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import info.novatec.testit.livingdoc.repository.FileSystemRepository;
-import info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller;
 import info.novatec.testit.livingdoc.util.URIUtil;
 
 
@@ -33,32 +32,6 @@ public class RunnerTest {
 
         URI classpathUri = Object.class.getResource("/classpath").toURI();
         classpathDirectory = new File(classpathUri);
-    }
-
-    @Test
-    public void testThatRunnerIsProperlyMarshalized() {
-        Runner runner = Runner.newInstance("RUNNER-1");
-        runner.setServerName("SERVER_NAME");
-        runner.setServerPort("SERVER_PORT");
-        ClasspathSet classPaths = new ClasspathSet();
-        classPaths.add("CLASSPATH-1");
-        classPaths.add("CLASSPATH-2");
-        runner.setClasspaths(classPaths);
-        runner.setSecured(true);
-
-        Vector<Object> params = new Vector<Object>();
-        params.add(XmlRpcDataMarshaller.RUNNER_NAME_IDX, "RUNNER-1");
-        Vector<Object> envType = new Vector<Object>();
-        envType.add(0, "ENVTYPE-1");
-        params.add(XmlRpcDataMarshaller.RUNNER_SERVER_NAME_IDX, "SERVER_NAME");
-        params.add(XmlRpcDataMarshaller.RUNNER_SERVER_PORT_IDX, "SERVER_PORT");
-        Vector<Object> cp = new Vector<Object>();
-        cp.add(0, "CLASSPATH-1");
-        cp.add(1, "CLASSPATH-2");
-        params.add(XmlRpcDataMarshaller.RUNNER_CLASSPATH_IDX, cp);
-        params.add(XmlRpcDataMarshaller.RUNNER_SECURED_IDX, true);
-
-        assertEquals(params, runner.marshallize());
     }
 
     @Test

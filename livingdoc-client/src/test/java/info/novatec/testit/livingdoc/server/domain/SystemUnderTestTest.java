@@ -2,11 +2,8 @@ package info.novatec.testit.livingdoc.server.domain;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Vector;
-
 import org.junit.Test;
 
-import info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller;
 import info.novatec.testit.livingdoc.systemunderdevelopment.DefaultSystemUnderDevelopment;
 
 
@@ -29,36 +26,6 @@ public class SystemUnderTestTest {
     }
 
     @Test
-    public void testSystemUnderTestIsProperlyMarshalled() {
-        Runner runner = Runner.newInstance("RUNNER-1");
-
-        SystemUnderTest sut = SystemUnderTest.newInstance("SUT-1");
-        sut.setProject(Project.newInstance("PROJECT-1"));
-        sut.setSutClasspaths(getSutPaths());
-        sut.setFixtureClasspaths(getFixturePaths());
-        sut.setFixtureFactory("FIXTUREFACTORY-1");
-        sut.setFixtureFactoryArgs("FIXTUREFACTORYARGS-1");
-        sut.setIsDefault(true);
-        sut.setRunner(runner);
-        sut.setProjectDependencyDescriptor("PROJECT-DEPENDENCY-DESCRIPTOR-11");
-
-        Vector<Object> params = new Vector<Object>();
-        params.add(XmlRpcDataMarshaller.SUT_NAME_IDX, "SUT-1");
-        Vector<Object> pparams = new Vector<Object>();
-        pparams.add(XmlRpcDataMarshaller.PROJECT_NAME_IDX, "PROJECT-1");
-        params.add(XmlRpcDataMarshaller.SUT_PROJECT_IDX, pparams);
-        params.add(XmlRpcDataMarshaller.SUT_CLASSPATH_IDX, new Vector<String>(getSutPaths()));
-        params.add(XmlRpcDataMarshaller.SUT_FIXTURE_CLASSPATH_IDX, new Vector<String>(getFixturePaths()));
-        params.add(XmlRpcDataMarshaller.SUT_FIXTURE_FACTORY_IDX, "FIXTUREFACTORY-1");
-        params.add(XmlRpcDataMarshaller.SUT_FIXTURE_FACTORY_ARGS_IDX, "FIXTUREFACTORYARGS-1");
-        params.add(XmlRpcDataMarshaller.SUT_IS_DEFAULT_IDX, true);
-        params.add(XmlRpcDataMarshaller.SUT_RUNNER_IDX, runner.marshallize());
-        params.add(XmlRpcDataMarshaller.SUT_PROJECT_DEPENDENCY_DESCRIPTOR_IDX, "PROJECT-DEPENDENCY-DESCRIPTOR-11");
-
-        assertEquals(params, sut.marshallize());
-    }
-
-    @Test
     public void testTheFixtureFactoryDefinitionByDefaultIsDefaultSystemUnderDevString() {
         SystemUnderTest sut = SystemUnderTest.newInstance("SUT");
         assertEquals(DefaultSystemUnderDevelopment.class.getName(), sut.fixtureFactoryCmdLineOption());
@@ -75,17 +42,4 @@ public class SystemUnderTestTest {
         assertEquals("CLASS;ARGS", sut.fixtureFactoryCmdLineOption());
     }
 
-    private ClasspathSet getSutPaths() {
-        ClasspathSet sutPaths = new ClasspathSet();
-        sutPaths.add("SUT-PATH-1");
-        sutPaths.add("SUT-PATH-2");
-        return sutPaths;
-    }
-
-    private ClasspathSet getFixturePaths() {
-        ClasspathSet fixturePaths = new ClasspathSet();
-        fixturePaths.add("FIX-PATH-1");
-        fixturePaths.add("FIX-PATH-2");
-        return fixturePaths;
-    }
 }
