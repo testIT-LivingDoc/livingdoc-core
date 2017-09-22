@@ -8,13 +8,11 @@ import static org.junit.Assert.fail;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Vector;
 
 import org.junit.Test;
 
 import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
-import info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller;
 
 
 public class ProjectTest {
@@ -203,11 +201,4 @@ public class ProjectTest {
         }
     }
 
-    @Test
-    public void testThatAProjectIsProperlyMarshalled() {
-        Project project = Project.newInstance("PROJECT-1");
-        Vector<Object> params = new Vector<Object>();
-        params.add(XmlRpcDataMarshaller.PROJECT_NAME_IDX, "PROJECT-1");
-        assertEquals(params, project.marshallize());
-    }
 }

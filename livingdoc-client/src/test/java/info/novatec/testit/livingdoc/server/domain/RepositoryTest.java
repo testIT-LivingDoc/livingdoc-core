@@ -8,15 +8,12 @@ import static org.junit.Assert.fail;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Vector;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
-import info.novatec.testit.livingdoc.server.domain.component.ContentType;
-import info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller;
 
 
 public class RepositoryTest {
@@ -180,46 +177,4 @@ public class RepositoryTest {
         }
     }
 
-    @Test
-    public void testARepositoryIsProperlyMarshalled() {
-        Repository repository = Repository.newInstance("UID");
-        repository.setProject(Project.newInstance("PROJECT-1"));
-        repository.setName("REPOSITORY");
-        repository.setContentType(ContentType.BOTH);
-        repository.setBaseUrl("BASE-URL-1");
-        repository.setBaseRepositoryUrl("REPO-URL-1");
-        repository.setBaseTestUrl("TEST-URI-1");
-        repository.setUsername("LivingDoc");
-        repository.setPassword("LivingDoc");
-        RepositoryType type = RepositoryType.newInstance("FILE");
-        type.setClassName("REPO-CLASS");
-        type.setDocumentUrlFormat("%s%s");
-        type.setTestUrlFormat("%s%s");
-        repository.setType(type);
-        repository.setMaxUsers(50);
-
-        Vector<Object> params = new Vector<Object>();
-        params.add(XmlRpcDataMarshaller.REPOSITORY_NAME_IDX, "REPOSITORY");
-        params.add(XmlRpcDataMarshaller.REPOSITORY_UID_IDX, "UID");
-        Vector<Object> pparams = new Vector<Object>();
-        pparams.add(XmlRpcDataMarshaller.PROJECT_NAME_IDX, "PROJECT-1");
-        params.add(XmlRpcDataMarshaller.REPOSITORY_PROJECT_IDX, pparams);
-        Vector<Object> tparams = new Vector<Object>();
-        tparams.add(XmlRpcDataMarshaller.REPOSITORY_TYPE_NAME_IDX, "FILE");
-
-        tparams.add(XmlRpcDataMarshaller.REPOSITORY_TYPE_REPOCLASS_IDX, "REPO-CLASS");
-
-        tparams.add(XmlRpcDataMarshaller.REPOSITORY_TYPE_NAME_FORMAT_IDX, "%s%s");
-        tparams.add(XmlRpcDataMarshaller.REPOSITORY_TYPE_URI_FORMAT_IDX, "%s%s");
-        params.add(XmlRpcDataMarshaller.REPOSITORY_TYPE_IDX, tparams);
-        params.add(XmlRpcDataMarshaller.REPOSITORY_CONTENTTYPE_IDX, "BOTH");
-        params.add(XmlRpcDataMarshaller.REPOSITORY_BASE_URL_IDX, "BASE-URL-1");
-        params.add(XmlRpcDataMarshaller.REPOSITORY_BASEREPO_URL_IDX, "REPO-URL-1");
-        params.add(XmlRpcDataMarshaller.REPOSITORY_BASETEST_URL_IDX, "TEST-URI-1");
-        params.add(XmlRpcDataMarshaller.REPOSITORY_USERNAME_IDX, "LivingDoc");
-        params.add(XmlRpcDataMarshaller.REPOSITORY_PASSWORD_IDX, "LivingDoc");
-        params.add(XmlRpcDataMarshaller.REPOSITORY_MAX_USERS_IDX, 50);
-
-        assertEquals(params, repository.marshallize());
-    }
 }
