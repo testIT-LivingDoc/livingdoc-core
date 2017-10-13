@@ -11,10 +11,7 @@ import org.springframework.web.client.RestClientException;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 import static info.novatec.testit.livingdoc.util.CollectionUtil.toVector;
 import static org.junit.Assert.*;
@@ -157,12 +154,12 @@ public class AtlassianRepositoryTest {
     }
 
     private List<Object> hierarchy() {
-        List<Object> hierachy = new Vector<Object>();
+        List<Object> hierachy = new ArrayList<Object>();
         hierachy.add("1");
         hierachy.add("HOME");
 
-        Hashtable<String, Vector<Object>> pageBranch = new Hashtable<String, Vector<Object>>();
-        Vector<Object> page = new Vector<Object>();
+        Hashtable<String, List<Object>> pageBranch = new Hashtable<String, List<Object>>();
+        List<Object> page = new ArrayList<Object>();
         page.add("PAGE");
         page.add(new Hashtable<Object, Object>());
         pageBranch.put("PAGE", page);

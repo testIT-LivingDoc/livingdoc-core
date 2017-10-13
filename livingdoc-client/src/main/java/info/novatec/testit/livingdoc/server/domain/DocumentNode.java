@@ -8,7 +8,6 @@ import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshall
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Vector;
 
 
 public class DocumentNode implements Comparable<DocumentNode>, Marshalizable {
@@ -58,20 +57,20 @@ public class DocumentNode implements Comparable<DocumentNode>, Marshalizable {
     }
 
     @Override
-    public Vector<Object> marshallize() {
-        Vector<Object> vector = new Vector<Object>();
-        vector.add(NODE_TITLE_INDEX, title);
-        vector.add(NODE_EXECUTABLE_INDEX, executable);
-        vector.add(NODE_CAN_BE_IMPLEMENTED_INDEX, canBeImplemented);
+    public List<Object> marshallize() {
+        List<Object> myList = new ArrayList();
+        myList.add(NODE_TITLE_INDEX, title);
+        myList.add(NODE_EXECUTABLE_INDEX, executable);
+        myList.add(NODE_CAN_BE_IMPLEMENTED_INDEX, canBeImplemented);
 
         Hashtable<String, Object> hashtable = new Hashtable<String, Object>();
         for (DocumentNode node : children) {
             hashtable.put(node.getTitle(), node.marshallize());
         }
 
-        vector.add(NODE_CHILDREN_INDEX, hashtable);
+        myList.add(NODE_CHILDREN_INDEX, hashtable);
 
-        return vector;
+        return myList;
     }
 
     @Override

@@ -118,8 +118,8 @@ public class Project extends AbstractVersionedEntity implements Comparable<Proje
     }
 
     @Override
-    public Vector<Object> marshallize() {
-        Vector<Object> parameters = new Vector<Object>();
+    public List<Object> marshallize() {
+        List<Object> parameters = new ArrayList();
         parameters.add(PROJECT_NAME_IDX, name);
         return parameters;
     }

@@ -6,7 +6,9 @@ import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshall
 import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_TYPE_URI_FORMAT_IDX;
 
 import java.net.URI;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
+
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -116,8 +118,8 @@ public class RepositoryType extends AbstractVersionedEntity implements Comparabl
     }
 
     @Override
-    public Vector<Object> marshallize() {
-        Vector<Object> parameters = new Vector<Object>();
+    public List<Object> marshallize() {
+        List<Object> parameters = new ArrayList<Object>();
         parameters.add(REPOSITORY_TYPE_NAME_IDX, StringUtils.stripToEmpty(name));
         parameters.add(REPOSITORY_TYPE_REPOCLASS_IDX, className);
         parameters.add(REPOSITORY_TYPE_NAME_FORMAT_IDX, StringUtils.stripToEmpty(getDocumentUrlFormat()));

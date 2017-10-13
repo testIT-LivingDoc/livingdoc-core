@@ -1,13 +1,14 @@
 package info.novatec.testit.livingdoc.server.transfer;
 
 import java.io.Serializable;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import info.novatec.testit.livingdoc.server.domain.Marshalizable;
 
 
 /**
- * Pojo mapping specification location data to the {@link Vector} format
+ * Pojo mapping specification location data to the {@link List} format
  * supported by XML RPC.
  */
 @SuppressWarnings("serial")
@@ -59,8 +60,8 @@ public class SpecificationLocation implements Serializable, Marshalizable {
         this.specificationName = specificationName;
     }
     @Override
-    public Vector<Object> marshallize() {
-        Vector<Object> parameters = new Vector<Object>();
+    public List<Object> marshallize() {
+        List<Object> parameters = new ArrayList<Object>();
         parameters.add(REPOSITORY_TYPE_CLASSNAME_IDX,repositoryTypeClassName);
         parameters.add(BASE_TEST_URL_IDX, baseTestUrl);
         parameters.add(USERNAME_IDX, username);

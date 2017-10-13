@@ -3,7 +3,7 @@ package info.novatec.testit.livingdoc.server.domain;
 import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.DOCUMENT_NAME_IDX;
 import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.DOCUMENT_REPOSITORY_IDX;
 
-import java.util.Vector;
+
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @MappedSuperclass
@@ -56,8 +58,8 @@ public abstract class Document extends AbstractUniqueEntity implements Comparabl
     }
 
     @Override
-    public Vector<Object> marshallize() {
-        Vector<Object> parameters = new Vector<Object>();
+    public List<Object> marshallize() {
+        List<Object> parameters = new ArrayList<Object>();
         parameters.add(DOCUMENT_NAME_IDX, name);
         parameters.add(DOCUMENT_REPOSITORY_IDX, repository.marshallize());
         return parameters;

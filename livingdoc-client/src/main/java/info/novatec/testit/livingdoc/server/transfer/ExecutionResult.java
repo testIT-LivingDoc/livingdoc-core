@@ -1,13 +1,14 @@
 package info.novatec.testit.livingdoc.server.transfer;
 
 import java.io.Serializable;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import info.novatec.testit.livingdoc.server.domain.Marshalizable;
 
 
 /**
- * Pojo mapping the execution result data to the {@link Vector} format supported
+ * Pojo mapping the execution result data to the {@link List} format supported
  * by XML RPC.
  */
 @SuppressWarnings("serial")
@@ -58,8 +59,8 @@ public class ExecutionResult implements Serializable, Marshalizable {
     }
 
     @Override
-    public Vector<Object> marshallize() {
-        Vector<Object> parameters = new Vector<Object>();
+    public List<Object> marshallize() {
+        List<Object> parameters = new ArrayList<Object>();
         parameters.add(SPACEKEY_IDX, spaceKey);
         parameters.add(PAGETITLE_IDX, pageTitle);
         parameters.add(SUT_IDX, sut);

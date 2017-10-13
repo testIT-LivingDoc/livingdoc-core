@@ -16,7 +16,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Vector;
 
 
 public class AtlassianRepository implements DocumentRepository {
@@ -99,7 +98,7 @@ public class AtlassianRepository implements DocumentRepository {
 
     private List<Object> args(URI location) {
         String[] locationArgs = location.getPath().split("/");
-        Vector<Object> args = new Vector<Object>();
+        List<Object> args = new ArrayList<Object>();
         args.add(root.getFragment());
 
         Collections.addAll(args, locationArgs);

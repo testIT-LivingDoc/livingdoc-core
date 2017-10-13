@@ -6,7 +6,8 @@ import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshall
 import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REFERENCE_SPECIFICATION_IDX;
 import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REFERENCE_SUT_IDX;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -116,8 +117,8 @@ public class Reference extends AbstractUniqueEntity implements Comparable<Refere
     }
 
     @Override
-    public Vector<Object> marshallize() {
-        Vector<Object> parameters = new Vector<Object>();
+    public List<Object> marshallize() {
+        List<Object> parameters = new ArrayList<Object>();
         parameters.add(REFERENCE_REQUIREMENT_IDX, requirement.marshallize());
         parameters.add(REFERENCE_SPECIFICATION_IDX, specification.marshallize());
         parameters.add(REFERENCE_SUT_IDX, systemUnderTest.marshallize());

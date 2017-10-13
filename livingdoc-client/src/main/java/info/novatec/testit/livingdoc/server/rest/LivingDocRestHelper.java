@@ -6,11 +6,11 @@ public interface LivingDocRestHelper {
 
     // TODO would be good to replace Vector by ArrayList
 
-    String getRenderedSpecification(final String username, final String password, Vector<?> args);
+    String getRenderedSpecification(final String username, final String password, ArrayList<?> args);
 
-    Vector<?> getSpecificationHierarchy(final String username, final String password, Vector<?> args);
+    List<?> getSpecificationHierarchy(final String username, final String password, ArrayList<?> args);
 
-    String setSpecificationAsImplemented(final String username, final String password, Vector<?> args);
+    String setSpecificationAsImplemented(final String username, final String password, ArrayList<?> args);
 
-    String saveExecutionResult(final String username, final String password, Vector<Object> args);
+    String saveExecutionResult(final String username, final String password, ArrayList<Object> args);
 }

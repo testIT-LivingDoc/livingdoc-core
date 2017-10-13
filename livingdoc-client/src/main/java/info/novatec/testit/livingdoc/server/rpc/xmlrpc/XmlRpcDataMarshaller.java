@@ -100,8 +100,8 @@ public class XmlRpcDataMarshaller {
      * @param projects
      * @return the Collection of projects into a Vector of projects parameters
      */
-    public static Vector<Object> toXmlRpcProjectsParameters(Collection<Project> projects) {
-        Vector<Object> projectsParams = new Vector<Object>();
+    public static List<Object> toXmlRpcProjectsParameters(Collection<Project> projects) {
+        List<Object> projectsParams = new ArrayList<Object>();
         for (Project project : projects) {
             projectsParams.add(project.marshallize());
         }
@@ -116,8 +116,8 @@ public class XmlRpcDataMarshaller {
      * @param runners
      * @return the Collection of runners into a Vector of runners parameters
      */
-    public static Vector<Object> toXmlRpcRunnersParameters(Collection<Runner> runners) {
-        Vector<Object> runnersParams = new Vector<Object>();
+    public static List<Object> toXmlRpcRunnersParameters(Collection<Runner> runners) {
+        List<Object> runnersParams = new ArrayList();
         for (Runner runner : runners) {
             runnersParams.add(runner.marshallize());
         }
@@ -134,8 +134,8 @@ public class XmlRpcDataMarshaller {
      * @return the Collection of SystemUnderTests into a Vector of
      * SystemUnderTests parameters
      */
-    public static Vector<Object> toXmlRpcSystemUnderTestsParameters(Collection<SystemUnderTest> suts) {
-        Vector<Object> sutsParams = new Vector<Object>();
+    public static List<Object> toXmlRpcSystemUnderTestsParameters(Collection<SystemUnderTest> suts) {
+        List<Object> sutsParams = new ArrayList<Object>();
         for (SystemUnderTest sut : suts) {
             sutsParams.add(sut.marshallize());
         }
@@ -152,8 +152,8 @@ public class XmlRpcDataMarshaller {
      * @return the Collection of Repositories into a Vector of Repositories
      * parameters by type.
      */
-    public static Vector<Object> toXmlRpcRepositoriesParameters(Collection<Repository> repositories) {
-        Vector<Object> repositoriesParams = new Vector<Object>();
+    public static List<Object> toXmlRpcRepositoriesParameters(Collection<Repository> repositories) {
+        List<Object> repositoriesParams = new ArrayList();
         for (Repository repo : repositories) {
             repositoriesParams.add(repo.marshallize());
         }
@@ -170,8 +170,8 @@ public class XmlRpcDataMarshaller {
      * @return the Collection of Specifications into a Vector of Specification
      * parameters
      */
-    public static Vector<Object> toXmlRpcSpecificationsParameters(Collection<Specification> specifications) {
-        Vector<Object> specificationsParams = new Vector<Object>();
+    public static List<Object> toXmlRpcSpecificationsParameters(Collection<Specification> specifications) {
+        List<Object> specificationsParams = new ArrayList<Object>();
         for (Specification specification : specifications) {
             specificationsParams.add(specification.marshallize());
         }
@@ -188,9 +188,9 @@ public class XmlRpcDataMarshaller {
      * @return the Collection of Specifications into a Vector of Specification
      * location parameters
      */
-    public static Vector<Object> toXmlRpcSpecificationLocationsParameters(
+    public static List<Object> toXmlRpcSpecificationLocationsParameters(
             Collection<SpecificationLocation> specificationLocations) {
-        Vector<Object> specificationLocationsParams = new Vector<Object>();
+        List<Object> specificationLocationsParams = new ArrayList<Object>();
         for (SpecificationLocation specificationLoc : specificationLocations) {
             specificationLocationsParams.add(specificationLoc.marshallize());
         }
@@ -207,8 +207,8 @@ public class XmlRpcDataMarshaller {
      * @return the Collection of References into a Vector of Reference
      * parameters
      */
-    public static Vector<Object> toXmlRpcReferencesParameters(Collection<Reference> references) {
-        Vector<Object> referencesParams = new Vector<Object>();
+    public static List<Object> toXmlRpcReferencesParameters(Collection<Reference> references) {
+        List<Object> referencesParams = new ArrayList<Object>();
         for (Reference reference : references) {
             referencesParams.add(reference.marshallize());
         }
@@ -223,7 +223,7 @@ public class XmlRpcDataMarshaller {
      * @param xmlRpcParameters
      * @return the execution result.
      */
-    public static ExecutionResult toExecutionResult(Vector<Object> xmlRpcParameters) {
+    public static ExecutionResult toExecutionResult(List<Object> xmlRpcParameters) {
         ExecutionResult executionResult = null;
         if (!xmlRpcParameters.isEmpty()) {
             executionResult = new ExecutionResult();
@@ -242,7 +242,8 @@ public class XmlRpcDataMarshaller {
      * @param xmlRpcParameters
      * @return the specification location.
      */
-    public static SpecificationLocation toSpecificationLocation(Vector<String> xmlRpcParameters) {
+    @Deprecated
+    public static SpecificationLocation toSpecificationLocation(List<String> xmlRpcParameters) {
         SpecificationLocation specLoc = null;
         if (!xmlRpcParameters.isEmpty()) {
             specLoc = new SpecificationLocation();
@@ -265,7 +266,7 @@ public class XmlRpcDataMarshaller {
      * @param xmlRpcParameters
      * @return the Project.
      */
-    public static Project toProject(Vector<Object> xmlRpcParameters) {
+    public static Project toProject(List<Object> xmlRpcParameters) {
         Project project = null;
         if (!xmlRpcParameters.isEmpty()) {
             project = Project.newInstance((String) xmlRpcParameters.get(PROJECT_NAME_IDX));
@@ -284,7 +285,7 @@ public class XmlRpcDataMarshaller {
      * @param xmlRpcParameters
      * @return the RepositoryType.
      */
-    public static RepositoryType toRepositoryType(Vector<Object> xmlRpcParameters) {
+    public static RepositoryType toRepositoryType(List<Object> xmlRpcParameters) {
         RepositoryType repositoryType = null;
         if (!xmlRpcParameters.isEmpty()) {
             log.debug("Extracting repository type from XML-RPC parameters %s", xmlRpcParameters);
@@ -311,14 +312,14 @@ public class XmlRpcDataMarshaller {
      * @return the Repository.
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
-    public static Repository toRepository(Vector<Object> xmlRpcParameters) {
+    public static Repository toRepository(List<Object> xmlRpcParameters) {
         Repository repository = null;
         if (!xmlRpcParameters.isEmpty()) {
             log.debug("Extracting repository from XML-RPC parameters %s", xmlRpcParameters);
 
             repository = Repository.newInstance((String) xmlRpcParameters.get(REPOSITORY_UID_IDX));
-            repository.setProject(toProject((Vector<Object>) xmlRpcParameters.get(REPOSITORY_PROJECT_IDX)));
-            repository.setType(toRepositoryType((Vector<Object>) xmlRpcParameters.get(REPOSITORY_TYPE_IDX)));
+            repository.setProject(toProject((List<Object>)xmlRpcParameters.get(REPOSITORY_PROJECT_IDX)));
+            repository.setType(toRepositoryType((List<Object>)xmlRpcParameters.get(REPOSITORY_TYPE_IDX)));
             repository.setName((String) xmlRpcParameters.get(REPOSITORY_NAME_IDX));
             repository.setContentType(ContentType.getInstance((String) xmlRpcParameters.get(REPOSITORY_CONTENTTYPE_IDX)));
             repository.setBaseUrl((String) xmlRpcParameters.get(REPOSITORY_BASE_URL_IDX));
@@ -343,13 +344,13 @@ public class XmlRpcDataMarshaller {
      * @return the Requirement.
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
-    public static Requirement toRequirement(Vector<Object> xmlRpcParameters) {
+    public static Requirement toRequirement(List<Object> xmlRpcParameters) {
         Requirement requirement = null;
         if (!xmlRpcParameters.isEmpty()) {
             log.debug("Extracting requirement from XML-RPC parameters %s", xmlRpcParameters);
             String name = (String) xmlRpcParameters.get(DOCUMENT_NAME_IDX);
             requirement = Requirement.newInstance(name);
-            requirement.setRepository(toRepository((Vector<Object>) xmlRpcParameters.get(DOCUMENT_REPOSITORY_IDX)));
+            requirement.setRepository(toRepository((List<Object>)xmlRpcParameters.get(DOCUMENT_REPOSITORY_IDX)));
         }
 
         return requirement;
@@ -366,13 +367,13 @@ public class XmlRpcDataMarshaller {
      * @return the Specification.
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
-    public static Specification toSpecification(Vector<Object> xmlRpcParameters) {
+    public static Specification toSpecification(List<Object> xmlRpcParameters) {
         Specification specification = null;
         if (!xmlRpcParameters.isEmpty()) {
             log.debug("Extracting specification from XML-RPC parameters %s", xmlRpcParameters);
             specification = Specification.newInstance((String) xmlRpcParameters.get(DOCUMENT_NAME_IDX));
-            specification.setRepository(toRepository((Vector<Object>) xmlRpcParameters.get(DOCUMENT_REPOSITORY_IDX)));
-            specification.setTargetedSystemUnderTests(toSystemUnderTestList((Vector<Object>) xmlRpcParameters.get(
+            specification.setRepository(toRepository((List<Object>)xmlRpcParameters.get(DOCUMENT_REPOSITORY_IDX)));
+            specification.setTargetedSystemUnderTests(toSystemUnderTestList((List<Object>)xmlRpcParameters.get(
                     SPECIFICATION_SUTS_IDX)));
         }
 
@@ -387,7 +388,7 @@ public class XmlRpcDataMarshaller {
      * @return the Runner.
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
-    public static Runner toRunner(Vector<Object> xmlRpcParameters) {
+    public static Runner toRunner(List<Object> xmlRpcParameters) {
         Runner runner = null;
         if (!xmlRpcParameters.isEmpty()) {
             log.debug("Extracting runner from XML-RPC parameters %s", xmlRpcParameters);
@@ -395,7 +396,7 @@ public class XmlRpcDataMarshaller {
             runner.setServerName(StringUtils.stripToNull((String) getParameter(RUNNER_SERVER_NAME_IDX, xmlRpcParameters)));
             runner.setServerPort(StringUtils.stripToNull((String) getParameter(RUNNER_SERVER_PORT_IDX, xmlRpcParameters)));
             runner.setSecured((Boolean) getParameter(RUNNER_SECURED_IDX, xmlRpcParameters));
-            ClasspathSet classpaths = new ClasspathSet((Vector<String>) getParameter(RUNNER_CLASSPATH_IDX,
+            ClasspathSet classpaths = new ClasspathSet((List<String>) getParameter(RUNNER_CLASSPATH_IDX,
                     xmlRpcParameters));
             runner.setClasspaths(classpaths);
         }
@@ -403,7 +404,7 @@ public class XmlRpcDataMarshaller {
         return runner;
     }
 
-    private static Object getParameter(int index, Vector<Object> parameters) {
+    private static Object getParameter(int index, List<Object> parameters) {
         if (index > parameters.size() - 1) {
             return null;
         }
@@ -422,23 +423,23 @@ public class XmlRpcDataMarshaller {
      * @return the SystemUnderTest.
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
-    public static SystemUnderTest toSystemUnderTest(Vector<Object> xmlRpcParameters) {
+    public static SystemUnderTest toSystemUnderTest(List<Object> xmlRpcParameters) {
         SystemUnderTest sut = null;
         if (!xmlRpcParameters.isEmpty()) {
             log.debug("Extracting SUT from XML-RPC parameters %s", xmlRpcParameters);
 
-            ClasspathSet sutClasspaths = new ClasspathSet((Vector<String>) xmlRpcParameters.get(SUT_CLASSPATH_IDX));
-            ClasspathSet fixtureClasspaths = new ClasspathSet((Vector<String>) xmlRpcParameters.get(
+            ClasspathSet sutClasspaths = new ClasspathSet((List<String>)xmlRpcParameters.get(SUT_CLASSPATH_IDX));
+            ClasspathSet fixtureClasspaths = new ClasspathSet((List<String>) xmlRpcParameters.get(
                     SUT_FIXTURE_CLASSPATH_IDX));
 
             sut = SystemUnderTest.newInstance((String) xmlRpcParameters.get(SUT_NAME_IDX));
-            sut.setProject(toProject((Vector<Object>) xmlRpcParameters.get(SUT_PROJECT_IDX)));
+            sut.setProject(toProject((List<Object>)xmlRpcParameters.get(SUT_PROJECT_IDX)));
             sut.setSutClasspaths(sutClasspaths);
             sut.setFixtureClasspaths(fixtureClasspaths);
             sut.setFixtureFactory(StringUtils.stripToNull((String) xmlRpcParameters.get(SUT_FIXTURE_FACTORY_IDX)));
             sut.setFixtureFactoryArgs(StringUtils.stripToNull((String) xmlRpcParameters.get(
                     SUT_FIXTURE_FACTORY_ARGS_IDX)));
-            sut.setRunner(toRunner((Vector<Object>) xmlRpcParameters.get(SUT_RUNNER_IDX)));
+            sut.setRunner(toRunner((List<Object>) xmlRpcParameters.get(SUT_RUNNER_IDX)));
             sut.setIsDefault((Boolean) xmlRpcParameters.get(SUT_IS_DEFAULT_IDX));
             sut.setProjectDependencyDescriptor(StringUtils.stripToNull((String) xmlRpcParameters.get(
                     SUT_PROJECT_DEPENDENCY_DESCRIPTOR_IDX)));
@@ -455,23 +456,23 @@ public class XmlRpcDataMarshaller {
      * @return the Reference.
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
-    public static Reference toReference(Vector<Object> xmlRpcParameters) {
+    public static Reference toReference(List<Object> xmlRpcParameters) {
         Reference reference = null;
         if (!xmlRpcParameters.isEmpty()) {
-            Requirement requirement = toRequirement((Vector<Object>) xmlRpcParameters.get(REFERENCE_REQUIREMENT_IDX));
-            Specification specification = toSpecification((Vector<Object>) xmlRpcParameters.get(
+            Requirement requirement = toRequirement((List<Object>)xmlRpcParameters.get(REFERENCE_REQUIREMENT_IDX));
+            Specification specification = toSpecification((List<Object>)xmlRpcParameters.get(
                     REFERENCE_SPECIFICATION_IDX));
-            SystemUnderTest sut = toSystemUnderTest((Vector<Object>) xmlRpcParameters.get(REFERENCE_SUT_IDX));
+            SystemUnderTest sut = toSystemUnderTest((List<Object>)xmlRpcParameters.get(REFERENCE_SUT_IDX));
             String sections = StringUtils.stripToNull((String) xmlRpcParameters.get(REFERENCE_SECTIONS_IDX));
             reference = Reference.newInstance(requirement, specification, sut, sections);
-            Execution exe = toExecution((Vector<Object>) xmlRpcParameters.get(REFERENCE_LAST_EXECUTION_IDX));
+            Execution exe = toExecution((List<Object>) xmlRpcParameters.get(REFERENCE_LAST_EXECUTION_IDX));
             reference.setLastExecution(exe);
         }
 
         return reference;
     }
 
-    public static Execution toExecution(Vector<Object> xmlRpcParameters) {
+    public static Execution toExecution(List<Object> xmlRpcParameters) {
         Execution execution = new Execution();
         execution.setResults(StringUtils.stripToNull((String) xmlRpcParameters.get(EXECUTION_RESULTS_IDX)));
         execution.setExecutionErrorId(StringUtils.stripToNull((String) xmlRpcParameters.get(EXECUTION_ERRORID_IDX)));
@@ -485,7 +486,7 @@ public class XmlRpcDataMarshaller {
         return execution;
     }
 
-    public static RequirementSummary toRequirementSummary(Vector<Object> xmlRpcParameters) {
+    public static RequirementSummary toRequirementSummary(List<Object> xmlRpcParameters) {
         RequirementSummary summary = new RequirementSummary();
         summary.setReferencesSize((Integer) xmlRpcParameters.get(SUMMARY_REFERENCES_IDX));
         summary.setFailures((Integer) xmlRpcParameters.get(SUMMARY_FAILIURES_IDX));
@@ -497,96 +498,96 @@ public class XmlRpcDataMarshaller {
     }
 
     /**
-     * Rebuild a List of projects based on the vector of projects parameters.
+     * Rebuild a List of projects based on the list of projects parameters.
      * <p>
      *
      * @param projectsParams
-     * @return a List of projects based on the vector of projects parameters.
-     * @see #toProject(Vector)
+     * @return a List of projects based on the list of projects parameters.
+     * @see #toProject(List)
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
-    public static Set<Project> toProjectList(Vector<Object> projectsParams) {
+    public static Set<Project> toProjectList(List<Object> projectsParams) {
         Set<Project> projects = new TreeSet<Project>();
         for (Object projectParams : projectsParams) {
-            projects.add(toProject((Vector<Object>) projectParams));
+            projects.add(toProject((List<Object>) projectParams));
         }
 
         return projects;
     }
 
     /**
-     * Rebuild a List of repositories based on the vector of repositories
+     * Rebuild a List of repositories based on the list of repositories
      * parameters.
      * <p>
      *
      * @param repositoriesParams
-     * @return a List of repositories based on the vector of repositories
+     * @return a List of repositories based on the list of repositories
      * parameters.
-     * @see #toRepository(Vector)
+     * @see #toRepository(List)
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
-    public static Set<Repository> toRepositoryList(Vector<Object> repositoriesParams) {
+    public static Set<Repository> toRepositoryList(List<Object> repositoriesParams) {
         Set<Repository> repositories = new TreeSet<Repository>();
         for (Object repositoryParams : repositoriesParams) {
-            repositories.add(toRepository((Vector<Object>) repositoryParams));
+        repositories.add(toRepository((List<Object>) repositoryParams));
         }
 
         return repositories;
     }
 
     /**
-     * Rebuild a List of runners based on the vector of runners parameters.
+     * Rebuild a List of runners based on the list of runners parameters.
      * <p>
      *
      * @param runnersParams
-     * @return a List of runners based on the vector of runners parameters.
-     * @see #toRunner(Vector)
+     * @return a List of runners based on the list of runners parameters.
+     * @see #toRunner(List)
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
-    public static Set<Runner> toRunnerList(Vector<Object> runnersParams) {
+    public static Set<Runner> toRunnerList(List<Object> runnersParams) {
         Set<Runner> runners = new TreeSet<Runner>();
         for (Object runnerParams : runnersParams) {
-            runners.add(toRunner((Vector<Object>) runnerParams));
+            runners.add(toRunner((List<Object>) runnerParams));
         }
 
         return runners;
     }
 
     /**
-     * Rebuild a List of systemUnderTests based on the vector of
+     * Rebuild a List of systemUnderTests based on the list of
      * systemUnderTests parameters.
      * <p>
      *
      * @param sutsParams
-     * @return a List of systemUnderTests based on the vector of
+     * @return a List of systemUnderTests based on the list of
      * systemUnderTests parameters.
-     * @see #toSystemUnderTest(Vector)
+     * @see #toSystemUnderTest(List)
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
-    public static SortedSet<SystemUnderTest> toSystemUnderTestList(Vector<Object> sutsParams) {
+    public static SortedSet<SystemUnderTest> toSystemUnderTestList(List<Object> sutsParams) {
         SortedSet<SystemUnderTest> suts = new TreeSet<SystemUnderTest>(new SystemUnderTestByNameComparator());
         for (Object sutParams : sutsParams) {
-            suts.add(toSystemUnderTest((Vector<Object>) sutParams));
+            suts.add(toSystemUnderTest((List<Object>) sutParams));
         }
 
         return suts;
     }
 
     /**
-     * Rebuild a List of specifications based on the vector of specifications
+     * Rebuild a List of specifications based on the list of specifications
      * parameters.
      * <p>
      *
      * @param specificationsParams
-     * @return a List of specifications based on the vector of specifications
+     * @return a List of specifications based on the list of specifications
      * parameters.
-     * @see #toSpecification(Vector)
+     * @see #toSpecification(List)
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
-    public static Set<Specification> toSpecificationList(Vector<Object> specificationsParams) {
+    public static Set<Specification> toSpecificationList(List<Object> specificationsParams) {
         Set<Specification> specifications = new TreeSet<Specification>();
         for (Object specificationParams : specificationsParams) {
-            specifications.add(toSpecification((Vector<Object>) specificationParams));
+            specifications.add(toSpecification((List<Object>) specificationParams));
         }
 
         return specifications;
@@ -594,19 +595,19 @@ public class XmlRpcDataMarshaller {
 
     /**
      * Rebuild a List of References with their last execution based on the
-     * vector of References parameters.
+     * List of References parameters.
      * <p>
      *
      * @param referencesParams
-     * @return a List of References based on the vector of References
+     * @return a List of References based on the list of References
      * parameters.
-     * @see #toReference(Vector)
+     * @see #toReference(List)
      */
     @SuppressWarnings(SUPPRESS_UNCHECKED)
-    public static Set<Reference> toReferencesList(Vector<Object> referencesParams) {
+    public static Set<Reference> toReferencesList(List<Object> referencesParams) {
         Set<Reference> references = new TreeSet<Reference>();
         for (Object referenceParams : referencesParams) {
-            references.add(toReference((Vector<Object>) referenceParams));
+            references.add(toReference((List<Object>) referenceParams));
         }
 
         return references;
@@ -619,21 +620,22 @@ public class XmlRpcDataMarshaller {
      * @param documentNodeParams
      * @return a DocumentNode based on the given vector.
      */
+    //TODO Add child
     @SuppressWarnings(SUPPRESS_UNCHECKED)
-    public static DocumentNode toDocumentNode(Vector<?> documentNodeParams) {
+    public static DocumentNode toDocumentNode(List<?> documentNodeParams) {
         DocumentNode node = new DocumentNode((String) documentNodeParams.get(NODE_TITLE_INDEX));
         node.setIsExecutable((Boolean) documentNodeParams.get(NODE_EXECUTABLE_INDEX));
         node.setCanBeImplemented((Boolean) documentNodeParams.get(NODE_CAN_BE_IMPLEMENTED_INDEX));
 
         Map<?, ?> children = (Map<?, ?>) documentNodeParams.get(NODE_CHILDREN_INDEX);
         for (Object next : children.values()) {
-            Vector<Object> nodeParams;
+            List<Object> nodeParams;
             if (next.getClass().isArray()) {
                 nodeParams = ClientUtils.vectorizeDeep((Object[]) next);
             } else if (next instanceof ArrayList) {
-                nodeParams = new Vector<Object>((ArrayList) next);
+                nodeParams = new ArrayList<Object>((List) next);
             } else {
-                nodeParams = (Vector<Object>) next;
+                nodeParams = (List<Object>) next;
             }
 
             if (nodeParams.size() > 4) {
@@ -646,7 +648,7 @@ public class XmlRpcDataMarshaller {
         return node;
     }
 
-    private static ReferenceNode toReferenceNode(Vector<Object> referenceNodeParams) {
+    private static ReferenceNode toReferenceNode(List<Object> referenceNodeParams) {
         ReferenceNode node = new ReferenceNode((String) referenceNodeParams.get(NODE_TITLE_INDEX),
                 (String) referenceNodeParams.get(NODE_REPOSITORY_UID_INDEX), (String) referenceNodeParams.get(
                 NODE_SUT_NAME_INDEX), (String) referenceNodeParams.get(NODE_SECTION_INDEX));
@@ -671,33 +673,33 @@ public class XmlRpcDataMarshaller {
     }
 
     /**
-     * Wraps the error message id into a Vector of Vector of String.<br>
+     * Wraps the error message id into a List of List of String.<br>
      * Structure of the error:<br>
-     * Vector[Vector[TAG_ERROR errorId]]
+     * List[List[TAG_ERROR errorId]]
      * <p>
      *
      * @param msgId
-     * @return the error message id as a Vector.
+     * @return the error message id as a List.
      */
-    public static Vector<Object> errorAsVector(String msgId) {
-        Vector<Object> err = new Vector<Object>();
+    public static List<Object> errorAsList(String msgId) {
+        List<Object> err = new ArrayList();
         err.add(errorAsString(msgId));
         return err;
     }
 
     /**
      * Wraps the error message id into a HashTable where exception is the key
-     * and the value is a Vector of Vector of String.<br>
+     * and the value is a List of List of String.<br>
      * Structure of the error:<br>
-     * HashTable[TAG_ERROR, Vector[Vector[TAG_ERROR errorId]]]
+     * HashTable[TAG_ERROR, List[List[TAG_ERROR errorId]]]
      * <p>
      *
      * @param msgId
      * @return the error message id as a HashTable.
      */
-    public static Map<String, Vector<Object>> errorAsHastable(String msgId) {
-        Map<String, Vector<Object>> table = new Hashtable<String, Vector<Object>>();
-        table.put(LivingDocServerErrorKey.ERROR, errorAsVector(msgId));
+    public static Map<String, List<Object>> errorAsHastable(String msgId) {
+        Map<String, List<Object>> table = new Hashtable<String, List<Object>>();
+        table.put(LivingDocServerErrorKey.ERROR, errorAsList(msgId));
         return table;
     }
 
@@ -712,9 +714,9 @@ public class XmlRpcDataMarshaller {
     @SuppressWarnings(SUPPRESS_UNCHECKED)
     public static void checkForErrors(Object xmlRpcResponse) throws LivingDocServerException {
         if (xmlRpcResponse instanceof Vector) {
-            Vector<?> temp = (Vector<?>) xmlRpcResponse;
+            List<?> temp = (List<?>) xmlRpcResponse;
             if (!temp.isEmpty()) {
-                checkErrors(temp.elementAt(0));
+                checkErrors(temp.get(0));
             }
         } else if (xmlRpcResponse instanceof Hashtable) {
             Hashtable<String, ?> table = (Hashtable<String, ?>) xmlRpcResponse;

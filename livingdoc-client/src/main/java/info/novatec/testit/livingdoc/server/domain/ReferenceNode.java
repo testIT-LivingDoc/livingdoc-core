@@ -4,7 +4,7 @@ import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshall
 import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.NODE_SECTION_INDEX;
 import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.NODE_SUT_NAME_INDEX;
 
-import java.util.Vector;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -39,12 +39,12 @@ public class ReferenceNode extends DocumentNode implements Marshalizable {
     }
 
     @Override
-    public Vector<Object> marshallize() {
-        Vector<Object> vector = super.marshallize();
-        vector.add(NODE_REPOSITORY_UID_INDEX, repositoryUID);
-        vector.add(NODE_SUT_NAME_INDEX, sutName);
-        vector.add(NODE_SECTION_INDEX, StringUtils.stripToEmpty(section));
-        return vector;
+    public List<Object> marshallize() {
+        List<Object> myList = super.marshallize();
+        myList.add(NODE_REPOSITORY_UID_INDEX, repositoryUID);
+        myList.add(NODE_SUT_NAME_INDEX, sutName);
+        myList.add(NODE_SECTION_INDEX, StringUtils.stripToEmpty(section));
+        return myList;
     }
 
     @Override
