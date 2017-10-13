@@ -231,8 +231,8 @@ public class Repository extends AbstractVersionedEntity implements Comparable<Re
     }
 
     @Override
-    public Vector<Object> marshallize() {
-        Vector<Object> parameters = new Vector<Object>();
+    public List<Object> marshallize() {
+        List<Object> parameters = new ArrayList<Object>();
         parameters.add(REPOSITORY_NAME_IDX, StringUtils.stripToEmpty(name));
         parameters.add(REPOSITORY_UID_IDX, StringUtils.stripToEmpty(uid));
         parameters.add(REPOSITORY_PROJECT_IDX, project != null ? project.marshallize() : Project.newInstance("")

@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Vector;
+
 
 import org.apache.commons.io.IOUtils;
 
@@ -76,7 +76,7 @@ public class FileSystemRepository implements DocumentRepository {
 
     @Override
     public List<Object> listDocumentsInHierarchy() {
-        List<Object> hierarchy = toHierarchyNodeVector(root);
+        List<Object> hierarchy = toHierarchyNodeList(root);
         hierarchy.set(0, root.getName());
         hierarchy.set(1, false);
         hierarchy.set(2, false);
@@ -135,20 +135,20 @@ public class FileSystemRepository implements DocumentRepository {
         return FileTypes.NOTSUPPORTED;
     }
 
-    private List<Object> toHierarchyNodeVector(File file) {
-        List<Object> vector = new Vector<Object>();
-        vector.add(0, URIUtil.relativize(root.getAbsolutePath(), file.getAbsolutePath()));
-        vector.add(1, ! file.isDirectory());
-        vector.add(2, false);
+    private List<Object> toHierarchyNodeList(File file) {
+        List<Object> myList = new ArrayList();
+        myList.add(0, URIUtil.relativize(root.getAbsolutePath(), file.getAbsolutePath()));
+        myList.add(1, ! file.isDirectory());
+        myList.add(2, false);
 
         Hashtable<String, Object> hashtable = new Hashtable<String, Object>();
         if (file.isDirectory() && file.listFiles() != null) {
             for (File node : file.listFiles(NOT_HIDDEN)) {
-                hashtable.put(node.getName(), toHierarchyNodeVector(node));
+                hashtable.put(node.getName(), toHierarchyNodeList(node));
             }
         }
 
-        vector.add(3, hashtable);
-        return vector;
+        myList.add(3, hashtable);
+        return myList;
     }
 }

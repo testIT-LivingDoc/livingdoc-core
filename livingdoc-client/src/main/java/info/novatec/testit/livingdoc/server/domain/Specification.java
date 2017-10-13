@@ -89,8 +89,8 @@ public class Specification extends Document {
     }
 
     @Override
-    public Vector<Object> marshallize() {
-        Vector<Object> parameters = super.marshallize();
+    public List<Object> marshallize() {
+        List<Object> parameters = super.marshallize();
         List<Object> suts = XmlRpcDataMarshaller.toXmlRpcSystemUnderTestsParameters(targetedSystemUnderTests);
         parameters.add(SPECIFICATION_SUTS_IDX, suts);
         return parameters;

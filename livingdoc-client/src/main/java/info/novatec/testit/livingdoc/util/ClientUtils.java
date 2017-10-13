@@ -4,6 +4,8 @@ import org.apache.commons.lang3.CharEncoding;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 
@@ -14,9 +16,9 @@ public class ClientUtils {
     }
 
     // TODO would be good to replace Vector by ArrayList
-    public static Vector<Object> vectorizeDeep(Object[] array) {
+    public static List<Object> vectorizeDeep(Object[] array) {
 
-        Vector<Object> resultVector = new Vector<Object>(array.length);
+        List<Object> resultVector = new ArrayList<Object>(array.length);
         for (Object anArray : array) {
             if (anArray.getClass().isArray()) {
                 resultVector.add(vectorizeDeep((Object[]) anArray));
