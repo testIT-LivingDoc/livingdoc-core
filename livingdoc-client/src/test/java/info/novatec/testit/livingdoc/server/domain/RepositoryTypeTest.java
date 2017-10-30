@@ -5,8 +5,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 
+import info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class RepositoryTypeTest {
@@ -44,6 +47,23 @@ public class RepositoryTypeTest {
         repository.setBaseTestUrl("URI-1");
 
         assertEquals("URI-1DOCUMENT", type.resolveUri(new TestMyDocument(repository, "DOCUMENT")));
+    }
+
+    @Test
+    public void testThatARepositoryTypeIsProperlyMarshalled() {
+        String type = "FILE";
+        RepositoryType repoType = RepositoryType.newInstance(type);
+        repoType.setClassName("REPO-CLASS");
+        repoType.setDocumentUrlFormat("%s%s");
+        repoType.setTestUrlFormat("%s%s");
+
+        List<Object> params = new ArrayList<Object>();
+        params.add(XmlRpcDataMarshaller.REPOSITORY_TYPE_NAME_IDX, type);
+        params.add(XmlRpcDataMarshaller.REPOSITORY_TYPE_REPOCLASS_IDX, "REPO-CLASS");
+        params.add(XmlRpcDataMarshaller.REPOSITORY_TYPE_NAME_FORMAT_IDX, "%s%s");
+        params.add(XmlRpcDataMarshaller.REPOSITORY_TYPE_URI_FORMAT_IDX, "%s%s");
+
+        assertEquals(params, repoType.marshallize());
     }
 
     class TestMyDocument extends Document {

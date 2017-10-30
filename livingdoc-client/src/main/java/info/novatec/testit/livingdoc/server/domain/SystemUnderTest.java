@@ -158,12 +158,12 @@ public class SystemUnderTest extends AbstractUniqueEntity implements Comparable<
     }
 
     @Override
-    public Vector<Object> marshallize() {
-        Vector<Object> parameters = new Vector<Object>();
+    public List<Object> marshallize() {
+        List<Object> parameters = new ArrayList<Object>();
         parameters.add(SUT_NAME_IDX, name);
         parameters.add(SUT_PROJECT_IDX, project.marshallize());
-        parameters.add(SUT_CLASSPATH_IDX, new Vector<String>(sutClasspaths));
-        parameters.add(SUT_FIXTURE_CLASSPATH_IDX, new Vector<String>(fixtureClasspaths));
+        parameters.add(SUT_CLASSPATH_IDX, new ArrayList<String>(sutClasspaths));
+        parameters.add(SUT_FIXTURE_CLASSPATH_IDX, new ArrayList<String>(fixtureClasspaths));
         parameters.add(SUT_FIXTURE_FACTORY_IDX, StringUtils.stripToEmpty(fixtureFactory));
         parameters.add(SUT_FIXTURE_FACTORY_ARGS_IDX, StringUtils.stripToEmpty(fixtureFactoryArgs));
         parameters.add(SUT_IS_DEFAULT_IDX, isDefault());

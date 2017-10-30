@@ -219,12 +219,12 @@ public class Runner extends AbstractVersionedEntity implements Comparable<Runner
     }
 
     @Override
-    public Vector<Object> marshallize() {
-        Vector<Object> parameters = new Vector<Object>();
+    public List<Object> marshallize() {
+        List<Object> parameters = new ArrayList<Object>();
         parameters.add(RUNNER_NAME_IDX, name);
         parameters.add(RUNNER_SERVER_NAME_IDX, StringUtils.stripToEmpty(serverName));
         parameters.add(RUNNER_SERVER_PORT_IDX, StringUtils.stripToEmpty(serverPort));
-        parameters.add(RUNNER_CLASSPATH_IDX, new Vector<String>(classpaths));
+        parameters.add(RUNNER_CLASSPATH_IDX, new ArrayList<String>(classpaths));
         parameters.add(RUNNER_SECURED_IDX, isSecured());
         return parameters;
     }

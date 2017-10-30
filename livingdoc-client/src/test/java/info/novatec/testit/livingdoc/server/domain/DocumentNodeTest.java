@@ -1,6 +1,26 @@
 package info.novatec.testit.livingdoc.server.domain;
 
+
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+
+import org.junit.Test;
+import info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller;
+
 public class DocumentNodeTest {
+
+    @Test
+    public void testThatHierarchyIsProperlyMarshallized() {
+        assertEquals(vectorHierarchy(), nodeHierarchy().marshallize());
+    }
+
+    @Test
+    public void testThatANodeCanBeCreateFromAHierarchyInAVector() {
+        assertEquals(nodeHierarchy(), XmlRpcDataMarshaller.toDocumentNode(vectorHierarchy()));
+    }
 
     private DocumentNode nodeHierarchy() {
         DocumentNode home = new DocumentNode("HOME");
@@ -29,6 +49,55 @@ public class DocumentNodeTest {
 
         home.addChildren(node1);
         home.addChildren(node2);
+        return home;
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private List vectorHierarchy() {
+        List home = new ArrayList();
+        home.add("HOME");
+        home.add(true);
+        home.add(true);
+
+        List node1 = new ArrayList();
+        node1.add("Title 1");
+        node1.add(true);
+        node1.add(true);
+        List node11 = new ArrayList();
+        node11.add("Title 11");
+        node11.add(true);
+        node11.add(true);
+        Hashtable child11 = new Hashtable();
+        node11.add(child11);
+        Hashtable child1 = new Hashtable();
+        child1.put("Title 11", node11);
+        node1.add(child1);
+
+        List node2 = new ArrayList();
+        node2.add("Title 2");
+        node2.add(true);
+        node2.add(true);
+        List node21 = new ArrayList();
+        node21.add("Title 21");
+        node21.add(true);
+        node21.add(true);
+        Hashtable child21 = new Hashtable();
+        node21.add(child21);
+        List node22 = new ArrayList();
+        node22.add("Title 22");
+        node22.add(true);
+        node22.add(true);
+        Hashtable child22 = new Hashtable();
+        node22.add(child22);
+        Hashtable child2 = new Hashtable();
+        child2.put("Title 21", node21);
+        child2.put("Title 22", node22);
+        node2.add(child2);
+
+        Hashtable child = new Hashtable();
+        child.put("Title 1", node1);
+        child.put("Title 2", node2);
+        home.add(child);
         return home;
     }
 
