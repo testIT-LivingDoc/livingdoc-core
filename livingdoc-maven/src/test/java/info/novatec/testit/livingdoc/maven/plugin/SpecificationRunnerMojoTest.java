@@ -211,6 +211,6 @@ public class SpecificationRunnerMojoTest extends AbstractMojoTestCase {
 
     public static interface Handler {
 
-        String getRenderedSpecification(String username, String password, Vector<Object> args);
+        String getRenderedSpecification(String username, String password, ArrayList<Object> args);
     }
 }

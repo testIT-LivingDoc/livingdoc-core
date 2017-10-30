@@ -36,8 +36,8 @@ public class AtlassianRepositoryTest {
     @SuppressWarnings("unchecked")
     public void testProvideAHierarchyListOfSpecifications() throws Exception {
 
-        final Vector<?> expected1 = toVector("SPACE_KEY");
-        final Vector<?> expected2 = toVector("SPACE_KEY", "PAGE", Boolean.TRUE, Boolean.TRUE);
+        final List<?> expected1 = toVector("SPACE_KEY");
+        final List<?> expected2 = toVector("SPACE_KEY", "PAGE", Boolean.TRUE, Boolean.TRUE);
 
         atlassianRepository = spy(new AtlassianRepository("http://localhost:19005/rpc/xmlrpc?handler=livingdoc1&includeStyle=true#SPACE_KEY"));
         when(atlassianRepository.getRestClient()).thenReturn(restClient);
@@ -56,7 +56,7 @@ public class AtlassianRepositoryTest {
     @SuppressWarnings("unchecked")
     public void testCanDowloadPageContentFromAConfluenceServer() throws Exception {
 
-        final Vector<?> expected = toVector("SPACE_KEY", "PAGE", Boolean.TRUE, Boolean.TRUE);
+        final List<?> expected = toVector("SPACE_KEY", "PAGE", Boolean.TRUE, Boolean.TRUE);
 
         atlassianRepository = spy(new AtlassianRepository("http://localhost:19005/rpc/xmlrpc?handler=livingdoc1&includeStyle=true#SPACE_KEY"));
         when(atlassianRepository.getRestClient()).thenReturn(restClient);
@@ -71,7 +71,7 @@ public class AtlassianRepositoryTest {
     @SuppressWarnings("unchecked")
     public void testCanDowloadPageContentFromAJiraServer() throws Exception {
 
-        final Vector<?> expected = toVector("SPACE_KEY", "ISSUE_KEY", Boolean.FALSE, Boolean.TRUE);
+        final List<?> expected = toVector("SPACE_KEY", "ISSUE_KEY", Boolean.FALSE, Boolean.TRUE);
 
         atlassianRepository = spy(new AtlassianRepository("http://localhost:19005/rpc/xmlrpc?handler=livingdoc1&includeStyle=false#SPACE_KEY"));
         when(atlassianRepository.getRestClient()).thenReturn(restClient);
@@ -86,7 +86,7 @@ public class AtlassianRepositoryTest {
     @SuppressWarnings("unchecked")
     public void testImplementedIsPassedInTheArgumenents() throws Exception {
 
-        final Vector<?> expected = toVector("SPACE_KEY", "PAGE", Boolean.TRUE, Boolean.FALSE);
+        final List<?> expected = toVector("SPACE_KEY", "PAGE", Boolean.TRUE, Boolean.FALSE);
 
         atlassianRepository = spy(new AtlassianRepository("http://localhost:19005/rpc/xmlrpc?handler=livingdoc1#SPACE_KEY"));
         when(atlassianRepository.getRestClient()).thenReturn(restClient);
@@ -100,7 +100,7 @@ public class AtlassianRepositoryTest {
     @SuppressWarnings("unchecked")
     public void testStyleDefaultsToTrueAndImplementedDefaultsToTrue() throws Exception {
 
-        final Vector<?> expected = toVector("SPACE_KEY", "PAGE", Boolean.TRUE, Boolean.TRUE);
+        final List<?> expected = toVector("SPACE_KEY", "PAGE", Boolean.TRUE, Boolean.TRUE);
 
         atlassianRepository = spy(new AtlassianRepository("http://localhost:19005/rpc/xmlrpc?handler=livingdoc1#SPACE_KEY"));
         when(atlassianRepository.getRestClient()).thenReturn(restClient);

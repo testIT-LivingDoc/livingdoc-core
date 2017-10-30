@@ -264,8 +264,8 @@ public class LivingDocRepository implements DocumentRepository {
             try {
                 String[] args1 = args(definitionRef);
                 URI location = URI.create(URIUtil.raw(definitionRef.get(1)));
-                List<Serializable> args = CollectionUtil.toVector(args1[1], args1[2], (Vector<String>) CollectionUtil
-                        .toVector(location.getFragment(), definitionRef.get(4), sut, XmlReport.toXml(documentRef)));
+                List<Serializable> args = CollectionUtil.toList(args1[1], args1[2], (ArrayList<String>) CollectionUtil
+                        .toList(location.getFragment(), definitionRef.get(4), sut, XmlReport.toXml(documentRef)));
 
                 String msg = getRestClient().saveExecutionResult(args);
 

@@ -1,11 +1,11 @@
 package info.novatec.testit.livingdoc.server.domain;
 
-import java.util.Vector;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -25,8 +25,8 @@ public class SystemInfo extends AbstractUniqueEntity {
     }
 
     @Override
-    public Vector<Object> marshallize() {
-        return new Vector<Object>();
+    public List<Object> marshallize() {
+        return new ArrayList<Object>();
     }
 
     @Override

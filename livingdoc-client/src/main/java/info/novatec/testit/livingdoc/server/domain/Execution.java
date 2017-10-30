@@ -246,8 +246,8 @@ public class Execution extends AbstractUniqueEntity implements Comparable<Execut
     }
 
     @Override
-    public Vector<Object> marshallize() {
-        Vector<Object> parameters = new Vector<Object>();
+    public List<Object> marshallize() {
+        List<Object> parameters = new ArrayList<Object>();
         parameters.add(EXECUTION_RESULTS_IDX, StringUtils.stripToEmpty(results));
         parameters.add(EXECUTION_ERRORID_IDX, StringUtils.stripToEmpty(executionErrorId));
         parameters.add(EXECUTION_FAILIURES_IDX, failures);

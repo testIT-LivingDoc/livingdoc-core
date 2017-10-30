@@ -24,7 +24,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Vector;
+
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
@@ -35,7 +35,7 @@ public class CollectionUtilTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testCanConvertArraysToVectors() {
-        Vector< ? extends Object> vec = CollectionUtil.toVector("1", null, new Date());
+        List< ? extends Object> vec = CollectionUtil.toVector("1", null, new Date());
         assertEquals(3, vec.size());
         assertTrue(vec.get(0) instanceof String);
         assertTrue(vec.get(1) == null);

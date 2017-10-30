@@ -6,9 +6,9 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
+import info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller;
 import org.junit.Test;
 
 import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
@@ -199,6 +199,14 @@ public class ProjectTest {
         } catch (LivingDocServerException ex) {
             assertEquals(LivingDocServerErrorKey.SUT_ALREADY_EXISTS, ex.getId());
         }
+    }
+
+    @Test
+    public void testThatAProjectIsProperlyMarshalled() {
+        Project project = Project.newInstance("PROJECT-1");
+        List<Object> params = new ArrayList<Object>();
+        params.add(XmlRpcDataMarshaller.PROJECT_NAME_IDX, "PROJECT-1");
+        assertEquals(params, project.marshallize());
     }
 
 }
