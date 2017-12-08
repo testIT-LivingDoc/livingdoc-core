@@ -27,7 +27,7 @@ node('docker-based-builds') {
         def targetRepository = "-DaltDeploymentRepository=ossrh::default::https://oss.sonatype.org/content/repositories/snapshots"
         def repositoryCredentials = "-Dossrh.username=${ossrhUsername} -Dossrh.password=${ossrhPassword}"
 
-        sh "mvn clean deploy ${skipTests} ${targetRepository} ${repositoryCredentials}"
+        sh "./mvnw clean deploy ${skipTests} ${targetRepository} ${repositoryCredentials}"
 
       }
 
