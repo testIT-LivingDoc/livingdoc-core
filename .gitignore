@@ -5,8 +5,9 @@
 /release.properties
 
 # IntelliJ
-**.idea/
-**.iml
+\.idea/
+target/
+*.iml
 **.ipr
 **.iws
 
