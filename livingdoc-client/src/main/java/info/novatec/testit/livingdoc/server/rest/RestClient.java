@@ -1,18 +1,15 @@
 package info.novatec.testit.livingdoc.server.rest;
 
-import info.novatec.testit.livingdoc.server.*;
+import info.novatec.testit.livingdoc.server.LivingDocServerException;
 import info.novatec.testit.livingdoc.server.domain.*;
 
-import javax.annotation.*;
-import java.util.*;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Set;
 
 
 /**
- * The Client interface. All available methods are documented here.
- * <p>
- * Copyright (c) 2006 Pyxis technologies inc. All Rights Reserved.
- *
- * @author JCHUET
+ * The Rest Client interface. All available methods are documented here.
  */
 public interface RestClient {
 
@@ -40,12 +37,22 @@ public interface RestClient {
      * Tests the connection at the url and handler.
      * <p>
      *
-     * @param url     Could be null.
-     * @param handler Could be null.
+     * @param url     Could be null. This parameter was used for the XML-RPC communication.
+     * @param handler Could be null. This parameter was used for the XML-RPC communication.
      * @return true if server successfully pinged.
-     * @throws LivingDocServerException
+     * @throws LivingDocServerException when occurs any error.
+     * @deprecated since version 1.4. Please use {@link #testConnection()}
      */
+    @Deprecated
     boolean testConnection(@Nullable String url, @Nullable String handler) throws LivingDocServerException;
+
+    /**
+     * Tests the connection with Confluence.
+     *
+     * @return true if server successfully pinged.
+     * @throws LivingDocServerException when occurs any error.
+     */
+    boolean testConnection() throws LivingDocServerException;
 
     /**
      * Pings the server.

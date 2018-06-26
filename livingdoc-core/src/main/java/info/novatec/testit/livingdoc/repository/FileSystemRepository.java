@@ -16,22 +16,16 @@
  * http://www.fsf.org. */
 package info.novatec.testit.livingdoc.repository;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+import info.novatec.testit.livingdoc.document.Document;
+import info.novatec.testit.livingdoc.html.HtmlDocumentBuilder;
+import info.novatec.testit.livingdoc.util.URIUtil;
+import org.apache.commons.io.IOUtils;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
-
-
-import org.apache.commons.io.IOUtils;
-
-import info.novatec.testit.livingdoc.document.Document;
-import info.novatec.testit.livingdoc.html.HtmlDocumentBuilder;
-import info.novatec.testit.livingdoc.util.URIUtil;
 
 
 public class FileSystemRepository implements DocumentRepository {
@@ -51,7 +45,7 @@ public class FileSystemRepository implements DocumentRepository {
 
     @Override
     public void setDocumentAsImplemented(String location) {
-        // No implementation needed.
+        throw new UnsupportedOperationException("Not supported");
     }
 
     @Override
