@@ -16,27 +16,18 @@
  * http://www.fsf.org. */
 package info.novatec.testit.livingdoc.repository;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.*;
-
-
+import info.novatec.testit.livingdoc.document.Document;
+import info.novatec.testit.livingdoc.util.TestFileUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import info.novatec.testit.livingdoc.document.Document;
-import info.novatec.testit.livingdoc.util.TestFileUtils;
+import java.io.*;
+import java.util.*;
+
+import static org.junit.Assert.*;
 
 
 public class FileSystemRepositoryTest {
@@ -101,9 +92,9 @@ public class FileSystemRepositoryTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testWeCanRetrieveTheDocumentsInAHierarchy() throws Exception {
-        List<String> names = Arrays.asList(new String[] { "specs", "specs/dir1", "specs/dir1/spec1.html",
+        List<String> names = Arrays.asList("specs", "specs/dir1", "specs/dir1/spec1.html",
                 "specs/dir1/subdir1", "specs/dir1/subdir1/spec2.html", "specs/dir1/subdir1/spec4.html", "specs/dir2",
-                "spec3.html" });
+                "spec3.html");
         createSpecificationHierarchyFiles(hierarchy, names);
         List<Object> hierarchies = hierarchyRepo.listDocumentsInHierarchy();
         assertNamesInHierarchy((Hashtable<Object, Object>) hierarchies.get(3), names);
@@ -111,9 +102,13 @@ public class FileSystemRepositoryTest {
 
     @Test
     public void testAFileShouldNotHoldAnyDocument() throws Exception {
-
         List<String> listing = repository.listDocuments(createDocument(root, "test.html"));
         assertTrue(listing.isEmpty());
+    }
+
+    @Test (expected = UnsupportedOperationException.class)
+    public void setDocumentAsImplemented() {
+        repository.setDocumentAsImplemented("");
     }
 
     private List<String> createOtherFiles(File rootFile) throws Exception {

@@ -55,5 +55,5 @@ public enum RestMethodName {
     setSpecificationAsImplemented,
     listDocumentsInHierarchy,
     getRenderedSpecification,
-    saveExecutionResult;
+    saveExecutionResult
 }

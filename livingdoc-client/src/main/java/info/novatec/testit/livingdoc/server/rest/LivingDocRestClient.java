@@ -1,18 +1,25 @@
 package info.novatec.testit.livingdoc.server.rest;
 
-import info.novatec.testit.livingdoc.server.*;
+import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
+import info.novatec.testit.livingdoc.server.LivingDocServerException;
 import info.novatec.testit.livingdoc.server.domain.*;
 import info.novatec.testit.livingdoc.server.rest.requests.*;
 import info.novatec.testit.livingdoc.server.rest.responses.*;
-import info.novatec.testit.livingdoc.util.*;
-import org.apache.commons.lang3.*;
-import org.slf4j.*;
-import org.springframework.http.*;
-import org.springframework.web.client.*;
+import info.novatec.testit.livingdoc.util.ClientUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Set;
 
 
 public class LivingDocRestClient implements RestClient {
@@ -82,7 +89,11 @@ public class LivingDocRestClient implements RestClient {
 
     @Override
     public boolean testConnection(final String hostName, String handler) throws LivingDocServerException {
+        return testConnection();
+    }
 
+    @Override
+    public boolean testConnection() throws LivingDocServerException {
         log.debug("Testing connection...");
         TestConnectionRequest request = new TestConnectionRequest();
         TestConnectionResponse response = exchangeRest(RestMethodName.testConnection, request, TestConnectionResponse.class);

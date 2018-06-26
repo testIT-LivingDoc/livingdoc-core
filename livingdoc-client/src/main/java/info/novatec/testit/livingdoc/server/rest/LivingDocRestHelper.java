@@ -4,8 +4,6 @@ import java.util.*;
 
 public interface LivingDocRestHelper {
 
-    // TODO would be good to replace Vector by ArrayList
-
     String getRenderedSpecification(final String username, final String password, ArrayList<?> args);
 
     List<?> getSpecificationHierarchy(final String username, final String password, ArrayList<?> args);

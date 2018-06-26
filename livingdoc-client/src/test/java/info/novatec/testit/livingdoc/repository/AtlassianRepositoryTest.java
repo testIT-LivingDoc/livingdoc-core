@@ -11,7 +11,10 @@ import org.springframework.web.client.RestClientException;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Hashtable;
+import java.util.List;
 
 import static info.novatec.testit.livingdoc.util.CollectionUtil.toVector;
 import static org.junit.Assert.*;
@@ -23,13 +26,14 @@ public class AtlassianRepositoryTest {
 
     @Mock
     private RestClient restClient;
-    private AtlassianRepository atlassianRepository;
+
+    private AtlassianRepository cut;
 
 
     @Test
     public void testCannotProvideListOfSpecifications() throws Exception {
-        atlassianRepository = spy(new AtlassianRepository("http://localhost:19005/rpc/xmlrpc?handler=livingdoc1&includeStyle=true#SPACE_KEY"));
-        assertTrue(atlassianRepository.listDocuments("PAGE").isEmpty());
+        cut = spy(new AtlassianRepository("http://localhost:19005?includeStyle=true#SPACE_KEY"));
+        assertTrue(cut.listDocuments("PAGE").isEmpty());
     }
 
     @Test
@@ -39,14 +43,14 @@ public class AtlassianRepositoryTest {
         final List<?> expected1 = toVector("SPACE_KEY");
         final List<?> expected2 = toVector("SPACE_KEY", "PAGE", Boolean.TRUE, Boolean.TRUE);
 
-        atlassianRepository = spy(new AtlassianRepository("http://localhost:19005/rpc/xmlrpc?handler=livingdoc1&includeStyle=true#SPACE_KEY"));
-        when(atlassianRepository.getRestClient()).thenReturn(restClient);
+        cut = spy(new AtlassianRepository("http://localhost:19005?includeStyle=true#SPACE_KEY"));
+        when(cut.getRestClient()).thenReturn(restClient);
         when(restClient.listDocumentsInHierarchy(expected1)).thenReturn((List) hierarchy());
         when(restClient.getRenderedSpecification(expected2)).thenReturn(specification());
 
-        List<Object> docs = atlassianRepository.listDocumentsInHierarchy();
+        List<Object> docs = cut.listDocumentsInHierarchy();
         Hashtable<String, String> pageBranch = (Hashtable<String, String>) docs.get(2);
-        atlassianRepository.loadDocument(pageBranch.keySet().iterator().next());
+        cut.loadDocument(pageBranch.keySet().iterator().next());
 
         verify(restClient).listDocumentsInHierarchy(expected1);
         verify(restClient).getRenderedSpecification(expected2);
@@ -58,11 +62,11 @@ public class AtlassianRepositoryTest {
 
         final List<?> expected = toVector("SPACE_KEY", "PAGE", Boolean.TRUE, Boolean.TRUE);
 
-        atlassianRepository = spy(new AtlassianRepository("http://localhost:19005/rpc/xmlrpc?handler=livingdoc1&includeStyle=true#SPACE_KEY"));
-        when(atlassianRepository.getRestClient()).thenReturn(restClient);
+        cut = spy(new AtlassianRepository("http://localhost:19005?includeStyle=true#SPACE_KEY"));
+        when(cut.getRestClient()).thenReturn(restClient);
         when(restClient.getRenderedSpecification(expected)).thenReturn(specification());
 
-        Document spec = atlassianRepository.loadDocument("PAGE");
+        Document spec = cut.loadDocument("PAGE");
         verify(restClient).getRenderedSpecification(expected);
         assertSpecification(spec);
     }
@@ -73,11 +77,11 @@ public class AtlassianRepositoryTest {
 
         final List<?> expected = toVector("SPACE_KEY", "ISSUE_KEY", Boolean.FALSE, Boolean.TRUE);
 
-        atlassianRepository = spy(new AtlassianRepository("http://localhost:19005/rpc/xmlrpc?handler=livingdoc1&includeStyle=false#SPACE_KEY"));
-        when(atlassianRepository.getRestClient()).thenReturn(restClient);
+        cut = spy(new AtlassianRepository("http://localhost:19005?includeStyle=false#SPACE_KEY"));
+        when(cut.getRestClient()).thenReturn(restClient);
         when(restClient.getRenderedSpecification(expected)).thenReturn(specification());
 
-        Document spec = atlassianRepository.loadDocument("ISSUE_KEY");
+        Document spec = cut.loadDocument("ISSUE_KEY");
         verify(restClient).getRenderedSpecification(expected);
         assertSpecification(spec);
     }
@@ -88,11 +92,11 @@ public class AtlassianRepositoryTest {
 
         final List<?> expected = toVector("SPACE_KEY", "PAGE", Boolean.TRUE, Boolean.FALSE);
 
-        atlassianRepository = spy(new AtlassianRepository("http://localhost:19005/rpc/xmlrpc?handler=livingdoc1#SPACE_KEY"));
-        when(atlassianRepository.getRestClient()).thenReturn(restClient);
+        cut = spy(new AtlassianRepository("http://localhost:19005?#SPACE_KEY"));
+        when(cut.getRestClient()).thenReturn(restClient);
         when(restClient.getRenderedSpecification(expected)).thenReturn(specification());
 
-        atlassianRepository.loadDocument("PAGE?implemented=false");
+        cut.loadDocument("PAGE?implemented=false");
         verify(restClient).getRenderedSpecification(expected);
     }
 
@@ -102,30 +106,30 @@ public class AtlassianRepositoryTest {
 
         final List<?> expected = toVector("SPACE_KEY", "PAGE", Boolean.TRUE, Boolean.TRUE);
 
-        atlassianRepository = spy(new AtlassianRepository("http://localhost:19005/rpc/xmlrpc?handler=livingdoc1#SPACE_KEY"));
-        when(atlassianRepository.getRestClient()).thenReturn(restClient);
+        cut = spy(new AtlassianRepository("http://localhost:19005?#SPACE_KEY"));
+        when(cut.getRestClient()).thenReturn(restClient);
         when(restClient.getRenderedSpecification(expected)).thenReturn(specification());
 
-        atlassianRepository.loadDocument("PAGE");
+        cut.loadDocument("PAGE");
         verify(restClient).getRenderedSpecification(expected);
     }
 
     @Test(expected = RestClientException.class)
     public void testComplainsIfArgumentsAreMissing() throws Exception {
-        atlassianRepository = spy(new AtlassianRepository("http://localhost:19005/rpc/xmlrpc?includeStyle=true"));
-        atlassianRepository.loadDocument("ISSUE KEY?");
+        cut = spy(new AtlassianRepository("http://localhost:19005?includeStyle=true"));
+        cut.loadDocument("ISSUE KEY?");
     }
 
     @Test
     @SuppressWarnings("unchecked")
     public void testWeCanSetASpecificationAsImplemented() throws Exception {
 
-        atlassianRepository = spy(new AtlassianRepository("http://localhost:19005/rpc/xmlrpc?handler=livingdoc1#SPACE_KEY"));
-        when(atlassianRepository.getRestClient()).thenReturn(restClient);
+        cut = spy(new AtlassianRepository("http://localhost:19005?#SPACE_KEY"));
+        when(cut.getRestClient()).thenReturn(restClient);
         when(restClient.setSpecificationAsImplemented(anyList())).thenReturn("<success>");
 
         try {
-            atlassianRepository.setDocumentAsImplemented("PAGE1");
+            cut.setDocumentAsImplemented("PAGE1");
 
             List<?> expected = Arrays.asList("SPACE_KEY", "PAGE1", Boolean.TRUE, Boolean.TRUE);
             verify(restClient).setSpecificationAsImplemented(expected);
@@ -139,11 +143,11 @@ public class AtlassianRepositoryTest {
     @SuppressWarnings("unchecked")
     public void testExceptionIsThrownIfReturnedValueFromSettingAsImplementedDiffersFromSuccess() throws Exception {
 
-        atlassianRepository = spy(new AtlassianRepository("http://localhost:19005/rpc/xmlrpc?handler=livingdoc1#SPACE_KEY"));
-        when(atlassianRepository.getRestClient()).thenReturn(restClient);
+        cut = spy(new AtlassianRepository("http://localhost:19005"));
+        when(cut.getRestClient()).thenReturn(restClient);
         when(restClient.setSpecificationAsImplemented(anyList())).thenReturn("<error>");
 
-        atlassianRepository.setDocumentAsImplemented("PAGE");
+        cut.setDocumentAsImplemented("PAGE");
     }
 
     private void assertSpecification(Document doc) {
@@ -174,5 +178,4 @@ public class AtlassianRepositoryTest {
                 + "<tr><td>a</td><td>b</td><td>sum()</td></tr>" + "<tr><td>1</td><td>2</td><td>3</td></tr>"
                 + "<tr><td>2</td><td>3</td><td>15</td></tr>" + "<tr><td>2</td><td>3</td><td>a</td></tr>" + "</table></html>";
     }
-
 }
