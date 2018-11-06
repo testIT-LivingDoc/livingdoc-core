@@ -1,40 +1,20 @@
 package info.novatec.testit.livingdoc.server.domain;
 
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_BASEREPO_URL_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_BASETEST_URL_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_BASE_URL_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_CONTENTTYPE_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_MAX_USERS_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_NAME_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_PASSWORD_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_PROJECT_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_TYPE_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_UID_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_USERNAME_IDX;
-
-import java.lang.reflect.UndeclaredThrowableException;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Vector;
-
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
-
-import org.apache.commons.lang3.StringUtils;
-
 import info.novatec.testit.livingdoc.repository.DocumentRepository;
 import info.novatec.testit.livingdoc.server.LivingDocServerErrorKey;
 import info.novatec.testit.livingdoc.server.LivingDocServerException;
 import info.novatec.testit.livingdoc.server.domain.component.ContentType;
 import info.novatec.testit.livingdoc.util.ClassUtils;
+import info.novatec.testit.livingdoc.util.EncryptionUtil;
+import org.apache.commons.lang3.StringUtils;
+
+import javax.persistence.*;
+import java.lang.reflect.UndeclaredThrowableException;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Vector;
+
+import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.*;
 
 
 /**
@@ -109,7 +89,7 @@ public class Repository extends AbstractVersionedEntity implements Comparable<Re
     @Basic
     @Column(name = "PASSWORD", nullable = true)
     public String getPassword() {
-        return password;
+        return new EncryptionUtil().decrypt(password);
     }
 
     @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
@@ -163,7 +143,7 @@ public class Repository extends AbstractVersionedEntity implements Comparable<Re
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = new EncryptionUtil().encrypt(password);
     }
 
     public void setContentType(ContentType contentType) {
