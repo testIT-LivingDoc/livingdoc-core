@@ -176,18 +176,6 @@ public class RepositoryTest {
     }
 
     @Test
-    public void testRepositoryPasswordIsEncryptedInTransfer() {
-        String password = "LivingDoc";
-        Repository repository = Repository.newInstance("UID");
-        repository.setPassword(password);
-
-        Vector<Object> marshallized = repository.marshallize();
-
-        String result = (String) marshallized.get(XmlRpcDataMarshaller.REPOSITORY_PASSWORD_IDX);
-        assertNotEquals(password, result);
-    }
-
-    @Test
     public void testARepositoryIsProperlyMarshalled() {
         Repository repository = Repository.newInstance("UID");
         repository.setProject(Project.newInstance("PROJECT-1"));
@@ -197,6 +185,7 @@ public class RepositoryTest {
         repository.setBaseRepositoryUrl("REPO-URL-1");
         repository.setBaseTestUrl("TEST-URI-1");
         repository.setUsername("LivingDoc");
+        repository.setPassword("LD");
         RepositoryType type = RepositoryType.newInstance("FILE");
         type.setClassName("REPO-CLASS");
         type.setDocumentUrlFormat("%s%s");
@@ -223,7 +212,7 @@ public class RepositoryTest {
         params.add(XmlRpcDataMarshaller.REPOSITORY_BASEREPO_URL_IDX, "REPO-URL-1");
         params.add(XmlRpcDataMarshaller.REPOSITORY_BASETEST_URL_IDX, "TEST-URI-1");
         params.add(XmlRpcDataMarshaller.REPOSITORY_USERNAME_IDX, "LivingDoc");
-        params.add(XmlRpcDataMarshaller.REPOSITORY_PASSWORD_IDX, "");
+        params.add(XmlRpcDataMarshaller.REPOSITORY_PASSWORD_IDX, "LD");
         params.add(XmlRpcDataMarshaller.REPOSITORY_MAX_USERS_IDX, 50);
 
         assertEquals(params, repository.marshallize());
