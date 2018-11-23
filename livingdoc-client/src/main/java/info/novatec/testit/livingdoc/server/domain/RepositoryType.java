@@ -1,21 +1,16 @@
 package info.novatec.testit.livingdoc.server.domain;
 
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_TYPE_NAME_FORMAT_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_TYPE_NAME_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_TYPE_REPOCLASS_IDX;
-import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.REPOSITORY_TYPE_URI_FORMAT_IDX;
-
-import java.net.URI;
-import java.util.Vector;
+import info.novatec.testit.livingdoc.util.URIUtil;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.net.URI;
+import java.util.Vector;
 
-import org.apache.commons.lang3.StringUtils;
-
-import info.novatec.testit.livingdoc.util.URIUtil;
+import static info.novatec.testit.livingdoc.server.rpc.xmlrpc.XmlRpcDataMarshaller.*;
 
 
 /**
@@ -105,7 +100,7 @@ public class RepositoryType extends AbstractVersionedEntity implements Comparabl
         if (user == null) {
             if ( ! StringUtils.isEmpty(repository.getUsername())) {
                 sb.append(';').append(repository.getUsername()).append(';').append(StringUtils.replaceEach(repository
-                    .getPassword(), new String[] { ";" }, new String[] { "%3B" }));
+                    .getDecryptedPassword(), new String[] { ";" }, new String[] { "%3B" }));
             }
         } else {
             sb.append(';').append(user).append(';').append(StringUtils.replaceEach(pwd, new String[] { ";" }, new String[] {

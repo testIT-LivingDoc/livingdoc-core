@@ -7,7 +7,6 @@ import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
  */
 public class EncryptionUtil {
 
-
     private static final EncryptionProperties properties = new EncryptionProperties();
     private final StandardPBEStringEncryptor encryptor;
 
