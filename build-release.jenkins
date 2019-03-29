@@ -29,7 +29,7 @@ node('docker-based-builds') {
           def repositoryCredentials = "-Dossrh.username=${ossrhUsername} -Dossrh.password=${ossrhPassword}"
           def profiles = "-P maven-central"
 
-          sh "./mvnw clean deploy ${skipTests} ${gpgPassphrase} ${repositoryCredentials} ${profiles}"
+          sh "mvn clean deploy ${skipTests} ${gpgPassphrase} ${repositoryCredentials} ${profiles}"
 
         }
       }
