@@ -100,7 +100,7 @@ public class RepositoryType extends AbstractVersionedEntity implements Comparabl
         if (user == null) {
             if ( ! StringUtils.isEmpty(repository.getUsername())) {
                 sb.append(';').append(repository.getUsername()).append(';').append(StringUtils.replaceEach(repository
-                    .getDecryptedPassword(), new String[] { ";" }, new String[] { "%3B" }));
+                    .getPassword(), new String[] { ";" }, new String[] { "%3B" }));
             }
         } else {
             sb.append(';').append(user).append(';').append(StringUtils.replaceEach(pwd, new String[] { ";" }, new String[] {

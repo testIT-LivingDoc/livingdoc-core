@@ -36,6 +36,9 @@ public class Repository extends AbstractVersionedEntity implements Comparable<Re
     private String testBaseUrl;
     private ContentType contentType = ContentType.UNKNOWN;
     private String username;
+
+    @Column(name = "PASSWORD")
+    @Access(AccessType.FIELD)
     private String password;
 
     private Project project;
@@ -86,15 +89,10 @@ public class Repository extends AbstractVersionedEntity implements Comparable<Re
         return username;
     }
 
-    @Basic
-    @Column(name = "PASSWORD", nullable = true)
     public String getPassword() {
-        return password;
+        return new EncryptionUtil().decrypt(password);
     }
 
-    @Transient
-    public String getDecryptedPassword() {
-        return new EncryptionUtil().decrypt(password);}
 
     @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinColumn(name = "PROJECT_ID")
@@ -249,7 +247,7 @@ public class Repository extends AbstractVersionedEntity implements Comparable<Re
         parameters.add(REPOSITORY_BASEREPO_URL_IDX, StringUtils.stripToEmpty(getBaseRepositoryUrl()));
         parameters.add(REPOSITORY_BASETEST_URL_IDX, StringUtils.stripToEmpty(getBaseTestUrl()));
         parameters.add(REPOSITORY_USERNAME_IDX, StringUtils.stripToEmpty(username));
-        parameters.add(REPOSITORY_PASSWORD_IDX, StringUtils.stripToEmpty(getDecryptedPassword()));
+        parameters.add(REPOSITORY_PASSWORD_IDX, StringUtils.stripToEmpty(getPassword()));
         parameters.add(REPOSITORY_MAX_USERS_IDX, maxUsers);
         return parameters;
     }
